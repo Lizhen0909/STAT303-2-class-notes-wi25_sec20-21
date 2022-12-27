@@ -3,8 +3,8 @@ project:
 
 
 book:
-  title: "Introduction to programming for data science"
-  subtitle: "STAT 201"
+  title: "Data Science II with python (Class notes)"
+  subtitle: "STAT 303-2"
   author: "Arvind Krishna"
   date: "9/20/2022"
   
@@ -20,7 +20,6 @@ book:
         - Lec1_SimpleLinearRegression.ipynb
         - Variable_expressions_statements.ipynb
         - Control flow.ipynb
-        - functions2.ipynb
         - data_structures.ipynb
         - classes.ipynb
   appendices: 
