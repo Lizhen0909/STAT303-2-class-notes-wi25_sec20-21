@@ -19,7 +19,6 @@ book:
       chapters:
         - Lec1_SimpleLinearRegression.ipynb
         - Lec2_MultipleLinearRegression.ipynb
-        - Lec4&5_Variable_Interactions_&_Transformations.ipynb
   appendices: 
     - Assignment 1 (control flow).ipynb
     - Assignment 2 (functions).ipynb
