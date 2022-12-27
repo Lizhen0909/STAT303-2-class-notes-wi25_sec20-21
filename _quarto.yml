@@ -15,13 +15,14 @@ book:
     
   chapters:
     - index.qmd
-    - part: "Python"
+    - part: "Linear regression"
       chapters:
         - Lec1_SimpleLinearRegression.ipynb
-        - Variable_expressions_statements.ipynb
-        - Control flow.ipynb
-        - data_structures.ipynb
-        - classes.ipynb
+        - Lec2_MultipleLinearRegression.ipynb
+        - Lec4&5_Variable_Interactions_&_Transformations.ipynb
+        - Lec6&7_Assumptions_and_Potential_issues.ipynb
+        - Lec8_logistic_regression_withLabSolutions.ipynb
+        - Lec9&10_logistic_regression.ipynb
   appendices: 
     - Assignment 1 (control flow).ipynb
     - Assignment 2 (functions).ipynb
