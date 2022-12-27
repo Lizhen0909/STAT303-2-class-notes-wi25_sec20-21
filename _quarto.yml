@@ -20,9 +20,6 @@ book:
         - Lec1_SimpleLinearRegression.ipynb
         - Lec2_MultipleLinearRegression.ipynb
         - Lec4&5_Variable_Interactions_&_Transformations.ipynb
-        - Lec6&7_Assumptions_and_Potential_issues.ipynb
-        - Lec8_logistic_regression_withLabSolutions.ipynb
-        - Lec9&10_logistic_regression.ipynb
   appendices: 
     - Assignment 1 (control flow).ipynb
     - Assignment 2 (functions).ipynb
