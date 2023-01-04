@@ -20,7 +20,7 @@ book:
         - Lec1_SimpleLinearRegression.ipynb
         - Lec2_MultipleLinearRegression.ipynb
   appendices: 
-    - Assignment A.ipynb
+    - Assignment 1.ipynb
     - Datasets.ipynb
     - references.qmd  
 
