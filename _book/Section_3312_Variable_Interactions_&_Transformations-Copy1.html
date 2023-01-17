@@ -225,6 +225,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#variable-interactions" id="toc-variable-interactions" class="nav-link active" data-scroll-target="#variable-interactions"> <span class="header-section-number">3.1</span> Variable interactions</a>
   <ul class="collapse">
   <li><a href="#variable-interaction-between-continuous-predictors" id="toc-variable-interaction-between-continuous-predictors" class="nav-link" data-scroll-target="#variable-interaction-between-continuous-predictors"> <span class="header-section-number">3.1.1</span> Variable interaction between continuous predictors</a></li>
+  <li><a href="#including-qualitative-predictors-in-the-model" id="toc-including-qualitative-predictors-in-the-model" class="nav-link" data-scroll-target="#including-qualitative-predictors-in-the-model"> <span class="header-section-number">3.1.2</span> Including qualitative predictors in the model</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -471,6 +472,112 @@ price = 5.606e5 +(-275.3833+896.7687*engineSize)*year -1.796e6*engineSize -0.152
 </div>
 <p>Note that the RMSE reduced as compared to that of the model in Chapter <a href="https://nustat.github.io/STAT303-2-class-notes/Lec2_MultipleLinearRegression.html">2</a>. This is because the interaction term between <code>engineSize</code> and <code>year</code> is significant and relaxes the assumption of constant association between price and engine size, and between price and year. This added flexibility makes the model better fit the data. Caution: Too much flexibility may lead to overfitting!</p>
 <p>Note that interaction terms corresponding to other variable pairs, and higher order interaction terms (such as those containing 3 or 4 variables) may also be significant and improve the model fit &amp; thereby the prediction accuracy of the model.</p>
+</section>
+<section id="including-qualitative-predictors-in-the-model" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="including-qualitative-predictors-in-the-model"><span class="header-section-number">3.1.2</span> Including qualitative predictors in the model</h3>
+<p>Let us develop a model for predicting <em>price</em> based on <em>engineSize</em> and the qualitative predictor <em>transmission</em>.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#checking the distribution of values of transmission</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>train.transmission.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>Manual       1948
+Automatic    1660
+Semi-Auto    1351
+Other           1
+Name: transmission, dtype: int64</code></pre>
+</div>
+</div>
+<p>Note that the <em>Other</em> category of the variable <em>transmission</em> contains only a single observation, which is likely to be insufficient to train the model. We’ll remove that observation from the training data. Another option may be to combine the observation in the <em>Other</em> category with the nearest category, and keep it in the data.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>train_updated <span class="op">=</span> train[train.transmission<span class="op">!=</span><span class="st">'Other'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~engineSize+transmission'</span>, data <span class="op">=</span> train_updated)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th> <td>   0.459</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.458</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1400.</td> 
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 17 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>01:32:36</td>     <th>  Log-Likelihood:    </th> <td> -53644.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  4959</td>      <th>  AIC:               </th> <td>1.073e+05</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  4955</td>      <th>  BIC:               </th> <td>1.073e+05</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+              <td></td>                 <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>                 <td> 3042.6765</td> <td>  661.190</td> <td>    4.602</td> <td> 0.000</td> <td> 1746.451</td> <td> 4338.902</td>
+</tr>
+<tr>
+  <th>transmission[T.Manual]</th>    <td>-6770.6165</td> <td>  442.116</td> <td>  -15.314</td> <td> 0.000</td> <td>-7637.360</td> <td>-5903.873</td>
+</tr>
+<tr>
+  <th>transmission[T.Semi-Auto]</th> <td> 4994.3112</td> <td>  442.989</td> <td>   11.274</td> <td> 0.000</td> <td> 4125.857</td> <td> 5862.765</td>
+</tr>
+<tr>
+  <th>engineSize</th>                <td> 1.023e+04</td> <td>  247.485</td> <td>   41.323</td> <td> 0.000</td> <td> 9741.581</td> <td> 1.07e+04</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>1575.518</td> <th>  Durbin-Watson:     </th> <td>   0.579</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>11006.609</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 1.334</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td> 9.793</td>  <th>  Cond. No.          </th> <td>    11.4</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</div>
+</div>
+<p>The model equation is:</p>
+<p>Automatic transmission: <span class="math inline">\(price = 3042.6765 + 1.023e4 * engineSize\)</span>,<br>
+Semi-Automatic transmission: <span class="math inline">\(price = 3042.6765 + 1.023e4 * engineSize + 4994.3112\)</span>,<br>
+Manual transmission: <span class="math inline">\(price = 3042.6765 + 1.023e4 * engineSize -6770.6165\)</span></p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the developed model</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span>train.engineSize.<span class="bu">min</span>(),train.engineSize.<span class="bu">max</span>(),<span class="dv">100</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.plot(x, model.params[<span class="st">'engineSize'</span>]<span class="op">*</span>x<span class="op">+</span>model.params[<span class="st">'Intercept'</span>], <span class="st">'-r'</span>, label<span class="op">=</span><span class="st">'Automatic'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.plot(x, model.params[<span class="st">'engineSize'</span>]<span class="op">*</span>x<span class="op">+</span>model.params[<span class="st">'Intercept'</span>]<span class="op">+</span>model.params[<span class="st">'transmission[T.Semi-Auto]'</span>], <span class="st">'-b'</span>, label<span class="op">=</span><span class="st">'Semi-Automatic'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.plot(x, model.params[<span class="st">'engineSize'</span>]<span class="op">*</span>x<span class="op">+</span>model.params[<span class="st">'Intercept'</span>]<span class="op">+</span>model.params[<span class="st">'transmission[T.Manual]'</span>], <span class="st">'-g'</span>, label<span class="op">=</span><span class="st">'Manual'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.legend(loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'engine size'</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'price'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Section_3312_Variable_Interactions_&amp;_Transformations-Copy1_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+</div>
+</div>
 
 
 </section>
