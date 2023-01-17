@@ -19,7 +19,7 @@ book:
       chapters:
         - Lec1_SimpleLinearRegression.ipynb
         - Lec2_MultipleLinearRegression.ipynb
-        - Lec3_SimpleLinearRegression.ipynb
+        - Lec3_VariableTransformations_and_Interactions.ipynb
   appendices: 
     - Assignment 1.ipynb
     - Datasets.ipynb
