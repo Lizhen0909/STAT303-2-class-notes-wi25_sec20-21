@@ -247,21 +247,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="variable-interactions" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="variable-interactions"><span class="header-section-number">3.1</span> Variable interactions</h2>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="3">
 
 <div>
 
@@ -359,6 +359,94 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Until now, we have have assumed that the association between a predictor <span class="math inline">\(X_j\)</span> and response <span class="math inline">\(Y\)</span> does not depend on the value of other predictors. For example, the muliple linear regression model that we developed in Chapter <a href="https://nustat.github.io/STAT303-2-class-notes/Lec2_MultipleLinearRegression.html">2</a> assumes that the average increase in price associated with a unit increase in engineSize is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.</p>
+<p>We can relax this assumption by considering another predictor, called an interaction term. Let us assume that the average increase in <code>price</code> associated with a one-unit increase in <code>engineSize</code> depends on the model <code>year</code> of the car. In other words, there is an interaction between <code>engineSize</code> and <code>year</code>. This interaction can be included as a predictor, which is the product of <code>engineSize</code> and <code>year</code>. <em>Note that there are several possible interactions that we can consider. Here the interaction between <code>engineSize</code> and <code>year</code> is just an example.</em></p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Considering interaction between engineSize and year</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~year*engineSize+mileage+mpg'</span>, data <span class="op">=</span> train)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+
+<table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tbody><tr>
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th> <td>   0.682</td> 
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.681</td> 
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2121.</td> 
+</tr>
+<tr>
+  <th>Date:</th>             <td>Tue, 17 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+</tr>
+<tr>
+  <th>Time:</th>                 <td>02:19:05</td>     <th>  Log-Likelihood:    </th> <td> -52338.</td> 
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.047e+05</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>  4954</td>      <th>  BIC:               </th> <td>1.047e+05</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     5</td>      <th>                     </th>     <td> </td>    
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+         <td></td>            <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th>       <td> 5.606e+05</td> <td> 2.74e+05</td> <td>    2.048</td> <td> 0.041</td> <td>  2.4e+04</td> <td>  1.1e+06</td>
+</tr>
+<tr>
+  <th>year</th>            <td> -275.3833</td> <td>  135.695</td> <td>   -2.029</td> <td> 0.042</td> <td> -541.405</td> <td>   -9.361</td>
+</tr>
+<tr>
+  <th>engineSize</th>      <td>-1.796e+06</td> <td> 9.97e+04</td> <td>  -18.019</td> <td> 0.000</td> <td>-1.99e+06</td> <td> -1.6e+06</td>
+</tr>
+<tr>
+  <th>year:engineSize</th> <td>  896.7687</td> <td>   49.431</td> <td>   18.142</td> <td> 0.000</td> <td>  799.861</td> <td>  993.676</td>
+</tr>
+<tr>
+  <th>mileage</th>         <td>   -0.1525</td> <td>    0.008</td> <td>  -17.954</td> <td> 0.000</td> <td>   -0.169</td> <td>   -0.136</td>
+</tr>
+<tr>
+  <th>mpg</th>             <td>  -84.3417</td> <td>    9.048</td> <td>   -9.322</td> <td> 0.000</td> <td> -102.079</td> <td>  -66.604</td>
+</tr>
+</tbody></table>
+<table class="simpletable">
+<tbody><tr>
+  <th>Omnibus:</th>       <td>2330.413</td> <th>  Durbin-Watson:     </th> <td>   0.524</td> 
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>29977.437</td>
+</tr>
+<tr>
+  <th>Skew:</th>           <td> 1.908</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
+</tr>
+<tr>
+  <th>Kurtosis:</th>       <td>14.423</td>  <th>  Cond. No.          </th> <td>7.66e+07</td> 
+</tr>
+</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 7.66e+07. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<p>Note that the R-squared has increased as compared to the model in Chapter <a href="https://nustat.github.io/STAT303-2-class-notes/Lec2_MultipleLinearRegression.html">2</a> since we added a predictor.</p>
+<p>The model equation is:</p>
+<p><span class="math display">\[\begin{equation}
+price = \beta_0 + \beta_1*year + \beta_2*engineSize + \beta_3*(year*engineSize) + \beta4*mileage + \beta_5*mpg,
+\end{equation}\]</span>or</p>
+<p><span class="math display">\[\begin{equation}
+price = \beta_0 + \beta_1*year + (\beta_2+\beta_3*year)*engineSize + \beta4*mileage + \beta_5*mpg,
+\end{equation}\]</span>or</p>
+<p><span class="math display">\[\begin{equation}
+price = \beta_0 + \beta_1*year + \tilde \beta*engineSize + \beta4*mileage + \beta_5*mpg,
+\end{equation}\]</span></p>
 
 
 </section>
