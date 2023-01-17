@@ -564,13 +564,11 @@ Name: transmission, dtype: int64</code></pre>
 <p>Automatic transmission: <code>price</code> = 3042.6765 + 1.023e4<code>engineSize</code>,</p>
 <p>Semi-Automatic transmission: <code>price</code> = 3042.6765 + 1.023e4<code>engineSize</code> + 4994.3112,</p>
 <p>Manual transmission: <code>price</code> = 3042.6765 + 1.023e4<code>engineSize</code> -6770.6165</p>
-<div class="cell" data-execution_count="35">
+<div class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the developed model with interaction terms</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(train.engineSize.<span class="bu">min</span>(),train.engineSize.<span class="bu">max</span>(),<span class="dv">100</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.plot(x, model.params[<span class="st">'engineSize'</span>]<span class="op">*</span>x<span class="op">+</span>model.params[<span class="st">'Intercept'</span>], <span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Automatic'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="Section_3312_Variable_Interactions_&amp;_Transformations-Copy1_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
-</div>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> model.params[<span class="st">'engineSize'</span>]<span class="op">*</span>x<span class="op">+</span>model.params[<span class="st">'Intercept'</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.plot(x, model.params['engineSize']*x+model.params['Intercept'], 'red', label='Automatic')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
