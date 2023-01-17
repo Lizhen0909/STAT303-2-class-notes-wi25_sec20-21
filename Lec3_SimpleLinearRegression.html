@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Science II with python (Class notes) - 1&nbsp; Simple Linear Regression</title>
+<title>Data Science II with python (Class notes) - 3&nbsp; Simple Linear Regression</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,8 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Lec2_MultipleLinearRegression.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./Assignment 1.html" rel="next">
+<link href="./Lec2_MultipleLinearRegression.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -136,7 +136,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -177,7 +177,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lec1_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></a>
+  <a href="./Lec1_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -187,7 +187,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Lec3_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></a>
+  <a href="./Lec3_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></a>
   </div>
 </li>
       </ul>
@@ -229,7 +229,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></h1>
 </div>
 
 
@@ -434,7 +434,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>(-1.0, 7.0)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec1_SimpleLinearRegression_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+<p><img src="Lec3_SimpleLinearRegression_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p><strong>Predict the car price for the cars in the test dataset</strong>. Datasets to be used: <em>Car_features_test.csv, Car_prices_test.csv</em></p>
@@ -457,7 +457,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>Text(0, 0.5, 'Predicted price')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec1_SimpleLinearRegression_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
+<p><img src="Lec3_SimpleLinearRegression_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>The prediction doesn’t look too good. This is because we are just using one predictor - engine size. We can probably improve the model by adding more predictors when we learn multiple linear regression.</p>
@@ -623,7 +623,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>&lt;matplotlib.legend.Legend at 0x27c6cfd1070&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec1_SimpleLinearRegression_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+<p><img src="Lec3_SimpleLinearRegression_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 
@@ -765,13 +765,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      <a href="./Lec2_MultipleLinearRegression.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Lec2_MultipleLinearRegression.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Assignment 1.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment A</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
