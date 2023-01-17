@@ -462,6 +462,21 @@ price = \beta_0 + \beta_1*year + \tilde \beta*engineSize + \beta4*mileage + \bet
 <p>Substituting the values of the coefficients: <span class="math display">\[\begin{equation}
 price = 5.606e5 - 275.3833*year + (-1.796e6+896.7687*year)*engineSize -0.1525*mileage -84.3417*mpg
 \end{equation}\]</span></p>
+<p>Thus, for cars launched in the year 2010, the average increase in price for one liter increase in engine size is -1.796e6 + 896.7687 * 2010 <span class="math inline">\(\approx\)</span> \$6,500, assuming all the other predictors are constant. However, for cars launched in the year 2020, the average increase in price for one liter increase in engine size is -1.796e6 + 896.7687*2020 <span class="math inline">\(\approx\)</span> \$15,500 , assuming all the other predictors are constant.</p>
+<p>Similarly, the equation can be re-arranged as: <span class="math display">\[\begin{equation}
+price = 5.606e5 +(-275.3833+896.7687*engineSize)*year -1.796e6*engineSize -0.1525*mileage -84.3417*mpg
+\end{equation}\]</span></p>
+<p>Thus, for cars with an engine size of 2 litres, the average increase in price for a one year newer model is -275.3833+896.7687 * 2 <span class="math inline">\(\approx\)</span> \$1500, assuming all the other predictors are constant. However, for cars with an engine size of 3 litres, the average increase in price for a one year newer model is -275.3833+896.7687 * 3 <span class="math inline">\(\approx\)</span> \$2400, assuming all the other predictors are constant.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing the RMSE of the model with the interaction term</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> pred_price)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>9423.598872501092</code></pre>
+</div>
+</div>
+<p>Note that the RMSE reduced as compared to that of the model in Chapter <a href="https://nustat.github.io/STAT303-2-class-notes/Lec2_MultipleLinearRegression.html">2</a>. This is because the interaction term between <code>engineSize</code> and <code>year</code> is significant and relaxes the assumption of constant association between price and engine size, and between price and year. This added flexibility makes the model better fit the data. Caution: Too much flexibility may lead to overfitting!</p>
+<p>Note that interaction terms corresponding to other variable pairs, and higher order interaction terms (such as those containing 3 or 4 variables) may also be significant and improve the model fit &amp; thereby the prediction accuracy of the model.</p>
 
 
 </section>
