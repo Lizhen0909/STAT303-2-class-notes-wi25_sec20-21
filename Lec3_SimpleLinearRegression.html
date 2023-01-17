@@ -244,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -252,12 +252,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Develop a simple linear regression model that predicts car price based on engine size.</strong> Datasets to be used: <em>Car_features_train.csv, Car_prices_train.csv</em></p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
 
 <div>
 
@@ -354,44 +356,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>train_updated <span class="op">=</span> train[train.transmission<span class="op">!=</span><span class="st">'Other'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the ols function to create an ols object. 'ols' stands for 'Ordinary least squares'</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~engineSize'</span>, data <span class="op">=</span> train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the fit() function of the 'ols' class to fit the model</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-scrolled="true" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Printing model summary which contains among other things, the model coefficients</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~engineSize+transmission'</span>, data <span class="op">=</span> train_updated)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
 <tbody><tr>
-  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th> <td>   0.390</td> 
+  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th> <td>   0.459</td> 
 </tr>
 <tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.390</td> 
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.458</td> 
 </tr>
 <tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   3177.</td> 
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1400.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 27 Dec 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Tue, 17 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>01:06:43</td>     <th>  Log-Likelihood:    </th> <td> -53949.</td> 
+  <th>Time:</th>                 <td>10:10:15</td>     <th>  Log-Likelihood:    </th> <td> -53644.</td> 
 </tr>
 <tr>
-  <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.079e+05</td>
+  <th>No. Observations:</th>      <td>  4959</td>      <th>  AIC:               </th> <td>1.073e+05</td>
 </tr>
 <tr>
-  <th>Df Residuals:</th>          <td>  4958</td>      <th>  BIC:               </th> <td>1.079e+05</td>
+  <th>Df Residuals:</th>          <td>  4955</td>      <th>  BIC:               </th> <td>1.073e+05</td>
 </tr>
 <tr>
-  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>    
 </tr>
 <tr>
   <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
@@ -399,231 +397,50 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody></table>
 <table class="simpletable">
 <tbody><tr>
-       <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+              <td></td>                 <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
 </tr>
 <tr>
-  <th>Intercept</th>  <td>-4122.0357</td> <td>  522.260</td> <td>   -7.893</td> <td> 0.000</td> <td>-5145.896</td> <td>-3098.176</td>
+  <th>Intercept</th>                 <td> 3042.6765</td> <td>  661.190</td> <td>    4.602</td> <td> 0.000</td> <td> 1746.451</td> <td> 4338.902</td>
 </tr>
 <tr>
-  <th>engineSize</th> <td> 1.299e+04</td> <td>  230.450</td> <td>   56.361</td> <td> 0.000</td> <td> 1.25e+04</td> <td> 1.34e+04</td>
+  <th>transmission[T.Manual]</th>    <td>-6770.6165</td> <td>  442.116</td> <td>  -15.314</td> <td> 0.000</td> <td>-7637.360</td> <td>-5903.873</td>
+</tr>
+<tr>
+  <th>transmission[T.Semi-Auto]</th> <td> 4994.3112</td> <td>  442.989</td> <td>   11.274</td> <td> 0.000</td> <td> 4125.857</td> <td> 5862.765</td>
+</tr>
+<tr>
+  <th>engineSize</th>                <td> 1.023e+04</td> <td>  247.485</td> <td>   41.323</td> <td> 0.000</td> <td> 9741.581</td> <td> 1.07e+04</td>
 </tr>
 </tbody></table>
 <table class="simpletable">
 <tbody><tr>
-  <th>Omnibus:</th>       <td>1271.986</td> <th>  Durbin-Watson:     </th> <td>   0.517</td>
+  <th>Omnibus:</th>       <td>1575.518</td> <th>  Durbin-Watson:     </th> <td>   0.579</td> 
 </tr>
 <tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>6490.719</td>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>11006.609</td>
 </tr>
 <tr>
-  <th>Skew:</th>           <td> 1.137</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+  <th>Skew:</th>           <td> 1.334</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
 </tr>
 <tr>
-  <th>Kurtosis:</th>       <td> 8.122</td>  <th>  Cond. No.          </th> <td>    7.64</td>
+  <th>Kurtosis:</th>       <td> 9.793</td>  <th>  Cond. No.          </th> <td>    11.4</td> 
 </tr>
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 </div>
 </div>
-<p>The model equation is: car price = -4122.0357 + 12990 * engineSize</p>
-<p><strong>Visualize the regression line</strong></p>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sns.regplot(x <span class="op">=</span> <span class="st">'engineSize'</span>, y <span class="op">=</span> <span class="st">'price'</span>, data <span class="op">=</span> train, color <span class="op">=</span> <span class="st">'orange'</span>,line_kws<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"red"</span>})</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">7</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Note that some of the engineSize values are 0. They are incorrect, and should ideally be imputed before developing the model.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>(-1.0, 7.0)</code></pre>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the developed model with interaction terms</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span>train.engineSize.<span class="bu">min</span>(),train.engineSize.<span class="bu">max</span>(),<span class="dv">100</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> x, y <span class="op">=</span> model.params[<span class="st">'engineSize'</span>]<span class="op">*</span>x<span class="op">+</span>model.params[<span class="st">'Intercept'</span>], color <span class="op">=</span> <span class="st">'red'</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> x, y <span class="op">=</span> model.params[<span class="st">'engineSize'</span>]<span class="op">*</span>x<span class="op">+</span>model.params[<span class="st">'Intercept'</span>]<span class="op">+</span>model.params[<span class="st">'transmission[T.Semi-Auto]'</span>], color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> x, y <span class="op">=</span> model.params[<span class="st">'engineSize'</span>]<span class="op">*</span>x<span class="op">+</span>model.params[<span class="st">'Intercept'</span>]<span class="op">+</span>model.params[<span class="st">'transmission[T.Manual]'</span>], color <span class="op">=</span> <span class="st">'green'</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>plt.legend(labels<span class="op">=</span>[<span class="st">"Automatic"</span>,<span class="st">"Semi-Automatic"</span>, <span class="st">"Manual"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>&lt;matplotlib.legend.Legend at 0x1cabb8deac0&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec3_SimpleLinearRegression_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
-</div>
-</div>
-<p><strong>Predict the car price for the cars in the test dataset</strong>. Datasets to be used: <em>Car_features_test.csv, Car_prices_test.csv</em></p>
-<div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the predict() function associated with the 'model' object to make predictions of car price on test (unknown) data</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)<span class="co">#Note that the predict() function finds the predictor 'engineSize' in the testf dataframe, and plugs it's values in the regression equation for prediction.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Make a visualization that compares the predicted car prices with the actual car prices</strong></p>
-<div class="cell" data-scrolled="true" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> testp.price, y <span class="op">=</span> pred_price)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#In case of a perfect prediction, all the points must lie on the line x = y.</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [<span class="dv">0</span>,testp.price.<span class="bu">max</span>()], y <span class="op">=</span> [<span class="dv">0</span>,testp.price.<span class="bu">max</span>()],color<span class="op">=</span><span class="st">'orange'</span>) <span class="co">#Plotting the line x = y.</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Actual price'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Predicted price'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
-<pre><code>Text(0, 0.5, 'Predicted price')</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="Lec3_SimpleLinearRegression_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
-</div>
-</div>
-<p>The prediction doesn’t look too good. This is because we are just using one predictor - engine size. We can probably improve the model by adding more predictors when we learn multiple linear regression.</p>
-<p><strong>What is the RMSE of the predicted car price?</strong></p>
-<div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> pred_price)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
-<pre><code>12995.1064515487</code></pre>
-</div>
-</div>
-<p>The root mean squared error in predicting car price is around $13k.</p>
-<p><strong>What is the residual standard error based on the training data?</strong></p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(model.mse_resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>12810.109175214136</code></pre>
-</div>
-</div>
-<p>The residual standard error on the training data is close to the RMSE on the test data. This shows that the performance of the model on unknown data is comparable to its performance on known data. This implies that the model is not overfitting, which is good! In case we overfit a model on the training data, it’s performance on unknonwn data is likely to be worse than that on the training data.</p>
-<p><strong>Find the confidence and prediction intervals of the predicted car price</strong></p>
-<div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the get_prediction() function associated with the 'model' object to get the intervals</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>intervals <span class="op">=</span> model.get_prediction(testf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The function requires specifying alpha (probability of Type 1 error) instead of the confidence level to get the intervals</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>intervals.summary_frame(alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
-
-<div>
-
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>mean</th>
-      <th>mean_se</th>
-      <th>mean_ci_lower</th>
-      <th>mean_ci_upper</th>
-      <th>obs_ci_lower</th>
-      <th>obs_ci_upper</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>34842.807319</td>
-      <td>271.666459</td>
-      <td>34310.220826</td>
-      <td>35375.393812</td>
-      <td>9723.677232</td>
-      <td>59961.937406</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>34842.807319</td>
-      <td>271.666459</td>
-      <td>34310.220826</td>
-      <td>35375.393812</td>
-      <td>9723.677232</td>
-      <td>59961.937406</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>34842.807319</td>
-      <td>271.666459</td>
-      <td>34310.220826</td>
-      <td>35375.393812</td>
-      <td>9723.677232</td>
-      <td>59961.937406</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>8866.245277</td>
-      <td>316.580850</td>
-      <td>8245.606701</td>
-      <td>9486.883853</td>
-      <td>-16254.905974</td>
-      <td>33987.396528</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>47831.088340</td>
-      <td>468.949360</td>
-      <td>46911.740050</td>
-      <td>48750.436631</td>
-      <td>22700.782946</td>
-      <td>72961.393735</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>2667</th>
-      <td>47831.088340</td>
-      <td>468.949360</td>
-      <td>46911.740050</td>
-      <td>48750.436631</td>
-      <td>22700.782946</td>
-      <td>72961.393735</td>
-    </tr>
-    <tr>
-      <th>2668</th>
-      <td>34842.807319</td>
-      <td>271.666459</td>
-      <td>34310.220826</td>
-      <td>35375.393812</td>
-      <td>9723.677232</td>
-      <td>59961.937406</td>
-    </tr>
-    <tr>
-      <th>2669</th>
-      <td>8866.245277</td>
-      <td>316.580850</td>
-      <td>8245.606701</td>
-      <td>9486.883853</td>
-      <td>-16254.905974</td>
-      <td>33987.396528</td>
-    </tr>
-    <tr>
-      <th>2670</th>
-      <td>21854.526298</td>
-      <td>184.135754</td>
-      <td>21493.538727</td>
-      <td>22215.513869</td>
-      <td>-3261.551421</td>
-      <td>46970.604017</td>
-    </tr>
-    <tr>
-      <th>2671</th>
-      <td>21854.526298</td>
-      <td>184.135754</td>
-      <td>21493.538727</td>
-      <td>22215.513869</td>
-      <td>-3261.551421</td>
-      <td>46970.604017</td>
-    </tr>
-  </tbody>
-</table>
-<p>2672 rows × 6 columns</p>
-</div>
-</div>
-</div>
-<p><strong>Show the regression line predicting car price based on engine size for test data. Also show the confidence and prediction intervals for the car price.</strong></p>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>interval_table <span class="op">=</span> intervals.summary_frame(alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> testf.engineSize, y <span class="op">=</span> pred_price,color <span class="op">=</span> <span class="st">'orange'</span>, s <span class="op">=</span> <span class="dv">10</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> testf.engineSize, y <span class="op">=</span> pred_price, color <span class="op">=</span> <span class="st">'red'</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> testf.engineSize, y <span class="op">=</span> interval_table.mean_ci_lower, color <span class="op">=</span> <span class="st">'blue'</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> testf.engineSize, y <span class="op">=</span> interval_table.mean_ci_upper, color <span class="op">=</span> <span class="st">'blue'</span>,label<span class="op">=</span><span class="st">'_nolegend_'</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> testf.engineSize, y <span class="op">=</span> interval_table.obs_ci_lower, color <span class="op">=</span> <span class="st">'green'</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> testf.engineSize, y <span class="op">=</span> interval_table.obs_ci_upper, color <span class="op">=</span> <span class="st">'green'</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>plt.legend(labels<span class="op">=</span>[<span class="st">"Regression line"</span>,<span class="st">"Confidence interval"</span>, <span class="st">"Prediction interval"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
-<pre><code>&lt;matplotlib.legend.Legend at 0x27c6cfd1070&gt;</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<p><img src="Lec3_SimpleLinearRegression_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+<p><img src="Lec3_SimpleLinearRegression_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 
