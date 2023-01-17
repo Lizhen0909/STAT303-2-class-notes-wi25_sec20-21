@@ -570,9 +570,9 @@ Name: transmission, dtype: int64</code></pre>
 <p>Automatic transmission: <span class="math inline">\(price = 3042.6765 + 1.023e4 * engineSize\)</span>,</p>
 <p>Semi-Automatic transmission: <span class="math inline">\(price = 3042.6765 + 1.023e4 * engineSize + 4994.3112\)</span>,</p>
 <p>Manual transmission: <span class="math inline">\(price = 3042.6765 + 1.023e4 * engineSize -6770.6165\)</span></p>
-<div class="cell" data-execution_count="16">
+<div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the developed model with interaction terms</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># x = np.linspace(-train.engineSize.min(),train.engineSize.max(),100)</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(train.engineSize.<span class="bu">min</span>(),train.engineSize.<span class="bu">max</span>(),<span class="dv">100</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.plot(x, model.params['engineSize']*x+model.params['Intercept'], color = 'red', label='Automatic')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
