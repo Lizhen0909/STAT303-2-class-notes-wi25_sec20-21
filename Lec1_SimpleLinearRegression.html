@@ -207,7 +207,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></a>
+  <a href="./Assignment B.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Assignment B</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -244,7 +249,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="97">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -252,12 +257,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Develop a simple linear regression model that predicts car price based on engine size.</strong> Datasets to be used: <em>Car_features_train.csv, Car_prices_train.csv</em></p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="98">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="98">
 
 <div>
 
@@ -354,18 +359,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="99">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the ols function to create an ols object. 'ols' stands for 'Ordinary least squares'</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~engineSize'</span>, data <span class="op">=</span> train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="100">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the fit() function of the 'ols' class to fit the model</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-scrolled="true" data-execution_count="8">
+<div class="cell" data-scrolled="true" data-execution_count="108">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Printing model summary which contains among other things, the model coefficients</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="108">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -379,10 +384,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   3177.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 27 Dec 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Tue, 17 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>01:06:43</td>     <th>  Log-Likelihood:    </th> <td> -53949.</td> 
+  <th>Time:</th>                 <td>23:35:44</td>     <th>  Log-Likelihood:    </th> <td> -53949.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.079e+05</td>
@@ -426,11 +431,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>The model equation is: car price = -4122.0357 + 12990 * engineSize</p>
 <p><strong>Visualize the regression line</strong></p>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="102">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sns.regplot(x <span class="op">=</span> <span class="st">'engineSize'</span>, y <span class="op">=</span> <span class="st">'price'</span>, data <span class="op">=</span> train, color <span class="op">=</span> <span class="st">'orange'</span>,line_kws<span class="op">=</span>{<span class="st">"color"</span>: <span class="st">"red"</span>})</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">1</span>,<span class="dv">7</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Note that some of the engineSize values are 0. They are incorrect, and should ideally be imputed before developing the model.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="102">
 <pre><code>(-1.0, 7.0)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -438,22 +443,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p><strong>Predict the car price for the cars in the test dataset</strong>. Datasets to be used: <em>Car_features_test.csv, Car_prices_test.csv</em></p>
-<div class="cell" data-execution_count="11">
+<div class="cell" data-execution_count="103">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="104">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the predict() function associated with the 'model' object to make predictions of car price on test (unknown) data</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)<span class="co">#Note that the predict() function finds the predictor 'engineSize' in the testf dataframe, and plugs it's values in the regression equation for prediction.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Make a visualization that compares the predicted car prices with the actual car prices</strong></p>
-<div class="cell" data-scrolled="true" data-execution_count="13">
+<div class="cell" data-scrolled="true" data-execution_count="105">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> testp.price, y <span class="op">=</span> pred_price)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#In case of a perfect prediction, all the points must lie on the line x = y.</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [<span class="dv">0</span>,testp.price.<span class="bu">max</span>()], y <span class="op">=</span> [<span class="dv">0</span>,testp.price.<span class="bu">max</span>()],color<span class="op">=</span><span class="st">'orange'</span>) <span class="co">#Plotting the line x = y.</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Actual price'</span>)</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Predicted price'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="105">
 <pre><code>Text(0, 0.5, 'Predicted price')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -462,17 +467,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>The prediction doesn’t look too good. This is because we are just using one predictor - engine size. We can probably improve the model by adding more predictors when we learn multiple linear regression.</p>
 <p><strong>What is the RMSE of the predicted car price?</strong></p>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="106">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> pred_price)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="106">
 <pre><code>12995.1064515487</code></pre>
 </div>
 </div>
 <p>The root mean squared error in predicting car price is around $13k.</p>
 <p><strong>What is the residual standard error based on the training data?</strong></p>
-<div class="cell" data-execution_count="15">
+<div class="cell" data-execution_count="113">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(model.mse_resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="113">
 <pre><code>12810.109175214136</code></pre>
 </div>
 </div>
