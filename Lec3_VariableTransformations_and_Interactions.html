@@ -264,21 +264,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="variable-interactions" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="variable-interactions"><span class="header-section-number">3.1</span> Variable interactions</h2>
-<div class="cell" data-execution_count="35">
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="36">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="36">
+<div class="cell-output cell-output-display" data-execution_count="2">
 
 <div>
 
@@ -501,7 +501,7 @@ Name: transmission, dtype: int64</code></pre>
 </div>
 </div>
 <p>Note that the <em>Other</em> category of the variable <em>transmission</em> contains only a single observation, which is likely to be insufficient to train the model. We’ll remove that observation from the training data. Another option may be to combine the observation in the <em>Other</em> category with the nearest category, and keep it in the data.</p>
-<div class="cell" data-execution_count="40">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>train_updated <span class="op">=</span> train[train.transmission<span class="op">!=</span><span class="st">'Other'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="41">
@@ -698,9 +698,9 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 <h2 data-number="3.2" class="anchored" data-anchor-id="variable-transformations"><span class="header-section-number">3.2</span> Variable transformations</h2>
 <p>So far we have considered only a linear relationship between the predictors and the response. However, the relationship may be non-linear.</p>
 <p>Consider the regression plot of <em>price</em> on <em>mileage</em></p>
-<div class="cell" data-execution_count="45">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sns.regplot(x <span class="op">=</span> train_updated.mileage, y <span class="op">=</span>train_updated.price,color <span class="op">=</span> <span class="st">'orange'</span>, line_kws <span class="op">=</span> {<span class="st">'color'</span>:<span class="st">'blue'</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="45">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>&lt;AxesSubplot:xlabel='mileage', ylabel='price'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -708,12 +708,12 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 </div>
 </div>
 <p>It seems like a quadratic curve may better fit the points.</p>
-<div class="cell" data-execution_count="46">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Including mileage squared as a predictor and developing the model</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mileage+I(mileage**2)'</span>, data <span class="op">=</span> train_updated)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="46">
+<div class="cell-output cell-output-display" data-execution_count="5">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -727,10 +727,10 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   920.6</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, 21 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Sun, 22 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>14:45:23</td>     <th>  Log-Likelihood:    </th> <td> -54382.</td> 
+  <th>Time:</th>                 <td>16:13:39</td>     <th>  Log-Likelihood:    </th> <td> -54382.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4959</td>      <th>  AIC:               </th> <td>1.088e+05</td>
@@ -775,24 +775,24 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 4.81e+09. This might indicate that there are<br>strong multicollinearity or other numerical problems.
 </div>
 </div>
-<div class="cell" data-execution_count="47">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the regression line</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(train_updated)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> <span class="st">'mileage'</span>, y <span class="op">=</span> <span class="st">'price'</span>, data <span class="op">=</span> train_updated, color <span class="op">=</span> <span class="st">'orange'</span>)</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> train_updated.mileage, y <span class="op">=</span> pred_price, color <span class="op">=</span> <span class="st">'blue'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="47">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>&lt;AxesSubplot:xlabel='mileage', ylabel='price'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec3_VariableTransformations_and_Interactions_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="48">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Including mileage squared as a predictor and developing the model</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mileage+I(mileage**2)+I(mileage**3)'</span>, data <span class="op">=</span> train_updated)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div class="cell-output cell-output-display" data-execution_count="10">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -806,10 +806,10 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   652.3</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, 21 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Sun, 22 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>14:45:33</td>     <th>  Log-Likelihood:    </th> <td> -54340.</td> 
+  <th>Time:</th>                 <td>16:14:29</td>     <th>  Log-Likelihood:    </th> <td> -54340.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4959</td>      <th>  AIC:               </th> <td>1.087e+05</td>
@@ -857,14 +857,26 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 7.73e+14. This might indicate that there are<br>strong multicollinearity or other numerical problems.
 </div>
 </div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the regression line</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(train_updated)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> <span class="st">'mileage'</span>, y <span class="op">=</span> <span class="st">'price'</span>, data <span class="op">=</span> train_updated, color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> train_updated.mileage, y <span class="op">=</span> pred_price, color <span class="op">=</span> <span class="st">'blue'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>&lt;AxesSubplot:xlabel='mileage', ylabel='price'&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="Lec3_VariableTransformations_and_Interactions_files/figure-html/cell-16-output-2.png" class="img-fluid"></p>
+</div>
+</div>
 <p>Note that the fit seems slighty better for mileage less than 150k. The model should not be used to predict car prices of cars with a mileage higher than 150k.</p>
 <p>Let’s update the model created earlier (in the beginning of this chapter) to include the transformed predictor.</p>
-<div class="cell" data-execution_count="49">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with an interaction term and a variable transformation term</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~year*engineSize+mileage+mpg+I(mileage**2)'</span>, data <span class="op">=</span> train_updated)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="49">
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with an interaction term and a variable transformation term</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~year*engineSize+mileage+mpg+I(mileage**2)'</span>, data <span class="op">=</span> train_updated)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -878,10 +890,10 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1947.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, 21 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Sun, 22 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>14:45:36</td>     <th>  Log-Likelihood:    </th> <td> -52162.</td> 
+  <th>Time:</th>                 <td>16:13:46</td>     <th>  Log-Likelihood:    </th> <td> -52162.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4959</td>      <th>  AIC:               </th> <td>1.043e+05</td>
@@ -940,9 +952,9 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 </div>
 <p>Note that the R-squared has increased as compared to the model with just the interaction term.</p>
 <div class="cell" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> pred_price)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> pred_price)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="50">
 <pre><code>9074.494088619422</code></pre>
 </div>
