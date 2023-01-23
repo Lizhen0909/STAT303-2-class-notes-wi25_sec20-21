@@ -238,7 +238,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#including-qualitative-predictors-in-the-model" id="toc-including-qualitative-predictors-in-the-model" class="nav-link" data-scroll-target="#including-qualitative-predictors-in-the-model"><span class="toc-section-number">3.1.2</span>  Including qualitative predictors in the model</a></li>
   <li><a href="#including-qualitative-predictors-and-its-interaction-with-continuous-predictor-in-the-model" id="toc-including-qualitative-predictors-and-its-interaction-with-continuous-predictor-in-the-model" class="nav-link" data-scroll-target="#including-qualitative-predictors-and-its-interaction-with-continuous-predictor-in-the-model"><span class="toc-section-number">3.1.3</span>  Including qualitative predictors and its interaction with continuous predictor in the model</a></li>
   </ul></li>
-  <li><a href="#variable-transformations" id="toc-variable-transformations" class="nav-link" data-scroll-target="#variable-transformations"><span class="toc-section-number">3.2</span>  Variable transformations</a></li>
+  <li><a href="#variable-transformations" id="toc-variable-transformations" class="nav-link" data-scroll-target="#variable-transformations"><span class="toc-section-number">3.2</span>  Variable transformations</a>
+  <ul>
+  <li><a href="#quadratic-transformation" id="toc-quadratic-transformation" class="nav-link" data-scroll-target="#quadratic-transformation"><span class="toc-section-number">3.2.1</span>  Quadratic transformation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -728,6 +731,8 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 </div>
 </div>
 <p>From the first scatterplot, we see that the relationship between <code>price</code> and <code>mileage</code> doesn’t seem to be linear, as the points do not lie on a straight line. Also, we see the regression line (or the curve), which is the best fit line doesn’t seem to fit the points well. However, <code>price</code> on average seems to decrease with <code>mileage</code>, albeit in a non-linear manner.</p>
+<section id="quadratic-transformation" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="quadratic-transformation"><span class="header-section-number">3.2.1</span> Quadratic transformation</h3>
 <p>So, we guess that if we model price as a quadratic function of <code>mileage</code>, the model may better fit the points (or the curve may better fit the points). Let us transform the predictor <code>mileage</code> to include <span class="math inline">\(mileage^2\)</span> (i.e., perform a quadratic transformation on the predictor).</p>
 <div class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Including mileage squared as a predictor and developing the model</span></span>
@@ -796,6 +801,7 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 4.81e+09. This might indicate that there are<br>strong multicollinearity or other numerical problems.
 </div>
 </div>
+<p>Note that in the formula specified within the <code>ols()</code> function, the <code>I()</code> operator isolates or insulates the contents within I(…) from the regular formula operators. Without the <code>I()</code> operator, <code>mileage**2</code> will be treated as the interaction of <code>mileage</code> with itself, which is <code>mileage</code>. Thus, to add the square of <code>mileage</code> as a separate predictor, we need to use the <code>I()</code> operator.</p>
 <p>Let us visualize the model fit with the quadratic transformation of the predictor - <code>mileage</code>.</p>
 <div class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the regression line with the model consisting of the quadratic transformation of the predictor - mileage</span></span>
@@ -988,6 +994,7 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 <p>Note that the prediction accuracy of the model has further increased, as the RMSE has reduced. The transformed predictor is statisically significant and provides additional flexibility to better capture the trend in the data, leading to an increase in prediction accuracy.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
