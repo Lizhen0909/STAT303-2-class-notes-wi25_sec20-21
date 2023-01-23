@@ -241,6 +241,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#variable-transformations" id="toc-variable-transformations" class="nav-link" data-scroll-target="#variable-transformations"><span class="toc-section-number">3.2</span>  Variable transformations</a>
   <ul>
   <li><a href="#quadratic-transformation" id="toc-quadratic-transformation" class="nav-link" data-scroll-target="#quadratic-transformation"><span class="toc-section-number">3.2.1</span>  Quadratic transformation</a></li>
+  <li><a href="#cubic-transformation" id="toc-cubic-transformation" class="nav-link" data-scroll-target="#cubic-transformation"><span class="toc-section-number">3.2.2</span>  Cubic transformation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -817,6 +818,9 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 </div>
 </div>
 <p>The above model seems to better fit the data (as compared to the model without transformation) at least upto mileage around 125,000. The <span class="math inline">\(R^2\)</span> of the model with the quadratic transformation of <code>mileage</code> is also higher than that of the model without transformation indicating a better fit.</p>
+</section>
+<section id="cubic-transformation" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="cubic-transformation"><span class="header-section-number">3.2.2</span> Cubic transformation</h3>
 <p>Let us see if a cubic transformation of <code>mileage</code> can further improve the model fit.</p>
 <div class="cell" data-scrolled="true" data-execution_count="54">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Including mileage squared and mileage cube as predictors and developing the model</span></span>
