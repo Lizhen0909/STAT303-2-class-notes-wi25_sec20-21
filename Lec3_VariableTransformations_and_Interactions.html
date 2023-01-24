@@ -93,7 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Assignment 1.html" rel="next">
+<link href="./Lec4_ModelAssumptions.html" rel="next">
 <link href="./Lec2_MultipleLinearRegression.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -189,6 +189,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Lec3_VariableTransformations_and_Interactions.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variable interactions and transformations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec4_ModelAssumptions.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Model assumptions</span></a>
   </div>
 </li>
       </ul>
@@ -689,6 +694,8 @@ Manual transmission: <span class="math inline">\(price = 3754.7238 + 9928.6082 *
 <p>Automatic transmission: <span class="math inline">\(price = 3754.7238 + 9928.6082 * engineSize\)</span>,<br>
 Semi-Automatic transmission: <span class="math inline">\(price = -1527 + 7046 * engineSize\)</span>,<br>
 Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSize\)</span>,</p>
+<p><strong>Q:</strong> Interpret the coefficient of the interaction between engine size and manual transmission, i.e., the coefficient of <code>engineSize:transmission[T.Manual]</code>.</p>
+<p><strong>A:</strong> For a unit (or a litre) increase in <code>engineSize</code> , the increase in estimated mean <code>price</code> is \$5285 lesser than the corresponding increase</p>
 <div class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the developed model with interaction terms</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">9</span>,<span class="dv">6</span>)</span>
@@ -1142,8 +1149,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Assignment 1.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment A</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Lec4_ModelAssumptions.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Model assumptions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
