@@ -20,6 +20,7 @@ book:
         - Lec1_SimpleLinearRegression.ipynb
         - Lec2_MultipleLinearRegression.ipynb
         - Lec3_VariableTransformations_and_Interactions.ipynb
+        - Lec4_ModelAssumptions.ipynb
   appendices: 
     - Assignment 1.ipynb
     - Assignment B.ipynb
