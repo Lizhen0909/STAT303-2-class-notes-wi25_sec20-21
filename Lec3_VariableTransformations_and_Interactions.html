@@ -582,7 +582,8 @@ Name: transmission, dtype: int64</code></pre>
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 </div>
 </div>
-<p>Note that there is no coefficient for the <em>Automatic</em> level of the variable <code>Transmission</code>. If a car doesn’t have <em>Manual</em> or <em>Semi-Automatic</em> transmission, then it has an <em>Automatic</em> transmission. Thus, the coefficient of <em>Automatic</em> will be redundant.</p>
+<p>Note that there is no coefficient for the <em>Automatic</em> level of the variable <code>Transmission</code>. If a car doesn’t have <em>Manual</em> or <em>Semi-Automatic</em> transmission, then it has an <em>Automatic</em> transmission. Thus, the coefficient of <em>Automatic</em> will be redundant, and the dummy variable corresponding to <em>Automatic</em> tranmission is dropped from the model.</p>
+<p>The level of the categorical variable that is dropped from the model is called the baseline level. Here <em>Automatic</em> transmission is the baseline level. The coefficients of other levels of <code>tranmission</code> should be interpreted with respect to the baseline level.</p>
 <p><strong>Q:</strong> Interpret the intercept term</p>
 <p><strong>Ans:</strong> For the hypothetical scenario of a car with zero engine size and <em>Automatic</em> transmission, the estimated mean car price is <span class="math inline">\(\approx\)</span> \$3042.</p>
 <p><strong>Q:</strong> Interpret the coefficient of <code>transmission[T.Manual]</code></p>
