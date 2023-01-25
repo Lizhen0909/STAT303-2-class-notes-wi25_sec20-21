@@ -499,7 +499,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="Lec4_ModelAssumptions_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>The model seems to satisfy this assumption, as we do not observe a strong pattern in the residuals. Residuals lie more or less equally on both sides of the blue line for all fitted values.</p>
+<p>The model seems to satisfy this assumption, as we do not observe a strong pattern in the residuals around the line Residuals = 0. Residuals are distributed more or less in a similar manner on both sides of the blue line for all fitted values.</p>
+<p>For the model to satisfy the linearity assumption perfectly, the points above the line <em>(Residuals = 0)</em>, should be mirror age of the points below the line, i.e., the blue line in the above plot should act as a mirror.</p>
 <p><strong>What to do if there is non-linear association</strong> (page 94 of book): If the residual plot indicates that there are non-linear associations in the data, then a simple approach is to use non-linear transformations of the predictors, such as <span class="math inline">\(log X, \sqrt X\)</span>, and <span class="math inline">\(X^2\)</span>, in the regression model.</p>
 </section>
 <section id="non-constant-variance-of-error-terms" class="level2" data-number="4.2">
@@ -675,7 +676,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>We can see that the log transformation shrinked the higher values of price, making its distribution closer to normal.</p>
-<p>Note that heterscedasticity can also occur due to model misspecification, i.e., in case of missing predictor(s). Some of the cars are too expensive, which makes the <em>price</em> distribution skewed. Perhaps, the price of expensive cars be better explained by the car <em>model</em>, a prdeictor that is missing in the current model.</p>
+<p>Note that heterscedasticity can also occur due to model misspecification, i.e., in case of missing predictor(s). Some of the cars are too expensive, which makes the <em>price</em> distribution skewed. Perhaps, the price of expensive cars be better explained by the car <em>model</em>, a predictor that is missing in the current model.</p>
 
 
 </section>
