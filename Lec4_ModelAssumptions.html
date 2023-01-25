@@ -264,21 +264,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
 <p>Consider the model with interactions and transformation developed previously.</p>
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="35">
 
 <div>
 
@@ -375,11 +375,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="36">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -393,10 +393,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1229.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 24 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Wed, 25 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>14:06:56</td>     <th>  Log-Likelihood:    </th> <td> -51911.</td> 
+  <th>Time:</th>                 <td>11:36:00</td>     <th>  Log-Likelihood:    </th> <td> -51911.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.038e+05</td>
@@ -468,35 +468,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.73e+13. This might indicate that there are<br>strong multicollinearity or other numerical problems.
 </div>
 </div>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(model.mse_resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>8502.851955843495</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> pred_price)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>8708.676318160937</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing MAE on test data</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>(np.<span class="bu">abs</span>(testp.price <span class="op">-</span> pred_price)).mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<pre><code>5395.006622253402</code></pre>
 </div>
 </div>
 <p>Let us check if this model satisfies the assumptions of the linear regression model</p>
 <section id="non-linearity-of-data" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="non-linearity-of-data"><span class="header-section-number">4.1</span> Non-linearity of data</h2>
 <p>We have assumed that there is a linear relationship between the predictors and the response. Residual plots, which are scatter plots of residuals vs fitted values, can be used to identify non-linearity. Fitted values are the values estimated by the model on training data, denoted by <span class="math inline">\(\hat y_i\)</span>, and residuals are given by <span class="math inline">\(e_i = y_i - \hat y_i\)</span>.</p>
-<div class="cell" data-execution_count="119">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting residuals vs fitted values</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> model.fittedvalues, y<span class="op">=</span>model.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [pred_price.<span class="bu">min</span>(),pred_price.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="119">
-<pre><code>Text(0, 0.5, 'Residuals')</code></pre>
-</div>
+<div class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting residuals vs fitted values</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plt.rcParams[<span class="st">"figure.figsize"</span>] <span class="op">=</span> (<span class="dv">9</span>,<span class="dv">6</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale<span class="op">=</span><span class="fl">1.25</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> model.fittedvalues, y<span class="op">=</span>model.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [pred_price.<span class="bu">min</span>(),pred_price.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-7-output-2.png" class="img-fluid"></p>
+<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>The model seems to satisfy this assumption, as we do not observe a strong pattern in the residuals around the line Residuals = 0. Residuals are distributed more or less in a similar manner on both sides of the blue line for all fitted values.</p>
@@ -507,26 +516,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 data-number="4.2" class="anchored" data-anchor-id="non-constant-variance-of-error-terms"><span class="header-section-number">4.2</span> Non-constant variance of error terms</h2>
 <p>The variance of the error terms is assumed to be constant, i.e., <span class="math inline">\(Var(\epsilon_i) = \sigma^2\)</span>, and this assumption is used while deriving the standard errors of the regression coefficients. The standard errors in turn are used to test the significant of the predictors, and obtain their confidence interval. Thus, violation of this assumption may lead to incorrect inference. Non-constant variance of error terms, or violation of the constant variance assumption, is called <em>heteroscedasticity.</em></p>
 <p>This assumption can be checked by plotting the residuals against fitted values.</p>
-<div class="cell" data-execution_count="124">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting residuals vs fitted values</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> model.fittedvalues, y<span class="op">=</span>model.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [pred_price.<span class="bu">min</span>(),pred_price.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="124">
-<pre><code>Text(0, 0.5, 'Residuals')</code></pre>
-</div>
+<div class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting residuals vs fitted values</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.scatterplot(x <span class="op">=</span> model.fittedvalues, y<span class="op">=</span>model.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [pred_price.<span class="bu">min</span>(),pred_price.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'${x:,.0f}'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-8-output-2.png" class="img-fluid"></p>
+<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <p>We see that the variance of errors seems to increase with increase in the fitted values. In such a case a log transformation of the response can resolve the issue to some extent. This is because a log transform will result in a higher shrinkage of larger values.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="46">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with an interaction term and a variable transformation term</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="46">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -540,10 +548,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1834.</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sat, 26 Feb 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
+  <th>Date:</th>             <td>Wed, 25 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
 </tr>
 <tr>
-  <th>Time:</th>                 <td>19:19:41</td>     <th>  Log-Likelihood:    </th> <td> -1173.8</td>
+  <th>Time:</th>                 <td>11:37:55</td>     <th>  Log-Likelihood:    </th> <td> -1173.8</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>   2372.</td>
@@ -618,61 +626,70 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note that the coefficient of <em>year</em> turns out to be significant (at 5% significance level), unlike in the previous model. Intuitively, the coefficient of <em>year</em> should have been significant, as <em>year</em> has the highest linear correlation of 50% with car <em>price</em>.</p>
 <p>Although the R-squared has increased as compared to the previous model, violation of this assumption does not cause bias in the regression coefficients. Thus, there may not be a large improvement in the model fit, unless we add predictor(s) to address heteroscedasticity.</p>
 <p>Let us check the constant variance assumption again.</p>
-<div class="cell" data-execution_count="145">
+<div class="cell" data-execution_count="49">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting residuals vs fitted values</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> (model_log.fittedvalues), y<span class="op">=</span>(model_log.resid),color <span class="op">=</span> <span class="st">'orange'</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [model_log.fittedvalues.<span class="bu">min</span>(),model_log.fittedvalues.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="145">
+<div class="cell-output cell-output-display" data-execution_count="49">
 <pre><code>Text(0, 0.5, 'Residuals')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
+<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-11-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>Now we observe that the constant variance assumption is satisfied. Let us see the RMSE of this model on test data.</p>
-<div class="cell" data-execution_count="146">
+<div class="cell" data-execution_count="50">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pred_price_log <span class="op">=</span> model_log.predict(testf)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> np.exp(pred_price_log))<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="146">
+<div class="cell-output cell-output-display" data-execution_count="50">
 <pre><code>9094.209503063496</code></pre>
 </div>
 </div>
 <p>Note that the RMSE of the log-transformed model has increased as compared to the model without transformation. Does it mean the log-transformed model is less accurate?</p>
-<div class="cell" data-execution_count="147">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Comparing errors of the log-transformed model with the previous model</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>err <span class="op">=</span> np.<span class="bu">abs</span>(testp.price <span class="op">-</span> pred_price)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>err_log <span class="op">=</span> np.<span class="bu">abs</span>(testp.price <span class="op">-</span> np.exp(pred_price_log))</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> err,y <span class="op">=</span> err_log, color <span class="op">=</span> <span class="st">'orange'</span>)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">100000</span>], y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">100000</span>], color <span class="op">=</span> <span class="st">'blue'</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(err_log<span class="op">&lt;</span>err)<span class="op">/</span><span class="bu">len</span>(err)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="147">
+<div class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing MAE on test data</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>pred_price_log <span class="op">=</span> model_log.predict(testf)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>((np.<span class="bu">abs</span>(testp.price <span class="op">-</span> np.exp(pred_price_log))).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="51">
+<pre><code>5268.398904745121</code></pre>
+</div>
+</div>
+<p>Although the RMSE has increased a bit for the log-transformed model, the MAE has reduced. This means the log-transformed model does a bit worse on reducing relatively large errors, but does better in reducing the absolute errors on an average.</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Comparing errors of the log-transformed model with the previous model</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>err <span class="op">=</span> np.<span class="bu">abs</span>(testp.price <span class="op">-</span> pred_price)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>err_log <span class="op">=</span> np.<span class="bu">abs</span>(testp.price <span class="op">-</span> np.exp(pred_price_log))</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> err,y <span class="op">=</span> err_log, color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">100000</span>], y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">100000</span>], color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(err_log<span class="op">&lt;</span>err)<span class="op">/</span><span class="bu">len</span>(err)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>0.5572604790419161</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-12-output-2.png" class="img-fluid"></p>
+<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>For 56% of the cars, the log transformed makes a more accurate prediction than the previous model, which seems to indicate that the log-transformed model may be slightly more accurate. However, the conclusion based on RMSE is different. This is because RMSE is an overall measure of prediction accuracy, which can be influenced by a few values since it is based on mean (a non-robust statistic). Thus, RMSE should not be used as the sole measure to compare the accuracy of models.</p>
+<p>For 56% of the cars, the log transformed makes a more accurate prediction than the previous model, which is another criterion based on which the log-transformed model is more accurate. However, the conclusion based on RMSE is different. This is because RMSE can be influenced by a few large errors. Thus, RMSE, though sometimes appropriate than other criteria, should not be used as the sole measure to compare the accuracy of models.</p>
 <div class="cell" data-execution_count="149">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the distribution of price and log(price)</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>fig.subplots_adjust(hspace<span class="op">=</span><span class="fl">0.4</span>, wspace<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc <span class="op">=</span> {<span class="st">'figure.figsize'</span>:(<span class="dv">20</span>,<span class="dv">12</span>)})</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale <span class="op">=</span> <span class="dv">2</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>sns.histplot(train.price,kde<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'price'</span>, ylabel<span class="op">=</span><span class="st">'Count'</span>)</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>sns.histplot(np.log(train.price),kde<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'log price'</span>, ylabel<span class="op">=</span><span class="st">'Count'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the distribution of price and log(price)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>fig.subplots_adjust(hspace<span class="op">=</span><span class="fl">0.4</span>, wspace<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc <span class="op">=</span> {<span class="st">'figure.figsize'</span>:(<span class="dv">20</span>,<span class="dv">12</span>)})</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale <span class="op">=</span> <span class="dv">2</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>sns.histplot(train.price,kde<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'price'</span>, ylabel<span class="op">=</span><span class="st">'Count'</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>sns.histplot(np.log(train.price),kde<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>ax.<span class="bu">set</span>(xlabel<span class="op">=</span><span class="st">'log price'</span>, ylabel<span class="op">=</span><span class="st">'Count'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="149">
 <pre><code>[Text(0.5, 0, 'log price'), Text(0, 0.5, 'Count')]</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-13-output-2.png" class="img-fluid"></p>
+<p><img src="Lec4_ModelAssumptions_files/figure-html/cell-15-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>We can see that the log transformation shrinked the higher values of price, making its distribution closer to normal.</p>
