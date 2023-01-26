@@ -241,7 +241,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#variable-interaction-between-continuous-predictors" id="toc-variable-interaction-between-continuous-predictors" class="nav-link" data-scroll-target="#variable-interaction-between-continuous-predictors"><span class="toc-section-number">3.1.1</span>  Variable interaction between continuous predictors</a></li>
   <li><a href="#including-qualitative-predictors-in-the-model" id="toc-including-qualitative-predictors-in-the-model" class="nav-link" data-scroll-target="#including-qualitative-predictors-in-the-model"><span class="toc-section-number">3.1.2</span>  Including qualitative predictors in the model</a></li>
-  <li><a href="#including-qualitative-predictors-and-its-interaction-with-continuous-predictor-in-the-model" id="toc-including-qualitative-predictors-and-its-interaction-with-continuous-predictor-in-the-model" class="nav-link" data-scroll-target="#including-qualitative-predictors-and-its-interaction-with-continuous-predictor-in-the-model"><span class="toc-section-number">3.1.3</span>  Including qualitative predictors and its interaction with continuous predictor in the model</a></li>
+  <li><a href="#including-qualitative-predictors-and-their-interaction-with-continuous-predictors-in-the-model" id="toc-including-qualitative-predictors-and-their-interaction-with-continuous-predictors-in-the-model" class="nav-link" data-scroll-target="#including-qualitative-predictors-and-their-interaction-with-continuous-predictors-in-the-model"><span class="toc-section-number">3.1.3</span>  Including qualitative predictors and their interaction with continuous predictors in the model</a></li>
   </ul></li>
   <li><a href="#variable-transformations" id="toc-variable-transformations" class="nav-link" data-scroll-target="#variable-transformations"><span class="toc-section-number">3.2</span>  Variable transformations</a>
   <ul>
@@ -384,7 +384,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<p>Until now, we have have assumed that the association between a predictor <span class="math inline">\(X_j\)</span> and response <span class="math inline">\(Y\)</span> does not depend on the value of other predictors. For example, the muliple linear regression model that we developed in Chapter <a href="https://nustat.github.io/STAT303-2-class-notes/Lec2_MultipleLinearRegression.html">2</a> assumes that the average increase in price associated with a unit increase in engineSize is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.</p>
+<p>Until now, we have assumed that the association between a predictor <span class="math inline">\(X_j\)</span> and response <span class="math inline">\(Y\)</span> does not depend on the value of other predictors. For example, the multiple linear regression model that we developed in Chapter <a href="https://nustat.github.io/STAT303-2-class-notes/Lec2_MultipleLinearRegression.html">2</a> assumes that the average increase in price associated with a unit increase in engineSize is always $12,180, regardless of the value of other predictors. However, this assumption may be incorrect.</p>
 <section id="variable-interaction-between-continuous-predictors" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="variable-interaction-between-continuous-predictors"><span class="header-section-number">3.1.1</span> Variable interaction between continuous predictors</h3>
 <p>We can relax this assumption by considering another predictor, called an interaction term. Let us assume that the average increase in <code>price</code> associated with a one-unit increase in <code>engineSize</code> depends on the model <code>year</code> of the car. In other words, there is an interaction between <code>engineSize</code> and <code>year</code>. This interaction can be included as a predictor, which is the product of <code>engineSize</code> and <code>year</code>. <em>Note that there are several possible interactions that we can consider. Here the interaction between <code>engineSize</code> and <code>year</code> is just an example.</em></p>
@@ -492,7 +492,7 @@ price = 5.606e5 +(-275.3833+896.7687*engineSize)*year -1.796e6*engineSize -0.152
 <pre><code>9423.598872501092</code></pre>
 </div>
 </div>
-<p>Note that the RMSE reduced as compared to that of the model in Chapter <a href="https://nustat.github.io/STAT303-2-class-notes/Lec2_MultipleLinearRegression.html">2</a>. This is because the interaction term between <code>engineSize</code> and <code>year</code> is significant and relaxes the assumption of constant association between price and engine size, and between price and year. This added flexibility makes the model better fit the data. Caution: Too much flexibility may lead to overfitting!</p>
+<p>Note that the RMSE is lower than that of the model in Chapter <a href="https://nustat.github.io/STAT303-2-class-notes/Lec2_MultipleLinearRegression.html">2</a>. This is because the interaction term between <code>engineSize</code> and <code>year</code> is significant and relaxes the assumption of constant association between price and engine size, and between price and year. This added flexibility makes the model better fit the data. Caution: Too much flexibility may lead to overfitting!</p>
 <p>Note that interaction terms corresponding to other variable pairs, and higher order interaction terms (such as those containing 3 or 4 variables) may also be significant and improve the model fit &amp; thereby the prediction accuracy of the model.</p>
 </section>
 <section id="including-qualitative-predictors-in-the-model" class="level3" data-number="3.1.2">
@@ -582,12 +582,12 @@ Name: transmission, dtype: int64</code></pre>
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
 </div>
 </div>
-<p>Note that there is no coefficient for the <em>Automatic</em> level of the variable <code>Transmission</code>. If a car doesn’t have <em>Manual</em> or <em>Semi-Automatic</em> transmission, then it has an <em>Automatic</em> transmission. Thus, the coefficient of <em>Automatic</em> will be redundant, and the dummy variable corresponding to <em>Automatic</em> tranmission is dropped from the model.</p>
-<p>The level of the categorical variable that is dropped from the model is called the baseline level. Here <em>Automatic</em> transmission is the baseline level. The coefficients of other levels of <code>tranmission</code> should be interpreted with respect to the baseline level.</p>
+<p>Note that there is no coefficient for the <em>Automatic</em> level of the variable <code>Transmission</code>. If a car doesn’t have <em>Manual</em> or <em>Semi-Automatic</em> transmission, then it has an <em>Automatic</em> transmission. Thus, the coefficient of <em>Automatic</em> will be redundant, and the dummy variable corresponding to <em>Automatic</em> transmission is dropped from the model.</p>
+<p>The level of the categorical variable that is dropped from the model is called the baseline level. Here <em>Automatic</em> transmission is the baseline level. The coefficients of other levels of <code>transmission</code> should be interpreted with respect to the baseline level.</p>
 <p><strong>Q:</strong> Interpret the intercept term</p>
 <p><strong>Ans:</strong> For the hypothetical scenario of a car with zero engine size and <em>Automatic</em> transmission, the estimated mean car price is <span class="math inline">\(\approx\)</span> \$3042.</p>
 <p><strong>Q:</strong> Interpret the coefficient of <code>transmission[T.Manual]</code></p>
-<p><strong>Ans:</strong> The estimated mean price of a car with manual tranmission is <span class="math inline">\(\approx\)</span> \$6770 less than that of a car with <em>Automatic</em> transmission.</p>
+<p><strong>Ans:</strong> The estimated mean price of a car with manual transmission is <span class="math inline">\(\approx\)</span> \$6770 less than that of a car with <em>Automatic</em> transmission.</p>
 <p>Let us visualize the developed model.</p>
 <div class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing the developed model</span></span>
@@ -605,10 +605,10 @@ Name: transmission, dtype: int64</code></pre>
 <p><img src="Lec3_VariableTransformations_and_Interactions_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Based on the developed model, for a given engine size, the car with a semi-automatic transmission is estimated to the most expensive on an average, while the car with a manual transmission is estimated to be the least expensive on an average.</p>
-<p><strong>Changing the baseline level:</strong> By default, the baseline level is chosen as the one that comes first if the levels are arranged in an alphabetical order. However, you can change the baseline level by specifying one explicitly.</p>
+<p>Based on the developed model, for a given engine size, the car with a semi-automatic transmission is estimated to be the most expensive on average, while the car with a manual transmission is estimated to be the least expensive on average.</p>
+<p><strong>Changing the baseline level:</strong> By default, the baseline level is chosen as the one that comes first if the levels are arranged in alphabetical order. However, you can change the baseline level by specifying one explicitly.</p>
 <p>Internally, statsmodels uses the patsy package to convert formulas and data to the matrices that are used in model fitting. You may refer to this <a href="https://patsy.readthedocs.io/en/latest/API-reference.html#patsy.Treatment">section</a> in the patsy documentation to specify a particular level of the categorical variable as the baseline.</p>
-<p>For example, suppose we wish to change the baseline level to <em>Manual</em> tranmission. We can specify this in the formula as follows:</p>
+<p>For example, suppose we wish to change the baseline level to <em>Manual</em> transmission. We can specify this in the formula as follows:</p>
 <div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~engineSize+C(transmission, Treatment("Manual"))'</span>, data <span class="op">=</span> train_updated)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
@@ -679,8 +679,8 @@ Name: transmission, dtype: int64</code></pre>
 </div>
 </div>
 </section>
-<section id="including-qualitative-predictors-and-its-interaction-with-continuous-predictor-in-the-model" class="level3" data-number="3.1.3">
-<h3 data-number="3.1.3" class="anchored" data-anchor-id="including-qualitative-predictors-and-its-interaction-with-continuous-predictor-in-the-model"><span class="header-section-number">3.1.3</span> Including qualitative predictors and its interaction with continuous predictor in the model</h3>
+<section id="including-qualitative-predictors-and-their-interaction-with-continuous-predictors-in-the-model" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="including-qualitative-predictors-and-their-interaction-with-continuous-predictors-in-the-model"><span class="header-section-number">3.1.3</span> Including qualitative predictors and their interaction with continuous predictors in the model</h3>
 <p>Note that the qualitative predictor leads to fitting 3 parallel lines to the data, as there are 3 categories.</p>
 <p>However, note that we have made the constant association assumption. The fact that the lines are parallel means that the average increase in car price for one litre increase in engine size does not depend on the type of transmission. This represents a potentially serious limitation of the model, since in fact a change in engine size may have a very different association on the price of an automatic car versus a semi-automatic or manual car.</p>
 <p>This limitation can be addressed by adding an interaction variable, which is the product of <code>engineSize</code> and the dummy variables for semi-automatic and manual transmissions.</p>
@@ -767,7 +767,7 @@ Manual transmission: <span class="math inline">\(price = 3754.7238 + 9928.6082 *
 <p>Automatic transmission: <span class="math inline">\(price = 3754.7238 + 9928.6082 * engineSize\)</span>,<br>
 Semi-Automatic transmission: <span class="math inline">\(price = -1527 + 7046 * engineSize\)</span>,<br>
 Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSize\)</span>,</p>
-<p><strong>Q:</strong> Interpert the coefficient of manual tranmission, i.e., the coefficient of <code>transmission[T.Manual]</code>.</p>
+<p><strong>Q:</strong> Interpret the coefficient of manual tranmission, i.e., the coefficient of <code>transmission[T.Manual]</code>.</p>
 <p><strong>A:</strong> For a given engine size, the estimated mean <code>price</code> of a car with <em>Manual</em> transmission is <span class="math inline">\(\approx\)</span> \$1768 more than the estimated mean <code>price</code> of a car with <em>Automatic</em> transmission.</p>
 <p><strong>Q:</strong> Interpret the coefficient of the interaction between engine size and manual transmission, i.e., the coefficient of <code>engineSize:transmission[T.Manual]</code>.</p>
 <p><strong>A:</strong> For a unit (or a litre) increase in <code>engineSize</code> , the increase in estimated mean <code>price</code> of a car with <em>Manual</em> transmission is <span class="math inline">\(\approx\)</span> \$5285 less than the increase in estimated mean <code>price</code> of a car with <em>Automatic</em> transmission.</p>
@@ -987,7 +987,7 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 <p><img src="Lec3_VariableTransformations_and_Interactions_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Note that the model fit with cubic transformation of <code>mileage</code> seems slighty better as compared to the models with the quadratic transformation, and no transformation of mileage, for mileage upto 180k. However, the model should not be used to predict car prices of cars with a mileage higher than 180k.</p>
+<p>Note that the model fit with the cubic transformation of <code>mileage</code> seems slightly better as compared to the models with the quadratic transformation, and no transformation of mileage, for mileage up to 180k. However, the model should not be used to predict car prices of cars with a mileage higher than 180k.</p>
 <p>Let’s update the model created earlier (in the beginning of this chapter) to include the transformed predictor.</p>
 <div class="cell" data-execution_count="73">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with an interaction term and a variable transformation term</span></span>
@@ -1077,7 +1077,7 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 <pre><code>9074.494088619422</code></pre>
 </div>
 </div>
-<p>Note that the prediction accuracy of the model has further increased, as the RMSE has reduced. The transformed predictor is statisically significant and provides additional flexibility to better capture the trend in the data, leading to an increase in prediction accuracy.</p>
+<p>Note that the prediction accuracy of the model has further increased, as the RMSE has reduced. The transformed predictor is statistically significant and provides additional flexibility to better capture the trend in the data, leading to an increase in prediction accuracy.</p>
 
 
 </section>
