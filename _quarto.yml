@@ -21,6 +21,7 @@ book:
         - Lec2_MultipleLinearRegression.ipynb
         - Lec3_VariableTransformations_and_Interactions.ipynb
         - Lec4_ModelAssumptions.ipynb
+        - Lec5_Potential_issues.ipynb
   appendices: 
     - Assignment 1.ipynb
     - Assignment B.ipynb
