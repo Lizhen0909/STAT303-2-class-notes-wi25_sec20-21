@@ -280,7 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
 <p>Let us continue with the car price prediction example from the previous chapter.</p>
-<div class="cell" data-execution_count="87">
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -288,14 +288,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="88">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="88">
+<div class="cell-output cell-output-display" data-execution_count="2">
 
 <div>
 
@@ -392,13 +392,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="62">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Considering the model developed to address assumptions in the previous chapter</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Model with an interaction term and a variable transformation term</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="62">
+<div class="cell-output cell-output-display" data-execution_count="3">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -412,10 +412,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1834.</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 29 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
+  <th>Date:</th>             <td>Mon, 30 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
 </tr>
 <tr>
-  <th>Time:</th>                 <td>00:18:20</td>     <th>  Log-Likelihood:    </th> <td> -1173.8</td>
+  <th>Time:</th>                 <td>02:32:10</td>     <th>  Log-Likelihood:    </th> <td> -1173.8</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>   2372.</td>
@@ -942,10 +942,10 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <p><span class="math display">\[\begin{equation}
 VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 \end{equation}\]</span></p>
-<div class="cell" data-execution_count="219">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Correlation matrix</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>train.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="219">
+<div class="cell-output cell-output-display" data-execution_count="4">
 
 <div>
 
@@ -1039,30 +1039,26 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 </div>
 <p>Let us compute the Variance Inflation Factor (VIF) for the four predictors.</p>
-<div class="cell" data-execution_count="140">
+<div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> train[[<span class="st">'mpg'</span>,<span class="st">'year'</span>,<span class="st">'mileage'</span>,<span class="st">'engineSize'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="148">
+<div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>X.columns[<span class="dv">1</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="148">
-<pre><code>Index(['mpg', 'year', 'mileage', 'engineSize'], dtype='object')</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>Index(['year', 'mileage', 'engineSize'], dtype='object')</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="151">
+<div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tools.tools <span class="im">import</span> add_constant</span>
 <span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> add_constant(X)</span>
 <span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>vif_data <span class="op">=</span> pd.DataFrame()</span>
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"feature"</span>] <span class="op">=</span> X.columns</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>      </span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># calculating VIF for each feature</span></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="co">#vif_data["VIF"] = [variance_inflation_factor(X.values, i)</span></span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                          for i in range(len(X.columns))]</span></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X.columns)):</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>    vif_data.loc[i,<span class="st">'VIF'</span>] <span class="op">=</span> variance_inflation_factor(X.values, i)</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X.columns)):</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    vif_data.loc[i,<span class="st">'VIF'</span>] <span class="op">=</span> variance_inflation_factor(X.values, i)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      feature           VIF
 0       const  1.201579e+06
@@ -1072,13 +1068,13 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 4  engineSize  1.219170e+00</code></pre>
 </div>
 </div>
-<p>As all the values of VIF are close to one, we do not have the problem of multicollinearity in the model. Note that the VIF of <em>year</em> and <em>mileage</em> is relatively high as they are the most correlated.</p>
-<div class="cell" data-execution_count="12">
+<p>As all the values of VIF are close to one, we do not have the problem of multicollinearity in the model. Note that the VIF of <code>year</code> and <code>mileage</code> is relatively high as they are the most correlated.</p>
+<div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'year~(mpg+engineSize+mileage)'</span>, data <span class="op">=</span> train)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'year~mpg+engineSize+mileage'</span>, data <span class="op">=</span> train)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="25">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -1092,10 +1088,10 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2400.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Tue, 01 Feb 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Mon, 30 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>01:24:20</td>     <th>  Log-Likelihood:    </th> <td> -10066.</td> 
+  <th>Time:</th>                 <td>02:49:19</td>     <th>  Log-Likelihood:    </th> <td> -10066.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>2.014e+04</td>
@@ -1151,11 +1147,11 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 </div>
 <p>Note that year and mileage have a high linear correlation. Removing one of them should decrease the standard error of the coefficient of the other, without significanty decrease R-squared.</p>
-<div class="cell" data-execution_count="440">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'(price)~(mpg+engineSize+mileage+year)'</span>, data <span class="op">=</span> train)</span>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+mileage+year'</span>, data <span class="op">=</span> train)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="440">
+<div class="cell-output cell-output-display" data-execution_count="20">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -1169,10 +1165,10 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2410.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 23 Jan 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Mon, 30 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>01:45:55</td>     <th>  Log-Likelihood:    </th> <td> -52497.</td> 
+  <th>Time:</th>                 <td>02:46:56</td>     <th>  Log-Likelihood:    </th> <td> -52497.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.050e+05</td>
@@ -1225,7 +1221,7 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 <p>Removing mileage from the above regression.</p>
 <div class="cell" data-execution_count="223">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'(price)~(mpg+engineSize+year)'</span>, data <span class="op">=</span> train)</span>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+year'</span>, data <span class="op">=</span> train)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="223">
@@ -1291,153 +1287,6 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
   <th>Kurtosis:</th>       <td>13.675</td>  <th>  Cond. No.          </th> <td>1.41e+06</td> 
 </tr>
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.41e+06. This might indicate that there are<br>strong multicollinearity or other numerical problems.
-</div>
-</div>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'(price)~(mpg+engineSize+year+mileage)'</span>, data <span class="op">=</span> train)</span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-
-<table class="simpletable">
-<caption>OLS Regression Results</caption>
-<tbody><tr>
-  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th> <td>   0.660</td> 
-</tr>
-<tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.660</td> 
-</tr>
-<tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2410.</td> 
-</tr>
-<tr>
-  <th>Date:</th>             <td>Mon, 31 Jan 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
-</tr>
-<tr>
-  <th>Time:</th>                 <td>12:10:59</td>     <th>  Log-Likelihood:    </th> <td> -52497.</td> 
-</tr>
-<tr>
-  <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.050e+05</td>
-</tr>
-<tr>
-  <th>Df Residuals:</th>          <td>  4955</td>      <th>  BIC:               </th> <td>1.050e+05</td>
-</tr>
-<tr>
-  <th>Df Model:</th>              <td>     4</td>      <th>                     </th>     <td> </td>    
-</tr>
-<tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
-</tr>
-</tbody></table>
-<table class="simpletable">
-<tbody><tr>
-       <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
-</tr>
-<tr>
-  <th>Intercept</th>  <td>-3.661e+06</td> <td> 1.49e+05</td> <td>  -24.593</td> <td> 0.000</td> <td>-3.95e+06</td> <td>-3.37e+06</td>
-</tr>
-<tr>
-  <th>mpg</th>        <td>  -79.3126</td> <td>    9.338</td> <td>   -8.493</td> <td> 0.000</td> <td>  -97.620</td> <td>  -61.006</td>
-</tr>
-<tr>
-  <th>engineSize</th> <td> 1.218e+04</td> <td>  189.969</td> <td>   64.107</td> <td> 0.000</td> <td> 1.18e+04</td> <td> 1.26e+04</td>
-</tr>
-<tr>
-  <th>year</th>       <td> 1817.7366</td> <td>   73.751</td> <td>   24.647</td> <td> 0.000</td> <td> 1673.151</td> <td> 1962.322</td>
-</tr>
-<tr>
-  <th>mileage</th>    <td>   -0.1474</td> <td>    0.009</td> <td>  -16.817</td> <td> 0.000</td> <td>   -0.165</td> <td>   -0.130</td>
-</tr>
-</tbody></table>
-<table class="simpletable">
-<tbody><tr>
-  <th>Omnibus:</th>       <td>2450.973</td> <th>  Durbin-Watson:     </th> <td>   0.541</td> 
-</tr>
-<tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>31060.548</td>
-</tr>
-<tr>
-  <th>Skew:</th>           <td> 2.045</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
-</tr>
-<tr>
-  <th>Kurtosis:</th>       <td>14.557</td>  <th>  Cond. No.          </th> <td>3.83e+07</td> 
-</tr>
-</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 3.83e+07. This might indicate that there are<br>strong multicollinearity or other numerical problems.
-</div>
-</div>
-<div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'(price)~(year)'</span>, data <span class="op">=</span> train)</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-
-<table class="simpletable">
-<caption>OLS Regression Results</caption>
-<tbody><tr>
-  <th>Dep. Variable:</th>          <td>price</td>      <th>  R-squared:         </th> <td>   0.251</td> 
-</tr>
-<tr>
-  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.251</td> 
-</tr>
-<tr>
-  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1664.</td> 
-</tr>
-<tr>
-  <th>Date:</th>             <td>Mon, 31 Jan 2022</td> <th>  Prob (F-statistic):</th> <td>5.84e-314</td>
-</tr>
-<tr>
-  <th>Time:</th>                 <td>12:11:12</td>     <th>  Log-Likelihood:    </th> <td> -54459.</td> 
-</tr>
-<tr>
-  <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.089e+05</td>
-</tr>
-<tr>
-  <th>Df Residuals:</th>          <td>  4958</td>      <th>  BIC:               </th> <td>1.089e+05</td>
-</tr>
-<tr>
-  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>     <td> </td>    
-</tr>
-<tr>
-  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>    
-</tr>
-</tbody></table>
-<table class="simpletable">
-<tbody><tr>
-      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P&gt;|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
-</tr>
-<tr>
-  <th>Intercept</th> <td>-5.728e+06</td> <td> 1.41e+05</td> <td>  -40.627</td> <td> 0.000</td> <td>   -6e+06</td> <td>-5.45e+06</td>
-</tr>
-<tr>
-  <th>year</th>      <td> 2851.7747</td> <td>   69.907</td> <td>   40.794</td> <td> 0.000</td> <td> 2714.725</td> <td> 2988.824</td>
-</tr>
-</tbody></table>
-<table class="simpletable">
-<tbody><tr>
-  <th>Omnibus:</th>       <td>2541.815</td> <th>  Durbin-Watson:     </th> <td>   0.228</td> 
-</tr>
-<tr>
-  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>23237.973</td>
-</tr>
-<tr>
-  <th>Skew:</th>           <td> 2.270</td>  <th>  Prob(JB):          </th> <td>    0.00</td> 
-</tr>
-<tr>
-  <th>Kurtosis:</th>       <td>12.583</td>  <th>  Cond. No.          </th> <td>1.41e+06</td> 
-</tr>
-</tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.41e+06. This might indicate that there are<br>strong multicollinearity or other numerical problems.
-</div>
-</div>
-<div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fl">73.751</span><span class="op">/</span><span class="fl">69.907</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>1.0549873403235728</code></pre>
-</div>
-</div>
-<div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1.05</span><span class="op">**</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<pre><code>1.1025</code></pre>
 </div>
 </div>
 <p>Note that the standard error of the coefficient of <em>year</em> has reduced from 73 to 48, without any large reduction in R-squared.</p>
