@@ -674,7 +674,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 \end{equation}\]</span></p>
 <p>It is clear from this equation that <span class="math inline">\(h_i\)</span> increases with the distance of <span class="math inline">\(x_i\)</span> from <span class="math inline">\(\bar x\)</span>.The leverage statistic <span class="math inline">\(h_i\)</span> is always between <span class="math inline">\(1/n\)</span> and <span class="math inline">\(1\)</span>, and the average leverage for all the observations is always equal to <span class="math inline">\((p+1)/n\)</span>. So if a given observation has a leverage statistic that greatly exceeds <span class="math inline">\((p+1)/n\)</span>, then we may suspect that the corresponding point has high leverage.</p>
-<p><strong>Influential points:</strong> Note that if a high leverage point falls in line with the regression line, then it will not effect the regression line. However, it may inflate R-squared and increase the significance of predictors. If a high leverage point falls away from the regression line, then it is also an outlier, and will effect the regression line. The points whose presence significantly effects the regression line are called influential points. A point that is both a high leverage point and an outlier is likely to be an influential point. However, a high leverage point is not necessarily an influential point.</p>
+<p><strong>Influential points:</strong> Note that if a high leverage point falls in line with the regression line, then it will not affect the regression line. However, it may inflate R-squared and increase the significance of predictors. If a high leverage point falls away from the regression line, then it is also an outlier, and will affect the regression line. The points whose presence significantly affects the regression line are called influential points. A point that is both a high leverage point and an outlier is likely to be an influential point. However, a high leverage point is not necessarily an influential point.</p>
 <p><em>Source for influential points: https://online.stat.psu.edu/stat501/book/export/html/973</em></p>
 <p>Let us see if there are any high leverage points in our regression model without the predictor - <code>model</code>.</p>
 <div class="cell" data-execution_count="75">
@@ -784,7 +784,7 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <p><img src="Lec5_Potential_issues_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Let us identify the high leverage points in the data, as they may be effecting the regression line if they are outliers as well, i.e., if they are influential points. Note that there is no defined threshold for a point to be classified as a high leverage point. Some statisticians consider points having twice the average leverage as high leverage points, some consider points having thrice the average leverage as high leverage points, and so on.</p>
+<p>Let us identify the high leverage points in the data, as they may be affecting the regression line if they are outliers as well, i.e., if they are influential points. Note that there is no defined threshold for a point to be classified as a high leverage point. Some statisticians consider points having twice the average leverage as high leverage points, some consider points having thrice the average leverage as high leverage points, and so on.</p>
 <div class="cell" data-execution_count="106">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> model_log.outlier_test()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -808,7 +808,7 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <pre><code>197</code></pre>
 </div>
 </div>
-<p>Observations that are both high leverage points and outliers are influential points that may effect the regression line. Let’s remove these influential points from the data and see if it improves the model prediction accuracy on test data.</p>
+<p>Observations that are both high leverage points and outliers are influential points that may affect the regression line. Let’s remove these influential points from the data and see if it improves the model prediction accuracy on test data.</p>
 <div class="cell" data-execution_count="82">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dropping influential points from data</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>train_filtered <span class="op">=</span> train.drop(np.intersect1d(np.where(np.<span class="bu">abs</span>(out.student_resid)<span class="op">&gt;</span><span class="dv">3</span>)[<span class="dv">0</span>],</span>
