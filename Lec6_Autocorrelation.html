@@ -290,7 +290,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We are going to build a linear model to predict the hourly power demand for the next day (for example, when it is 1/1/2022, we predict hourly demand on 1/2/2022 using historical data and the weather forecasts).</p>
 <p>When we are building a model, it is important to keep in mind what data we can use as features. For this model: * We cannot use previous hourly data as features. (Although in a high frequency setting, it is possible) * The temprature in our raw data can not be used directly, since is the actual, not the forecasted temperature. We are going to use the previous day temperature as the forcast.</p>
 <p><strong>Source:</strong> <a href="https://towardsdatascience.com/keep-it-simple-keep-it-linear-a-linear-regression-model-for-time-series-5dbc83d89fc3">Keep it simple, keep it linear: A linear regression model for time series</a></p>
-<div class="cell" data-outputid="dfcee015-b588-4506-9909-03945d594c03" data-execution_count="2">
+<div class="cell" data-outputid="dfcee015-b588-4506-9909-03945d594c03" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>pylab inline</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -299,68 +299,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-stdout">
 <pre><code>Populating the interactive namespace from numpy and matplotlib</code></pre>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>C:\Users\akl0407\Anaconda3\lib\site-packages\IPython\core\magics\pylab.py:159: UserWarning: pylab import has clobbered these variables: ['corrcoef']
+`%matplotlib` prevents importing * from pylab and numpy
+  warn("pylab import has clobbered these variables: %s"  % clobbered +</code></pre>
 </div>
-<div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A few helper functions</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.ma <span class="im">as</span> ma</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats.stats <span class="im">import</span> pearsonr, normaltest</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial.distance <span class="im">import</span> correlation</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_model(features):</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  X<span class="op">=</span>sm.add_constant(df[features])</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  y<span class="op">=</span>df[<span class="st">'power'</span>]</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  model <span class="op">=</span> sm.OLS(y,X, missing<span class="op">=</span><span class="st">'drop'</span>).fit()</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  predictions <span class="op">=</span> model.predict(X) </span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  display(model.summary()) </span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  res<span class="op">=</span>y<span class="op">-</span>predictions</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> res </span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plt_residual(res):</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  plt.plot(<span class="bu">range</span>(<span class="bu">len</span>(res)), res) </span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  plt.ylabel(<span class="st">'Residual'</span>)</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  plt.xlabel(<span class="st">"Hour"</span>)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plt_residual_lag(res, nlag):</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  x<span class="op">=</span>res.values</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  y<span class="op">=</span>res.shift(nlag).values</span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  sns.kdeplot(x,y<span class="op">=</span>y,color<span class="op">=</span><span class="st">'blue'</span>,shade<span class="op">=</span><span class="va">True</span> )</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  plt.xlabel(<span class="st">'res'</span>)</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  plt.ylabel(<span class="st">"res-lag-</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(nlag))</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  rho,p<span class="op">=</span>corrcoef(x,y)</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  plt.title(<span class="st">"n_lag=</span><span class="sc">{}</span><span class="st"> hours, correlation=</span><span class="sc">{:f}</span><span class="st">"</span>.<span class="bu">format</span>(nlag, rho))</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plt_acf(res):</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">18</span>, <span class="dv">5</span>]</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  acorr <span class="op">=</span> sm.tsa.acf(res.dropna(), nlags <span class="op">=</span> <span class="bu">len</span>(res.dropna())<span class="op">-</span><span class="dv">1</span>)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  ax1.plot(acorr)</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  ax1.set_ylabel(<span class="st">'corr'</span>)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  ax1.set_xlabel(<span class="st">'n_lag'</span>)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  ax1.set_title(<span class="st">'Auto Correlation'</span>)</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  ax2.plot(acorr[:<span class="dv">4</span><span class="op">*</span><span class="dv">7</span><span class="op">*</span><span class="dv">24</span>])</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  ax2.set_ylabel(<span class="st">'corr'</span>)</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  ax2.set_xlabel(<span class="st">'n_lag'</span>)</span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  ax2.set_title(<span class="st">'Auto Correlation (4-week zoomed in) '</span>)</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  pd.set_option(<span class="st">'display.max_columns'</span>, <span class="va">None</span>)</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  adf<span class="op">=</span>pd.DataFrame(np.<span class="bu">round</span>(acorr[:<span class="dv">30</span><span class="op">*</span><span class="dv">24</span>],<span class="dv">2</span>).reshape([<span class="dv">30</span>, <span class="dv">24</span>] ))</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  adf.index.name<span class="op">=</span><span class="st">'day'</span></span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  display(adf)</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">9</span>, <span class="dv">5</span>]</span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> corrcoef(x,y):</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    a,b<span class="op">=</span>ma.masked_invalid(x),ma.masked_invalid(y)</span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    msk <span class="op">=</span> (<span class="op">~</span>a.mask <span class="op">&amp;</span> <span class="op">~</span>b.mask)</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pearsonr(x[msk],y[msk])[<span class="dv">0</span>], normaltest(res, nan_policy<span class="op">=</span><span class="st">'omit'</span>)[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A few helper functions</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.ma <span class="im">as</span> ma</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats.stats <span class="im">import</span> pearsonr, normaltest</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial.distance <span class="im">import</span> correlation</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_model(features):</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  X<span class="op">=</span>sm.add_constant(df[features])</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  y<span class="op">=</span>df[<span class="st">'power'</span>]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  model <span class="op">=</span> sm.OLS(y,X, missing<span class="op">=</span><span class="st">'drop'</span>).fit()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  predictions <span class="op">=</span> model.predict(X) </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  display(model.summary()) </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  res<span class="op">=</span>y<span class="op">-</span>predictions</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> res </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plt_residual(res):</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  plt.plot(<span class="bu">range</span>(<span class="bu">len</span>(res)), res) </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  plt.ylabel(<span class="st">'Residual'</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  plt.xlabel(<span class="st">"Hour"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plt_residual_lag(res, nlag):</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  x<span class="op">=</span>res.values</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  y<span class="op">=</span>res.shift(nlag).values</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  sns.kdeplot(x,y<span class="op">=</span>y,color<span class="op">=</span><span class="st">'blue'</span>,shade<span class="op">=</span><span class="va">True</span> )</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  plt.xlabel(<span class="st">'res'</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  plt.ylabel(<span class="st">"res-lag-</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(nlag))</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  rho,p<span class="op">=</span>corrcoef(x,y)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  plt.title(<span class="st">"n_lag=</span><span class="sc">{}</span><span class="st"> hours, correlation=</span><span class="sc">{:f}</span><span class="st">"</span>.<span class="bu">format</span>(nlag, rho))</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plt_acf(res):</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">18</span>, <span class="dv">5</span>]</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>  acorr <span class="op">=</span> sm.tsa.acf(res.dropna(), nlags <span class="op">=</span> <span class="bu">len</span>(res.dropna())<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>  fig, (ax1, ax2) <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>  ax1.plot(acorr)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>  ax1.set_ylabel(<span class="st">'corr'</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  ax1.set_xlabel(<span class="st">'n_lag'</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>  ax1.set_title(<span class="st">'Auto Correlation'</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>  ax2.plot(acorr[:<span class="dv">4</span><span class="op">*</span><span class="dv">7</span><span class="op">*</span><span class="dv">24</span>])</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>  ax2.set_ylabel(<span class="st">'corr'</span>)</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  ax2.set_xlabel(<span class="st">'n_lag'</span>)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  ax2.set_title(<span class="st">'Auto Correlation (4-week zoomed in) '</span>)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>  plt.show()</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>  pd.set_option(<span class="st">'display.max_columns'</span>, <span class="va">None</span>)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>  adf<span class="op">=</span>pd.DataFrame(np.<span class="bu">round</span>(acorr[:<span class="dv">30</span><span class="op">*</span><span class="dv">24</span>],<span class="dv">2</span>).reshape([<span class="dv">30</span>, <span class="dv">24</span>] ))</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>  adf.index.name<span class="op">=</span><span class="st">'day'</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>  display(adf)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>  plt.rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> [<span class="dv">9</span>, <span class="dv">5</span>]</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> corrcoef(x,y):</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    a,b<span class="op">=</span>ma.masked_invalid(x),ma.masked_invalid(y)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    msk <span class="op">=</span> (<span class="op">~</span>a.mask <span class="op">&amp;</span> <span class="op">~</span>b.mask)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pearsonr(x[msk],y[msk])[<span class="dv">0</span>], normaltest(res, nan_policy<span class="op">=</span><span class="st">'omit'</span>)[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="the-data" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="the-data"><span class="header-section-number">6.2</span> The data</h2>
-<div class="cell" data-outputid="0848ad70-6f6f-41fb-a2a7-7f4676925197" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span>pd.read_csv(<span class="st">"Toronto_power_demand.csv"</span>, parse_dates<span class="op">=</span>[<span class="st">'Date'</span>], index_col<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'temperature'</span>]<span class="op">=</span>df[<span class="st">'temperature'</span>].shift(<span class="dv">24</span><span class="op">*</span><span class="dv">1</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell" data-outputid="0848ad70-6f6f-41fb-a2a7-7f4676925197" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df<span class="op">=</span>pd.read_csv(<span class="st">"./Datasets/Toronto_power_demand.csv"</span>, parse_dates<span class="op">=</span>[<span class="st">'Date'</span>], index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'temperature'</span>]<span class="op">=</span>df[<span class="st">'temperature'</span>].shift(<span class="dv">24</span><span class="op">*</span><span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
 
 <div>
 
@@ -422,43 +427,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="cell" data-outputid="9c90ac41-cae2-46f2-c664-35737e54b8a4" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ndays<span class="op">=</span><span class="bu">len</span>(<span class="bu">set</span>(df[<span class="st">'Date'</span>]))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"There are </span><span class="sc">{}</span><span class="st"> rows, which is </span><span class="sc">{}</span><span class="st">*24=</span><span class="sc">{}</span><span class="st">, for </span><span class="sc">{}</span><span class="st"> days. And The data is already in sorted order"</span> .<span class="bu">format</span>(df.shape[<span class="dv">0</span>], ndays, ndays<span class="op">*</span><span class="dv">24</span>, ndays))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-outputid="9c90ac41-cae2-46f2-c664-35737e54b8a4" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ndays<span class="op">=</span><span class="bu">len</span>(<span class="bu">set</span>(df[<span class="st">'Date'</span>]))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"There are </span><span class="sc">{}</span><span class="st"> rows, which is </span><span class="sc">{}</span><span class="st">*24=</span><span class="sc">{}</span><span class="st">, for </span><span class="sc">{}</span><span class="st"> days. And The data is already in sorted order"</span> .<span class="bu">format</span>(df.shape[<span class="dv">0</span>], ndays, ndays<span class="op">*</span><span class="dv">24</span>, ndays))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>There are 35064 rows, which is 1461*24=35064, for 1461 days. And The data is already in sorted order</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="aa2cee76-89a7-4a8e-a230-53fe9e4b6f72" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"It is natural to think that there is a relationship between power demand and temperature."</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(df[<span class="st">'temperature'</span>].values, y<span class="op">=</span>df[<span class="st">'power'</span>].values,color<span class="op">=</span><span class="st">'blue'</span>,shade<span class="op">=</span><span class="va">True</span> )</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Power Demand vs Temperature"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-outputid="aa2cee76-89a7-4a8e-a230-53fe9e4b6f72" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"It is natural to think that there is a relationship between power demand and temperature."</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(df[<span class="st">'temperature'</span>].values, y<span class="op">=</span>df[<span class="st">'power'</span>].values,color<span class="op">=</span><span class="st">'blue'</span>,shade<span class="op">=</span><span class="va">True</span> )</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Power Demand vs Temperature"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>It is natural to think that there is a relationship between power demand and temperature.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>Text(0.5, 1.0, 'Power Demand vs Temperature')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-6-output-3.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-outputid="3771e7df-bc6f-4065-90ef-d6cbc9daeb33" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"""</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">It is not a linear relationship. We create two features corresponding to hot and cold weahter, which make it possible to make a linear model. </span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>is_hot<span class="op">=</span>(df[<span class="st">'temperature'</span>]<span class="op">&gt;</span><span class="dv">15</span>).astype(<span class="bu">int</span>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:f}% o</span><span class="st">f data points is hot"</span>.<span class="bu">format</span>(is_hot.mean()<span class="op">*</span><span class="dv">100</span>))</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'temp_hot'</span>]<span class="op">=</span>df[<span class="st">'temperature'</span>]<span class="op">*</span>is_hot</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'temp_cold'</span>]<span class="op">=</span>df[<span class="st">'temperature'</span>]<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>is_hot)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-outputid="3771e7df-bc6f-4065-90ef-d6cbc9daeb33" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"""</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="st">It is not a linear relationship. We create two features corresponding to hot and cold weather, which make it possible to make a linear model. </span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>is_hot<span class="op">=</span>(df[<span class="st">'temperature'</span>]<span class="op">&gt;</span><span class="dv">15</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:f}% o</span><span class="st">f data points is hot"</span>.<span class="bu">format</span>(is_hot.mean()<span class="op">*</span><span class="dv">100</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'temp_hot'</span>]<span class="op">=</span>df[<span class="st">'temperature'</span>]<span class="op">*</span>is_hot</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'temp_cold'</span>]<span class="op">=</span>df[<span class="st">'temperature'</span>]<span class="op">*</span>(<span class="dv">1</span><span class="op">-</span>is_hot)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-It is not a linear relationship. We create two features corresponding to hot and cold weahter, which make it possible to make a linear model. 
+It is not a linear relationship. We create two features corresponding to hot and cold weather, which make it possible to make a linear model. 
 
 34.813484% of data points is hot</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="13">
 
 <div>
 
@@ -538,7 +543,7 @@ It is not a linear relationship. We create two features corresponding to hot and
 <section id="predictor-temperature" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="predictor-temperature"><span class="header-section-number">6.3</span> Predictor: temperature</h2>
 <div class="cell" data-outputid="dd469846-4260-4a71-9855-9d884a98ee7b" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res<span class="op">=</span>build_model([<span class="st">'temp_hot'</span>, <span class="st">'temp_cold'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>res<span class="op">=</span>build_model([<span class="st">'temp_hot'</span>, <span class="st">'temp_cold'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 
 <table class="simpletable">
@@ -602,14 +607,14 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="22aafad4-0215-4048-cbde-7cc65e42c318" data-scrolled="true" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>plt_residual(res)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>plt_residual(res)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="29763658-dd71-4d32-8e9b-9a1008edc363" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"acf shows that there is a strong correlation for 24 lags, which is one day."</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>plt_acf(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"acf shows that there is a strong correlation for 24 lags, which is one day."</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plt_acf(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>acf shows that there is a strong correlation for 24 lags, which is one day.</code></pre>
 </div>
@@ -1498,10 +1503,10 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="2d66098e-83d9-41fc-906f-17db868ef454">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Although 1 hour lag correlation is more strong, but we cannot use it."</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res,<span class="dv">1</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res,<span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Although 1 hour lag correlation is more strong, but we cannot use it."</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res,<span class="dv">1</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res,<span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Although 1 hour lag correlation is more strong, but we cannot use it.</code></pre>
 </div>
@@ -1516,8 +1521,8 @@ It is not a linear relationship. We create two features corresponding to hot and
 <section id="predictors-temperature-one-day-lag-of-power." class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="predictors-temperature-one-day-lag-of-power."><span class="header-section-number">6.4</span> Predictors: Temperature + one day lag of power.</h2>
 <div class="cell" data-outputid="6f3acaf6-dea9-4a89-fe3c-4bebf5fe7183">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'power_lag_1_day'</span>]<span class="op">=</span>df[<span class="st">'power'</span>].shift(<span class="dv">24</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'power_lag_1_day'</span>]<span class="op">=</span>df[<span class="st">'power'</span>].shift(<span class="dv">24</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 
 
@@ -1674,7 +1679,7 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="22e7ed4d-c767-43b5-bd99-dbb984096bfc">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>res<span class="op">=</span>build_model([<span class="st">'temp_hot'</span>, <span class="st">'temp_cold'</span>, <span class="st">'power_lag_1_day'</span> ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>res<span class="op">=</span>build_model([<span class="st">'temp_hot'</span>, <span class="st">'temp_cold'</span>, <span class="st">'power_lag_1_day'</span> ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/usr/local/lib/python3.8/dist-packages/statsmodels/tsa/tsatools.py:142: FutureWarning: In a future version of pandas all arguments of concat except for the argument 'objs' will be keyword-only
   x = pd.concat(x[::order], 1)</code></pre>
@@ -1745,13 +1750,13 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="edc81bef-fce6-43a1-ea25-97d810767373">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>plt_residual(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plt_residual(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="8572fd0b-0b59-45f9-bc94-6013d7025471">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plt_acf(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>plt_acf(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/usr/local/lib/python3.8/dist-packages/statsmodels/tsa/stattools.py:667: FutureWarning: fft=True will become the default after the release of the 0.12 release of statsmodels. To suppress this warning, explicitly set fft=False.
   warnings.warn(</code></pre>
@@ -2713,19 +2718,19 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="deacea89-1cf0-43f7-dc64-13f61398b1d1">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="b5115e67-4f66-4279-b167-ce30e9edd251">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="a13a98a6-48da-475e-aa65-627a61600718">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
 </div>
@@ -2734,8 +2739,8 @@ It is not a linear relationship. We create two features corresponding to hot and
 <section id="predictors-temperature-1-day-lag-of-power-1-week-lag-of-power" class="level2" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="predictors-temperature-1-day-lag-of-power-1-week-lag-of-power"><span class="header-section-number">6.5</span> Predictors: Temperature + 1 day lag of power + 1 week lag of power</h2>
 <div class="cell" data-outputid="d23f389b-acf8-4050-e4d0-557ca4fc03ce">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'power_lag_1_week'</span>]<span class="op">=</span>df[<span class="st">'power'</span>].shift(<span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'power_lag_1_week'</span>]<span class="op">=</span>df[<span class="st">'power'</span>].shift(<span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 
 
@@ -2898,7 +2903,7 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="bbbca3ca-723f-4878-f6c1-606571b0cec9">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>res<span class="op">=</span>build_model([<span class="st">'temp_hot'</span>, <span class="st">'temp_cold'</span>, <span class="st">'power_lag_1_day'</span>, <span class="st">'power_lag_1_week'</span> ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>res<span class="op">=</span>build_model([<span class="st">'temp_hot'</span>, <span class="st">'temp_cold'</span>, <span class="st">'power_lag_1_day'</span>, <span class="st">'power_lag_1_week'</span> ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/usr/local/lib/python3.8/dist-packages/statsmodels/tsa/tsatools.py:142: FutureWarning: In a future version of pandas all arguments of concat except for the argument 'objs' will be keyword-only
   x = pd.concat(x[::order], 1)</code></pre>
@@ -2972,13 +2977,13 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="4129e3fe-304c-4d0c-a364-e88f2927e149">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plt_residual(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>plt_residual(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="96297934-3183-4cd2-ea76-f573fb6bc570">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>plt_acf(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>plt_acf(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/usr/local/lib/python3.8/dist-packages/statsmodels/tsa/stattools.py:667: FutureWarning: fft=True will become the default after the release of the 0.12 release of statsmodels. To suppress this warning, explicitly set fft=False.
   warnings.warn(</code></pre>
@@ -3940,25 +3945,25 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="a44557e2-f8c9-4021-9c4a-a6f0637d21ab">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-23-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="9beeab5e-5170-42f1-ccda-bf47059af77b">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-24-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="63a5b309-54ff-48f6-d32c-1c00e63f6a48">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-25-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="66da8cb6-6325-4a13-e71b-d305a73d31eb">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span><span class="op">*</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span><span class="op">*</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-26-output-1.png" class="img-fluid"></p>
 </div>
@@ -3971,8 +3976,8 @@ It is not a linear relationship. We create two features corresponding to hot and
 <p>For 1-week-lag feature, we could argue that the behaviour is different between weekday and weekend.</p>
 <p>But for 2-week-lag feature, it is hard to understand especially when we have included 1-day-lag and 1-week-lag features. The relation is spurious.</p>
 <div class="cell" data-outputid="d913fdde-539d-444b-d590-11789f920363">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'power_lag_2_week'</span>]<span class="op">=</span>df[<span class="st">'power'</span>].shift(<span class="dv">24</span><span class="op">*</span><span class="dv">7</span><span class="op">*</span><span class="dv">2</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'power_lag_2_week'</span>]<span class="op">=</span>df[<span class="st">'power'</span>].shift(<span class="dv">24</span><span class="op">*</span><span class="dv">7</span><span class="op">*</span><span class="dv">2</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>df.tail()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
 
 
@@ -4141,7 +4146,7 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="56c033c5-ba5e-4ddb-defd-1808519765b7">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>res<span class="op">=</span>build_model([<span class="st">'temp_hot'</span>, <span class="st">'temp_cold'</span>, <span class="st">'power_lag_1_day'</span>,<span class="st">'power_lag_1_week'</span>, <span class="st">'power_lag_2_week'</span> ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>res<span class="op">=</span>build_model([<span class="st">'temp_hot'</span>, <span class="st">'temp_cold'</span>, <span class="st">'power_lag_1_day'</span>,<span class="st">'power_lag_1_week'</span>, <span class="st">'power_lag_2_week'</span> ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/usr/local/lib/python3.8/dist-packages/statsmodels/tsa/tsatools.py:142: FutureWarning: In a future version of pandas all arguments of concat except for the argument 'objs' will be keyword-only
   x = pd.concat(x[::order], 1)</code></pre>
@@ -4218,7 +4223,7 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="d3c655d2-6f28-43dd-8ed0-b793ebd1aa6c">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>plt_acf(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>plt_acf(res)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/usr/local/lib/python3.8/dist-packages/statsmodels/tsa/stattools.py:667: FutureWarning: fft=True will become the default after the release of the 0.12 release of statsmodels. To suppress this warning, explicitly set fft=False.
   warnings.warn(</code></pre>
@@ -5180,25 +5185,25 @@ It is not a linear relationship. We create two features corresponding to hot and
 </div>
 </div>
 <div class="cell" data-outputid="7b43409d-bbf9-4b92-a84a-f9cfe1c88352">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-30-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="f0806361-1d5b-4db6-cf61-e6d7b59037be">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-31-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="8de65c27-eb4f-4a3a-bb47-b0a17710649a">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-32-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 <div class="cell" data-outputid="49fb5aee-3d70-4e81-8e06-af589f193f9b">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span><span class="op">*</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>plt_residual_lag(res, <span class="dv">24</span><span class="op">*</span><span class="dv">7</span><span class="op">*</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec6_Autocorrelation_files/figure-html/cell-33-output-1.png" class="img-fluid"></p>
 </div>
@@ -5210,7 +5215,7 @@ It is not a linear relationship. We create two features corresponding to hot and
 <p>One may also notice that the 1-day-lag correlation becomes bigger although 1-day-lag feature is already in the model. It is probably because of the multicollinearity between the lag features.</p>
 <p>The following table shows the correlation between lag features.</p>
 <div class="cell" data-outputid="ad47d268-53aa-4bea-b993-7ab2b034dd1a">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'power_lag_1_day'</span>,<span class="st">'power_lag_1_week'</span>, <span class="st">'power_lag_2_week'</span> ]].corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df[[<span class="st">'power_lag_1_day'</span>,<span class="st">'power_lag_1_week'</span>, <span class="st">'power_lag_2_week'</span> ]].corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
 
 
