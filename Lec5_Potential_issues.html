@@ -259,7 +259,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#outliers" id="toc-outliers" class="nav-link active" data-scroll-target="#outliers"><span class="toc-section-number">5.1</span>  Outliers</a></li>
   <li><a href="#high-leverage-points" id="toc-high-leverage-points" class="nav-link" data-scroll-target="#high-leverage-points"><span class="toc-section-number">5.2</span>  High leverage points</a></li>
-  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="toc-section-number">5.3</span>  Collinearity</a></li>
+  <li><a href="#influential-points" id="toc-influential-points" class="nav-link" data-scroll-target="#influential-points"><span class="toc-section-number">5.3</span>  Influential points</a></li>
+  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="toc-section-number">5.4</span>  Collinearity</a></li>
   </ul>
 </nav>
     </div>
@@ -417,10 +418,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1834.</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
+  <th>Date:</th>             <td>Sun, 05 Feb 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
 </tr>
 <tr>
-  <th>Time:</th>                 <td>02:32:10</td>     <th>  Log-Likelihood:    </th> <td> -1173.8</td>
+  <th>Time:</th>                 <td>19:31:46</td>     <th>  Log-Likelihood:    </th> <td> -1173.8</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>   2372.</td>
@@ -670,7 +671,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>69</code></pre>
 </div>
 </div>
-<p>Note the RMSE has reduced to almost half of its value corresponding to the regression model without the predictor - <code>model</code>. Car model does help better explain the variation in price of cars! The number of points with absolute studentized residuals greater than 3 has also reduced to 69 from 86.</p>
+<p>Note the RMSE has reduced to almost half of its value as compared to the regression model without the predictor - <code>model</code>. Car model does help better explain the variation in price of cars! The number of points with absolute studentized residuals greater than 3 has also reduced to 69 from 86.</p>
 </section>
 <section id="high-leverage-points" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="high-leverage-points"><span class="header-section-number">5.2</span> High leverage points</h2>
@@ -682,12 +683,12 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <p><strong>Influential points:</strong> Note that if a high leverage point falls in line with the regression line, then it will not affect the regression line. However, it may inflate R-squared and increase the significance of predictors. If a high leverage point falls away from the regression line, then it is also an outlier, and will affect the regression line. The points whose presence significantly affects the regression line are called influential points. A point that is both a high leverage point and an outlier is likely to be an influential point. However, a high leverage point is not necessarily an influential point.</p>
 <p><em>Source for influential points: https://online.stat.psu.edu/stat501/book/export/html/973</em></p>
 <p>Let us see if there are any high leverage points in our regression model without the predictor - <code>model</code>.</p>
-<div class="cell" data-execution_count="75">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with an interaction term and a variable transformation term</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="75">
+<div class="cell-output cell-output-display" data-execution_count="4">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -701,10 +702,10 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   1834.</td>
 </tr>
 <tr>
-  <th>Date:</th>             <td>Sun, 29 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
+  <th>Date:</th>             <td>Sun, 05 Feb 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td> 
 </tr>
 <tr>
-  <th>Time:</th>                 <td>01:25:04</td>     <th>  Log-Likelihood:    </th> <td> -1173.8</td>
+  <th>Time:</th>                 <td>19:31:59</td>     <th>  Log-Likelihood:    </th> <td> -1173.8</td>
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>   2372.</td>
@@ -776,7 +777,7 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 </tbody></table><br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.73e+13. This might indicate that there are<br>strong multicollinearity or other numerical problems.
 </div>
 </div>
-<div class="cell" data-execution_count="76">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing the leverage statistic for each observation</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>influence <span class="op">=</span> model_log.get_influence()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>leverage <span class="op">=</span> influence.hat_matrix_diag</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -813,6 +814,9 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <pre><code>197</code></pre>
 </div>
 </div>
+</section>
+<section id="influential-points" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="influential-points"><span class="header-section-number">5.3</span> Influential points</h2>
 <p>Observations that are both high leverage points and outliers are influential points that may affect the regression line. Let’s remove these influential points from the data and see if it improves the model prediction accuracy on test data.</p>
 <div class="cell" data-execution_count="82">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dropping influential points from data</span></span>
@@ -938,11 +942,14 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 </div>
 <p>The RMSE on test data has also reduced. This shows that some of the influential points were impacting the regression line. With those points removed, the model better captures the general trend in the data.</p>
 </section>
-<section id="collinearity" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="collinearity"><span class="header-section-number">5.3</span> Collinearity</h2>
+<section id="collinearity" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="collinearity"><span class="header-section-number">5.4</span> Collinearity</h2>
 <p>Collinearity refers to the situation when two or more predictor variables have a high linear association. Linear association between a pair of variables can be measured by the correlation coefficient. Thus the correlation matrix can indicate some potential collinearity problems.</p>
 <p><strong>Why and how is collinearity a problem</strong> (page 100-101 of book): The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response.</p>
 <p>Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for <span class="math inline">\(\hat \beta_j\)</span> to grow. Recall that the t-statistic for each predictor is calculated by dividing <span class="math inline">\(\hat \beta_j\)</span> by its standard error. Consequently, collinearity results in a decline in the <span class="math inline">\(t\)</span>-statistic. As a result, in the presence of collinearity, we may fail to reject <span class="math inline">\(H_0: \beta_j = 0\)</span>. This means that the power of the hypothesis test—the probability of correctly detecting a non-zero coefficient—is reduced by collinearity.</p>
+<p>The estimated variance of the coefficient <span class="math inline">\(\beta_j\)</span>, of the <span class="math inline">\(j^{th}\)</span> predictor <span class="math inline">\(X_j\)</span>, can be expressed as:</p>
+<p><span class="math display">\[\hat{var}(\hat{\beta_j}) = \frac{(\hat{\sigma})^2}{(n-1)\hat{var}({X_j})}.\frac{1}{1-R^2_{X_j|X_{-j}}},\]</span></p>
+<p>where <span class="math inline">\(R^2_{X_j|X_{-j}}\)</span> is the <span class="math inline">\(R\)</span>-squared for the regression of <span class="math inline">\(X_j\)</span> on the other covariates (a regression that does not involve the response variable <span class="math inline">\(Y\)</span>)</p>
 <p><strong>How to measure collinearity/multicollinearity</strong> (page 102 of book): Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix: it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation. We call this situation multicollinearity. Instead of inspecting the correlation matrix, a better way to assess multi- collinearity is to compute the variance inflation factor (VIF). The VIF is variance inflation factor the ratio of the variance of <span class="math inline">\(\hat \beta_j\)</span> when fitting the full model divided by the variance of <span class="math inline">\(\hat \beta_j\)</span> if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. Typically in practice there is a small amount of collinearity among the predictors. As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity. The VIF for each variable can be computed using the formula:</p>
 <p><span class="math display">\[\begin{equation}
 VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
@@ -1074,6 +1081,8 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 </div>
 <p>As all the values of VIF are close to one, we do not have the problem of multicollinearity in the model. Note that the VIF of <code>year</code> and <code>mileage</code> is relatively high as they are the most correlated.</p>
+<p><strong>Q1:</strong> Why is the VIF of the constant so high?</p>
+<p><strong>Q2:</strong> Why do we need to include the constant while finding the VIF?</p>
 <div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'year~mpg+engineSize+mileage'</span>, data <span class="op">=</span> train)</span>
