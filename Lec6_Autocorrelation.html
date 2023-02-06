@@ -290,13 +290,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Below is an example showing violation of the autocorrelation assumption <em>(refer to the book to understand autocorrelation)</em> in linear regression. Subsequently, it is shown that addressing the assumption violation leads to a much better model fit.</p>
 <section id="introduction" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
-<p><strong>Example:</strong> Using linear regression models to predict electricity demand in Toronto.</p>
+<p><strong>Example:</strong> Using linear regression models to predict electricity demand in Toronto, CA.</p>
 <p>We have hourly power demand and temperature (in Celsius) data from 2017 to 2020.</p>
 <p>We are going to build a linear model to predict the hourly power demand for the next day (for example, when it is 1/1/2021, we predict hourly demand on 1/2/2021 using historical data and the weather forecasts).</p>
 <p>When we are building a model, it is important to keep in mind what data we can use as features. For this model:</p>
 <ul>
 <li><p>We cannot use previous hourly data as features. (Although in a high frequency setting, it is possible)</p></li>
-<li><p>The temprature in our raw data can not be used directly, since is the actual, not the forecasted temperature. We are going to use the previous day temperature as the forcast.</p></li>
+<li><p>The temperature in our raw data can not be used directly, since is the actual, not the forecasted temperature. We are going to use the previous day temperature as the forecast.</p></li>
 </ul>
 <p><strong>Source:</strong> <a href="https://towardsdatascience.com/keep-it-simple-keep-it-linear-a-linear-regression-model-for-time-series-5dbc83d89fc3">Keep it simple, keep it linear: A linear regression model for time series</a></p>
 <div class="cell" data-outputid="dfcee015-b588-4506-9909-03945d594c03" data-execution_count="1">
