@@ -296,7 +296,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>When we are building a model, it is important to keep in mind what data we can use as features. For this model:</p>
 <ul>
 <li><p>We cannot use previous hourly data as features. (Although in a high frequency setting, it is possible)</p></li>
-<li><p>The temperature in our raw data can not be used directly, since is the actual, not the forecasted temperature. We are going to use the previous day temperature as the forecast.</p></li>
+<li><p>The temperature in our raw data can not be used directly, since it is the actual, not the forecasted temperature. We are going to use the previous day temperature as the forecast.</p></li>
 </ul>
 <p><strong>Source:</strong> <a href="https://towardsdatascience.com/keep-it-simple-keep-it-linear-a-linear-regression-model-for-time-series-5dbc83d89fc3">Keep it simple, keep it linear: A linear regression model for time series</a></p>
 <div class="cell" data-outputid="dfcee015-b588-4506-9909-03945d594c03" data-execution_count="1">
@@ -3978,7 +3978,7 @@ It is not a linear relationship. We create two features corresponding to hot and
 <section id="predictors-temperature-1-day-lag-of-power-1-week-lag-of-power-2-weeks-lag-of-power" class="level2" data-number="6.6">
 <h2 data-number="6.6" class="anchored" data-anchor-id="predictors-temperature-1-day-lag-of-power-1-week-lag-of-power-2-weeks-lag-of-power"><span class="header-section-number">6.6</span> ## Predictors: Temperature + 1 day lag of power + 1 week lag of power + 2 weeks lag of power</h2>
 <p>Although the data shows there is a significant (but not strong) correlation, we need to be cautious to use this feature because there are no simple reasons for this relationship.</p>
-<p>For 1-day-lag feature, the correlation is easily to be understood.</p>
+<p>For 1-day-lag feature, the correlation is easily understood.</p>
 <p>For 1-week-lag feature, we could argue that the behaviour is different between weekday and weekend.</p>
 <p>But for 2-week-lag feature, it is hard to understand especially when we have included 1-day-lag and 1-week-lag features. The relation is spurious.</p>
 <div class="cell" data-outputid="d913fdde-539d-444b-d590-11789f920363">
