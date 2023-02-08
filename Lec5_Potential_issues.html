@@ -260,7 +260,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#outliers" id="toc-outliers" class="nav-link active" data-scroll-target="#outliers"><span class="toc-section-number">5.1</span>  Outliers</a></li>
   <li><a href="#high-leverage-points" id="toc-high-leverage-points" class="nav-link" data-scroll-target="#high-leverage-points"><span class="toc-section-number">5.2</span>  High leverage points</a></li>
   <li><a href="#influential-points" id="toc-influential-points" class="nav-link" data-scroll-target="#influential-points"><span class="toc-section-number">5.3</span>  Influential points</a></li>
-  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="toc-section-number">5.4</span>  Collinearity</a></li>
+  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="toc-section-number">5.4</span>  Collinearity</a>
+  <ul>
+  <li><a href="#why-and-how-is-collinearity-a-problem" id="toc-why-and-how-is-collinearity-a-problem" class="nav-link" data-scroll-target="#why-and-how-is-collinearity-a-problem"><span class="toc-section-number">5.4.1</span>  Why and how is collinearity a problem</a></li>
+  <li><a href="#how-to-measure-collinearitymulticollinearity" id="toc-how-to-measure-collinearitymulticollinearity" class="nav-link" data-scroll-target="#how-to-measure-collinearitymulticollinearity"><span class="toc-section-number">5.4.2</span>  How to measure collinearity/multicollinearity</a></li>
+  <li><a href="#manual-computation-of-vif" id="toc-manual-computation-of-vif" class="nav-link" data-scroll-target="#manual-computation-of-vif"><span class="toc-section-number">5.4.3</span>  Manual computation of VIF</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -286,7 +291,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
 <p>Let us continue with the car price prediction example from the previous chapter.</p>
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -294,14 +299,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<div class="cell-output cell-output-display" data-execution_count="3">
 
 <div>
 
@@ -945,12 +950,21 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <section id="collinearity" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="collinearity"><span class="header-section-number">5.4</span> Collinearity</h2>
 <p>Collinearity refers to the situation when two or more predictor variables have a high linear association. Linear association between a pair of variables can be measured by the correlation coefficient. Thus the correlation matrix can indicate some potential collinearity problems.</p>
-<p><strong>Why and how is collinearity a problem</strong> (page 100-101 of book): The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response.</p>
-<p>Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for <span class="math inline">\(\hat \beta_j\)</span> to grow. Recall that the t-statistic for each predictor is calculated by dividing <span class="math inline">\(\hat \beta_j\)</span> by its standard error. Consequently, collinearity results in a decline in the <span class="math inline">\(t\)</span>-statistic. As a result, in the presence of collinearity, we may fail to reject <span class="math inline">\(H_0: \beta_j = 0\)</span>. This means that the power of the hypothesis test—the probability of correctly detecting a non-zero coefficient—is reduced by collinearity.</p>
+<section id="why-and-how-is-collinearity-a-problem" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="why-and-how-is-collinearity-a-problem"><span class="header-section-number">5.4.1</span> Why and how is collinearity a problem</h3>
+<p><em>(Source: page 100-101 of book)</em></p>
+<p>The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response.</p>
+<p>Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for <span class="math inline">\(\hat \beta_j\)</span> to grow. Recall that the t-statistic for each predictor is calculated by dividing <span class="math inline">\(\hat \beta_j\)</span> by its standard error. Consequently, collinearity results in a decline in the <span class="math inline">\(t\)</span>-statistic. As a result, <strong>in the presence of collinearity, we may fail to reject <span class="math inline">\(H_0: \beta_j = 0\)</span>. This means that the power of the hypothesis test—the probability of correctly detecting a non-zero coefficient—is reduced by collinearity.</strong></p>
+</section>
+<section id="how-to-measure-collinearitymulticollinearity" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="how-to-measure-collinearitymulticollinearity"><span class="header-section-number">5.4.2</span> How to measure collinearity/multicollinearity</h3>
+<p><em>(Source: page 102 of book)</em></p>
+<p>Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix: it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation. We call this situation multicollinearity. Instead of inspecting the correlation matrix, a better way to assess multicollinearity is to compute the variance inflation factor (VIF). The VIF is variance inflation factor the ratio of the variance of <span class="math inline">\(\hat \beta_j\)</span> when fitting the full model divided by the variance of <span class="math inline">\(\hat \beta_j\)</span> if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. Typically in practice there is a small amount of collinearity among the predictors. As a rule of thumb, a <strong>VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity.</strong></p>
 <p>The estimated variance of the coefficient <span class="math inline">\(\beta_j\)</span>, of the <span class="math inline">\(j^{th}\)</span> predictor <span class="math inline">\(X_j\)</span>, can be expressed as:</p>
 <p><span class="math display">\[\hat{var}(\hat{\beta_j}) = \frac{(\hat{\sigma})^2}{(n-1)\hat{var}({X_j})}.\frac{1}{1-R^2_{X_j|X_{-j}}},\]</span></p>
-<p>where <span class="math inline">\(R^2_{X_j|X_{-j}}\)</span> is the <span class="math inline">\(R\)</span>-squared for the regression of <span class="math inline">\(X_j\)</span> on the other covariates (a regression that does not involve the response variable <span class="math inline">\(Y\)</span>)</p>
-<p><strong>How to measure collinearity/multicollinearity</strong> (page 102 of book): Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix: it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation. We call this situation multicollinearity. Instead of inspecting the correlation matrix, a better way to assess multi- collinearity is to compute the variance inflation factor (VIF). The VIF is variance inflation factor the ratio of the variance of <span class="math inline">\(\hat \beta_j\)</span> when fitting the full model divided by the variance of <span class="math inline">\(\hat \beta_j\)</span> if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. Typically in practice there is a small amount of collinearity among the predictors. As a rule of thumb, a VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity. The VIF for each variable can be computed using the formula:</p>
+<p>where <span class="math inline">\(R^2_{X_j|X_{-j}}\)</span> is the <span class="math inline">\(R\)</span>-squared for the regression of <span class="math inline">\(X_j\)</span> on the other covariates (a regression that does not involve the response variable <span class="math inline">\(Y\)</span>).</p>
+<p>In case of simple linear regression, the variance expression in the equation above does not contain the term <span class="math inline">\(\frac{1}{1-R^2_{X_j|X_{-j}}}\)</span>, as there is only one predictor. However, in case of multiple linear regression, the variance of the estimate of the <span class="math inline">\(j^{th}\)</span> coefficient (<span class="math inline">\(\hat{\beta_j}\)</span>) gets inflated by a factor of <span class="math inline">\(\frac{1}{1-R^2_{X_j|X_{-j}}}\)</span> <em>(Note that in the complete absence of collinearity, <span class="math inline">\(R^2_{X_j|X_{-j}}=0\)</span>, and the value of this factor will be 1).</em></p>
+<p>Thus, the Variance inflation factor, or the VIF for the estimated coefficient of the <span class="math inline">\(j^{th}\)</span> predictor <span class="math inline">\(X_j\)</span> is:</p>
 <p><span class="math display">\[\begin{equation}
 VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 \end{equation}\]</span></p>
@@ -1083,6 +1097,9 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 <p>As all the values of VIF are close to one, we do not have the problem of multicollinearity in the model. Note that the VIF of <code>year</code> and <code>mileage</code> is relatively high as they are the most correlated.</p>
 <p><strong>Q1:</strong> Why is the VIF of the constant so high?</p>
 <p><strong>Q2:</strong> Why do we need to include the constant while finding the VIF?</p>
+</section>
+<section id="manual-computation-of-vif" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="manual-computation-of-vif"><span class="header-section-number">5.4.3</span> Manual computation of VIF</h3>
 <div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'year~mpg+engineSize+mileage'</span>, data <span class="op">=</span> train)</span>
@@ -1161,11 +1178,11 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 </div>
 <p>Note that year and mileage have a high linear correlation. Removing one of them should decrease the standard error of the coefficient of the other, without significanty decrease R-squared.</p>
-<div class="cell" data-execution_count="20">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+mileage+year'</span>, data <span class="op">=</span> train)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="5">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -1179,10 +1196,10 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2410.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 30 Jan 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Tue, 07 Feb 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>02:46:56</td>     <th>  Log-Likelihood:    </th> <td> -52497.</td> 
+  <th>Time:</th>                 <td>21:39:45</td>     <th>  Log-Likelihood:    </th> <td> -52497.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.050e+05</td>
@@ -1234,11 +1251,11 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 </div>
 <p>Removing mileage from the above regression.</p>
-<div class="cell" data-execution_count="223">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+year'</span>, data <span class="op">=</span> train)</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="223">
+<div class="cell-output cell-output-display" data-execution_count="7">
 
 <table class="simpletable">
 <caption>OLS Regression Results</caption>
@@ -1252,10 +1269,10 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
   <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   2951.</td> 
 </tr>
 <tr>
-  <th>Date:</th>             <td>Mon, 24 Jan 2022</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
+  <th>Date:</th>             <td>Tue, 07 Feb 2023</td> <th>  Prob (F-statistic):</th>  <td>  0.00</td>  
 </tr>
 <tr>
-  <th>Time:</th>                 <td>00:04:28</td>     <th>  Log-Likelihood:    </th> <td> -52635.</td> 
+  <th>Time:</th>                 <td>21:40:00</td>     <th>  Log-Likelihood:    </th> <td> -52635.</td> 
 </tr>
 <tr>
   <th>No. Observations:</th>      <td>  4960</td>      <th>  AIC:               </th> <td>1.053e+05</td>
@@ -1306,6 +1323,7 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 <p>Note that the standard error of the coefficient of <em>year</em> has reduced from 73 to 48, without any large reduction in R-squared.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
