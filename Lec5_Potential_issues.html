@@ -265,6 +265,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#why-and-how-is-collinearity-a-problem" id="toc-why-and-how-is-collinearity-a-problem" class="nav-link" data-scroll-target="#why-and-how-is-collinearity-a-problem"><span class="toc-section-number">5.4.1</span>  Why and how is collinearity a problem</a></li>
   <li><a href="#how-to-measure-collinearitymulticollinearity" id="toc-how-to-measure-collinearitymulticollinearity" class="nav-link" data-scroll-target="#how-to-measure-collinearitymulticollinearity"><span class="toc-section-number">5.4.2</span>  How to measure collinearity/multicollinearity</a></li>
   <li><a href="#manual-computation-of-vif" id="toc-manual-computation-of-vif" class="nav-link" data-scroll-target="#manual-computation-of-vif"><span class="toc-section-number">5.4.3</span>  Manual computation of VIF</a></li>
+  <li><a href="#when-can-we-overlook-multicollinearity" id="toc-when-can-we-overlook-multicollinearity" class="nav-link" data-scroll-target="#when-can-we-overlook-multicollinearity"><span class="toc-section-number">5.4.4</span>  When can we overlook multicollinearity?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -1321,6 +1322,14 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 </div>
 <p>Note that the standard error of the coefficient of <em>year</em> has reduced from 73 to 48, without any large reduction in R-squared.</p>
+</section>
+<section id="when-can-we-overlook-multicollinearity" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="when-can-we-overlook-multicollinearity"><span class="header-section-number">5.4.4</span> When can we overlook multicollinearity?</h3>
+<ul>
+<li><p>The severity of the problems increases with the degree of the multicollinearity. Therefore, if there is only moderate multicollinearity <em>(5 &lt; VIF &lt; 10)</em>, we may overlook it.</p></li>
+<li><p>Multicollinearity affects only the standard errors of the coefficients of collinear predictors. Therefore, if multicollinearity is not present for the predictors that we are particularly interested in, we may not need to resolve it.</p></li>
+<li><p>Multicollinearity affects the standard error of the coefficients and thereby their <span class="math inline">\(p\)</span>-values, but it does not influence the prediction accuracy, and the goodness-of-fit statistics. If our sole aim is prediction, and we don’t wish to infer the statistical significance of predictors, then we don’t need to address multicollinearity. “<em>The fact that some or all predictor variables are correlated among themselves does not, in general, inhibit our ability to obtain a good fit nor does it tend to affect inferences about mean responses or predictions of new observations, provided these inferences are made within the region of observations” - Neter, John, Michael H. Kutner, Christopher J. Nachtsheim, and William Wasserman. “Applied linear statistical models.” (1996): 318.</em></p></li>
+</ul>
 
 
 </section>
