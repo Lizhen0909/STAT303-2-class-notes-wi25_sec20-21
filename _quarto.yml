@@ -23,6 +23,7 @@ book:
         - Lec4_ModelAssumptions.ipynb
         - Lec5_Potential_issues.ipynb
         - Lec6_Autocorrelation.ipynb
+    - part: "Logistic regression"
         - Lec7_logistic_regression.ipynb
   appendices: 
     - Assignment 1.ipynb
