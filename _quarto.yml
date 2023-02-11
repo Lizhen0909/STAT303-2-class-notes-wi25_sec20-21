@@ -24,6 +24,7 @@ book:
         - Lec5_Potential_issues.ipynb
         - Lec6_Autocorrelation.ipynb
     - part: "Logistic regression"
+      chapters:
         - Lec7_logistic_regression.ipynb
   appendices: 
     - Assignment 1.ipynb
