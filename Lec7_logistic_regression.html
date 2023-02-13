@@ -272,20 +272,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#theory-behind-logistic-regression" id="toc-theory-behind-logistic-regression" class="nav-link active" data-scroll-target="#theory-behind-logistic-regression"><span class="toc-section-number">8</span>  Theory Behind Logistic Regression</a>
+  <li><a href="#theory-behind-logistic-regression" id="toc-theory-behind-logistic-regression" class="nav-link active" data-scroll-target="#theory-behind-logistic-regression"><span class="toc-section-number">7.1</span>  Theory Behind Logistic Regression</a>
   <ul>
-  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"><span class="toc-section-number">8.0.1</span>  Description</a>
+  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"><span class="toc-section-number">7.1.1</span>  Description</a>
   <ul class="collapse">
-  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="toc-section-number">8.0.1.1</span>  Logistic Regression</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic Regression</a></li>
   </ul></li>
+  <li><a href="#prepare-data-for-logistic-regression" id="toc-prepare-data-for-logistic-regression" class="nav-link" data-scroll-target="#prepare-data-for-logistic-regression"><span class="toc-section-number">7.1.2</span>  Prepare Data for Logistic Regression</a></li>
   </ul></li>
-  <li><a href="#prepare-data-for-logistic-regression" id="toc-prepare-data-for-logistic-regression" class="nav-link" data-scroll-target="#prepare-data-for-logistic-regression"><span class="toc-section-number">9</span>  Prepare Data for Logistic Regression</a></li>
-  <li><a href="#logistic-regression-scikit-learn-vs-statsmodels" id="toc-logistic-regression-scikit-learn-vs-statsmodels" class="nav-link" data-scroll-target="#logistic-regression-scikit-learn-vs-statsmodels"><span class="toc-section-number">10</span>  Logistic Regression Scikit-learn vs Statsmodels</a>
-  <ul>
-  <li><a href="#training-a-logistic-regression-model" id="toc-training-a-logistic-regression-model" class="nav-link" data-scroll-target="#training-a-logistic-regression-model"><span class="toc-section-number">10.1</span>  Training a logistic regression model</a></li>
-  <li><a href="#confusion-matrix-and-prediction-accuracy" id="toc-confusion-matrix-and-prediction-accuracy" class="nav-link" data-scroll-target="#confusion-matrix-and-prediction-accuracy"><span class="toc-section-number">10.2</span>  Confusion matrix and prediction accuracy</a></li>
-  <li><a href="#variable-tranformations-in-logistic-regression" id="toc-variable-tranformations-in-logistic-regression" class="nav-link" data-scroll-target="#variable-tranformations-in-logistic-regression"><span class="toc-section-number">10.3</span>  Variable tranformations in logistic regression</a></li>
-  </ul></li>
+  <li><a href="#logistic-regression-scikit-learn-vs-statsmodels" id="toc-logistic-regression-scikit-learn-vs-statsmodels" class="nav-link" data-scroll-target="#logistic-regression-scikit-learn-vs-statsmodels"><span class="toc-section-number">7.2</span>  Logistic Regression Scikit-learn vs Statsmodels</a></li>
+  <li><a href="#training-a-logistic-regression-model" id="toc-training-a-logistic-regression-model" class="nav-link" data-scroll-target="#training-a-logistic-regression-model"><span class="toc-section-number">7.3</span>  Training a logistic regression model</a></li>
+  <li><a href="#confusion-matrix-and-prediction-accuracy" id="toc-confusion-matrix-and-prediction-accuracy" class="nav-link" data-scroll-target="#confusion-matrix-and-prediction-accuracy"><span class="toc-section-number">7.4</span>  Confusion matrix and prediction accuracy</a></li>
+  <li><a href="#variable-tranformations-in-logistic-regression" id="toc-variable-tranformations-in-logistic-regression" class="nav-link" data-scroll-target="#variable-tranformations-in-logistic-regression"><span class="toc-section-number">7.5</span>  Variable tranformations in logistic regression</a></li>
   </ul>
 </nav>
     </div>
@@ -310,13 +308,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
-<section id="theory-behind-logistic-regression" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Theory Behind Logistic Regression</h1>
+<section id="theory-behind-logistic-regression" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="theory-behind-logistic-regression"><span class="header-section-number">7.1</span> Theory Behind Logistic Regression</h2>
 <p>Logistic regression is the go-to linear classification algorithm for two-class problems. It is easy to implement, easy to understand and gets great results on a wide variety of problems, even when the expectations the method has for your data are violated.</p>
-<section id="description" class="level3" data-number="8.0.1">
-<h3 data-number="8.0.1" class="anchored" data-anchor-id="description"><span class="header-section-number">8.0.1</span> Description</h3>
-<section id="logistic-regression" class="level4" data-number="8.0.1.1">
-<h4 data-number="8.0.1.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">8.0.1.1</span> Logistic Regression</h4>
+<section id="description" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="description"><span class="header-section-number">7.1.1</span> Description</h3>
+<section id="logistic-regression" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="logistic-regression">Logistic Regression</h4>
 <p>Logistic regression is named for the function used at the core of the method, the <a href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a>.</p>
 <p>The logistic function, also called the <strong><code>Sigmoid function</code></strong> was developed by statisticians to describe properties of population growth in ecology, rising quickly and maxing out at the carrying capacity of the environment. It’s an S-shaped curve that can take any real-valued number and map it into a value between 0 and 1, but never exactly at those limits.</p>
 <p><span class="math display">\[\frac{1}{1 + e^{-x}}\]</span></p>
@@ -353,9 +351,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>When you are learning logistic, you can implement it yourself from scratch using the much simpler gradient descent algorithm.</p>
 </section>
 </section>
-</section>
-<section id="prepare-data-for-logistic-regression" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Prepare Data for Logistic Regression</h1>
+<section id="prepare-data-for-logistic-regression" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="prepare-data-for-logistic-regression"><span class="header-section-number">7.1.2</span> Prepare Data for Logistic Regression</h3>
 <p>The assumptions made by logistic regression about the distribution and relationships in your data are much the same as the assumptions made in linear regression.</p>
 <p>Much study has gone into defining these assumptions and precise probabilistic and statistical language is used. My advice is to use these as guidelines or rules of thumb and experiment with different data preparation schemes.</p>
 <p>Ultimately in predictive modeling machine learning projects you are laser focused on making accurate predictions rather than interpreting the results. As such, you can break some assumptions as long as the model is robust and performs well.</p>
@@ -367,12 +364,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>Fail to Converge:</strong> It is possible for the expected likelihood estimation process that learns the coefficients to fail to converge. This can happen if there are many highly correlated inputs in your data or the data is very sparse (e.g.&nbsp;lots of zeros in your input data).</li>
 </ul>
 </section>
-<section id="logistic-regression-scikit-learn-vs-statsmodels" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Logistic Regression Scikit-learn vs Statsmodels</h1>
+</section>
+<section id="logistic-regression-scikit-learn-vs-statsmodels" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="logistic-regression-scikit-learn-vs-statsmodels"><span class="header-section-number">7.2</span> Logistic Regression Scikit-learn vs Statsmodels</h2>
 <p>Python gives us two ways to do logistic regression. Statsmodels offers modeling from the perspective of statistics. Scikit-learn offers some of the same models from the perspective of machine learning.</p>
 <p>So we need to understand the difference between statistics and machine learning! Statistics makes mathematically valid inferences about a population based on sample data. Statistics answers the question, “What is the evidence that X is related to Y?” Machine learning has the goal of optimizing predictive accuracy rather than inference. Machine learning answers the question, “Given X, what prediction should we make for Y?”</p>
-<section id="training-a-logistic-regression-model" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="training-a-logistic-regression-model"><span class="header-section-number">10.1</span> Training a logistic regression model</h2>
+<p>Let us first see the use of <code>statsmodels</code> for logistic regression.</p>
+</section>
+<section id="training-a-logistic-regression-model" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="training-a-logistic-regression-model"><span class="header-section-number">7.3</span> Training a logistic regression model</h2>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -578,8 +578,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>No, assuming a significance level of <span class="math inline">\(\alpha = 5\%\)</span>, <code>Gender</code> is not associated with probability of default, as the <span class="math inline">\(p\)</span>-value for <code>Male</code> is greater than 0.05.</p>
 </section>
-<section id="confusion-matrix-and-prediction-accuracy" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="confusion-matrix-and-prediction-accuracy"><span class="header-section-number">10.2</span> Confusion matrix and prediction accuracy</h2>
+<section id="confusion-matrix-and-prediction-accuracy" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="confusion-matrix-and-prediction-accuracy"><span class="header-section-number">7.4</span> Confusion matrix and prediction accuracy</h2>
 <p>A confusion matrix is a summary of prediction results on a classification problem. The number of correct and incorrect predictions are summarized with count values and broken down by each class.</p>
 <p><em><a href="https://machinelearningmastery.com/confusion-matrix-machine-learning/#:~:text=A%20confusion%20matrix%20is%20a%20summary%20of%20prediction%20results%20on,key%20to%20the%20confusion%20matrix">Source</a></em></p>
 <div class="cell" data-execution_count="15">
@@ -781,8 +781,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Is the odds ratio for a unit increase in a predictor <span class="math inline">\(X_j\)</span>, a constant (assuming that the rest of the predictors are held constant)?</strong></p>
 <p>Yes, the odds ratio in this case will <span class="math inline">\(e^{\beta_j}\)</span></p>
 </section>
-<section id="variable-tranformations-in-logistic-regression" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="variable-tranformations-in-logistic-regression"><span class="header-section-number">10.3</span> Variable tranformations in logistic regression</h2>
+<section id="variable-tranformations-in-logistic-regression" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="variable-tranformations-in-logistic-regression"><span class="header-section-number">7.5</span> Variable tranformations in logistic regression</h2>
 <p>Read the dataset <em>diabetes.csv</em> that contains if a person has diabetes (<em>Outcome = 1</em>) based on health parameters such as BMI, blood pressure, age etc. Develop a model to predict the probability of a person having diabetes based on their age.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/diabetes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1522,7 +1522,6 @@ If the number of bins are too less, the trend may not be captured accurately. If
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
