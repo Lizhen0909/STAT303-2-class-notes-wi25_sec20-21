@@ -393,7 +393,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>The regression line goes below 0 and over 1. However, probability of purchase must be in [0,1].</p></li>
 <li><p>The linear regression model does not seem to fit the data well.</p></li>
 </ol>
-<p>Now, let us fit a logistic regression model to predict probaility of purchase based on age.</p>
+<p>Now, let us fit a logistic regression model to predict probability of purchase based on <code>Age</code>.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> <span class="st">'Age'</span>, y <span class="op">=</span> <span class="st">'Purchased'</span>, data <span class="op">=</span> train, color <span class="op">=</span> <span class="st">'orange'</span>) <span class="co">#Visualizing data</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>logit_model <span class="op">=</span> sm.logit(formula <span class="op">=</span> <span class="st">'Purchased~Age'</span>, data <span class="op">=</span> train).fit() <span class="co">#Developing logistic regression model</span></span>
