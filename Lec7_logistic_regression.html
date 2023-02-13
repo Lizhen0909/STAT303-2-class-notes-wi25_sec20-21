@@ -301,7 +301,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
 <section id="training-a-logistic-regression-model" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="training-a-logistic-regression-model"><span class="header-section-number">7.1</span> Training a logistic regression model</h2>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -309,7 +309,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> sm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Read the data on social network ads. The data shows if the person purchased a product when targeted with an ad on social media. Fit a logistic regression model to predict if a user will purchase the product based on their characteristics such as age, gender and estimated salary.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Social_Network_Ads_train.csv'</span>) <span class="co">#Develop the model on train data</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Social_Network_Ads_test.csv'</span>) <span class="co">#Test the model on test data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -394,7 +394,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>The linear regression model does not seem to fit the data well.</p></li>
 </ol>
 <p>Now, let us fit a logistic regression model to predict probability of purchase based on <code>Age</code>.</p>
-<div class="cell" data-execution_count="15">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> <span class="st">'Age'</span>, y <span class="op">=</span> <span class="st">'Purchased'</span>, data <span class="op">=</span> train, color <span class="op">=</span> <span class="st">'orange'</span>) <span class="co">#Visualizing data</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>logit_model <span class="op">=</span> sm.logit(formula <span class="op">=</span> <span class="st">'Purchased~Age'</span>, data <span class="op">=</span> train).fit() <span class="co">#Developing logistic regression model</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> <span class="st">'Age'</span>, y<span class="op">=</span> logit_model.predict(train), data <span class="op">=</span> train, color <span class="op">=</span> <span class="st">'blue'</span>) <span class="co">#Visualizing model</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -403,7 +403,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
          Current function value: 0.430107
          Iterations 7</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>&lt;AxesSubplot:xlabel='Age', ylabel='Purchased'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -510,7 +510,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 data-number="7.2" class="anchored" data-anchor-id="confusion-matrix-and-prediction-accuracy"><span class="header-section-number">7.2</span> Confusion matrix and prediction accuracy</h2>
 <p>A confusion matrix is a summary of prediction results on a classification problem. The number of correct and incorrect predictions are summarized with count values and broken down by each class.</p>
 <p><em><a href="https://machinelearningmastery.com/confusion-matrix-machine-learning/#:~:text=A%20confusion%20matrix%20is%20a%20summary%20of%20prediction%20results%20on,key%20to%20the%20confusion%20matrix">Source</a></em></p>
-<div class="cell" data-execution_count="18">
+<div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on training data</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_matrix_train(model,cutoff<span class="op">=</span><span class="fl">0.5</span>):</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Confusion matrix</span></span>
@@ -524,16 +524,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cm_df, accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Find the confusion matrix and classification accuracy of the model with <code>Age</code> as the predictor on training data.</p>
-<div class="cell" data-execution_count="19">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_train(logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>(          Predicted 0  Predicted 1
  Actual 0        181.0         13.0
  Actual 1         37.0         69.0,
  83.33333333333333)</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="20">
+<div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on test data</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_matrix_test(data,actual_values,model,cutoff<span class="op">=</span><span class="fl">0.5</span>):</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Predict the values using the Logit model</span></span>
@@ -551,9 +551,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cm_df, accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Find the confusion matrix and classification accuracy of the model with <code>Age</code> as the predictor on test data.</p>
-<div class="cell" data-execution_count="21">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_test(test,test.Purchased,logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>(          Predicted 0  Predicted 1
  Actual 0         58.0          5.0
  Actual 1          9.0         28.0,
@@ -561,8 +561,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>The model classifies a bit more accurately on test data as compared to the training data, which is a bit unusual. However, it shows that the model did not overfit on training data.</p>
-<p><strong>Include EstimatedSalary as a predictor in the above model</strong></p>
-<div class="cell" data-execution_count="22">
+<p><strong>Include <code>EstimatedSalary</code> as a predictor in the above model</strong></p>
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>logit_model2 <span class="op">=</span> sm.logit(formula <span class="op">=</span> <span class="st">'Purchased~Age+EstimatedSalary'</span>, data <span class="op">=</span> train).fit()</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>logit_model2.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -570,7 +570,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
          Current function value: 0.358910
          Iterations 7</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="10">
 
 <table class="simpletable">
 <caption>Logit Regression Results</caption>
@@ -584,10 +584,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <th>Method:</th>                 <td>MLE</td>       <th>  Df Model:          </th>  <td>     2</td>  
 </tr>
 <tr>
-  <th>Date:</th>            <td>Tue, 19 Apr 2022</td> <th>  Pseudo R-squ.:     </th>  <td>0.4474</td>  
+  <th>Date:</th>            <td>Mon, 13 Feb 2023</td> <th>  Pseudo R-squ.:     </th>  <td>0.4474</td>  
 </tr>
 <tr>
-  <th>Time:</th>                <td>16:46:11</td>     <th>  Log-Likelihood:    </th> <td> -107.67</td> 
+  <th>Time:</th>                <td>01:09:53</td>     <th>  Log-Likelihood:    </th> <td> -107.67</td> 
 </tr>
 <tr>
   <th>converged:</th>             <td>True</td>       <th>  LL-Null:           </th> <td> -194.85</td> 
@@ -612,26 +612,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tbody></table>
 </div>
 </div>
-<div class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_train(logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="23">
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_train(logit_model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>(          Predicted 0  Predicted 1
- Actual 0        181.0         13.0
- Actual 1         37.0         69.0,
+ Actual 0        178.0         16.0
+ Actual 1         34.0         72.0,
  83.33333333333333)</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_test(test,test.Purchased,logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_test(test,test.Purchased,logit_model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>(          Predicted 0  Predicted 1
  Actual 0         58.0          5.0
- Actual 1          9.0         28.0,
- 86.0)</code></pre>
+ Actual 1          6.0         31.0,
+ 89.0)</code></pre>
 </div>
 </div>
 <p>The log likelihood of the model has increased, while also increasing the prediction accuracy on test data, which shows that the additional predictor is helping explain the response better, without overfitting the data.</p>
-<p><strong>Include Gender as a predictor in the above model</strong></p>
+<p><strong>Include <code>Gender</code> as a predictor in the above model</strong></p>
 <div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>logit_model <span class="op">=</span> sm.logit(formula <span class="op">=</span> <span class="st">'Purchased~Age+EstimatedSalary+Gender'</span>, data <span class="op">=</span> train).fit()</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>logit_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -703,7 +703,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
  88.0)</code></pre>
 </div>
 </div>
-<p>As Gender is an insignificant variable, including it slightly lowers the classification accuracy on test data. Note that the classification accuracy on training data will continue to increase on adding more predictors, irrespective of their relevance.</p>
+<p><code>Gender</code> is a statistically insignificant predictor, and including it slightly lowers the classification accuracy on test data. Note that the classification accuracy on training data will continue to increase on adding more predictors, irrespective of their relevance <em>(similar to the idea of RSS on training data in linear regression)</em>.</p>
 <p><strong>Is there a residual in logistic regression?</strong></p>
 <p>No, since the response is assumed to have a Bernoulli distribution, instead of a normal distribution.</p>
 <p><strong>Is the odds ratio for a unit increase in a predictor <span class="math inline">\(X_j\)</span>, a constant (assuming that the rest of the predictors are held constant)?</strong></p>
@@ -712,12 +712,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="variable-tranformations-in-logistic-regression" class="level2" data-number="7.3">
 <h2 data-number="7.3" class="anchored" data-anchor-id="variable-tranformations-in-logistic-regression"><span class="header-section-number">7.3</span> Variable tranformations in logistic regression</h2>
 <p>Read the dataset <em>diabetes.csv</em> that contains if a person has diabetes (<em>Outcome = 1</em>) based on health parameters such as BMI, blood pressure, age etc. Develop a model to predict the probability of a person having diabetes based on their age.</p>
-<div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'diabetes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/diabetes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="7">
 
 <div>
 
@@ -803,7 +803,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Randomly select 80% of the observations to create a training dataset. Create a test dataset with the remaining 20% observations.</p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating training and test datasets</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> data.sample(<span class="bu">round</span>(data.shape[<span class="dv">0</span>]<span class="op">*</span><span class="fl">0.8</span>))</span>
@@ -861,16 +861,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Classification accuracy on test data = 60%</p>
 <p>Can a tranformation of <code>Age</code> provide a more accurate model?</p>
 <p>Let us visualize how the probability of people having diabetes varies with <code>Age</code>. We will bin <code>Age</code> to get the percentage of people having diabetes within different <code>Age</code> bins.</p>
-<div class="cell" data-execution_count="84">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Binning Age</span></span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>binned_age <span class="op">=</span> pd.qcut(train[<span class="st">'Age'</span>],<span class="dv">11</span>,retbins<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>train[<span class="st">'age_binned'</span>] <span class="op">=</span> binned_age[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="85">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Finding percentage of people having diabetes in each Age bin</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>age_data <span class="op">=</span> train.groupby(<span class="st">'age_binned'</span>)[<span class="st">'Outcome'</span>].agg([(<span class="st">'diabetes_percent'</span>,<span class="st">'mean'</span>),(<span class="st">'nobs'</span>,<span class="st">'count'</span>)]).reset_index(drop<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>age_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="85">
+<div class="cell-output cell-output-display" data-execution_count="10">
 
 <div>
 
@@ -955,11 +955,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="86">
+<div class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing percentage of people having diabets with increasing Age (or Age bins)</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> age_data.index, y<span class="op">=</span> age_data[<span class="st">'diabetes_percent'</span>])</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Age_bin'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="86">
+<div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>Text(0.5, 0, 'Age_bin')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -968,7 +968,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>We observe that the probability of people having diabetes does <strong>not</strong> keep increaseing monotonically with age. People with ages 52 and more have a lower probability of having diabetes than people in the immediately younger <code>Age</code> bin.</p>
 <p>A quadratic transformation of <code>Age</code> may better fit the above trend</p>
-<div class="cell" data-execution_count="87">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with the quadratic transformation of Age</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jitter(values,j):</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> values <span class="op">+</span> np.random.normal(j,<span class="fl">0.02</span>,values.shape)</span>
@@ -981,16 +981,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
          Current function value: 0.586025
          Iterations 6</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="87">
+<div class="cell-output cell-output-display" data-execution_count="12">
 <pre><code>-359.81925590230185</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec7_logistic_regression_files/figure-html/cell-29-output-3.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="88">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>logit_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="88">
+<div class="cell-output cell-output-display" data-execution_count="13">
 
 <table class="simpletable">
 <caption>Logit Regression Results</caption>
@@ -1004,10 +1004,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <th>Method:</th>                 <td>MLE</td>       <th>  Df Model:          </th>  <td>     2</td>  
 </tr>
 <tr>
-  <th>Date:</th>            <td>Wed, 20 Apr 2022</td> <th>  Pseudo R-squ.:     </th>  <td>0.08307</td> 
+  <th>Date:</th>            <td>Mon, 13 Feb 2023</td> <th>  Pseudo R-squ.:     </th>  <td>0.08307</td> 
 </tr>
 <tr>
-  <th>Time:</th>                <td>01:13:43</td>     <th>  Log-Likelihood:    </th> <td> -359.82</td> 
+  <th>Time:</th>                <td>09:04:10</td>     <th>  Log-Likelihood:    </th> <td> -359.82</td> 
 </tr>
 <tr>
   <th>converged:</th>             <td>True</td>       <th>  LL-Null:           </th> <td> -392.42</td> 
@@ -1033,18 +1033,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>The log likelihood of the model is higher and both the predictors are statistically significant indicating a better model fit. However, the model may also be overfitting. Let us check the model accuracy on test data.</p>
-<div class="cell" data-execution_count="89">
+<div class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_train(logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="89">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <pre><code>(          Predicted 0  Predicted 1
  Actual 0        338.0         69.0
  Actual 1        127.0         80.0,
  68.07817589576547)</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="90">
+<div class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_test(test,test.Outcome,logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="90">
+<div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>(          Predicted 0  Predicted 1
  Actual 0         80.0         13.0
  Actual 1         35.0         26.0,
@@ -1053,10 +1053,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>The classification accuracy on test data has increased to 69%. However, the number of <em>false positives</em> have increased. But in case of diabetes, <em>false negatives</em> are more concerning that <em>false positives</em>. This is because if a person has diabetes, and is told that they do not have diabetes, their condition may deteriorate. If a person does not have diabetes, and is told that they have diabetes, they may take unnecessary precautions or tests, but it will not be as harmful to the person as in the previous case. So, in this problem, we will be more focused on reducing the number of <em>false negatives</em>, instead of reducing the <em>false positives</em> or increasing the overall classification accuracy.</p>
 <p>We can decrease the cutoff for classifying a person as having diabetes to reduce the number of false negatives.</p>
-<div class="cell" data-execution_count="91">
+<div class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Reducing the cutoff for classifying a person as diabetic to 0.3 (instead of 0.5)</span></span>
 <span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>confusion_matrix_test(test,test.Outcome,logit_model,<span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="91">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <pre><code>(          Predicted 0  Predicted 1
  Actual 0         58.0         35.0
  Actual 1         12.0         49.0,
@@ -1066,7 +1066,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Note that the changed cut-off reduced the number of <em>false negatives</em>, but at the cost of increasing the <em>false positives</em>. However, the stakeholders may prefer the reduced cut-off to be safer.</p>
 <p><strong>Is there another way to transform <code>Age</code>?</strong></p>
 <p>Yes, binning age into bins that have similar proportion of people with diabetes may provide a better model fit.</p>
-<div class="cell" data-execution_count="92">
+<div class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a function to bin age so that it can be applied to both the test and train datasets</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> var_transform(data):</span>
 <span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    binned_age <span class="op">=</span> pd.qcut(train[<span class="st">'Age'</span>],<span class="dv">10</span>,retbins<span class="op">=</span><span class="va">True</span>)</span>
@@ -1077,24 +1077,24 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.concat([data,dum], axis <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="93">
+<div class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Binning age using the function var_transform()</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> var_transform(train)</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> var_transform(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="94">
+<div class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Re-creating the plot of diabetes_percent vs age created earlier, just to check if the function binned age correctly. Yes, it did.</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>age_data <span class="op">=</span> train.groupby(<span class="st">'age_binned'</span>)[<span class="st">'Outcome'</span>].agg([(<span class="st">'diabetes_percent'</span>,<span class="st">'mean'</span>),(<span class="st">'nobs'</span>,<span class="st">'count'</span>)]).reset_index(drop<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> age_data.index, y<span class="op">=</span> age_data[<span class="st">'diabetes_percent'</span>])</span>
 <span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Age_bin'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="94">
+<div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>Text(0.5, 0, 'Age_bin')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec7_logistic_regression_files/figure-html/cell-36-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<div class="cell" data-execution_count="95">
+<div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with binned Age</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> jitter(values,j):</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> values <span class="op">+</span> np.random.normal(j,<span class="fl">0.02</span>,values.shape)</span>
@@ -1106,7 +1106,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
          Current function value: 0.585956
          Iterations 6</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="95">
+<div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>&lt;AxesSubplot:xlabel='Age', ylabel='Outcome'&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -1114,9 +1114,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Note that the probability of having diabetes for each age bin is a constant, as per the above plot.</p>
-<div class="cell" data-execution_count="96">
+<div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_test(test,test.Outcome,logit_model,<span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="96">
+<div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>(          Predicted 0  Predicted 1
  Actual 0         53.0         40.0
  Actual 1         10.0         51.0,
@@ -1124,9 +1124,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Binning <code>Age</code> provides a similar results as compared to the model with the quadratic transformation of <code>Age</code>.</p>
-<div class="cell" data-execution_count="97">
+<div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="97">
+<div class="cell-output cell-output-display" data-execution_count="25">
 
 <div>
 
@@ -1271,7 +1271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with the quadratic transformation of Age and more predictors</span></span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>logit_model <span class="op">=</span> sm.logit(formula <span class="op">=</span> <span class="st">'Outcome~Age+I(Age**2)+Glucose+BloodPressure+BMI+DiabetesPedigreeFunction'</span>, data <span class="op">=</span> train).fit()</span>
 <span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>logit_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1280,7 +1280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
          Current function value: 0.470478
          Iterations 6</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="26">
 
 <table class="simpletable">
 <caption>Logit Regression Results</caption>
@@ -1294,10 +1294,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <th>Method:</th>                 <td>MLE</td>       <th>  Df Model:          </th>  <td>     6</td>  
 </tr>
 <tr>
-  <th>Date:</th>            <td>Mon, 25 Apr 2022</td> <th>  Pseudo R-squ.:     </th>  <td>0.2639</td>  
+  <th>Date:</th>            <td>Mon, 13 Feb 2023</td> <th>  Pseudo R-squ.:     </th>  <td>0.2639</td>  
 </tr>
 <tr>
-  <th>Time:</th>                <td>11:26:50</td>     <th>  Log-Likelihood:    </th> <td> -288.87</td> 
+  <th>Time:</th>                <td>09:04:43</td>     <th>  Log-Likelihood:    </th> <td> -288.87</td> 
 </tr>
 <tr>
   <th>converged:</th>             <td>True</td>       <th>  LL-Null:           </th> <td> -392.42</td> 
@@ -1335,7 +1335,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>Adding more predictors has increased the log likelihood of the model as expected.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on test/train data</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_matrix_data(data,actual_values,model,cutoff<span class="op">=</span><span class="fl">0.5</span>):</span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Predict the values using the Logit model</span></span>
@@ -1361,7 +1361,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Confusion matrix = </span><span class="ch">\n</span><span class="st">"</span>, cm_df)</span>
 <span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (<span class="st">" "</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_data(train,train.Outcome,logit_model, cutoff <span class="op">=</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy =  74.2671009771987
@@ -1374,11 +1374,11 @@ Confusion matrix =
 Actual 0        292.0        115.0
 Actual 1         43.0        164.0</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="28">
 <pre><code>' '</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_data(test,test.Outcome,logit_model,<span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Accuracy =  80.51948051948052
@@ -1391,7 +1391,7 @@ Confusion matrix =
 Actual 0         70.0         23.0
 Actual 1          7.0         54.0</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="29">
 <pre><code>' '</code></pre>
 </div>
 </div>
@@ -1404,7 +1404,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 </ol>
 <p>Optimizing the number of bins for each predictor may be a time-consuming exercises. You may choose to do it for your course project. However, we wil not do in the rest of the course.</p>
 <p><strong>Visualize the ROC curve and compute the ROC-AUC for the developed classification model</strong></p>
-<div class="cell" data-execution_count="64">
+<div class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span>train.Outcome</span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>ypred <span class="op">=</span> logit_model.predict(train)</span>
@@ -1428,6 +1428,24 @@ If the number of bins are too less, the trend may not be captured accurately. If
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="Lec7_logistic_regression_files/figure-html/cell-44-output-2.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Visualize the precision-recall curve for the developed model</strong></p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_recall_curve</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>p, r, thresholds <span class="op">=</span> precision_recall_curve(y, ypred)</span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_precision_recall_vs_threshold(precisions, recalls, thresholds):</span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Precision and Recall Scores as a function of the decision threshold"</span>)</span>
+<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>    plt.plot(thresholds, precisions[:<span class="op">-</span><span class="dv">1</span>], <span class="st">"b--"</span>, label<span class="op">=</span><span class="st">"Precision"</span>)</span>
+<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>    plt.plot(thresholds, recalls[:<span class="op">-</span><span class="dv">1</span>], <span class="st">"g-"</span>, label<span class="op">=</span><span class="st">"Recall"</span>)</span>
+<span id="cb76-8"><a href="#cb76-8" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Score"</span>)</span>
+<span id="cb76-9"><a href="#cb76-9" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Decision Threshold"</span>)</span>
+<span id="cb76-10"><a href="#cb76-10" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc<span class="op">=</span><span class="st">'best'</span>)</span>
+<span id="cb76-11"><a href="#cb76-11" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb76-12"><a href="#cb76-12" aria-hidden="true" tabindex="-1"></a>plot_precision_recall_vs_threshold(p, r, thresholds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Lec7_logistic_regression_files/figure-html/cell-45-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 
