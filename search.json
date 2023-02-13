@@ -238,9 +238,205 @@
     "text": "C.3 Autocorrelation\nRefer to the autocorrelation example in the class notes. Predict the power consumption for each hour of each day of the year 2020. For predicting a power consumption on a particular hour of a day, use all the data you have until the previous day. However, don’t use any data of the day on which you are making the predictions. For example, for making 24 predictions for each hour of 4th April, 2020, use all the data upto 3rd April 2020. Make the predictions using four different models:\n\nModel with only temp_hot and temp_cold as the predictors\nModel including one day lag of power as a predictor in addition to the predictors in model (1)\nModel including one week lag of power as a predictor in addition to the predictors in model (2)\nModel including two weeks lag of power as a predictor in addition to the predictors in model (3)\n\nFor each model:\n\nReport the RMSE for the predicted power in 2020. You should have 366 x 24 = 8784 predicted values of power for each model.\nMake a scatterplot of predicted power vs actual power (use color = ‘orange’). Plot the line x = y over the scatterplot (use color = ‘blue’).\n\nWhich model makes the most accurate predictions?\n(4 points for developing the models + 4 points for computing the predictions + 4 points for computing the RMSEs + 2 points for the visualizations + 1 point for identifying the most accurate model)"
   },
   {
+    "objectID": "Assignment D.html#instructions",
+    "href": "Assignment D.html#instructions",
+    "title": "Appendix D — Assignment D",
+    "section": "Instructions",
+    "text": "Instructions\n\nYou may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nDo not write your name on the assignment.\nWrite your code in the Code cells and your answer in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to understand and grade.\nUse Quarto to print the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Tuesday, 21st February 2023 at 11:59 pm.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\n\nMust be an HTML file rendered using Quarto (1 pt). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission (1 pt)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 pt)\nFinal answers of each question are written in Markdown cells (1 pt).\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text (1 pt)"
+  },
+  {
+    "objectID": "Assignment D.html#data-description",
+    "href": "Assignment D.html#data-description",
+    "title": "Appendix D — Assignment D",
+    "section": "Data description",
+    "text": "Data description\nThe data is related with direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls, where bank clients were called to subscribe for a term deposit.\nThere is one train data - train.csv, which you will use to develop a model. There are two test datasets - test1.csv and test2.csv, which you will use to test your model. Each dataset has the following attributes about the clients called in the marketing campaign:\n\nage: Age of the client\neducation: Education level of the client\nday: Day of the month the call is made\nmonth: Month of the call\ny: did the client subscribe to a term deposit?\nduration: Call duration, in seconds. This attribute highly affects the output target (e.g., if duration=0 then y=‘no’). Yet, the duration is not known before a call is performed. Also, after the end of the call y is obviously known. Thus, this input should only be included for inference purposes and should be discarded if the intention is to have a realistic predictive model.\n\n(Raw data source: Source. Do not use the raw data source for this assingment. It is just for reference.)"
+  },
+  {
+    "objectID": "Assignment D.html#instructions-suggestions-for-answering-questions",
+    "href": "Assignment D.html#instructions-suggestions-for-answering-questions",
+    "title": "Appendix D — Assignment D",
+    "section": "Instructions / suggestions for answering questions",
+    "text": "Instructions / suggestions for answering questions\n\nInstruction: Use train.csv for all questions, unless otherwise stated.\nSuggestion 1: You may use the functions in the class notes for printing the confusion matrix and the overall classification accuracy based on test / train data.\nSuggestion 2:: If you make variable transformations, you will need to do it for all the three datasets. Your code will be a bit concise if you make a function containing all the transformations, and then call it for the training and the two test datasets. You can put this function in the beginning of the code and keep adding transformations to it as you proceed with the assignment. You may need transformations in questions (1) and (13)."
+  },
+  {
+    "objectID": "Assignment D.html#d.1-probability-of-response-vs-call-duration",
+    "href": "Assignment D.html#d.1-probability-of-response-vs-call-duration",
+    "title": "Appendix D — Assignment D",
+    "section": "D.1 D.1 Probability of response vs call duration",
+    "text": "D.1 D.1 Probability of response vs call duration\nRead the datasets. Make an appropriate visualization to visualize how the proportion of clients subscribing to a term deposit change with increasing call duration.\n(4 points)\nHints:\n\nBin duration to create duration_binned. Group the data to find the fraction of clients responding positively to the marketing campaign for each bin in duration_binned. Make a lineplot of percentage of clients subscribing to a term deposit vs duration_binned, where the bins in duration_binned are arranged in increasing order of duration.\nYou may choose an appropriate number of bins & type of binning that helps you visualize well.\nYou may also think of other ways of visualization. You don’t need to stick with this one."
+  },
+  {
+    "objectID": "Assignment D.html#d.2-predictor-duration",
+    "href": "Assignment D.html#d.2-predictor-duration",
+    "title": "Appendix D — Assignment D",
+    "section": "D.2 D.2 Predictor duration",
+    "text": "D.2 D.2 Predictor duration\nBased on the plot in D.1, comment whether duration seems to be a useful variable to predict if the client will subsribe to a term deposit.\n(1 point)"
+  },
+  {
+    "objectID": "Assignment D.html#d.3-model-based-on-duration",
+    "href": "Assignment D.html#d.3-model-based-on-duration",
+    "title": "Appendix D — Assignment D",
+    "section": "D.3 D.3 Model based on duration",
+    "text": "D.3 D.3 Model based on duration\nDevelop a logisitic regression model to predict if the client subscribed to a term deposit based on call duration. Use the model to make a lineplot showing the probability of the client subscribing to a term deposit based on call duration.\n(3 points)"
+  },
+  {
+    "objectID": "Assignment D.html#note--",
+    "href": "Assignment D.html#note--",
+    "title": "Appendix D — Assignment D",
+    "section": "D.4 Note {-}:",
+    "text": "D.4 Note {-}:\nAnswer questions D.4 to D.11 based on the regression model developed in D.3."
+  },
+  {
+    "objectID": "Assignment D.html#d.4-model-significance",
+    "href": "Assignment D.html#d.4-model-significance",
+    "title": "Appendix D — Assignment D",
+    "section": "D.5 D.4 Model significance",
+    "text": "D.5 D.4 Model significance\nIs the regression model in statistically significant? Justify your answer.\n(1 point for code, 1 point for answer)"
+  },
+  {
+    "objectID": "Assignment D.html#d.5-subscription-probability-in-5-minutes",
+    "href": "Assignment D.html#d.5-subscription-probability-in-5-minutes",
+    "title": "Appendix D — Assignment D",
+    "section": "D.6 D.5 Subscription probability in 5 minutes",
+    "text": "D.6 D.5 Subscription probability in 5 minutes\nWhat is the probability that the client subscribes to a term deposit with a 5-minute marketing call? Note that the call duration in data is given in seconds.\n(2 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.6-call-duration-for-subscription",
+    "href": "Assignment D.html#d.6-call-duration-for-subscription",
+    "title": "Appendix D — Assignment D",
+    "section": "D.7 D.6 Call duration for subscription",
+    "text": "D.7 D.6 Call duration for subscription\nWhat is the minimum call duration (in minutes) for which a client has a 95% or higher chance of subscribing to a term deposit?\n(4 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.7-maximum-call-duration",
+    "href": "Assignment D.html#d.7-maximum-call-duration",
+    "title": "Appendix D — Assignment D",
+    "section": "D.8 D.7 Maximum call duration",
+    "text": "D.8 D.7 Maximum call duration\nWhat is the maximum call duration (in minutes) in which a client refused to subscribe to a term deposit? What was the probability of the client subscribing to the term deposit in that call?\n(4 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.8-percent-increase-in-odds",
+    "href": "Assignment D.html#d.8-percent-increase-in-odds",
+    "title": "Appendix D — Assignment D",
+    "section": "D.9 D.8 Percent increase in odds",
+    "text": "D.9 D.8 Percent increase in odds\nWhat is the percentage increase in the odds of a client suscribing to a term deposit when the call duration increases by a minute?\n(4 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.9-doubling-the-subscription-odds",
+    "href": "Assignment D.html#d.9-doubling-the-subscription-odds",
+    "title": "Appendix D — Assignment D",
+    "section": "D.10 D.9 Doubling the subscription odds",
+    "text": "D.10 D.9 Doubling the subscription odds\nHow much must the call duration increase (in minutes) so that it doubles the odds of the client subscribing to a term deposit.\n(3 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.10-classification-accuracy",
+    "href": "Assignment D.html#d.10-classification-accuracy",
+    "title": "Appendix D — Assignment D",
+    "section": "D.11 D.10 Classification accuracy",
+    "text": "D.11 D.10 Classification accuracy\nWhat is minimum overall classification accuracy of the model among the classification accuracies on train.csv, test1.csv and test2.csv? Consider a threshold of 30% when classifying observations.\n(2 + 1 + 1 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.11-recall",
+    "href": "Assignment D.html#d.11-recall",
+    "title": "Appendix D — Assignment D",
+    "section": "D.12 D.11 Recall",
+    "text": "D.12 D.11 Recall\nWhat is the minimum Recall of the model among the Recall performance on train.csv, test1.csv and test2.csv? Consider a decision threshold probability of 30% when classifying observations.\nHere, Recall is the proportion of clients predicted to subscribe to a term deposit among those who actually subscribed.\n(3 points for code)"
+  },
+  {
+    "objectID": "Assignment D.html#d.12-subscription-probability-based-on-age-and-education",
+    "href": "Assignment D.html#d.12-subscription-probability-based-on-age-and-education",
+    "title": "Appendix D — Assignment D",
+    "section": "D.13 D.12 Subscription probability based on age and education",
+    "text": "D.13 D.12 Subscription probability based on age and education\nDevelop a logistic regression model to predict the probability of a client subscribing to a term deposit based on age, education and the two-factor interaction between age and education. Based on the model, answer:\n\nPeople with which type of education (primary / secondary / tertiary / unknown) have the highest percentage increase in odds of subscribing to a term deposit with a unit increase in age? Justify your answer.\nWhat is the percentage increase in odds of a person subscribing to a term deposit for a unit increase in age, if the person has tertiary education.\nWhat is the percentage increase in odds of a person subscribing to a term deposit for a unit increase in age, if the person has primary education.\n\n(1 point for developing the model, 3 points for (a), 3 points for (b), 3 points for (c))"
+  },
+  {
+    "objectID": "Assignment D.html#d.13-model-development",
+    "href": "Assignment D.html#d.13-model-development",
+    "title": "Appendix D — Assignment D",
+    "section": "D.14 D.13 Model development",
+    "text": "D.14 D.13 Model development\nDevelop a logistic regression model (using train.csv) to predict the probability of a client subscribing to a term deposit based on age, education, day and month. The model must have:\n\nMinimum overall classification accuracy of 75% among the classifcation accuracies on train.csv, test1.csv and test2.csv.\nMinimum recall of 50% among the recall performance on train.csv, test1.csv and test2.csv.\n\nFor all the three datasets - train.csv, test1.csv and test2.csv, print the:\n\nModel summary (only for train.csv),\nConfusion matrices,\nOverall classification accuracies, and\nRecall\n\nNote that:\n\nYou cannot use duration as a predictor because its value is determined after the marketing call ends. However, after the call ends, we already know whether the client responded positively or negatively. That is why we have used duration only for inference in the previous questions. It helped us understand the effect of the length of the call on marketing success.\nIt is possible to develop the model satisfying constrains (a) and (b) with just appropriate transformation(s) of the predictor(s). However, you may consider interactions if you wish. Justify the transformations, if any, with visualizations.\nYou are free to choose any value of the decision thershold probability for classifying observations. However, you must use the same threshold on all the three datasets.\n\n(15 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.14-roc-auc",
+    "href": "Assignment D.html#d.14-roc-auc",
+    "title": "Appendix D — Assignment D",
+    "section": "D.15 D.14 ROC-AUC",
+    "text": "D.15 D.14 ROC-AUC\nReport the probability that the model will predict a higher probability of response for a customer who signs up for the term deposit as compared to the customer who does not sign up, i.e., the ROC-AUC of the developed model in D.13.\nHint: Use the functions roc_curve, and auc from the sklearn.metrics module\n(3 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.15-net-profit",
+    "href": "Assignment D.html#d.15-net-profit",
+    "title": "Appendix D — Assignment D",
+    "section": "D.16 D.15 Net-profit",
+    "text": "D.16 D.15 Net-profit\nSuppose that the model developed in D.13 is used to predict the clients in test1.csv and test2.csv who will respond positively to the campaign. Only those clients who are predicted to respond positively are called during the marketing campaign. Assume that:\n\nA profit of \\$100 is associated with a client who responds positively to the campaign,\nA loss of \\$10 is associated with a client who responds negatively to the campaign\n\nWhat is the net profit from the campaign? Use the confusion matrices printed in D.13.\n(4 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.16-decision-threshold-probability",
+    "href": "Assignment D.html#d.16-decision-threshold-probability",
+    "title": "Appendix D — Assignment D",
+    "section": "D.17 D.16 Decision threshold probability",
+    "text": "D.17 D.16 Decision threshold probability\nBased on the profit and loss associated with client responses specified in D.15, and the model developed in D.13, find the decision threshold probability of classification, such that the net profit is maximized. Use train.csv\nProceed as follows:\n\nYou would have obtained FPR and TPR for all potential decision threshold probabilities in D.14.\nFormulate an expression quantifying the net profit per client (among all the clients called in the marketing campaign), in terms of FPR, TPR, and the overall response rate, i.e., proportion of people actually subscribing to the term deposit.\nFind the decision threshold probability that maximizes the expression in (2).\n\n(5 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.17-net-profit-based-on-new-decision-threshold-probability",
+    "href": "Assignment D.html#d.17-net-profit-based-on-new-decision-threshold-probability",
+    "title": "Appendix D — Assignment D",
+    "section": "D.18 D.17 Net profit based on new decision threshold probability",
+    "text": "D.18 D.17 Net profit based on new decision threshold probability\nUsing the new decision threshold probability obtained in D.16, answer D.15, i.e., what is the net-profit associated with the clients in test1.csv and test2.csv if a marketing campaign is performed. Again, only those clients who are predicted to respond positively, based on the new decision threshold probability, are called during the marketing campaign\nAlso, print the confusion matrices for predictions on test1.csv and test2.csv with the new threshold probability.\n(4 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.18-model-preference",
+    "href": "Assignment D.html#d.18-model-preference",
+    "title": "Appendix D — Assignment D",
+    "section": "D.19 D.18 Model preference",
+    "text": "D.19 D.18 Model preference\nWas the classification accuracy of the model in D.13 higher than that of the model in D.17? If yes, then should you prefer the model in D.13 for the marketing campaingn? Why or why not?\nNote: The model in D.17 is the same as in D.13, except with a different decision threshold probability\n(3 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.19-roc-curve",
+    "href": "Assignment D.html#d.19-roc-curve",
+    "title": "Appendix D — Assignment D",
+    "section": "D.20 D.19 ROC curve",
+    "text": "D.20 D.19 ROC curve\nPlot the ROC curve for the model developed in D.13. Mark the point on the curve corresponding the decision threshold probability identified in D.16.\nNote that the ROC curve is independent of the decision threshold probability used by the model for prediction\n(3 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.20-profit-with-tpr-fpr",
+    "href": "Assignment D.html#d.20-profit-with-tpr-fpr",
+    "title": "Appendix D — Assignment D",
+    "section": "D.21 D.20 Profit with TPR / FPR",
+    "text": "D.21 D.20 Profit with TPR / FPR\nMake a scatterplot of TPR vs FPR, and color the points based on net profit per client.\nYou can use the following code to make the plot if you have the relevant metrics in tpr, fpr, and net_profit\n(1 point)\n\n\nCode\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nsns.set(font_scale=1.5)\nplt.rcParams[\"figure.figsize\"] = (9,6)\nplt.rcParams[\"figure.autolayout\"] = True\nf, ax = plt.subplots()\npoints = ax.scatter(fpr, tpr, c = net_profit, s=50, cmap=\"Blues\")\nf.colorbar(points, label = \"Net profit ($) \\n(per client)\")\nplt.xlabel(\"False positive rate\")\nplt.ylabel(\"True positive rate\")\nplt.show()"
+  },
+  {
+    "objectID": "Assignment D.html#d.21-precision-recall",
+    "href": "Assignment D.html#d.21-precision-recall",
+    "title": "Appendix D — Assignment D",
+    "section": "D.22 D.21 Precision-recall",
+    "text": "D.22 D.21 Precision-recall\nCompare the precision and recall of the models in D.13 and D.17 on train.csv.\nNote: The model in D.17 is the same as in D.13, except with a different decision threshold probability\n(4 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.22-precision-recall-important-metric",
+    "href": "Assignment D.html#d.22-precision-recall-important-metric",
+    "title": "Appendix D — Assignment D",
+    "section": "D.23 D.22 Precision-recall: important metric",
+    "text": "D.23 D.22 Precision-recall: important metric\nBased on the above comparison, which metric among precision and recall turns out to be more important for maximizing the net profit in the marketing campaign?\n(1 point)"
+  },
+  {
+    "objectID": "Assignment D.html#d.23-precision-recall-curve",
+    "href": "Assignment D.html#d.23-precision-recall-curve",
+    "title": "Appendix D — Assignment D",
+    "section": "D.24 D.23 Precision-recall curve",
+    "text": "D.24 D.23 Precision-recall curve\nPlot the precision-recall curve vs decision threshold probability for the model developed in D.13. Mark the points on the curve corresponding to the decision threshold probability identified in D.16.\n(3 points)"
+  },
+  {
+    "objectID": "Assignment D.html#d.24-precision-recall-vs-fpr-tpr",
+    "href": "Assignment D.html#d.24-precision-recall-vs-fpr-tpr",
+    "title": "Appendix D — Assignment D",
+    "section": "D.25 D.24 Precision-recall vs FPR-TPR",
+    "text": "D.25 D.24 Precision-recall vs FPR-TPR\nInstead of using the FPR and TPR metrics to find the optimium decision threshold probability in D.16, used the precision-recall metrics to find the same.\n(5 points)"
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
-    "title": "Appendix D — Datasets, assignment and project files",
+    "title": "Appendix E — Datasets, assignment and project files",
     "section": "",
     "text": "Datasets used in the book, assignment files, project files, and prediction problems report tempate can be found here"
   }
