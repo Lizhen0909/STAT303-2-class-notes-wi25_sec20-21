@@ -340,7 +340,7 @@
     "href": "Assignment D.html#recall",
     "title": "Appendix D — Assignment D",
     "section": "D.11 Recall",
-    "text": "D.11 Recall\nWhat is the minimum Recall of the model among the Recall performance on train.csv, test1.csv and test2.csv? Consider a decision threshold probability of 30% when classifying observations.\nHere, Recall is the proportion of clients predicted to subscribe to a term deposit among those who actually subscribed.\n(3 points for code)"
+    "text": "D.11 Recall\nWhat is the minimum Recall of the model among the Recall performance on train.csv, test1.csv and test2.csv? Consider a decision threshold probability of 30% when classifying observations.\nHere, Recall is the proportion of clients predicted to subscribe to a term deposit among those who actually subscribed.\n(3 points)"
   },
   {
     "objectID": "Assignment D.html#subscription-probability-based-on-age-and-education",
