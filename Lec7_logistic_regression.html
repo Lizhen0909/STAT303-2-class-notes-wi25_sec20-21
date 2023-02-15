@@ -360,8 +360,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 data-number="7.1.2" class="anchored" data-anchor-id="learning-the-logistic-regression-model"><span class="header-section-number">7.1.2</span> Learning the Logistic Regression Model</h3>
 <p>The coefficients (Beta values b) of the logistic regression algorithm must be estimated from your training data. This is done using <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum-likelihood estimation</a>.</p>
 <p>Maximum-likelihood estimation is a common learning algorithm used by a variety of machine learning algorithms, although it does make assumptions about the distribution of your data (more on this when we talk about preparing your data).</p>
-<p>The best coefficients should result in a model that would predict a value very close to 1 (e.g.&nbsp;male) for the default class and a value very close to 0 (e.g.&nbsp;female) for the other class. The intuition for maximum-likelihood for logistic regression is that a search procedure seeks values for the coefficients (Beta values) that maximize the likelihood of the observed data. In other words, in MLE, we estimate the parameter values (Beta values) which are the more likely to produce that data at hand.</p>
-<p>Here is an analogy to understand the idea behind Maximum Likelihood Estimation (MLE). Let us say, you are listening to a song (data). You are not aware of the singer (parameter) of the song. With just the musical piece music at hand, you try to guess the singer (parameter) who you feel is the most likely (MLE) to have sung that song. Your guess a maximum likelihood estimate! Out of all the singers (parameter space) you have chosen them as the one who is the most likely to sing that song (data).</p>
+<p>The best coefficients should result in a model that would predict a value very close to 1 (e.g.&nbsp;male) for the default class and a value very close to 0 (e.g.&nbsp;female) for the other class. The intuition for maximum-likelihood for logistic regression is that a search procedure seeks values for the coefficients (Beta values) that maximize the likelihood of the observed data. In other words, in MLE, we estimate the parameter values (Beta values) which are the most likely to produce that data at hand.</p>
+<p>Here is an analogy to understand the idea behind Maximum Likelihood Estimation (MLE). Let us say, you are listening to a song (data). You are not aware of the singer (parameter) of the song. With just the musical piece at hand, you try to guess the singer (parameter) who you feel is the most likely (MLE) to have sung that song. Your are making a maximum likelihood estimate! Out of all the singers (parameter space) you have chosen them as the one who is the most likely to have sung that song (data).</p>
 <p>We are not going to go into the math of maximum likelihood. It is enough to say that a minimization algorithm is used to optimize the best values for the coefficients for your training data. This is often implemented in practice using efficient numerical optimization algorithm (like the Quasi-newton method).</p>
 <p>When you are learning logistic, you can implement it yourself from scratch using the much simpler gradient descent algorithm.</p>
 </section>
@@ -640,8 +640,16 @@ Name: Purchased, dtype: int64</code></pre>
 <li>Each row: actual class</li>
 <li>Each column: predicted class</li>
 </ul>
-<p>First row: Non-purchasers, the negative class: * 181 were correctly classified as Non-purchasers. <strong>True negatives</strong>. * Remaining 13 were wrongly classified as Non-purchasers. <strong>False positive</strong></p>
-<p>Second row: Purchasers, the positive class: * 37 were incorrectly classified as Non-purchasers. <strong>False negatives</strong> * 69 were correctly classified Purchasers. <strong>True positives</strong></p>
+<p>First row: Non-purchasers, the negative class:</p>
+<ul>
+<li>181 were correctly classified as Non-purchasers. <strong>True negatives</strong>.</li>
+<li>Remaining 13 were wrongly classified as Non-purchasers. <strong>False positive</strong></li>
+</ul>
+<p>Second row: Purchasers, the positive class:</p>
+<ul>
+<li>37 were incorrectly classified as Non-purchasers. <strong>False negatives</strong></li>
+<li>69 were correctly classified Purchasers. <strong>True positives</strong></li>
+</ul>
 <div class="cell" data-execution_count="100">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on test data</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_matrix_test(data,actual_values,model,cutoff<span class="op">=</span><span class="fl">0.5</span>):</span>
@@ -1470,7 +1478,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <li><p>The number of bins for which the trend continues to be “almost” the same for several samples of the data.</p></li>
 <li><p>Testing the model on multiple test datasets.</p></li>
 </ol>
-<p>Optimizing the number of bins for each predictor may be a time-consuming exercises. You may choose to do it for your course project. However, we wil not do in the rest of the course.</p>
+<p>Optimizing the number of bins for each predictor may be a time-consuming exercises. You may do it for your course project. However, we will not do it in the class notes.</p>
 </section>
 <section id="performance-measurement" class="level2" data-number="7.6">
 <h2 data-number="7.6" class="anchored" data-anchor-id="performance-measurement"><span class="header-section-number">7.6</span> Performance Measurement</h2>
@@ -1483,7 +1491,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <p><code>Precision</code> is typically used with <code>recall</code> (<code>Sensitivity</code> or <code>True Positive Rate</code>). The ratio of positive instances that are correctly detected by the classifier.</p>
 <p><span class="math display">\[\textrm{recall} = \frac{\textrm{True Positives}}{\textrm{True Positives} + \textrm{False Negatives}}\]</span> ==&gt; <code>88.52%</code></p>
 <p><strong>Precision / Recall Tradeoff</strong>: Increasing precision reduces recall and vice versa.</p>
-<p><strong>Visualize the precision-recall curve for the model <code>logit_model_diabetes</code></strong></p>
+<p><strong>Visualize the precision-recall curve for the model <code>logit_model_diabetes</code></strong>.</p>
 <div class="cell" data-execution_count="165">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_recall_curve</span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span>train.Outcome</span>
@@ -1530,7 +1538,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <li>High sensitivity</li>
 </ul>
 <p>The area under ROC is called <em>Area Under the Curve(AUC)</em>. AUC gives the rate of successful classification by the logistic model. To get a more in-depth idea of what a ROC-AUC curve is and how is it calculated, here is a good blog <a href="https://www.analyticsvidhya.com/blog/2020/06/auc-roc-curve-machine-learning/">link</a></p>
-<p><strong>Visualize the ROC curve and compute the ROC-AUC for the model <code>logit_model_diabetes</code></strong></p>
+<p><strong>Visualize the ROC curve and compute the ROC-AUC for the model <code>logit_model_diabetes</code></strong>.</p>
 <div class="cell" data-execution_count="166">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span>train.Outcome</span>
