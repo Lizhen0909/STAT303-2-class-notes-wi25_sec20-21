@@ -686,7 +686,7 @@ Total elapsed time: 0.17253828048706055 seconds.</code></pre>
 </section>
 <section id="including-interactions-for-best-subset-selection" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="including-interactions-for-best-subset-selection"><span class="header-section-number">8.1.2</span> Including interactions for best subset selection</h3>
-<p><strong>Let’s perform best subset selection including the 4 predictors of the <em>‘best subset model’</em> obtained above and all their 2-factor interactions</strong></p>
+<p><strong>Let’s perform best subset selection including all the predictors and their 2-factor interactions</strong></p>
 <div class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a dataframe with all the predictors</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> train[[<span class="st">'house_age'</span>, <span class="st">'distance_MRT'</span>, <span class="st">'number_convenience_stores'</span>,<span class="st">'latitude'</span>,<span class="st">'longitude'</span>]]</span>
