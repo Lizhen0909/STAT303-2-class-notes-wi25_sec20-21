@@ -26,6 +26,9 @@ book:
     - part: "Logistic regression"
       chapters:
         - Lec7_logistic_regression.ipynb
+    - part: "Linear models: Variable selection"
+      chapters:
+        - Lec8_ModelSelection_BestSubset_FwdBwd_stepwise.ipynb
   appendices: 
     - Assignment 1.ipynb
     - Assignment B.ipynb
