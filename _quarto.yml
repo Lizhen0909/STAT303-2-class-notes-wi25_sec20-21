@@ -26,7 +26,7 @@ book:
     - part: "Logistic regression"
       chapters:
         - Lec7_logistic_regression.ipynb
-    - part: "Linear models: Variable selection & Regularization"
+    - part: "Variable selection & Regularization"
       chapters:
         - Lec8_ModelSelection_BestSubset_FwdBwd_stepwise.ipynb
         - Lec9_RidgeRegression_Lasso.ipynb
