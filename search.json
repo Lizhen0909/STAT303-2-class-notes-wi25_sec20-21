@@ -438,7 +438,7 @@
     "href": "Assignment D.html#decision-threshold-probability",
     "title": "Appendix D — Assignment D",
     "section": "D.16 Decision threshold probability",
-    "text": "D.16 Decision threshold probability\nBased on the profit and loss associated with client responses specified in D.15, and the model developed in D.13, find the decision threshold probability of classification, such that the net profit is maximized. Use train.csv\nProceed as follows:\n\nYou would have obtained FPR and TPR for all potential decision threshold probabilities in D.14.\nFormulate an expression quantifying the net profit per client (among all the clients called in the marketing campaign), in terms of FPR, TPR, and the overall response rate, i.e., proportion of people actually subscribing to the term deposit.\nFind the decision threshold probability that maximizes the expression in (2).\n\n(5 points)"
+    "text": "D.16 Decision threshold probability\nBased on the profit and loss associated with client responses specified in D.15, and the model developed in D.13, find the decision threshold probability of classification, such that the net profit is maximized. Use train.csv\nProceed as follows:\n\nYou would have obtained FPR and TPR for all potential decision threshold probabilities in D.14.\nFormulate an expression quantifying the net profit per client, in terms of FPR, TPR, and the overall response rate, i.e., proportion of people actually subscribing to the term deposit.\nFind the decision threshold probability that maximizes the expression in (2).\n\n(5 points)"
   },
   {
     "objectID": "Assignment D.html#net-profit-based-on-new-decision-threshold-probability",
