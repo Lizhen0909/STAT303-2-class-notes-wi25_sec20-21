@@ -305,11 +305,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#fitting-the-logistic-regression-model" id="toc-fitting-the-logistic-regression-model" class="nav-link" data-scroll-target="#fitting-the-logistic-regression-model"><span class="toc-section-number">7.3.2</span>  Fitting the logistic regression model</a></li>
   </ul></li>
   <li><a href="#confusion-matrix-and-classification-accuracy" id="toc-confusion-matrix-and-classification-accuracy" class="nav-link" data-scroll-target="#confusion-matrix-and-classification-accuracy"><span class="toc-section-number">7.4</span>  Confusion matrix and classification accuracy</a></li>
-  <li><a href="#variable-tranformations-in-logistic-regression" id="toc-variable-tranformations-in-logistic-regression" class="nav-link" data-scroll-target="#variable-tranformations-in-logistic-regression"><span class="toc-section-number">7.5</span>  Variable tranformations in logistic regression</a></li>
+  <li><a href="#variable-transformations-in-logistic-regression" id="toc-variable-transformations-in-logistic-regression" class="nav-link" data-scroll-target="#variable-transformations-in-logistic-regression"><span class="toc-section-number">7.5</span>  Variable transformations in logistic regression</a></li>
   <li><a href="#performance-measurement" id="toc-performance-measurement" class="nav-link" data-scroll-target="#performance-measurement"><span class="toc-section-number">7.6</span>  Performance Measurement</a>
   <ul>
-  <li><a href="#precision-recall" id="toc-precision-recall" class="nav-link" data-scroll-target="#precision-recall"><span class="toc-section-number">7.6.1</span>  1. Precision-recall</a></li>
-  <li><a href="#the-receiver-operating-characteristics-roc-curve" id="toc-the-receiver-operating-characteristics-roc-curve" class="nav-link" data-scroll-target="#the-receiver-operating-characteristics-roc-curve"><span class="toc-section-number">7.6.2</span>  2. The Receiver Operating Characteristics (ROC) Curve</a></li>
+  <li><a href="#precision-recall" id="toc-precision-recall" class="nav-link" data-scroll-target="#precision-recall"><span class="toc-section-number">7.6.1</span>  Precision-recall</a></li>
+  <li><a href="#the-receiver-operating-characteristics-roc-curve" id="toc-the-receiver-operating-characteristics-roc-curve" class="nav-link" data-scroll-target="#the-receiver-operating-characteristics-roc-curve"><span class="toc-section-number">7.6.2</span>  The Receiver Operating Characteristics (ROC) Curve</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -478,7 +478,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <section id="examining-the-distribution-of-the-target-column" class="level3" data-number="7.3.1">
 <h3 data-number="7.3.1" class="anchored" data-anchor-id="examining-the-distribution-of-the-target-column"><span class="header-section-number">7.3.1</span> Examining the Distribution of the Target Column</h3>
-<p>Make sure our target is not serverly imbalanced</p>
+<p>Make sure our target is not severely imbalanced.</p>
 <div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>train.Purchased.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
@@ -848,8 +848,8 @@ Name: Purchased, dtype: int64</code></pre>
 <p><strong>Is the odds ratio for a unit increase in a predictor <span class="math inline">\(X_j\)</span>, a constant (assuming that the rest of the predictors are held constant)?</strong></p>
 <p>Yes, the odds ratio in this case will <span class="math inline">\(e^{\beta_j}\)</span></p>
 </section>
-<section id="variable-tranformations-in-logistic-regression" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="variable-tranformations-in-logistic-regression"><span class="header-section-number">7.5</span> Variable tranformations in logistic regression</h2>
+<section id="variable-transformations-in-logistic-regression" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="variable-transformations-in-logistic-regression"><span class="header-section-number">7.5</span> Variable transformations in logistic regression</h2>
 <p>Read the dataset <em>diabetes.csv</em> that contains if a person has diabetes (<code>Outcome = 1</code>) based on health parameters such as BMI, blood pressure, age etc. Develop a model to predict the probability of a person having diabetes based on their age.</p>
 <div class="cell" data-execution_count="187">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/diabetes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1570,7 +1570,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <h2 data-number="7.6" class="anchored" data-anchor-id="performance-measurement"><span class="header-section-number">7.6</span> Performance Measurement</h2>
 <p>We have already seen the confusion matrix, and classification accuracy. Now, let us see some other useful performance metrics that can be computed from the confusion matrix. The metrics below are computed for the confusion matrix immendiately above this section <em>(or the confusion matrix on test data corresponding to the model <code>logit_model_diabetes</code>)</em>.</p>
 <section id="precision-recall" class="level3" data-number="7.6.1">
-<h3 data-number="7.6.1" class="anchored" data-anchor-id="precision-recall"><span class="header-section-number">7.6.1</span> 1. Precision-recall</h3>
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="precision-recall"><span class="header-section-number">7.6.1</span> Precision-recall</h3>
 <p><strong>Precision</strong> measures the accuracy of positive predictions. Also called the <code>precision</code> of the classifier</p>
 <p><span class="math display">\[\textrm{precision} = \frac{\textrm{True Positives}}{\textrm{True Positives} + \textrm{False Positives}}\]</span></p>
 <p>==&gt; <code>70.13%</code></p>
@@ -1600,7 +1600,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <p>As the decision threshold probability increases, the precision increases, while the recall decreases.</p>
 </section>
 <section id="the-receiver-operating-characteristics-roc-curve" class="level3" data-number="7.6.2">
-<h3 data-number="7.6.2" class="anchored" data-anchor-id="the-receiver-operating-characteristics-roc-curve"><span class="header-section-number">7.6.2</span> 2. The Receiver Operating Characteristics (ROC) Curve</h3>
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="the-receiver-operating-characteristics-roc-curve"><span class="header-section-number">7.6.2</span> The Receiver Operating Characteristics (ROC) Curve</h3>
 <p>A <strong>ROC(Receiver Operator Characteristic Curve)</strong> is a plot of sensitivity (True Positive Rate) on the y axis against (1−specificity) (False Positive Rate) on the x axis for varying values of the threshold t. The 45° diagonal line connecting (0,0) to (1,1) is the ROC curve corresponding to random chance. The ROC curve for the gold standard is the line connecting (0,0) to (0,1) and (0,1) to (1,1).</p>
 <div class="cell" data-execution_count="169">
 <div class="cell-output cell-output-display" data-execution_count="169">
@@ -1650,7 +1650,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <p><img src="Lec7_logistic_regression_files/figure-html/cell-50-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>Below is a function that prints the confustion matrix along with all the performance metrics we discussed above for a given threshold proabability, on train / test data. Note that ROC-AUC does not depend on a decision threshold probability.</p>
+<p>Below is a function that prints the confusion matrix along with all the performance metrics we discussed above for a given decision threshold probability, on train / test data. Note that ROC-AUC does not depend on a decision threshold probability.</p>
 <div class="cell" data-execution_count="184">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on test/train data</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_matrix_data(data,actual_values,model,cutoff<span class="op">=</span><span class="fl">0.5</span>):</span>
