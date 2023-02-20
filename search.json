@@ -340,7 +340,7 @@
     "href": "Assignment D.html#model-based-on-duration",
     "title": "Appendix D — Assignment D",
     "section": "D.3 Model based on duration",
-    "text": "D.3 Model based on duration\nDevelop a logisitic regression model to predict if the client subscribed to a term deposit based on call duration. Use the model to make a lineplot showing the probability of the client subscribing to a term deposit based on call duration.\n(3 points)"
+    "text": "D.3 Model based on duration\nDevelop a logistic regression model to predict if the client subscribed to a term deposit based on call duration. Use the model to make a lineplot showing the probability of the client subscribing to a term deposit based on call duration.\n(3 points)"
   },
   {
     "objectID": "Assignment D.html#note",
@@ -382,7 +382,7 @@
     "href": "Assignment D.html#percent-increase-in-odds",
     "title": "Appendix D — Assignment D",
     "section": "D.8 Percent increase in odds",
-    "text": "D.8 Percent increase in odds\nWhat is the percentage increase in the odds of a client suscribing to a term deposit when the call duration increases by a minute?\n(4 points)"
+    "text": "D.8 Percent increase in odds\nWhat is the percentage increase in the odds of a client subscribing to a term deposit when the call duration increases by a minute?\n(4 points)"
   },
   {
     "objectID": "Assignment D.html#doubling-the-subscription-odds",
@@ -417,7 +417,7 @@
     "href": "Assignment D.html#model-development",
     "title": "Appendix D — Assignment D",
     "section": "D.13 Model development",
-    "text": "D.13 Model development\nDevelop a logistic regression model (using train.csv) to predict the probability of a client subscribing to a term deposit based on age, education, day and month. The model must have:\n\nMinimum overall classification accuracy of 75% among the classifcation accuracies on train.csv, test1.csv and test2.csv.\nMinimum recall of 50% among the recall performance on train.csv, test1.csv and test2.csv.\n\nFor all the three datasets - train.csv, test1.csv and test2.csv, print the:\n\nModel summary (only for train.csv),\nConfusion matrices,\nOverall classification accuracies, and\nRecall\n\nNote that:\n\nYou cannot use duration as a predictor because its value is determined after the marketing call ends. However, after the call ends, we already know whether the client responded positively or negatively. That is why we have used duration only for inference in the previous questions. It helped us understand the effect of the length of the call on marketing success.\nIt is possible to develop the model satisfying constrains (a) and (b) with just appropriate transformation(s) of the predictor(s). However, you may consider interactions if you wish. Justify the transformations, if any, with visualizations.\nYou are free to choose any value of the decision thershold probability for classifying observations. However, you must use the same threshold on all the three datasets.\n\n(15 points)"
+    "text": "D.13 Model development\nDevelop a logistic regression model (using train.csv) to predict the probability of a client subscribing to a term deposit based on age, education, day and month. The model must have:\n\nMinimum overall classification accuracy of 75% among the classification accuracies on train.csv, test1.csv and test2.csv.\nMinimum recall of 50% among the recall performance on train.csv, test1.csv and test2.csv.\n\nFor all the three datasets - train.csv, test1.csv and test2.csv, print the:\n\nModel summary (only for train.csv),\nConfusion matrices,\nOverall classification accuracies, and\nRecall\n\nNote that:\n\nYou cannot use duration as a predictor because its value is determined after the marketing call ends. However, after the call ends, we already know whether the client responded positively or negatively. That is why we have used duration only for inference in the previous questions. It helped us understand the effect of the length of the call on marketing success.\nIt is possible to develop the model satisfying constrains (a) and (b) with just appropriate transformation(s) of the predictor(s). However, you may consider interactions if you wish. Justify the transformations, if any, with visualizations.\nYou are free to choose any value of the decision threshold probability for classifying observations. However, you must use the same threshold on all the three datasets.\n\n(15 points)"
   },
   {
     "objectID": "Assignment D.html#roc-auc",
@@ -452,7 +452,7 @@
     "href": "Assignment D.html#model-preference",
     "title": "Appendix D — Assignment D",
     "section": "D.18 Model preference",
-    "text": "D.18 Model preference\nWas the classification accuracy of the model in D.13 higher than that of the model in D.17? If yes, then should you prefer the model in D.13 for the marketing campaingn? Why or why not?\nNote: The model in D.17 is the same as in D.13, except with a different decision threshold probability\n(3 points)"
+    "text": "D.18 Model preference\nWas the classification accuracy of the model in D.13 higher than that of the model in D.17? If yes, then should you prefer the model in D.13 for the marketing campaign? Why or why not?\nNote: The model in D.17 is the same as in D.13, except with a different decision threshold probability\n(3 points)"
   },
   {
     "objectID": "Assignment D.html#roc-curve",
@@ -494,7 +494,7 @@
     "href": "Assignment D.html#precision-recall-vs-fpr-tpr",
     "title": "Appendix D — Assignment D",
     "section": "D.24 Precision-recall vs FPR-TPR",
-    "text": "D.24 Precision-recall vs FPR-TPR\nInstead of using the FPR and TPR metrics to find the optimium decision threshold probability in D.16, used the precision-recall metrics to find the same.\n(5 points)"
+    "text": "D.24 Precision-recall vs FPR-TPR\nInstead of using the FPR and TPR metrics to find the optimum decision threshold probability in D.16, used the precision-recall metrics to find the same.\n(5 points)"
   },
   {
     "objectID": "Datasets.html",
