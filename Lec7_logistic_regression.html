@@ -1190,7 +1190,7 @@ Name: Purchased, dtype: int64</code></pre>
 <p><img src="Lec7_logistic_regression_files/figure-html/cell-35-output-2.png" class="img-fluid"></p>
 </div>
 </div>
-<p>The classification accuracy on test data has increased to 69%. However, the number of <em>false positives</em> have increased. But in case of diabetes, <em>false negatives</em> are more concerning that <em>false positives</em>. This is because if a person has diabetes, and is told that they do not have diabetes, their condition may deteriorate. If a person does not have diabetes, and is told that they have diabetes, they may take unnecessary precautions or tests, but it will not be as harmful to the person as in the previous case. So, in this problem, we will be more focused on reducing the number of <em>false negatives</em>, instead of reducing the <em>false positives</em> or increasing the overall classification accuracy.</p>
+<p>The classification accuracy on test data has increased to 69%. However, the number of <em>false positives</em> have increased. But in case of diabetes, <em>false negatives</em> are more concerning than <em>false positives</em>. This is because if a person has diabetes, and is told that they do not have diabetes, their condition may deteriorate. If a person does not have diabetes, and is told that they have diabetes, they may take unnecessary precautions or tests, but it will not be as harmful to the person as in the previous case. So, in this problem, we will be more focused on reducing the number of <em>false negatives</em>, instead of reducing the <em>false positives</em> or increasing the overall classification accuracy.</p>
 <p>We can decrease the cutoff for classifying a person as having diabetes to reduce the number of false negatives.</p>
 <div class="cell" data-execution_count="149">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Reducing the cutoff for classifying a person as diabetic to 0.3 (instead of 0.5)</span></span>
@@ -1628,10 +1628,10 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <p>The area under ROC is called <em>Area Under the Curve(AUC)</em>. AUC gives the rate of successful classification by the logistic model. To get a more in-depth idea of what a ROC-AUC curve is and how is it calculated, here is a good blog <a href="https://www.analyticsvidhya.com/blog/2020/06/auc-roc-curve-machine-learning/">link</a>.</p>
 <p>Here is good <a href="https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc">post</a> by google developers on interpreting ROC-AUC, and its advantages / disadvantages.</p>
 <p><strong>Visualize the ROC curve and compute the ROC-AUC for the model <code>logit_model_diabetes</code></strong>.</p>
-<div class="cell" data-execution_count="166">
+<div class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span>train.Outcome</span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>ypred <span class="op">=</span> logit_model.predict(train)</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>ypred <span class="op">=</span> logit_model_diabetes.predict(train)</span>
 <span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>fpr, tpr, auc_thresholds <span class="op">=</span> roc_curve(y, ypred)</span>
 <span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(auc(fpr, tpr))<span class="co"># AUC of ROC</span></span>
 <span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_roc_curve(fpr, tpr, label<span class="op">=</span><span class="va">None</span>):</span>
