@@ -1598,6 +1598,8 @@ If the number of bins are too less, the trend may not be captured accurately. If
 </div>
 </div>
 <p>As the decision threshold probability increases, the precision increases, while the recall decreases.</p>
+<p><strong>Q:</strong> How are the values of the <code>thresholds</code> chosen to make the precision-recall curve?</p>
+<p><strong>Hint:</strong> Look at the documentation for <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html"><code>precision_recall_curve</code></a>.</p>
 </section>
 <section id="the-receiver-operating-characteristics-roc-curve" class="level3" data-number="7.6.2">
 <h3 data-number="7.6.2" class="anchored" data-anchor-id="the-receiver-operating-characteristics-roc-curve"><span class="header-section-number">7.6.2</span> The Receiver Operating Characteristics (ROC) Curve</h3>
@@ -1624,7 +1626,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <li>High sensitivity</li>
 </ul>
 <p>The area under ROC is called <em>Area Under the Curve(AUC)</em>. AUC gives the rate of successful classification by the logistic model. To get a more in-depth idea of what a ROC-AUC curve is and how is it calculated, here is a good blog <a href="https://www.analyticsvidhya.com/blog/2020/06/auc-roc-curve-machine-learning/">link</a>.</p>
-<p>Here is good <a href="https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc">post</a> by google developers on interpreting ROC-AUC, and its advantages / disadvatages.</p>
+<p>Here is good <a href="https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc">post</a> by google developers on interpreting ROC-AUC, and its advantages / disadvantages.</p>
 <p><strong>Visualize the ROC curve and compute the ROC-AUC for the model <code>logit_model_diabetes</code></strong>.</p>
 <div class="cell" data-execution_count="166">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
@@ -1651,6 +1653,7 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <p><img src="Lec7_logistic_regression_files/figure-html/cell-50-output-2.png" class="img-fluid"></p>
 </div>
 </div>
+<p><strong>Q:</strong> How are the values of the <code>auc_thresholds</code> chosen to make the ROC curve? Why does it look like a step function?</p>
 <p>Below is a function that prints the confusion matrix along with all the performance metrics we discussed above for a given decision threshold probability, on train / test data. Note that ROC-AUC does not depend on a decision threshold probability.</p>
 <div class="cell" data-execution_count="184">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on test/train data</span></span>
