@@ -1117,11 +1117,11 @@ Total elapsed time: 0.9055600166320801 seconds.</code></pre>
 <pre><code>364.2004089481364</code></pre>
 </div>
 </div>
-<p>We get the a different model than what we got with the best subsets selection method. However, we got it in 0.9 seconds, instead of 6 minutes taken by the best subset selection alogrithm. Note that this model has a higher RMSE as compared to the model obtained with the best subset selection procedure, which is expected. However, the RMSE is even slightly higher than the model that includes all the two factor interactions. This may be due to the following reasons:</p>
+<p>We get a different model than what we got with the best subsets selection method. However, we got it in 0.9 seconds, instead of 6 minutes taken by the best subset selection algorithm. Note that this model has a higher RMSE as compared to the model obtained with the best subset selection procedure, which is expected. However, the RMSE is even slightly higher than the model that includes all the two factor interactions. This may be due to the following reasons:</p>
 <ul>
 <li><p>This may be due to chance - the test data set may be biased.</p></li>
-<li><p>The stepwise variable selection algoithms are greedy algorithms, and certainly don’t gaurantee the best model, or even a model better than the one without variable selection. However, in general, they are likely to provide a better model than the base model that includes all the predictors, especially if there are several predictors that are not associated with the response.</p></li>
-<li><p>For metrics such as adjusted R-squared, the adjustment is not directly tied to the model being more accurate on test data. The adjustment only ensures that the adjusted R-squared increases if the added predictor sufficiently reduces the RSS (Resisual sum of squares) on training data.</p></li>
+<li><p>The stepwise variable selection algorithms are greedy algorithms, and certainly don’t guarantee the best model, or even a model better than the one without variable selection. However, in general, they are likely to provide a better model than the base model that includes all the predictors, especially if there are several predictors that are not associated with the response.</p></li>
+<li><p>For metrics such as adjusted R-squared, the adjustment is not directly tied to the model being more accurate on test data. The adjustment only ensures that the adjusted R-squared increases if the added predictor sufficiently reduces the RSS (Residual sum of squares) on training data.</p></li>
 <li><p>AIC is an unbiased estimate of test error. However, AIC will have some variance as we are using sample data for training the model.</p></li>
 </ul>
 </section>
