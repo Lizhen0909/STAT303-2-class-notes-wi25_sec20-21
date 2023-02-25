@@ -273,7 +273,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></a>
+  <a href="./Assignment E.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Assignment E</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -630,7 +635,7 @@ Name: Purchased, dtype: int64</code></pre>
 <section id="confusion-matrix-and-classification-accuracy" class="level2" data-number="7.4">
 <h2 data-number="7.4" class="anchored" data-anchor-id="confusion-matrix-and-classification-accuracy"><span class="header-section-number">7.4</span> Confusion matrix and classification accuracy</h2>
 <p>A confusion matrix is a summary of prediction results on a classification problem. The number of correct and incorrect predictions are summarized with count values and broken down by each class.</p>
-<div class="cell" data-execution_count="19">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on training data</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_matrix_train(model,cutoff<span class="op">=</span><span class="fl">0.5</span>):</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Confusion matrix</span></span>
@@ -671,7 +676,7 @@ Name: Purchased, dtype: int64</code></pre>
 <li>37 were incorrectly classified as Non-purchasers. <strong>False negatives</strong></li>
 <li>69 were correctly classified Purchasers. <strong>True positives</strong></li>
 </ul>
-<div class="cell" data-execution_count="18">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on test data</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_matrix_test(data,actual_values,model,cutoff<span class="op">=</span><span class="fl">0.5</span>):</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Predict the values using the Logit model</span></span>
@@ -851,12 +856,12 @@ Name: Purchased, dtype: int64</code></pre>
 <section id="variable-transformations-in-logistic-regression" class="level2" data-number="7.5">
 <h2 data-number="7.5" class="anchored" data-anchor-id="variable-transformations-in-logistic-regression"><span class="header-section-number">7.5</span> Variable transformations in logistic regression</h2>
 <p>Read the dataset <em>diabetes.csv</em> that contains if a person has diabetes (<code>Outcome = 1</code>) based on health parameters such as BMI, blood pressure, age etc. Develop a model to predict the probability of a person having diabetes based on their age.</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/diabetes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div class="cell-output cell-output-display" data-execution_count="6">
 
 <div>
 
@@ -942,7 +947,7 @@ Name: Purchased, dtype: int64</code></pre>
 </div>
 </div>
 <p>Randomly select 80% of the observations to create a training dataset. Create a test dataset with the remaining 20% observations.</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating training and test datasets</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">2</span>)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> data.sample(<span class="bu">round</span>(data.shape[<span class="dv">0</span>]<span class="op">*</span><span class="fl">0.8</span>))</span>
@@ -1000,16 +1005,16 @@ Name: Purchased, dtype: int64</code></pre>
 <p>Classification accuracy on test data = 60%</p>
 <p>Can a tranformation of <code>Age</code> provide a more accurate model?</p>
 <p>Let us visualize how the probability of people having diabetes varies with <code>Age</code>. We will bin <code>Age</code> to get the percentage of people having diabetes within different <code>Age</code> bins.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Binning Age</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>binned_age <span class="op">=</span> pd.qcut(train[<span class="st">'Age'</span>],<span class="dv">11</span>,retbins<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>train[<span class="st">'age_binned'</span>] <span class="op">=</span> binned_age[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Finding percentage of people having diabetes in each Age bin</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>age_data <span class="op">=</span> train.groupby(<span class="st">'age_binned'</span>)[<span class="st">'Outcome'</span>].agg([(<span class="st">'diabetes_percent'</span>,<span class="st">'mean'</span>),(<span class="st">'nobs'</span>,<span class="st">'count'</span>)]).reset_index(drop<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>age_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="9">
 
 <div>
 
@@ -1475,7 +1480,7 @@ Name: Purchased, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="35">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with the quadratic transformation of Age and more predictors</span></span>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>logit_model_diabetes <span class="op">=</span> sm.logit(formula <span class="op">=</span> <span class="st">'Outcome~Age+I(Age**2)+Glucose+BloodPressure+BMI+DiabetesPedigreeFunction'</span>, data <span class="op">=</span> train).fit()</span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>logit_model_diabetes.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1484,7 +1489,7 @@ Name: Purchased, dtype: int64</code></pre>
          Current function value: 0.470478
          Iterations 6</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="35">
+<div class="cell-output cell-output-display" data-execution_count="10">
 
 <table class="simpletable">
 <caption>Logit Regression Results</caption>
@@ -1498,10 +1503,10 @@ Name: Purchased, dtype: int64</code></pre>
   <th>Method:</th>                 <td>MLE</td>       <th>  Df Model:          </th>  <td>     6</td>  
 </tr>
 <tr>
-  <th>Date:</th>            <td>Sun, 19 Feb 2023</td> <th>  Pseudo R-squ.:     </th>  <td>0.2639</td>  
+  <th>Date:</th>            <td>Thu, 23 Feb 2023</td> <th>  Pseudo R-squ.:     </th>  <td>0.2639</td>  
 </tr>
 <tr>
-  <th>Time:</th>                <td>14:21:09</td>     <th>  Log-Likelihood:    </th> <td> -288.87</td> 
+  <th>Time:</th>                <td>10:26:00</td>     <th>  Log-Likelihood:    </th> <td> -288.87</td> 
 </tr>
 <tr>
   <th>converged:</th>             <td>True</td>       <th>  LL-Null:           </th> <td> -392.42</td> 
