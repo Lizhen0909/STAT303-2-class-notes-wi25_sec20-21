@@ -494,7 +494,7 @@
     "href": "Assignment D.html#precision-recall-vs-fpr-tpr",
     "title": "Appendix D — Assignment D",
     "section": "D.24 Precision-recall vs FPR-TPR",
-    "text": "D.24 Precision-recall vs FPR-TPR\nInstead of using the FPR and TPR metrics to find the optimum decision threshold probability in D.16, used the precision-recall metrics to find the same.\n(5 points)"
+    "text": "D.24 Precision-recall vs FPR-TPR\nInstead of using the FPR and TPR metrics to find the optimum decision threshold probability in D.16, use the precision-recall metrics to find the same.\n(5 points)"
   },
   {
     "objectID": "Assignment E.html#instructions",
