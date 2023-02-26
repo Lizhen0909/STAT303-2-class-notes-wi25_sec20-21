@@ -459,7 +459,7 @@
     "href": "Assignment D.html#roc-curve",
     "title": "Appendix D — Assignment D",
     "section": "D.19 ROC curve",
-    "text": "D.19 ROC curve\nPlot the ROC curve for the model developed in D.13. Mark the point on the curve corresponding the decision threshold probability identified in D.16.\nNote that the ROC curve is independent of the decision threshold probability used by the model for prediction\n(3 points)"
+    "text": "D.19 ROC curve\nPlot the ROC curve for the model developed in D.13. Mark the point on the curve corresponding to the decision threshold probability identified in D.16.\nNote that the ROC curve is independent of the decision threshold probability used by the model for prediction\n(3 points)"
   },
   {
     "objectID": "Assignment D.html#profit-with-tpr-fpr",
