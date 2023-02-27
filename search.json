@@ -504,6 +504,13 @@
     "text": "Instructions\n\nYou may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nDo not write your name on the assignment.\nWrite your code in the Code cells and your answer in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to understand and grade.\nUse Quarto to print the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Tuesday, 7th March 2023 at 11:59 pm.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\n\nMust be an HTML file rendered using Quarto (1 pt). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission (1 pt)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 pt)\nFinal answers of each question are written in Markdown cells (1 pt).\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text (1 pt)"
   },
   {
+    "objectID": "Assignment E.html#calculating-root-mean-square-error-rmse-in-sklearn",
+    "href": "Assignment E.html#calculating-root-mean-square-error-rmse-in-sklearn",
+    "title": "Appendix E — Assignment E",
+    "section": "Calculating Root Mean Square Error (RMSE) in Sklearn",
+    "text": "Calculating Root Mean Square Error (RMSE) in Sklearn\nYou may use sklearn to compute the RMSE.\nsklearn.metrics has mean_squared_error function with a squared kwarg (default to True). Setting squared to False will return the RMSE\nfrom sklearn.metrics import mean_squared_error\nrmse = mean_squared_error(y_actual, y_predicted, squared=False)"
+  },
+  {
     "objectID": "Assignment E.html#energy-model",
     "href": "Assignment E.html#energy-model",
     "title": "Appendix E — Assignment E",
