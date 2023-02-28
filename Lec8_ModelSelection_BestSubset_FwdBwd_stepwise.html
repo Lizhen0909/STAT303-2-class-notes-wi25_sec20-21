@@ -511,7 +511,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <section id="best-subset-selection-algorithm" class="level3" data-number="8.1.1">
 <h3 data-number="8.1.1" class="anchored" data-anchor-id="best-subset-selection-algorithm"><span class="header-section-number">8.1.1</span> Best subset selection algorithm</h3>
-<p>Now, we will implement the algorithm of finding the best subset of predictors from amongst all set of predictors.</p>
+<p>Now, we will implement the algorithm of finding the best subset of predictors from amongst all sets of predictors.</p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to develop a model based on all predictors in predictor_subset</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> processSubset(predictor_subset):</span>
@@ -961,7 +961,7 @@ Total elapsed time: 356.2638840675354 seconds.</code></pre>
 </section>
 <section id="stepwise-selection" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="stepwise-selection"><span class="header-section-number">8.2</span> Stepwise selection</h2>
-<p>Best subset selection cannot be used in case of even a slighly large number of predictors. In the previous example, we had 15 predictors. The number of models that we developed to find the best subset of predictors from the set of 15 predictors was <span class="math inline">\(2^{15} \approx 32,000\)</span>. In case of 20 predictors, the number of models to use the best subset selection approach will be <span class="math inline">\(2^{20} \approx 1\)</span> million, which is computationally too expensive. Due to this limitation of the best subsets selection method, we will use stepwise regression, which explores a far more restricted set of models, and thus is an attractive alternative to the best subset selection method.</p>
+<p>Best subset selection cannot be used in case of even a slightly large number of predictors. In the previous example, we had 15 predictors. The number of models that we developed to find the best subset of predictors from the set of 15 predictors was <span class="math inline">\(2^{15} \approx 32,000\)</span>. In case of 20 predictors, the number of models to use the best subset selection approach will be <span class="math inline">\(2^{20} \approx 1\)</span> million, which is computationally too expensive. Due to this limitation of the best subsets selection method, we will use stepwise regression, which explores a far more restricted set of models, and thus is an attractive alternative to the best subset selection method.</p>
 </section>
 <section id="forward-stepwise-selection" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="forward-stepwise-selection"><span class="header-section-number">8.3</span> Forward stepwise selection</h2>
