@@ -603,7 +603,7 @@ Total elapsed time: 0.17253828048706055 seconds.</code></pre>
 <p><img src="Lec8_ModelSelection_BestSubset_FwdBwd_stepwise_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
-<p>The model with 4 predictors is the best model, according to all the 3 criteria - Adjusted R-squared, AIC and BIC.</p>
+<p>The model with 4 predictors is the best model, according to all 3 criteria - Adjusted R-squared, AIC and BIC.</p>
 <p>Note that we have not considered the null model (i.e., the model with only the intercept and no predictors) explicitly in the best subsets algorithm. However, the null model is considered when selecting the best model. The R-squared and the adjusted R-squared for the null model is 0. So, if the adjusted R-squared of all the models with at least one predictor is negative, then the null model will be the best model.</p>
 <div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>best_subset_model <span class="op">=</span> models_best.loc[<span class="dv">4</span>,<span class="st">'model'</span>]</span>
