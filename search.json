@@ -742,6 +742,13 @@
     "text": "G.8 Precision-recall\nWe develop a logistic regression model to predict whether someone will pay a loan back or not. Loans are “approved” by us only for those borrowers who are predicted to pay back. The positive class is the borrowers that pay back the loans. What would a recall of 81% mean?\n\n81% of the borrowers that would pay back the loan are approved by us: Recall = TP/(TP + FN). TP here are those who are [approved by us] who [pay back the loan], while FN are those who were [not approved by us] but actually [pay back the loans]. The denominator is [all who pay back the loan]. Thus, Recall here means: among [all who pay back the loan], 81% are [approved by us].\nOf all the loans we approve, 81% pay us back: This is Precision = TP/(TP + FP)\nOf all the loans we don’t approve, 81% would not have paid us back if they were given the loan: This is the proportion of negatives correctly predicted - like precision for the negative class\nOf all the loans we don’t approve, 19% would not have paid us back if they were given the loan: This is the proportion of negatives incorrectly predicted.\n\nAnswer: 81% of the borrowers that would pay back the loan are approved by us.\nExplanation: Recall = True Positives/(True Positives + False Negatives).\nIn this case, True positives are those who got approved and would pay back. False Negatives are those we didn’t approve, but would pay back. Therefore, 81% Recall means 81% of the borrowers that would pay back the loan are approved by us."
   },
   {
+    "objectID": "Practice_Final_Answer_Key.html#variable-selection",
+    "href": "Practice_Final_Answer_Key.html#variable-selection",
+    "title": "Appendix G — Practice Final Solutions",
+    "section": "G.9 Variable selection",
+    "text": "G.9 Variable selection\nWhich of the following algorithms can be used for variable selection?\n\nLasso\nRidge regression\nForward stepwise selection\nBest subset selection\n\nAnswer: A,C,D\nExplanation: Both lasso and ridge regression are regularized least squares model, where the a shrinkage penalty is added to the ordinary least squares cost function. The shrinkage penalty in ridge regression shrinks the regression coefficients estimate towards zero, but not exactly zero, while the shrinkage penalty in lasso tends to give a set of zero regression coefficients and leads to a sparse model. Therefore, lasso can be used for variable selection, but not ridge regression.\nForward stepwise and best subset selection are variable selection algorithms by fitting multiple models having different combinations/number of predictors and choosing the best model."
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
     "title": "Appendix H — Datasets, assignment and project files",
