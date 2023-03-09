@@ -728,6 +728,13 @@
     "text": "G.6 Decision threshold probability\nWhich of the following metrics is independent of the decision threshold probability?\n\nNone of these\nROC-AUC\nAll of these (except the “None of these” option)\nPrecision\nRecall\n\nAnswer: ROC-AUC \nExplanation By changing the threshold, the number of points classified as negative and positive may change, and so TP, FP, TN and FN may change. Recall and precision may change as they are based on these metrics (TP ,FP, TN, and FN). However, the ROC-AUC specifically analyzes different thresholds. The ROC curve is a plot of TPR against FPR for all possible thresholds, and ROC-AUC is the area under the ROC curve, so the value itself is independent from the decision threshold probability."
   },
   {
+    "objectID": "Practice_Final_Answer_Key.html#section",
+    "href": "Practice_Final_Answer_Key.html#section",
+    "title": "Appendix G — Practice Final Solutions",
+    "section": "G.7 ",
+    "text": "G.7 \nConsider the following logistic regression model:\n\\[p(x) =\\frac{1}{1+e^{-(\\beta_0+\\beta_1x)}}\\].\nWhich of the following metrics will depend on the value of x?\n\nOdds ratio when x increases by 2 units\nincrease in log odds when x increases by 10 units\nAll of these\nIncrease in predicted probability when x increases by 1 unit\n\nE)none of these\nAnswer: D\nExplanation: \n\\[p(x) =\\frac{1}{1+e^{-(\\beta_0+\\beta_1x)}}\\]\n\\[\\implies \\log\\bigg(\\frac{p(x)}{1-p(x)}\\bigg) = \\beta_0 + \\beta_1x\\]\n\\[\\implies \\log\\big(Odds(x)\\big) = \\beta_0 + \\beta_1x\\]\nWhen \\(x\\) increases by ‘c’ units,\n\\[p(x+c) - p(x) =\\frac{1}{1+e^{-(\\beta_0+\\beta_1(x+c))}}-\\frac{1}{1+e^{-(\\beta_0+\\beta_1(x))}}\\]\n\\[log({Odds(x+c)}) - log({Odds(x)}) = \\beta_1 c\\]\n\\[\\frac{Odds(x+c))}{Odds(x)} = e^{\\beta_1 c}\\]\nWe can see that only the increase in predicted probability when \\(x\\) increases by 1 unit is dependent on \\(x\\)."
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
     "title": "Appendix H — Datasets, assignment and project files",
