@@ -718,7 +718,14 @@
     "href": "Practice_Final_Answer_Key.html#logistic-regression-threshold-probability",
     "title": "Appendix G — Practice Final Solutions",
     "section": "G.5 Logistic regression (threshold probability)",
-    "text": "G.5 Logistic regression (threshold probability)\nFor a logistic regression model, as we increase the decision threshold probability,\n\nNone of these\nthe recall will reduce or stay the same\nthe ROC-AUC will increase or stay the same\nthe precision will increase or stay the same\nthe classification accuracy will increase or stay the same\n\nAnswer: B\nExplanation: See class slide on the confusion matrix. Increasing threshold probability means that less observations are predicted to be positive. Hence, some TP could turn into FN, reducing the recall. (this might not happen if there is no observations of actual positives between the thresholds). ROC-AUC is independent of the threshold probability. Both precision and classification accuracy might decrease if the number of FP among actual negatives increase more than the increase of TP among actual positives by the shift in the threshold."
+    "text": "G.5 Logistic regression (threshold probability)\nFor a logistic regression model, as we increase the decision threshold probability,\n\nNone of these\nthe recall will reduce or stay the same\nthe ROC-AUC will increase or stay the same\nthe precision will increase or stay the same\nthe classification accuracy will increase or stay the same\n\nAnswer: B\nExplanation: See class slide on the confusion matrix below. \n\n\n\n\n\nIncreasing threshold probability means that less observations are predicted to be positive. Hence, some TP could turn into FN, reducing the recall. (this might not happen if there is no observations of actual positives between the thresholds). ROC-AUC is independent of the threshold probability. Both precision and classification accuracy might decrease if the number of FP among actual negatives increase more than the increase of TP among actual positives by the shift in the threshold."
+  },
+  {
+    "objectID": "Practice_Final_Answer_Key.html#decision-threshold-probability",
+    "href": "Practice_Final_Answer_Key.html#decision-threshold-probability",
+    "title": "Appendix G — Practice Final Solutions",
+    "section": "G.6 Decision threshold probability",
+    "text": "G.6 Decision threshold probability\nWhich of the following metrics is independent of the decision threshold probability?\n\nNone of these\nROC-AUC\nAll of these (except the “None of these” option)\nPrecision\nRecall\n\nAnswer: ROC-AUC \nExplanation By changing the threshold, the number of points classified as negative and positive may change, and so TP, FP, TN and FN may change. Recall and precision may change as they are based on these metrics (TP ,FP, TN, and FN). However, the ROC-AUC specifically analyzes different thresholds. The ROC curve is a plot of TPR against FPR for all possible thresholds, and ROC-AUC is the area under the ROC curve, so the value itself is independent from the decision threshold probability."
   },
   {
     "objectID": "Datasets.html",
