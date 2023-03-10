@@ -826,6 +826,13 @@
     "text": "G.20 Computational complexity\nArrange the following model selection methods in increasing order of computational complexity:\nRidge regression, best subset selection, forward stepwise selection\nAnswer: Ridge regression, forward stepwise selection, best subset selection \nExplanation: Best subset selection requires the most computation complexity because it considers all \\(2^p\\) possible models containing subsets of the \\(p\\) predictors. It cannot be used in case of even a slightly large number of predictors. For example, in case of 20 predictors, more than a million models will need to be developed to find the best subset model.\nIn forward stepwise selection, the total number of models with \\(p\\) predictors is \\(\\frac{p(p+1)}{2}\\). In case of 20 predictors, this will 190 models.\nIn ridge regression, we need to fit only one model."
   },
   {
+    "objectID": "Practice_Final_Answer_Key.html#k-fold-cv",
+    "href": "Practice_Final_Answer_Key.html#k-fold-cv",
+    "title": "Appendix G — Practice Final Solutions",
+    "section": "G.21 K-fold CV",
+    "text": "G.21 K-fold CV\nFor optimizing parameters of a model, \\(K\\)-fold cross validation is preferred over the validation set approach (computing error on a test dataset) because:\n\nValidation dataset may have observations overlapping with the training dataset\nError on validation dataset is likely to be similar to the error on training data, leading to less value addition\n\\(K\\)-fold cross validation is computationally less expensive\nError on the validation dataset can be highly variable\n\nAnswer: D\nExplanation: \nTesting on one validation set is unreliable because the result is highly dependent on the distribution of the data in the test set. By testing on several validation sets, this concern is alleviated to some extent. \n\\(K\\)-fold cross validation is computationally more expensive because \\(K\\)-fold requires multiple training/testing iterations in order to generate reliable results. This means that the entire dataset must be split into subsets, trained on each subset, and tested. This process must be repeated \\(K\\) times.\nError on validation dataset is not likely to be similar to the error on training data in scenarios such as overfitting.\nThe validation dataset approach assigns each observation to either train or test data, but not both."
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
     "title": "Appendix H — Datasets, assignment and project files",
