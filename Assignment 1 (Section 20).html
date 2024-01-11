@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
 width: 0.8em;
 margin: 0 0.8em 0.2em -1em;  vertical-align: middle;
 }
-
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-{ counter-reset: source-line 0; }
-pre.numberSource code > span
-{ position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-{ content: counter(source-line);
-position: relative; left: -1em; text-align: right; vertical-align: baseline;
-border: none; display: inline-block;
--webkit-touch-callout: none; -webkit-user-select: none;
--khtml-user-select: none; -moz-user-select: none;
--ms-user-select: none; user-select: none;
-padding: 0 4px; width: 4em;
-}
-pre.numberSource { margin-left: 3em; padding-left: 4px; }
-div.sourceCode
-{ }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -4771,43 +4737,44 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
    
   <ul>
   <li><a href="#instructions" id="toc-instructions" class="nav-link active" data-scroll-target="#instructions">Instructions</a></li>
-  <li><a href="#case-studies-regression-vs-classification-and-prediction-vs-inference-16-points" id="toc-case-studies-regression-vs-classification-and-prediction-vs-inference-16-points" class="nav-link" data-scroll-target="#case-studies-regression-vs-classification-and-prediction-vs-inference-16-points">Case Studies: Regression vs Classification and Prediction vs Inference (16 points)</a>
+  <li><a href="#case-studies-regression-vs-classification-and-prediction-vs-inference-16-points" id="toc-case-studies-regression-vs-classification-and-prediction-vs-inference-16-points" class="nav-link" data-scroll-target="#case-studies-regression-vs-classification-and-prediction-vs-inference-16-points">1) Case Studies: Regression vs Classification and Prediction vs Inference (16 points)</a>
   <ul>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
-  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"></a></li>
-  <li><a href="#section-2" id="toc-section-2" class="nav-link" data-scroll-target="#section-2"></a></li>
-  <li><a href="#section-3" id="toc-section-3" class="nav-link" data-scroll-target="#section-3"></a></li>
+  <li><a href="#a" id="toc-a" class="nav-link" data-scroll-target="#a">1a)</a></li>
+  <li><a href="#b" id="toc-b" class="nav-link" data-scroll-target="#b">1b)</a></li>
+  <li><a href="#c" id="toc-c" class="nav-link" data-scroll-target="#c">1c)</a></li>
+  <li><a href="#d" id="toc-d" class="nav-link" data-scroll-target="#d">1d)</a></li>
+  <li><a href="#e" id="toc-e" class="nav-link" data-scroll-target="#e">1e)</a></li>
   </ul></li>
-  <li><a href="#examples-for-different-regression-metrics-rmse-vs-mae-8-points" id="toc-examples-for-different-regression-metrics-rmse-vs-mae-8-points" class="nav-link" data-scroll-target="#examples-for-different-regression-metrics-rmse-vs-mae-8-points">Examples for Different Regression Metrics: RMSE vs MAE (8 points)</a>
+  <li><a href="#examples-for-different-regression-metrics-rmse-vs-mae-8-points" id="toc-examples-for-different-regression-metrics-rmse-vs-mae-8-points" class="nav-link" data-scroll-target="#examples-for-different-regression-metrics-rmse-vs-mae-8-points">2) Examples for Different Regression Metrics: RMSE vs MAE (8 points)</a>
   <ul>
-  <li><a href="#section-4" id="toc-section-4" class="nav-link" data-scroll-target="#section-4"></a></li>
-  <li><a href="#section-5" id="toc-section-5" class="nav-link" data-scroll-target="#section-5"></a></li>
+  <li><a href="#a-1" id="toc-a-1" class="nav-link" data-scroll-target="#a-1">2a)</a></li>
+  <li><a href="#b-1" id="toc-b-1" class="nav-link" data-scroll-target="#b-1">2b)</a></li>
   </ul></li>
-  <li><a href="#modeling-the-petrol-consumption-in-u.s.-states-61-points" id="toc-modeling-the-petrol-consumption-in-u.s.-states-61-points" class="nav-link" data-scroll-target="#modeling-the-petrol-consumption-in-u.s.-states-61-points">Modeling the Petrol Consumption in U.S. States (61 points)</a>
+  <li><a href="#modeling-the-petrol-consumption-in-u.s.-states-61-points" id="toc-modeling-the-petrol-consumption-in-u.s.-states-61-points" class="nav-link" data-scroll-target="#modeling-the-petrol-consumption-in-u.s.-states-61-points">3) Modeling the Petrol Consumption in U.S. States (61 points)</a>
   <ul>
-  <li><a href="#section-6" id="toc-section-6" class="nav-link" data-scroll-target="#section-6"></a></li>
-  <li><a href="#section-7" id="toc-section-7" class="nav-link" data-scroll-target="#section-7"></a></li>
-  <li><a href="#section-8" id="toc-section-8" class="nav-link" data-scroll-target="#section-8"></a></li>
-  <li><a href="#section-9" id="toc-section-9" class="nav-link" data-scroll-target="#section-9"></a></li>
-  <li><a href="#section-10" id="toc-section-10" class="nav-link" data-scroll-target="#section-10"></a></li>
-  <li><a href="#section-11" id="toc-section-11" class="nav-link" data-scroll-target="#section-11"></a></li>
-  <li><a href="#section-12" id="toc-section-12" class="nav-link" data-scroll-target="#section-12"></a></li>
-  <li><a href="#section-13" id="toc-section-13" class="nav-link" data-scroll-target="#section-13"></a></li>
-  <li><a href="#section-14" id="toc-section-14" class="nav-link" data-scroll-target="#section-14"></a></li>
-  <li><a href="#section-15" id="toc-section-15" class="nav-link" data-scroll-target="#section-15"></a></li>
-  <li><a href="#section-16" id="toc-section-16" class="nav-link" data-scroll-target="#section-16"></a></li>
-  <li><a href="#section-17" id="toc-section-17" class="nav-link" data-scroll-target="#section-17"></a></li>
+  <li><a href="#a-2" id="toc-a-2" class="nav-link" data-scroll-target="#a-2">3a)</a></li>
+  <li><a href="#b-2" id="toc-b-2" class="nav-link" data-scroll-target="#b-2">3b)</a></li>
+  <li><a href="#c-1" id="toc-c-1" class="nav-link" data-scroll-target="#c-1">3c)</a></li>
+  <li><a href="#d-1" id="toc-d-1" class="nav-link" data-scroll-target="#d-1">3d)</a></li>
+  <li><a href="#e-1" id="toc-e-1" class="nav-link" data-scroll-target="#e-1">3e)</a></li>
+  <li><a href="#f" id="toc-f" class="nav-link" data-scroll-target="#f">3f)</a></li>
+  <li><a href="#g" id="toc-g" class="nav-link" data-scroll-target="#g">3g)</a></li>
+  <li><a href="#h" id="toc-h" class="nav-link" data-scroll-target="#h">3h)</a></li>
+  <li><a href="#i" id="toc-i" class="nav-link" data-scroll-target="#i">3i)</a></li>
+  <li><a href="#j" id="toc-j" class="nav-link" data-scroll-target="#j">3j)</a></li>
+  <li><a href="#k" id="toc-k" class="nav-link" data-scroll-target="#k">3k)</a></li>
+  <li><a href="#l" id="toc-l" class="nav-link" data-scroll-target="#l">3l)</a></li>
   </ul></li>
-  <li><a href="#reproducing-the-results-with-scikit-learn-15-points" id="toc-reproducing-the-results-with-scikit-learn-15-points" class="nav-link" data-scroll-target="#reproducing-the-results-with-scikit-learn-15-points">Reproducing the Results with Scikit-Learn (15 points)</a>
+  <li><a href="#reproducing-the-results-with-scikit-learn-15-points" id="toc-reproducing-the-results-with-scikit-learn-15-points" class="nav-link" data-scroll-target="#reproducing-the-results-with-scikit-learn-15-points">4) Reproducing the Results with Scikit-Learn (15 points)</a>
   <ul>
-  <li><a href="#section-18" id="toc-section-18" class="nav-link" data-scroll-target="#section-18"></a></li>
-  <li><a href="#section-19" id="toc-section-19" class="nav-link" data-scroll-target="#section-19"></a></li>
+  <li><a href="#a-3" id="toc-a-3" class="nav-link" data-scroll-target="#a-3">4a)</a></li>
+  <li><a href="#b-3" id="toc-b-3" class="nav-link" data-scroll-target="#b-3">4b)</a></li>
   </ul></li>
-  <li><a href="#bonus-question-15-points" id="toc-bonus-question-15-points" class="nav-link" data-scroll-target="#bonus-question-15-points">Bonus Question (15 points)</a>
+  <li><a href="#bonus-question-15-points" id="toc-bonus-question-15-points" class="nav-link" data-scroll-target="#bonus-question-15-points">5) Bonus Question (15 points)</a>
   <ul>
-  <li><a href="#section-20" id="toc-section-20" class="nav-link" data-scroll-target="#section-20"></a></li>
-  <li><a href="#section-21" id="toc-section-21" class="nav-link" data-scroll-target="#section-21"></a></li>
-  <li><a href="#section-22" id="toc-section-22" class="nav-link" data-scroll-target="#section-22"></a></li>
+  <li><a href="#a-4" id="toc-a-4" class="nav-link" data-scroll-target="#a-4">5a)</a></li>
+  <li><a href="#b-4" id="toc-b-4" class="nav-link" data-scroll-target="#b-4">5b)</a></li>
+  <li><a href="#c-2" id="toc-c-2" class="nav-link" data-scroll-target="#c-2">5c)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -4832,12 +4799,6 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 
 </header>
 
-<div class="cell" data-execution_count="3">
-<details open="">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assignment 1 (Section 20) {.unnumbered}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
 <section id="instructions" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="instructions">Instructions</h2>
 <ol type="1">
@@ -4859,101 +4820,104 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 </ol>
 </section>
 <section id="case-studies-regression-vs-classification-and-prediction-vs-inference-16-points" class="level2">
-<h2 class="anchored" data-anchor-id="case-studies-regression-vs-classification-and-prediction-vs-inference-16-points">Case Studies: Regression vs Classification and Prediction vs Inference (16 points)</h2>
+<h2 class="anchored" data-anchor-id="case-studies-regression-vs-classification-and-prediction-vs-inference-16-points">1) Case Studies: Regression vs Classification and Prediction vs Inference (16 points)</h2>
+<section id="a" class="level3">
+<h3 class="anchored" data-anchor-id="a">1a)</h3>
 <p>For each case below, explain (1) whether it is a classification or a regression problem and (2) whether the main purpose is prediction or inference. <strong>You need justify your answers for credit.</strong></p>
-<section id="section" class="level3">
-<h3 class="anchored" data-anchor-id="section"></h3>
+</section>
+<section id="b" class="level3">
+<h3 class="anchored" data-anchor-id="b">1b)</h3>
 <p>You work for a company that is interested in conducting a marketing campaign. The goal of your project is to identify individuals who are likely to respond positively to a marketing campaign, based on observations of demographic variables (such as age, gender, income etc.) measured on each individual. <strong>(2+2 points)</strong></p>
 </section>
-<section id="section-1" class="level3">
-<h3 class="anchored" data-anchor-id="section-1"></h3>
+<section id="c" class="level3">
+<h3 class="anchored" data-anchor-id="c">1c)</h3>
 <p>For the same company, now you are working on a different project. This one is focused on understanding the impact of advertisements in different media types on the company sales. For example, you are interested in the following question: <em>‘How large of an increase in sales is associated with a given increase in radio and TV advertising?’</em> <strong>(2+2 points)</strong></p>
 </section>
-<section id="section-2" class="level3">
-<h3 class="anchored" data-anchor-id="section-2"></h3>
+<section id="d" class="level3">
+<h3 class="anchored" data-anchor-id="d">1d)</h3>
 <p>A company is selling furniture and they are interested in the finding the association between demographic characteristics of customers (such as age, gender, income etc.) and if they would purchase a particular company product. <strong>(2+2 points)</strong></p>
 </section>
-<section id="section-3" class="level3">
-<h3 class="anchored" data-anchor-id="section-3"></h3>
+<section id="e" class="level3">
+<h3 class="anchored" data-anchor-id="e">1e)</h3>
 <p>We are interested in forecasting the % change in the USD/Euro exchange rate using the weekly changes in the stock markets of a number of countries. We collect weekly data for all of 2023. For each week, we record the % change in the USD/Euro, the % change in the US market, the % change in the British market, and the % change in the German market. <strong>(2+2 points)</strong></p>
 </section>
 </section>
 <section id="examples-for-different-regression-metrics-rmse-vs-mae-8-points" class="level2">
-<h2 class="anchored" data-anchor-id="examples-for-different-regression-metrics-rmse-vs-mae-8-points">Examples for Different Regression Metrics: RMSE vs MAE (8 points)</h2>
-<section id="section-4" class="level3">
-<h3 class="anchored" data-anchor-id="section-4"></h3>
+<h2 class="anchored" data-anchor-id="examples-for-different-regression-metrics-rmse-vs-mae-8-points">2) Examples for Different Regression Metrics: RMSE vs MAE (8 points)</h2>
+<section id="a-1" class="level3">
+<h3 class="anchored" data-anchor-id="a-1">2a)</h3>
 <p>Describe a regression problem, where it will be more proper to evaluate the model performance using the root mean squared error (RMSE) metric as compared to the mean absolute error (MAE) metric. <strong>You need to justify your answer for credit.</strong> <strong>(4 points)</strong></p>
 <p><strong>Note:</strong> You are not allowed to use the datasets and examples covered in the lectures.</p>
 </section>
-<section id="section-5" class="level3">
-<h3 class="anchored" data-anchor-id="section-5"></h3>
+<section id="b-1" class="level3">
+<h3 class="anchored" data-anchor-id="b-1">2b)</h3>
 <p>Describe a regression problem, where it will be more proper to evaluate the model performance using the mean absolute error (MAE) metric as compared to the root mean squared error (RMSE) metric. <strong>You need to justify your answer for credit.</strong> <strong>(4 points)</strong></p>
 <p><strong>Note:</strong> You are not allowed to use the datasets and examples covered in the lectures.</p>
 </section>
 </section>
 <section id="modeling-the-petrol-consumption-in-u.s.-states-61-points" class="level2">
-<h2 class="anchored" data-anchor-id="modeling-the-petrol-consumption-in-u.s.-states-61-points">Modeling the Petrol Consumption in U.S. States (61 points)</h2>
+<h2 class="anchored" data-anchor-id="modeling-the-petrol-consumption-in-u.s.-states-61-points">3) Modeling the Petrol Consumption in U.S. States (61 points)</h2>
 <p>Read <strong>petrol_consumption_train.csv</strong>. Assume that each observation is a U.S. state. For each observation, the data has the following variables as its five columns:</p>
 <p><code>Petrol_tax</code>: Petrol tax (cents per gallon)</p>
 <p><code>Per_capita_income</code>: Average income (dollars)</p>
 <p><code>Paved_highways</code>: Paved Highways (miles)</p>
 <p><code>Prop_license</code>: Proportion of population with driver’s licenses</p>
 <p><code>Petrol_consumption</code>: Consumption of petrol (millions of gallons)</p>
-<section id="section-6" class="level3">
-<h3 class="anchored" data-anchor-id="section-6"></h3>
+<section id="a-2" class="level3">
+<h3 class="anchored" data-anchor-id="a-2">3a)</h3>
 <p>Create a pairwise plot of all the variables in the dataset. <strong>(1 point)</strong> Print the correlation matrix of all the variables as well. <strong>(1 point)</strong> Which variable has the highest linear correlation with <code>Petrol_consumption</code>? <strong>(2 points)</strong></p>
 <p><strong>Note:</strong> Remember that a pairwise plot is a visualization tool that you can find in the seaborn library.</p>
 </section>
-<section id="section-7" class="level3">
-<h3 class="anchored" data-anchor-id="section-7"></h3>
+<section id="b-2" class="level3">
+<h3 class="anchored" data-anchor-id="b-2">3b)</h3>
 <p>Fit a simple linear regression model to predict <code>Petrol_consumption</code> using the column you found in <strong>part a</strong> as the only predictor. Print the model summary. <strong>(4 points)</strong></p>
 </section>
-<section id="section-8" class="level3">
-<h3 class="anchored" data-anchor-id="section-8"></h3>
+<section id="c-1" class="level3">
+<h3 class="anchored" data-anchor-id="c-1">3c)</h3>
 <p>What is the increase in petrol consumption for an increase of 0.05 in the predictor? <strong>(4 points)</strong></p>
 </section>
-<section id="section-9" class="level3">
-<h3 class="anchored" data-anchor-id="section-9"></h3>
+<section id="d-1" class="level3">
+<h3 class="anchored" data-anchor-id="d-1">3d)</h3>
 <p>Does petrol consumption have a statistically significant relationship with the predictor? <strong>You need to justify your answer for credit</strong>. <strong>(4 points)</strong></p>
 </section>
-<section id="section-10" class="level3">
-<h3 class="anchored" data-anchor-id="section-10"></h3>
+<section id="e-1" class="level3">
+<h3 class="anchored" data-anchor-id="e-1">3e)</h3>
 <p>How much of the variation in petrol consumption can be explained by its linear relationship with the predictor? <strong>(3 points)</strong></p>
 </section>
-<section id="section-11" class="level3">
-<h3 class="anchored" data-anchor-id="section-11"></h3>
+<section id="f" class="level3">
+<h3 class="anchored" data-anchor-id="f">3f)</h3>
 <p>Predict the petrol consumption for a state in which 50% of the population has a driver’s license. <strong>(3 points)</strong> What are the confidence interval <strong>(3 points)</strong> and the prediction interval <strong>(3 points)</strong> for your prediction? Which interval is wider? <strong>(1 points)</strong> Why? <strong>(2 points)</strong></p>
 </section>
-<section id="section-12" class="level3">
-<h3 class="anchored" data-anchor-id="section-12"></h3>
+<section id="g" class="level3">
+<h3 class="anchored" data-anchor-id="g">3g)</h3>
 <p>Predict the petrol consumption for a state in which 10% of the population has a driver’s license. <strong>(3 points)</strong> Are you getting a reasonable outcome? <strong>(1 point)</strong> Why or why not? <strong>(2 points)</strong></p>
 </section>
-<section id="section-13" class="level3">
-<h3 class="anchored" data-anchor-id="section-13"></h3>
+<section id="h" class="level3">
+<h3 class="anchored" data-anchor-id="h">3h)</h3>
 <p>What is the residual standard error of the model? <strong>(3 points)</strong></p>
 </section>
-<section id="section-14" class="level3">
-<h3 class="anchored" data-anchor-id="section-14"></h3>
+<section id="i" class="level3">
+<h3 class="anchored" data-anchor-id="i">3i)</h3>
 <p>Using the trained model, predict the petrol consumption of the observations in <strong>petrol_consumption_test.csv</strong> <strong>(2 points)</strong> and find the RMSE. <strong>(2 points)</strong> What is the unit of this RMSE value? <strong>(1 point)</strong></p>
 </section>
-<section id="section-15" class="level3">
-<h3 class="anchored" data-anchor-id="section-15"></h3>
+<section id="j" class="level3">
+<h3 class="anchored" data-anchor-id="j">3j)</h3>
 <p>Based on the answers to <strong>part g</strong> and <strong>part h</strong>, do you think the model is overfitting? <strong>You need to justify your answer for credit.</strong> <strong>(4 points)</strong></p>
 </section>
-<section id="section-16" class="level3">
-<h3 class="anchored" data-anchor-id="section-16"></h3>
+<section id="k" class="level3">
+<h3 class="anchored" data-anchor-id="k">3k)</h3>
 <p>Make a scatterplot of <code>Petrol_consumption</code> vs.&nbsp;the predictor using <strong>petrol_consumption_test.csv</strong>. <strong>(1 point)</strong> Over the scatterplot, plot the regression line <strong>(2 points)</strong>, the prediction interval <strong>(2 points)</strong>, and the confidence interval. <strong>(2 points)</strong></p>
 <p>Make sure that regression line, prediction interval lines, and confidence interval lines have different colors. <strong>(1 point)</strong> Display a legend that correctly labels the lines as well. <strong>(1 point)</strong> Note that you need two lines of the same color to plot an interval.</p>
 </section>
-<section id="section-17" class="level3">
-<h3 class="anchored" data-anchor-id="section-17"></h3>
+<section id="l" class="level3">
+<h3 class="anchored" data-anchor-id="l">3l)</h3>
 <p>Find the correlation between <code>Petrol_consumption</code> and the rest of the variables in <strong>petrol_consumption_train.csv</strong>. Which column would have the lowest R-squared value when used as the predictor for a Simple Linear Regression model to predict <code>Petrol_consumption</code>? Note that you can directly answer this question from the correlation values and do not need to develop any more linear regression models. <strong>(3 points)</strong></p>
 </section>
 </section>
 <section id="reproducing-the-results-with-scikit-learn-15-points" class="level2">
-<h2 class="anchored" data-anchor-id="reproducing-the-results-with-scikit-learn-15-points">Reproducing the Results with Scikit-Learn (15 points)</h2>
-<section id="section-18" class="level3">
-<h3 class="anchored" data-anchor-id="section-18"></h3>
+<h2 class="anchored" data-anchor-id="reproducing-the-results-with-scikit-learn-15-points">4) Reproducing the Results with Scikit-Learn (15 points)</h2>
+<section id="a-3" class="level3">
+<h3 class="anchored" data-anchor-id="a-3">4a)</h3>
 <p>Using the same datasets, same response and the same predictor as <strong>Question 3</strong>, reproduce the following outputs with scikit-learn:</p>
 <ul>
 <li>Model RMSE for test data <strong>(3 points)</strong></li>
@@ -4962,26 +4926,26 @@ return!"\t\n\x0B\f\r                　\u2028\u2029
 </ul>
 <p><strong>Note that you are only allowed to use scikit-learn, pandas, and numpy tools for this question. Any other libraries will not receive any credit.</strong></p>
 </section>
-<section id="section-19" class="level3">
-<h3 class="anchored" data-anchor-id="section-19"></h3>
+<section id="b-3" class="level3">
+<h3 class="anchored" data-anchor-id="b-3">4b)</h3>
 <p>Which of the model outputs from <strong>Question 3</strong> cannot be reproduced using scikit-learn? Give two answers. <strong>(2+2 points)</strong> What does this tell about scikit-learn? <strong>(2 points)</strong></p>
 </section>
 </section>
-<section id="bonus-question-15-points" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="bonus-question-15-points">Bonus Question (15 points)</h2>
+<section id="bonus-question-15-points" class="level2">
+<h2 class="anchored" data-anchor-id="bonus-question-15-points">5) Bonus Question (15 points)</h2>
 <p>Please note that the bonus question requires you to look more into the usage of the tools we covered in class and it will be necessary to do your own research. We strongly suggest attempting it after you are done with the rest of the assignment.</p>
-<section id="section-20" class="level3">
-<h3 class="anchored" data-anchor-id="section-20"></h3>
+<section id="a-4" class="level3">
+<h3 class="anchored" data-anchor-id="a-4">5a)</h3>
 <p>Fit a simple linear regression model to predict <code>Petrol_consumption</code> based on the predictor in <strong>Question 3</strong>, but <strong>without an intercept term</strong>. <strong>(5 points - no partial credit)</strong></p>
 <p>Without an intercept means that the equation becomes <span class="math inline">\(Y = \beta_1X\)</span>. The intercept term, <span class="math inline">\(\beta_0\)</span>, becomes 0.</p>
 <p><strong>Note: You must answer this part correctly to qualify for the bonus points in the following parts.</strong></p>
 </section>
-<section id="section-21" class="level3">
-<h3 class="anchored" data-anchor-id="section-21"></h3>
+<section id="b-4" class="level3">
+<h3 class="anchored" data-anchor-id="b-4">5b)</h3>
 <p>Predict the petrol consumption for the observations in <strong>petrol_consumption_test.csv</strong> using the model without an intercept and find the RMSE. <strong>(1+2 points)</strong> Then, print the summary and find the R-squared. <strong>(2 points)</strong></p>
 </section>
-<section id="section-22" class="level3">
-<h3 class="anchored" data-anchor-id="section-22"></h3>
+<section id="c-2" class="level3">
+<h3 class="anchored" data-anchor-id="c-2">5c)</h3>
 <p>The RMSE for the models with and without the intercept are similar, which indicates that both models are almost equally good. However, the R-squared for the model without intercept is much higher than the R-squared for the model with the intercept. Why? Justify your answer. <strong>(5 points - no partial credit)</strong></p>
 
 
