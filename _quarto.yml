@@ -30,8 +30,10 @@ book:
       chapters:
         - Lec8_ModelSelection_BestSubset_FwdBwd_stepwise.ipynb
         - Lec9_RidgeRegression_Lasso.ipynb
+    - part: "Assignments"
+      chapters:
+        - Assignment 1 (Section 20).ipynb
   appendices: 
-    - Assignment A (Section 20).ipynb
     - Datasets.ipynb
     - references.qmd  
 
