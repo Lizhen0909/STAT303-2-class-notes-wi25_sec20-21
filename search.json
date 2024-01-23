@@ -277,7 +277,7 @@
     "href": "Assignment 1 (Sections 21 & 22).html#simple-linear-regression-formulation-3-points",
     "title": "11  Assignment 1 (Sections 21 & 22)",
     "section": "3) Simple Linear Regression: Formulation (3 points)",
-    "text": "3) Simple Linear Regression: Formulation (3 points)\nWhen asked to state the simple linear regression model, a students wrote it as follows: \\(E(Y_i) = \\beta_0 + \\beta_1X_1 + \\epsilon_i\\). Is this correct (1 point)? Justify your answer (2 points)."
+    "text": "3) Simple Linear Regression: Formulation (3 points)\nWhen asked to state the simple linear regression model, a students wrote it as follows: \\(E(Y_i) = \\beta_0 + \\beta_1X_i + \\epsilon_i\\). Is this correct (1 point)? Justify your answer (2 points)."
   },
   {
     "objectID": "Assignment 1 (Sections 21 & 22).html#modeling-the-petrol-consumption-in-u.s.-states-58-points",
@@ -298,7 +298,7 @@
     "href": "Assignment 1 (Sections 21 & 22).html#bonus-question-15-points",
     "title": "11  Assignment 1 (Sections 21 & 22)",
     "section": "6) Bonus Question (15 points)",
-    "text": "6) Bonus Question (15 points)\nPlease note that the bonus question requires you to look more into the usage of the tools we covered in class and it will be necessary to do your own research. We strongly suggest attempting it after you are done with the rest of the assignment.\n\n6a)\nFit a simple linear regression model to predict Petrol_consumption based on the predictor in Question 3, but without an intercept term. (5 points - no partial credit)\nWithout an intercept means that the equation becomes \\(Y = \\beta_1X\\). The intercept term, \\(\\beta_0\\), becomes 0.\nNote: You must answer this part correctly to qualify for the bonus points in the following parts.\n\n\n6b)\nPredict the petrol consumption for the observations in petrol_consumption_test.csv using the model without an intercept and find the RMSE. (1+2 points) Then, print the summary and find the R-squared. (2 points)\n\n\n6c)\nThe RMSE for the models with and without the intercept are similar, which indicates that both models are almost equally good. However, the R-squared for the model without intercept is much higher than the R-squared for the model with the intercept. Why? Justify your answer. (5 points - no partial credit)"
+    "text": "6) Bonus Question (15 points)\nPlease note that the bonus question requires you to look more into the usage of the tools we covered in class and it will be necessary to do your own research. We strongly suggest attempting it after you are done with the rest of the assignment.\n\n6a)\nFit a simple linear regression model to predict Petrol_consumption based on the predictor in Question 4, but without an intercept term. (5 points - no partial credit)\nWithout an intercept means that the equation becomes \\(Y = \\beta_1X\\). The intercept term, \\(\\beta_0\\), becomes 0.\nNote: You must answer this part correctly to qualify for the bonus points in the following parts.\n\n\n6b)\nPredict the petrol consumption for the observations in petrol_consumption_test.csv using the model without an intercept and find the RMSE. (1+2 points) Then, print the summary and find the R-squared. (2 points)\n\n\n6c)\nThe RMSE for the models with and without the intercept are similar, which indicates that both models are almost equally good. However, the R-squared for the model without intercept is much higher than the R-squared for the model with the intercept. Why? Justify your answer. (5 points - no partial credit)"
   },
   {
     "objectID": "Datasets.html",
