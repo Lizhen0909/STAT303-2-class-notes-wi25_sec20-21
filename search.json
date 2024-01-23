@@ -291,7 +291,7 @@
     "href": "Assignment 1 (Sections 21 & 22).html#reproducing-the-results-with-scikit-learn-15-points",
     "title": "11  Assignment 1 (Sections 21 & 22)",
     "section": "5) Reproducing the Results with Scikit-Learn (15 points)",
-    "text": "5) Reproducing the Results with Scikit-Learn (15 points)\n\n5a)\nUsing the same datasets, same response and the same predictor as Question 3, reproduce the following outputs with scikit-learn:\n\nModel RMSE for test data (3 points)\nR-squared value of the model (3 points)\nResidual standard error of the model (3 points)\n\nNote that you are only allowed to use scikit-learn, pandas, and numpy tools for this question. Any other libraries will not receive any credit.\n\n\n5b)\nWhich of the model outputs from Question 3 cannot be reproduced using scikit-learn? Give two answers. (2+2 points) What does this tell about scikit-learn? (2 points)"
+    "text": "5) Reproducing the Results with Scikit-Learn (15 points)\n\n5a)\nUsing the same datasets, same response and the same predictor as Question 4, reproduce the following outputs with scikit-learn:\n\nModel RMSE for test data (3 points)\nR-squared value of the model (3 points)\nResidual standard error of the model (3 points)\n\nNote that you are only allowed to use scikit-learn, pandas, and numpy tools for this question. Any other libraries will not receive any credit.\n\n\n5b)\nWhich of the model outputs from Question 4 cannot be reproduced using scikit-learn? Give two answers. (2+2 points) What does this tell about scikit-learn? (2 points)"
   },
   {
     "objectID": "Assignment 1 (Sections 21 & 22).html#bonus-question-15-points",
