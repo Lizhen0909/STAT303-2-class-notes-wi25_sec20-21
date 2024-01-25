@@ -34,7 +34,7 @@ book:
       chapters:
         - Assignment 1 (Section 20).ipynb
         - Assignment 1 (Sections 21 & 22).ipynb
-        - Assignment 2.ipynb
+        - Assignment 2 new.ipynb
   appendices: 
     - Datasets.ipynb
     - references.qmd  
