@@ -22,7 +22,11 @@ book:
     - part: "Assignments"
       chapters:
         - Assignment 1 (Section 20).ipynb
+	- Assignment 1 (Sections 21 & 22).ipynb
+	- Assignment 2.ipynb
 
+
+bibliography: references.bib
 
 format:
   html:
