@@ -25,6 +25,11 @@ book:
         - Assignment 1 (Sections 21 & 22).ipynb
         - Assignment 2.ipynb
 
+  appendices: 
+    - Datasets.ipynb
+    - references.qmd  
+
+bibliography: references.bib
 
 format:
   html:
