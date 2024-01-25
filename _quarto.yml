@@ -19,6 +19,9 @@ book:
       chapters:
         - Lec1_SimpleLinearRegression.ipynb
         - Lec2_MultipleLinearRegression.ipynb
+    - part: "Assignments"
+      chapters:
+        - Assignment 1 (Section 20).ipynb
 
 
 format:
