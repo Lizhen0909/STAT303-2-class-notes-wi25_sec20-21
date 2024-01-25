@@ -26,8 +26,6 @@ book:
 	- Assignment 2.ipynb
 
 
-bibliography: references.bib
-
 format:
   html:
     theme: cosmo
