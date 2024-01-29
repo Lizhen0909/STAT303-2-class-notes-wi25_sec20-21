@@ -277,6 +277,12 @@ window.Quarto = {
   <li><a href="#quadratic-transformation" id="toc-quadratic-transformation" class="nav-link" data-scroll-target="#quadratic-transformation"><span class="header-section-number">3.2.1</span> Quadratic transformation</a></li>
   <li><a href="#cubic-transformation" id="toc-cubic-transformation" class="nav-link" data-scroll-target="#cubic-transformation"><span class="header-section-number">3.2.2</span> Cubic transformation</a></li>
   </ul></li>
+  <li><a href="#polynomialfeatures" id="toc-polynomialfeatures" class="nav-link" data-scroll-target="#polynomialfeatures"><span class="header-section-number">3.3</span> <code>PolynomialFeatures()</code></a>
+  <ul>
+  <li><a href="#generating-polynomial-features" id="toc-generating-polynomial-features" class="nav-link" data-scroll-target="#generating-polynomial-features"><span class="header-section-number">3.3.1</span> Generating polynomial features</a></li>
+  <li><a href="#fitting-the-model" id="toc-fitting-the-model" class="nav-link" data-scroll-target="#fitting-the-model"><span class="header-section-number">3.3.2</span> Fitting the model</a></li>
+  <li><a href="#testing-the-model" id="toc-testing-the-model" class="nav-link" data-scroll-target="#testing-the-model"><span class="header-section-number">3.3.3</span> Testing the model</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -306,21 +312,25 @@ window.Quarto = {
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
 <section id="variable-interactions" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="variable-interactions"><span class="header-section-number">3.1</span> Variable interactions</h2>
-<div id="bdb5a335" class="cell" data-execution_count="2">
+<div id="bdb5a335" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="4ffcff8f" class="cell" data-execution_count="3">
+<div id="4ffcff8f" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.merge(testf,testp)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
 <div>
 
 
@@ -597,13 +607,11 @@ price = \beta_0 + \beta_1*year + (\beta_2+\beta_3*year)*engineSize + \beta4*mile
 price = \beta_0 + \beta_1*year + \tilde \beta*engineSize + \beta4*mileage + \beta_5*mpg,
 \end{equation}\]</span></p>
 <p>Since <span class="math inline">\(\tilde \beta\)</span> is a function of <code>year</code>, the association between <code>engineSize</code> and <code>price</code> is no longer a constant. A change in the value of <code>year</code> will change the association between <code>price</code> and <code>engineSize</code>.</p>
-<p>Substituting the values of the coefficients: <span class="math display">\[\begin{equation}
-price = 5.606e5 - 275.3833*year + (-1.796e6+896.7687*year)*engineSize -0.1525*mileage -84.3417*mpg
-\end{equation}\]</span></p>
+<p>Substituting the values of the coefficients:</p>
+<p><code>price</code> = 5.606e5 - 275.3833<em><code>year</code> + (-1.796e6+896.7687<code>year</code>)</em><code>engineSize</code> -0.1525<em><code>mileage</code> -84.3417</em><code>mpg</code></p>
 <p>Thus, for cars launched in the year 2010, the average increase in price for one liter increase in engine size is -1.796e6 + 896.7687 * 2010 <span class="math inline">\(\approx\)</span> \$6,500, assuming all the other predictors are constant. However, for cars launched in the year 2020, the average increase in price for one liter increase in engine size is -1.796e6 + 896.7687*2020 <span class="math inline">\(\approx\)</span> \$15,500 , assuming all the other predictors are constant.</p>
-<p>Similarly, the equation can be re-arranged as: <span class="math display">\[\begin{equation}
-price = 5.606e5 +(-275.3833+896.7687*engineSize)*year -1.796e6*engineSize -0.1525*mileage -84.3417*mpg
-\end{equation}\]</span></p>
+<p>Similarly, the equation can be re-arranged as:</p>
+<p><code>price</code> = 5.606e5 +(-275.3833+896.7687<em><code>engineSize</code>)</em><code>year</code> -1.796e6<em><code>engineSize</code> -0.1525</em><code>mileage</code> -84.3417*<code>mpg</code></p>
 <p>Thus, for cars with an engine size of 2 litres, the average increase in price for a one year newer model is -275.3833+896.7687 * 2 <span class="math inline">\(\approx\)</span> \$1500, assuming all the other predictors are constant. However, for cars with an engine size of 3 litres, the average increase in price for a one year newer model is -275.3833+896.7687 * 3 <span class="math inline">\(\approx\)</span> \$2400, assuming all the other predictors are constant.</p>
 <div id="7d013a28" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing the RMSE of the model with the interaction term</span></span>
@@ -635,7 +643,7 @@ Name: transmission, dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>train_updated <span class="op">=</span> train[train.transmission<span class="op">!=</span><span class="st">'Other'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="6ea95322" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~engineSize+transmission'</span>, data <span class="op">=</span> train_updated)</span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price ~ engineSize + transmission'</span>, data <span class="op">=</span> train_updated)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -1123,14 +1131,16 @@ Name: transmission, dtype: int64</code></pre>
 </div>
 </div>
 <p>The model equation for the model with interactions is:</p>
-<p>Automatic transmission: <span class="math inline">\(price = 3754.7238   + 9928.6082 * engineSize\)</span>,<br>
-Semi-Automatic transmission: <span class="math inline">\(price = 3754.7238 + 9928.6082 * engineSize + (-5282.7164+4162.2428*engineSize)\)</span>,<br>
-Manual transmission: <span class="math inline">\(price = 3754.7238 + 9928.6082 * engineSize +(1768.5856-5285.9059*engineSize)\)</span>, or</p>
-<p>Automatic transmission: <span class="math inline">\(price = 3754.7238   + 9928.6082 * engineSize\)</span>,<br>
-Semi-Automatic transmission: <span class="math inline">\(price = -1527 + 7046 * engineSize\)</span>,<br>
-Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSize\)</span>,</p>
+<p>Automatic transmission: <code>price</code> = 3754.7238 + 9928.6082 * <code>engineSize</code>,</p>
+<p>Semi-Automatic transmission: <code>price</code> = 3754.7238 + 9928.6082 * <code>engineSize</code> + (-5282.7164+4162.2428*<code>engineSize</code>),<br>
+</p>
+<p>Manual transmission: <code>price</code> = 3754.7238 + 9928.6082 * <code>engineSize</code> +(1768.5856-5285.9059 * <code>engineSize</code>),</p>
+<p>or</p>
+<p>Automatic transmission: <code>price</code> = 3754.7238 + 9928.6082 * <code>engineSize</code>,</p>
+<p>Semi-Automatic transmission: <code>price</code> = -1527 + 7046 * <code>engineSize</code>,</p>
+<p>Manual transmission: <code>price</code> = 5523 + 4642 * <code>engineSize</code></p>
 <p><strong>Q:</strong> Interpret the coefficient of manual tranmission, i.e., the coefficient of <code>transmission[T.Manual]</code>.</p>
-<p><strong>A:</strong> For a given engine size, the estimated mean <code>price</code> of a car with <em>Manual</em> transmission is <span class="math inline">\(\approx\)</span> \$1768 more than the estimated mean <code>price</code> of a car with <em>Automatic</em> transmission.</p>
+<p><strong>A:</strong> For a hypothetical scenario of zero engine size, the estimated mean <code>price</code> of a car with <em>Manual</em> <code>transmission</code> is <span class="math inline">\(\approx\)</span> \$1768 more than the estimated mean <code>price</code> of a car with <em>Automatic</em> <code>transmission</code>.</p>
 <p><strong>Q:</strong> Interpret the coefficient of the interaction between engine size and manual transmission, i.e., the coefficient of <code>engineSize:transmission[T.Manual]</code>.</p>
 <p><strong>A:</strong> For a unit (or a litre) increase in <code>engineSize</code> , the increase in estimated mean <code>price</code> of a car with <em>Manual</em> transmission is <span class="math inline">\(\approx\)</span> \$5285 less than the increase in estimated mean <code>price</code> of a car with <em>Automatic</em> transmission.</p>
 <div id="f8d39935" class="cell" data-execution_count="39">
@@ -1693,6 +1703,61 @@ Manual transmission: <span class="math inline">\(price = 5523 + 4642 * engineSiz
 </div>
 </div>
 <p>Note that the prediction accuracy of the model has further increased, as the RMSE has reduced. The transformed predictor is statistically significant and provides additional flexibility to better capture the trend in the data, leading to an increase in prediction accuracy.</p>
+</section>
+</section>
+<section id="polynomialfeatures" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="polynomialfeatures"><span class="header-section-number">3.3</span> <code>PolynomialFeatures()</code></h2>
+<p>The function <code>PolynomialFeatures()</code> from the <code>sklearn</code> library can be used to generate a predictor matrix that includes all interactions and transformations upto a degree <code>d</code>.</p>
+<div id="8998bbbb" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train[[<span class="st">'mileage'</span>, <span class="st">'engineSize'</span>, <span class="st">'year'</span>, <span class="st">'mpg'</span>]]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train[[<span class="st">'price'</span>]]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test[[<span class="st">'mileage'</span>, <span class="st">'engineSize'</span>, <span class="st">'year'</span>, <span class="st">'mpg'</span>]]</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test[[<span class="st">'price'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="generating-polynomial-features" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="generating-polynomial-features"><span class="header-section-number">3.3.1</span> Generating polynomial features</h3>
+<p>Let us generate polynomial features upto degree 2. This will include all the two-factor interactions, and all squared terms of degree 2.</p>
+<div id="d365c0e2" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>poly <span class="op">=</span> PolynomialFeatures(<span class="dv">2</span>, include_bias <span class="op">=</span> <span class="va">False</span>) <span class="co"># Create the object - degree is 2</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the polynomial features</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>X_train_poly <span class="op">=</span> poly.fit_transform(X_train) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that the <code>LinearRegression()</code> function adds the intercept by default <em>(check the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html"><code>fit_intercept</code></a> argument)</em>. Thus, we have put <code>include_bias = False</code> while generating the polynomial features, as we don’t need the intercept. The term <code>bias</code> here refers to the intercept <em>(you will learn about <code>bias</code> in detail in STAT303-3)</em>. Another option is to include the intercept while generating the polynomial features, and put <code>fit_intercept = False</code> in the <code>LinearRegression()</code> function.</p>
+<p>Below are the polynomial features generated by the <code>PolynomialFeatures()</code> functions.</p>
+<div id="356f314c" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>poly.get_feature_names_out()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>array(['mileage', 'engineSize', 'year', 'mpg', 'mileage^2',
+       'mileage engineSize', 'mileage year', 'mileage mpg',
+       'engineSize^2', 'engineSize year', 'engineSize mpg', 'year^2',
+       'year mpg', 'mpg^2'], dtype=object)</code></pre>
+</div>
+</div>
+</section>
+<section id="fitting-the-model" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="fitting-the-model"><span class="header-section-number">3.3.2</span> Fitting the model</h3>
+<div id="fcd859ee" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression() </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>model.fit(X_train_poly, y_train) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<style>#sk-container-id-7 {color: black;background-color: white;}#sk-container-id-7 pre{padding: 0;}#sk-container-id-7 div.sk-toggleable {background-color: white;}#sk-container-id-7 label.sk-toggleable__label {cursor: pointer;display: block;width: 100%;margin-bottom: 0;padding: 0.3em;box-sizing: border-box;text-align: center;}#sk-container-id-7 label.sk-toggleable__label-arrow:before {content: "▸";float: left;margin-right: 0.25em;color: #696969;}#sk-container-id-7 label.sk-toggleable__label-arrow:hover:before {color: black;}#sk-container-id-7 div.sk-estimator:hover label.sk-toggleable__label-arrow:before {color: black;}#sk-container-id-7 div.sk-toggleable__content {max-height: 0;max-width: 0;overflow: hidden;text-align: left;background-color: #f0f8ff;}#sk-container-id-7 div.sk-toggleable__content pre {margin: 0.2em;color: black;border-radius: 0.25em;background-color: #f0f8ff;}#sk-container-id-7 input.sk-toggleable__control:checked~div.sk-toggleable__content {max-height: 200px;max-width: 100%;overflow: auto;}#sk-container-id-7 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {content: "▾";}#sk-container-id-7 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 input.sk-hidden--visually {border: 0;clip: rect(1px 1px 1px 1px);clip: rect(1px, 1px, 1px, 1px);height: 1px;margin: -1px;overflow: hidden;padding: 0;position: absolute;width: 1px;}#sk-container-id-7 div.sk-estimator {font-family: monospace;background-color: #f0f8ff;border: 1px dotted black;border-radius: 0.25em;box-sizing: border-box;margin-bottom: 0.5em;}#sk-container-id-7 div.sk-estimator:hover {background-color: #d4ebff;}#sk-container-id-7 div.sk-parallel-item::after {content: "";width: 100%;border-bottom: 1px solid gray;flex-grow: 1;}#sk-container-id-7 div.sk-label:hover label.sk-toggleable__label {background-color: #d4ebff;}#sk-container-id-7 div.sk-serial::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: 0;}#sk-container-id-7 div.sk-serial {display: flex;flex-direction: column;align-items: center;background-color: white;padding-right: 0.2em;padding-left: 0.2em;position: relative;}#sk-container-id-7 div.sk-item {position: relative;z-index: 1;}#sk-container-id-7 div.sk-parallel {display: flex;align-items: stretch;justify-content: center;background-color: white;position: relative;}#sk-container-id-7 div.sk-item::before, #sk-container-id-7 div.sk-parallel-item::before {content: "";position: absolute;border-left: 1px solid gray;box-sizing: border-box;top: 0;bottom: 0;left: 50%;z-index: -1;}#sk-container-id-7 div.sk-parallel-item {display: flex;flex-direction: column;z-index: 1;position: relative;background-color: white;}#sk-container-id-7 div.sk-parallel-item:first-child::after {align-self: flex-end;width: 50%;}#sk-container-id-7 div.sk-parallel-item:last-child::after {align-self: flex-start;width: 50%;}#sk-container-id-7 div.sk-parallel-item:only-child::after {width: 0;}#sk-container-id-7 div.sk-dashed-wrapped {border: 1px dashed gray;margin: 0 0.4em 0.5em 0.4em;box-sizing: border-box;padding-bottom: 0.4em;background-color: white;}#sk-container-id-7 div.sk-label label {font-family: monospace;font-weight: bold;display: inline-block;line-height: 1.2em;}#sk-container-id-7 div.sk-label-container {text-align: center;}#sk-container-id-7 div.sk-container {/* jupyter's `normalize.less` sets `[hidden] { display: none; }` but bootstrap.min.css set `[hidden] { display: none !important; }` so we also need the `!important` here to be able to override the default hidden behavior on the sphinx rendered scikit-learn.org. See: https://github.com/scikit-learn/scikit-learn/issues/21755 */display: inline-block !important;position: relative;}#sk-container-id-7 div.sk-text-repr-fallback {display: none;}</style><div id="sk-container-id-7" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>LinearRegression()</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br>On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden=""><div class="sk-item"><div class="sk-estimator sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-7" type="checkbox" checked=""><label for="sk-estimator-id-7" class="sk-toggleable__label sk-toggleable__label-arrow">LinearRegression</label><div class="sk-toggleable__content"><pre>LinearRegression()</pre></div></div></div></div></div>
+</div>
+</div>
+</section>
+<section id="testing-the-model" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="testing-the-model"><span class="header-section-number">3.3.3</span> Testing the model</h3>
+<div id="7ad5aac2" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>X_test_poly <span class="op">=</span> poly.fit_transform(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="19ac88ec" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RMSE</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(mean_squared_error(y_test, model.predict(X_test_poly)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>8896.175508213777</code></pre>
+</div>
+</div>
+<p>Note that the polynomial features have helped reduced the RMSE further.</p>
 
 
 </section>
