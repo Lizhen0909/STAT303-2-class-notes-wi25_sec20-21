@@ -266,7 +266,13 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#multiple-linear-regression" id="toc-multiple-linear-regression" class="nav-link active" data-scroll-target="#multiple-linear-regression"><span class="header-section-number">2.1</span> Multiple Linear Regression</a></li>
+  <li><a href="#multiple-linear-regression" id="toc-multiple-linear-regression" class="nav-link active" data-scroll-target="#multiple-linear-regression"><span class="header-section-number">2.1</span> Multiple Linear Regression</a>
+  <ul>
+  <li><a href="#training-the-model" id="toc-training-the-model" class="nav-link" data-scroll-target="#training-the-model"><span class="header-section-number">2.1.1</span> Training the model</a></li>
+  <li><a href="#hypothesis-test-for-a-relationship-between-the-response-and-a-subset-of-predictors" id="toc-hypothesis-test-for-a-relationship-between-the-response-and-a-subset-of-predictors" class="nav-link" data-scroll-target="#hypothesis-test-for-a-relationship-between-the-response-and-a-subset-of-predictors"><span class="header-section-number">2.1.2</span> Hypothesis test for a relationship between the response and a subset of predictors</a></li>
+  <li><a href="#prediction" id="toc-prediction" class="nav-link" data-scroll-target="#prediction"><span class="header-section-number">2.1.3</span> Prediction</a></li>
+  <li><a href="#effect-of-adding-noisy-predictors-on-r2" id="toc-effect-of-adding-noisy-predictors-on-r2" class="nav-link" data-scroll-target="#effect-of-adding-noisy-predictors-on-r2"><span class="header-section-number">2.1.4</span> Effect of adding noisy predictors on <span class="math inline">\(R^2\)</span></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -296,7 +302,7 @@ window.Quarto = {
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
 <section id="multiple-linear-regression" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="multiple-linear-regression"><span class="header-section-number">2.1</span> Multiple Linear Regression</h2>
-<div id="27354d26" class="cell" data-execution_count="31">
+<div id="27354d26" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing libraries </span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -306,13 +312,13 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Develop a multiple linear regression model that predicts car price based on engine size, year, mileage, and mpg.</strong> Datasets to be used: <em>Car_features_train.csv, Car_prices_train.csv</em></p>
-<div id="0d71a511" class="cell" data-scrolled="false" data-execution_count="7">
+<div id="0d71a511" class="cell" data-scrolled="false" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading datasets</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+<div class="cell-output cell-output-display" data-execution_count="33">
 <div>
 
 
@@ -410,12 +416,14 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="90d3c332" class="cell" data-execution_count="8">
+<section id="training-the-model" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="training-the-model"><span class="header-section-number">2.1.1</span> Training the model</h3>
+<div id="90d3c332" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the ols function to create an ols object. 'ols' stands for 'Ordinary least squares'</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~year+mileage+mpg+engineSize'</span>, data <span class="op">=</span> train)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+<div class="cell-output cell-output-display" data-execution_count="34">
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>OLS Regression Results</caption>
 <tbody>
@@ -445,7 +453,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>02:29:00</td>
+<td>03:10:20</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-52497.</td>
 </tr>
@@ -564,94 +572,165 @@ window.Quarto = {
 <br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 3.83e+07. This might indicate that there are<br>strong multicollinearity or other numerical problems.
 </div>
 </div>
-<p>The model equation is: estimated car price = -3.661e6 + 1818 * year -0.15 * mileage - 79.31 * mpg + 12180 * engineSize</p>
+<p>The model equation is: estimated car <code>price</code> = -3.661e6 + 1818 * <code>year</code> -0.15 * <code>mileage</code> - 79.31 * <code>mpg</code> + 12180 * <code>engineSize</code></p>
+<p>The procedure to fit the model using <code>sklearn</code> will be similar to that in simple linear regression.</p>
+<div id="d54b6c34" class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train[[<span class="st">'year'</span>,<span class="st">'engineSize'</span>,<span class="st">'mpg'</span>,<span class="st">'mileage'</span>]] <span class="co"># Slice out the predictors</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train[[<span class="st">'price'</span>]]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>model.fit(X_train,y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="hypothesis-test-for-a-relationship-between-the-response-and-a-subset-of-predictors" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="hypothesis-test-for-a-relationship-between-the-response-and-a-subset-of-predictors"><span class="header-section-number">2.1.2</span> Hypothesis test for a relationship between the response and a subset of predictors</h3>
 <p>Let us test the hypothesis if there is relationship between car price and the set of predictors: <code>mpg</code> and <code>year</code>.</p>
-<div id="ffd7469e" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>hypothesis <span class="op">=</span> <span class="st">'(mpg = 0, year = 0)'</span>     </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>model.f_test(hypothesis) <span class="co"># the F test of these two predictors is stat. sig.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div id="290886fb" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>hypothesis <span class="op">=</span> <span class="st">'(mpg = 0, year = 0)'</span>     </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>model.f_test(hypothesis) <span class="co"># the F test of these two predictors is stat. sig.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
 <pre><code>&lt;class 'statsmodels.stats.contrast.ContrastResults'&gt;
 &lt;F test: F=325.9206432972666, p=1.0499509223096256e-133, df_denom=4.96e+03, df_num=2&gt;</code></pre>
 </div>
 </div>
 <p>As the <span class="math inline">\(p\)</span>-value is low, we reject the null hypothesis, i.e., at least one of the predictors among <code>mpg</code> and <code>year</code> has a statistically significant relationship with car price.</p>
-<p>The procedure to fit the model using <code>sklearn</code> will be similar to that in simple linear regression.</p>
-<div id="ac5e63fa" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train[[<span class="st">'year'</span>,<span class="st">'engineSize'</span>,<span class="st">'mpg'</span>,<span class="st">'mileage'</span>]] <span class="co"># Slice out the predictors</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train[[<span class="st">'price'</span>]]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>model.fit(X_train,y_train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p><strong>Predict the car price for the cars in the test dataset</strong>. Datasets to be used: <em>Car_features_test.csv, Car_prices_test.csv</em></p>
-<div id="d1e77ba2" class="cell" data-execution_count="9">
+<div id="d1e77ba2" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="25cc5701" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the predict() function associated with the 'model' object to make predictions of car price on test (unknown) data</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)<span class="co">#Note that the predict() function finds the predictor 'engineSize' in the testf dataframe, and plugs its values in the regression equation for prediction.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="prediction" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="prediction"><span class="header-section-number">2.1.3</span> Prediction</h3>
+<div id="25cc5701" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pred_price <span class="op">=</span> model.predict(testf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Make a visualization that compares the predicted car prices with the actual car prices</strong></p>
-<div id="ce0b6b48" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> testp.price, y <span class="op">=</span> pred_price)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#In case of a perfect prediction, all the points must lie on the line x = y.</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [<span class="dv">0</span>,testp.price.<span class="bu">max</span>()], y <span class="op">=</span> [<span class="dv">0</span>,testp.price.<span class="bu">max</span>()],color<span class="op">=</span><span class="st">'orange'</span>) <span class="co">#Plotting the line x = y.</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Actual price'</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Predicted price'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>Text(0, 0.5, 'Predicted price')</code></pre>
-</div>
+<div id="ce0b6b48" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale<span class="op">=</span><span class="fl">1.25</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> testp.price, y <span class="op">=</span> pred_price, color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#In case of a perfect prediction, all the points must lie on the line x = y.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.lineplot(x <span class="op">=</span> [<span class="dv">0</span>,testp.price.<span class="bu">max</span>()], y <span class="op">=</span> [<span class="dv">0</span>,testp.price.<span class="bu">max</span>()],color<span class="op">=</span><span class="st">'blue'</span>) <span class="co">#Plotting the line x = y.</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Actual price'</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Predicted price'</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="op">-</span><span class="dv">10000</span>, <span class="dv">160000</span>])</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'$</span><span class="sc">{x:,.0f}</span><span class="st">'</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'$</span><span class="sc">{x:,.0f}</span><span class="st">'</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Lec2_MultipleLinearRegression_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="Lec2_MultipleLinearRegression_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The prediction looks better as compared to the one with simple linear regression. This is because we have four predictors to help explain the variation in car price, instead of just one in the case of simple linear regression. Also, all the predictors have a significant relationship with price as evident from their p-values. Thus, all four of them are contributing in explaining the variation. Note the higher values of R2 as compared to the one in the case of simple linear regression.</p>
+<p>The prediction looks better as compared to the one with simple linear regression. This is because we have four predictors to help explain the variation in car price, instead of just one in the case of simple linear regression. Also, all the predictors have a significant relationship with price as evident from their p-values. Thus, all four of them are contributing in explaining the variation. Note the higher values of <span class="math inline">\(R^2\)</span> as compared to the one in the case of simple linear regression.</p>
 <p><strong>What is the RMSE of the predicted car price?</strong></p>
 <div id="f9fae738" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> pred_price)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> pred_price)<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>9956.82497993548</code></pre>
 </div>
 </div>
 <p><strong>What is the residual standard error based on the training data?</strong></p>
 <div id="a277493a" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(model.mse_resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>np.sqrt(model.mse_resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>9563.74782917604</code></pre>
 </div>
 </div>
-<div id="e6d81fdc" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> model.fittedvalues, y<span class="op">=</span>model.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [pred_price.<span class="bu">min</span>(),pred_price.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted price'</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residual'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
-<pre><code>Text(0, 0.5, 'Residual')</code></pre>
+<div id="49a4bef1" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>trainp.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">carID</th>
+<th data-quarto-table-cell-role="th">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">count</td>
+<td>4960.000000</td>
+<td>4960.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mean</td>
+<td>15832.446169</td>
+<td>23469.943750</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">std</td>
+<td>2206.717006</td>
+<td>16406.714563</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">min</td>
+<td>12002.000000</td>
+<td>450.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">25%</td>
+<td>13929.250000</td>
+<td>12000.000000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">50%</td>
+<td>15840.000000</td>
+<td>18999.000000</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">75%</td>
+<td>17765.750000</td>
+<td>30335.750000</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">max</td>
+<td>19629.000000</td>
+<td>145000.000000</td>
+</tr>
+</tbody>
+</table>
+
 </div>
+</div>
+</div>
+<div id="e6d81fdc" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> model.fittedvalues, y<span class="op">=</span>model.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.lineplot(x <span class="op">=</span> [pred_price.<span class="bu">min</span>(),pred_price.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted price'</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residual'</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>ax.yaxis.set_major_formatter(<span class="st">'$</span><span class="sc">{x:,.0f}</span><span class="st">'</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ax.xaxis.set_major_formatter(<span class="st">'$</span><span class="sc">{x:,.0f}</span><span class="st">'</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">20</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Lec2_MultipleLinearRegression_files/figure-html/cell-12-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="Lec2_MultipleLinearRegression_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="effect-of-adding-noisy-predictors-on-r2" class="level3" data-number="2.1.4">
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="effect-of-adding-noisy-predictors-on-r2"><span class="header-section-number">2.1.4</span> Effect of adding noisy predictors on <span class="math inline">\(R^2\)</span></h3>
 <p><strong>Will the explained variation (R-squared) in car price always increase if we add a variable?</strong></p>
 <p><strong>Should we keep on adding variables as long as the explained variation (R-squared) is increasing?</strong></p>
 <div id="a944760e" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the ols function to create an ols object. 'ols' stands for 'Ordinary least squares'</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>train[<span class="st">'rand_col'</span>] <span class="op">=</span> np.random.rand(train.shape[<span class="dv">0</span>])</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~year+mileage+mpg+engineSize+rand_col'</span>, data <span class="op">=</span> train)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the ols function to create an ols object. 'ols' stands for 'Ordinary least squares'</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>train[<span class="st">'rand_col'</span>] <span class="op">=</span> np.random.rand(train.shape[<span class="dv">0</span>])</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~year+mileage+mpg+engineSize+rand_col'</span>, data <span class="op">=</span> train)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>OLS Regression Results</caption>
@@ -810,9 +889,10 @@ window.Quarto = {
 <br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 3.83e+07. This might indicate that there are<br>strong multicollinearity or other numerical problems.
 </div>
 </div>
-<p>Adding a variable with random values to the model (<em>rand_col</em>) increased the explained variation (R-squared). This is because the model has one more parameter to tune to reduce the residual squared error (RSS). However, the p-value of <em>rand_col</em> suggests that its coefficient is zero. Thus, using the model with <em>rand_col</em> may give poorer performance on unknown data, as compared to the model without <em>rand_col</em>. This implies that it is not a good idea to blindly add variables in the model to increase R-squared.</p>
+<p>Adding a variable with random values to the model (<code>rand_col</code>) increased the explained variation (<span class="math inline">\(R^2\)</span>). This is because the model has one more parameter to tune to reduce the residual squared error <span class="math inline">\((RSS)\)</span>. However, the <span class="math inline">\(p\)</span>-value of <code>rand_col</code> suggests that its coefficient is zero. Thus, using the model with <code>rand_col</code> may give poorer performance on unknown data, as compared to the model without <code>rand_col</code>. This implies that it is not a good idea to blindly add variables in the model to increase <span class="math inline">\(R^2\)</span>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
