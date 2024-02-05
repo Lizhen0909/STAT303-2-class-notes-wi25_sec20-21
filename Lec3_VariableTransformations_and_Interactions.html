@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Assignment 1 (Section 20).html" rel="next">
+<link href="./Lec7_logistic_regression.html" rel="next">
 <link href="./Lec2_MultipleLinearRegression.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -208,6 +208,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variable interactions and transformations</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec7_logistic_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -222,19 +228,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 1 (Section 20).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Assignment 1 (Section 20)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Assignment 1 (Section 20)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 1 (Sections 21 &amp; 22).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Assignment 1 (Sections 21 &amp; 22)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Assignment 1 (Sections 21 &amp; 22)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Assignment 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Assignment 2</span></span></a>
   </div>
 </li>
       </ul>
@@ -1708,7 +1714,7 @@ Name: transmission, dtype: int64</code></pre>
 <section id="polynomialfeatures" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="polynomialfeatures"><span class="header-section-number">3.3</span> <code>PolynomialFeatures()</code></h2>
 <p>The function <code>PolynomialFeatures()</code> from the <code>sklearn</code> library can be used to generate a predictor matrix that includes all interactions and transformations upto a degree <code>d</code>.</p>
-<div id="8998bbbb" class="cell" data-execution_count="40">
+<div id="adb6c0cb" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train[[<span class="st">'mileage'</span>, <span class="st">'engineSize'</span>, <span class="st">'year'</span>, <span class="st">'mpg'</span>]]</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train[[<span class="st">'price'</span>]]</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test[[<span class="st">'mileage'</span>, <span class="st">'engineSize'</span>, <span class="st">'year'</span>, <span class="st">'mpg'</span>]]</span>
@@ -1717,7 +1723,7 @@ Name: transmission, dtype: int64</code></pre>
 <section id="generating-polynomial-features" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="generating-polynomial-features"><span class="header-section-number">3.3.1</span> Generating polynomial features</h3>
 <p>Let us generate polynomial features upto degree 2. This will include all the two-factor interactions, and all squared terms of degree 2.</p>
-<div id="d365c0e2" class="cell" data-execution_count="41">
+<div id="db10e2ae" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>poly <span class="op">=</span> PolynomialFeatures(<span class="dv">2</span>, include_bias <span class="op">=</span> <span class="va">False</span>) <span class="co"># Create the object - degree is 2</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the polynomial features</span></span>
@@ -1725,7 +1731,7 @@ Name: transmission, dtype: int64</code></pre>
 </div>
 <p>Note that the <code>LinearRegression()</code> function adds the intercept by default <em>(check the <a href="https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html"><code>fit_intercept</code></a> argument)</em>. Thus, we have put <code>include_bias = False</code> while generating the polynomial features, as we don’t need the intercept. The term <code>bias</code> here refers to the intercept <em>(you will learn about <code>bias</code> in detail in STAT303-3)</em>. Another option is to include the intercept while generating the polynomial features, and put <code>fit_intercept = False</code> in the <code>LinearRegression()</code> function.</p>
 <p>Below are the polynomial features generated by the <code>PolynomialFeatures()</code> functions.</p>
-<div id="356f314c" class="cell" data-execution_count="42">
+<div id="09c8dfda" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>poly.get_feature_names_out()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="42">
 <pre><code>array(['mileage', 'engineSize', 'year', 'mpg', 'mileage^2',
@@ -1737,7 +1743,7 @@ Name: transmission, dtype: int64</code></pre>
 </section>
 <section id="fitting-the-model" class="level3" data-number="3.3.2">
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="fitting-the-model"><span class="header-section-number">3.3.2</span> Fitting the model</h3>
-<div id="fcd859ee" class="cell" data-execution_count="43">
+<div id="d40fa9eb" class="cell" data-execution_count="43">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression() </span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>model.fit(X_train_poly, y_train) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="43">
@@ -1747,10 +1753,10 @@ Name: transmission, dtype: int64</code></pre>
 </section>
 <section id="testing-the-model" class="level3" data-number="3.3.3">
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="testing-the-model"><span class="header-section-number">3.3.3</span> Testing the model</h3>
-<div id="7ad5aac2" class="cell" data-execution_count="44">
+<div id="533a511f" class="cell" data-execution_count="44">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>X_test_poly <span class="op">=</span> poly.fit_transform(X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="19ac88ec" class="cell" data-execution_count="48">
+<div id="75e3fbe2" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#RMSE</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(mean_squared_error(y_test, model.predict(X_test_poly)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="48">
@@ -2158,8 +2164,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Assignment 1 (Section 20).html" class="pagination-link" aria-label="<span class='chapter-number'>4</span>&nbsp; <span class='chapter-title'>Assignment 1 (Section 20)</span>">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Assignment 1 (Section 20)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Lec7_logistic_regression.html" class="pagination-link" aria-label="<span class='chapter-number'>4</span>&nbsp; <span class='chapter-title'>Logistic regression</span>">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Logistic regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
