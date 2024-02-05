@@ -20,6 +20,7 @@ book:
         - Lec1_SimpleLinearRegression.ipynb
         - Lec2_MultipleLinearRegression.ipynb
         - Lec3_VariableTransformations_and_Interactions.ipynb
+        - Lec7_logistic_regression.ipynb
     - part: "Assignments"
       chapters:
         - Assignment 1 (Section 20).ipynb
