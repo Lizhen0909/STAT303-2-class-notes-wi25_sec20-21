@@ -494,6 +494,336 @@
     ]
   },
   {
+    "objectID": "Assignment 3 (Section 21 & 22).html",
+    "href": "Assignment 3 (Section 21 & 22).html",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "",
+    "text": "Instructions",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#instructions",
+    "href": "Assignment 3 (Section 21 & 22).html#instructions",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "",
+    "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answer in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to understand and grade.\nUse Quarto to print the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Tuesday, 20th February 2024 at 11:59 pm.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#data-description",
+    "href": "Assignment 3 (Section 21 & 22).html#data-description",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "Data description",
+    "text": "Data description\nThe data is related with direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls, where bank clients were called to subscribe for a term deposit.\nThere is one train data - train.csv, which you will use to develop a model. There are two test datasets - test1.csv and test2.csv, which you will use to test your model. Each observation is a phone call and each column is a variable about the client or the phone call. Each dataset has the following attributes about the clients called in the marketing campaign:\n\nage: Age of the client\neducation: Education level of the client\nday: Day of the month the call is made\nmonth: Month of the call\ny: did the client subscribe to a term deposit?\nduration: Call duration, in seconds. This attribute highly affects the output target (e.g., if duration=0 then y=‘no’). Yet, the duration is not known before a call is performed. Also, after the end of the call y is obviously known. Thus, this input should only be included for inference purposes and should be discarded if the intention is to have a realistic predictive model.\n\n(Source: UCI Data Archive. Please use the given datasets for the assignment, not the raw data from the source. It is just for reference.)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#instructions-suggestions-for-answering-questions",
+    "href": "Assignment 3 (Section 21 & 22).html#instructions-suggestions-for-answering-questions",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "Instructions / suggestions for answering questions",
+    "text": "Instructions / suggestions for answering questions\n\nInstruction: Use train.csv for all questions, unless otherwise stated.\nSuggestion 1: You may use the functions in the class notes for printing the confusion matrix and the overall classification accuracy based on test / train data.\nSuggestion 2:: If you make variable transformations, you will need to do it for all the three datasets. Your code will be a bit concise if you make a function containing all the transformations, and then call it for the training and the two test datasets. You can put this function in the beginning of the code and keep adding transformations to it as you proceed with the assignment. You may need transformations in questions (1) and (13).",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#section",
+    "href": "Assignment 3 (Section 21 & 22).html#section",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "1)",
+    "text": "1)\nRead the datasets. Make an appropriate visualization to visualize how the proportion of clients subscribing to a term deposit change with increasing call duration.\n(4 points)\nHints:\n\nBin duration to create duration_binned. Group the data to find the fraction of clients responding positively to the marketing campaign for each bin in duration_binned. Make a lineplot of percentage of clients subscribing to a term deposit vs duration_binned, where the bins in duration_binned are arranged in increasing order of duration.\nYou may choose an appropriate number of bins & type of binning that helps you visualize well.\nYou may also think of other ways of visualization. You don’t need to stick with this one.",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#predictor-duration",
+    "href": "Assignment 3 (Section 21 & 22).html#predictor-duration",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "2) Predictor duration",
+    "text": "2) Predictor duration\nBased on the plot in (1), comment whether duration seems to be a useful variable to predict if the client will subscribe to a term deposit.\n(1 point)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#model-based-on-duration",
+    "href": "Assignment 3 (Section 21 & 22).html#model-based-on-duration",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "3) Model based on duration",
+    "text": "3) Model based on duration\nDevelop a logistic regression model to predict if the client subscribed to a term deposit based on call duration. Use the model to make a lineplot showing the probability of the client subscribing to a term deposit based on call duration.\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#note",
+    "href": "Assignment 3 (Section 21 & 22).html#note",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "Note",
+    "text": "Note\nAnswer questions 4 to 11 based on the regression model developed in (3).",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#model-significance",
+    "href": "Assignment 3 (Section 21 & 22).html#model-significance",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "4) Model significance",
+    "text": "4) Model significance\nIs the regression model in statistically significant? Justify your answer.\n(1 point for code, 1 point for answer)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#subscription-probability-in-5-minutes",
+    "href": "Assignment 3 (Section 21 & 22).html#subscription-probability-in-5-minutes",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "5) Subscription probability in 5 minutes",
+    "text": "5) Subscription probability in 5 minutes\nWhat is the probability that the client subscribes to a term deposit with a 5-minute marketing call? Note that the call duration in data is given in seconds.\n(2 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#call-duration-for-subscription",
+    "href": "Assignment 3 (Section 21 & 22).html#call-duration-for-subscription",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "6) Call duration for subscription",
+    "text": "6) Call duration for subscription\nWhat is the minimum call duration (in minutes) for which a client has a 95% or higher chance of subscribing to a term deposit?\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#maximum-call-duration",
+    "href": "Assignment 3 (Section 21 & 22).html#maximum-call-duration",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "7) Maximum call duration",
+    "text": "7) Maximum call duration\nWhat is the maximum call duration (in minutes) in which a client refused to subscribe to a term deposit? What was the probability of the client subscribing to the term deposit in that call?\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#percent-increase-in-odds",
+    "href": "Assignment 3 (Section 21 & 22).html#percent-increase-in-odds",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "8) Percent increase in odds",
+    "text": "8) Percent increase in odds\nWhat is the percentage increase in the odds of a client subscribing to a term deposit when the call duration increases by a minute?\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#doubling-the-subscription-odds",
+    "href": "Assignment 3 (Section 21 & 22).html#doubling-the-subscription-odds",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "9) Doubling the subscription odds",
+    "text": "9) Doubling the subscription odds\nHow much must the call duration increase (in minutes) so that it doubles the odds of the client subscribing to a term deposit.\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#classification-accuracy",
+    "href": "Assignment 3 (Section 21 & 22).html#classification-accuracy",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "10) Classification accuracy",
+    "text": "10) Classification accuracy\nWhat is minimum overall classification accuracy of the model among the classification accuracies on train.csv, test1.csv and test2.csv? Consider a threshold of 30% when classifying observations.\n(2 + 1 + 1 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#recall",
+    "href": "Assignment 3 (Section 21 & 22).html#recall",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "11) Recall",
+    "text": "11) Recall\nWhat is the minimum Recall of the model among the Recall performance on train.csv, test1.csv and test2.csv? Consider a decision threshold probability of 30% when classifying observations.\nHere, Recall is the proportion of clients predicted to subscribe to a term deposit among those who actually subscribed.\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#subscription-probability-based-on-age-and-education",
+    "href": "Assignment 3 (Section 21 & 22).html#subscription-probability-based-on-age-and-education",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "12) Subscription probability based on age and education",
+    "text": "12) Subscription probability based on age and education\nDevelop a logistic regression model to predict the probability of a client subscribing to a term deposit based on age, education and the two-factor interaction between age and education. Based on the model, answer:\n\nPeople with which type of education (primary / secondary / tertiary / unknown) have the highest percentage increase in odds of subscribing to a term deposit with a unit increase in age? Justify your answer.\nWhat is the percentage increase in odds of a person subscribing to a term deposit for a unit increase in age, if the person has tertiary education.\nWhat is the percentage increase in odds of a person subscribing to a term deposit for a unit increase in age, if the person has primary education.\n\n(1 point for developing the model, 3 points for (a), 3 points for (b), 3 points for (c))",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#model-development",
+    "href": "Assignment 3 (Section 21 & 22).html#model-development",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "13) Model development",
+    "text": "13) Model development\nDevelop a logistic regression model (using train.csv) to predict the probability of a client subscribing to a term deposit based on age, education, day and month. The model must have:\n\nMinimum overall classification accuracy of 75% among the classification accuracies on train.csv, test1.csv and test2.csv.\nMinimum recall of 50% among the recall performance on train.csv, test1.csv and test2.csv.\n\nFor all the three datasets - train.csv, test1.csv and test2.csv, print the:\n\nModel summary (only for train.csv),\nConfusion matrices,\nOverall classification accuracies, and\nRecall\n\nNote that:\n\nYou cannot use duration as a predictor because its value is determined after the marketing call ends. However, after the call ends, we already know whether the client responded positively or negatively. That is why we have used duration only for inference in the previous questions. It helped us understand the effect of the length of the call on marketing success.\nIt is possible to develop the model satisfying constrains (a) and (b) with just appropriate transformation(s) of the predictor(s). However, you may consider interactions if you wish. Justify the transformations, if any, with visualizations.\nYou are free to choose any value of the decision threshold probability for classifying observations. However, you must use the same threshold on all the three datasets.\n\n(10 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#roc-auc",
+    "href": "Assignment 3 (Section 21 & 22).html#roc-auc",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "14) ROC-AUC",
+    "text": "14) ROC-AUC\nReport the probability that the model will predict a higher probability of response for a customer who signs up for the term deposit as compared to the customer who does not sign up, i.e., the ROC-AUC of the developed model in (13).\nHint: Use the functions roc_curve, and auc from the sklearn.metrics module\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#net-profit",
+    "href": "Assignment 3 (Section 21 & 22).html#net-profit",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "15) Net-profit",
+    "text": "15) Net-profit\nSuppose that the model developed in (13) is used to predict the clients in test1.csv and test2.csv who will respond positively to the campaign. Only those clients who are predicted to respond positively are called during the marketing campaign. Assume that:\n\nA profit of \\$100 is associated with a client who responds positively to the campaign,\nA loss of \\$10 is associated with a client who responds negatively to the campaign\n\nWhat is the net profit from the campaign? Use the confusion matrices printed in (13).\n(4 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#decision-threshold-probability",
+    "href": "Assignment 3 (Section 21 & 22).html#decision-threshold-probability",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "16) Decision threshold probability",
+    "text": "16) Decision threshold probability\nBased on the profit and loss associated with client responses specified in (15), and the model developed in (13), find the decision threshold probability of classification, such that the net profit is maximized. Use train.csv\nProceed as follows:\n\nYou would have obtained FPR and TPR for all potential decision threshold probabilities in (14).\nFormulate an expression quantifying the net profit per client, in terms of FPR, TPR, and the overall response rate, i.e., proportion of people actually subscribing to the term deposit.\nFind the decision threshold probability that maximizes the expression in (2).\n\n(5 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#net-profit-based-on-new-decision-threshold-probability",
+    "href": "Assignment 3 (Section 21 & 22).html#net-profit-based-on-new-decision-threshold-probability",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "17) Net profit based on new decision threshold probability",
+    "text": "17) Net profit based on new decision threshold probability\nUsing the new decision threshold probability obtained in (16), answer (15), i.e., what is the net-profit associated with the clients in test1.csv and test2.csv if a marketing campaign is performed. Again, only those clients who are predicted to respond positively, based on the new decision threshold probability, are called during the marketing campaign\nAlso, print the confusion matrices for predictions on test1.csv and test2.csv with the new threshold probability.\n(4 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#model-preference",
+    "href": "Assignment 3 (Section 21 & 22).html#model-preference",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "18) Model preference",
+    "text": "18) Model preference\nWas the classification accuracy of the model in (13) higher than that of the model in (17)? If yes, then should you prefer the model in (13) for the marketing campaign? Why or why not?\nNote: The model in (17) is the same as in (13), except with a different decision threshold probability\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#roc-curve",
+    "href": "Assignment 3 (Section 21 & 22).html#roc-curve",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "19) ROC curve",
+    "text": "19) ROC curve\nPlot the ROC curve for the model developed in (13). Mark the point on the curve corresponding to the decision threshold probability identified in (16).\nNote that the ROC curve is independent of the decision threshold probability used by the model for prediction\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#profit-with-tpr-fpr",
+    "href": "Assignment 3 (Section 21 & 22).html#profit-with-tpr-fpr",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "20) Profit with TPR / FPR",
+    "text": "20) Profit with TPR / FPR\nMake a scatterplot of TPR vs FPR, and color the points based on net profit per client.\nYou can use the following code to make the plot if you have the relevant metrics in tpr, fpr, and net_profit\n(1 point)\n\n\nCode\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nsns.set(font_scale=1.5)\nplt.rcParams[\"figure.figsize\"] = (9,6)\nplt.rcParams[\"figure.autolayout\"] = True\nf, ax = plt.subplots()\npoints = ax.scatter(fpr, tpr, c = net_profit, s=50, cmap=\"Blues\")\nf.colorbar(points, label = \"Net profit ($) \\n(per client)\")\nplt.xlabel(\"False positive rate\")\nplt.ylabel(\"True positive rate\")\nplt.show()",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#precision-recall",
+    "href": "Assignment 3 (Section 21 & 22).html#precision-recall",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "21) Precision-recall",
+    "text": "21) Precision-recall\nCompare the precision and recall of the models in (13) and (17) on train.csv.\nNote: The model in (17) is the same as in (13), except with a different decision threshold probability\n(4 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#precision-recall-important-metric",
+    "href": "Assignment 3 (Section 21 & 22).html#precision-recall-important-metric",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "22) Precision-recall: important metric",
+    "text": "22) Precision-recall: important metric\nBased on the above comparison, which metric among precision and recall turns out to be more important for maximizing the net profit in the marketing campaign?\n(1 point)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#precision-recall-curve",
+    "href": "Assignment 3 (Section 21 & 22).html#precision-recall-curve",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "23) Precision-recall curve",
+    "text": "23) Precision-recall curve\nPlot the precision-recall curve vs decision threshold probability for the model developed in (13). Mark the points on the curve corresponding to the decision threshold probability identified in (16).\n(3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#precision-recall-vs-fpr-tpr",
+    "href": "Assignment 3 (Section 21 & 22).html#precision-recall-vs-fpr-tpr",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "24) Precision-recall vs FPR-TPR",
+    "text": "24) Precision-recall vs FPR-TPR\nInstead of using the FPR and TPR metrics to find the optimum decision threshold probability in (16), use the precision-recall metrics to find the same.\n(5 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment 3 (Section 21 & 22).html#sklearn",
+    "href": "Assignment 3 (Section 21 & 22).html#sklearn",
+    "title": "Assignment 3 (Section 21 & 22)",
+    "section": "25) Sklearn",
+    "text": "25) Sklearn\nUsing train.csv and only sklearn, pandas, and numpy, train a Logistic Regression model. You need the following steps:\n\nThe response is still y.\nPredictors are education, month, day and age.\nNumerical predictors need to be transformed to all their second-order polynomial versions.\nCategorical predictors need to be one-hot-encoded. They should not interact with the numerical predictors.\nAfterwards, the all the predictors needs to be standard scaled.\n\nPrint the accuracy and recall for both training and test data using a threshold of 0.11. Use test1.csv as the test dataset. Remember that the test dataset needs to go through the exact same transformation pipeline as the training dataset.\n(8 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+    ]
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
     "title": "Appendix A — Datasets, assignment and project files",
