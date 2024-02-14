@@ -303,6 +303,7 @@ window.Quarto = {
   <li><a href="#precision-recall" id="toc-precision-recall" class="nav-link" data-scroll-target="#precision-recall"><span class="header-section-number">4.6.1</span> Precision-recall</a></li>
   <li><a href="#the-receiver-operating-characteristics-roc-curve" id="toc-the-receiver-operating-characteristics-roc-curve" class="nav-link" data-scroll-target="#the-receiver-operating-characteristics-roc-curve"><span class="header-section-number">4.6.2</span> The Receiver Operating Characteristics (ROC) Curve</a></li>
   </ul></li>
+  <li><a href="#sklearn" id="toc-sklearn" class="nav-link" data-scroll-target="#sklearn"><span class="header-section-number">4.7</span> sklearn</a></li>
   </ul>
 </nav>
     </div>
@@ -339,12 +340,14 @@ window.Quarto = {
 <p>The logistic function, also called the <strong><code>Sigmoid function</code></strong> was developed by statisticians to describe properties of population growth in ecology, rising quickly and maxing out at the carrying capacity of the environment. It’s an S-shaped curve that can take any real-valued number and map it into a value between 0 and 1, but never exactly at those limits.</p>
 <p><span class="math display">\[\frac{1}{1 + e^{-x}}\]</span></p>
 <p><span class="math inline">\(e\)</span> is the base of the natural logarithms and <span class="math inline">\(x\)</span> is value that you want to transform via the logistic function.</p>
-<div id="6d1b1601" class="cell" data-execution_count="1">
+<div id="6d1b1601" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> sm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> sm</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_recall_curve, roc_curve, auc, accuracy_score</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="e568bebf" class="cell" data-scrolled="true" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
@@ -2057,20 +2060,19 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <p><strong>Precision / Recall Tradeoff</strong>: Increasing precision reduces recall and vice versa.</p>
 <p><strong>Visualize the precision-recall curve for the model <code>logit_model_diabetes</code></strong>.</p>
 <div id="a287b462" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> precision_recall_curve</span>
-<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span>train.Outcome</span>
-<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>ypred <span class="op">=</span> logit_model_diabetes.predict(train)</span>
-<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a>p, r, thresholds <span class="op">=</span> precision_recall_curve(y, ypred)</span>
-<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_precision_recall_vs_threshold(precisions, recalls, thresholds):</span>
-<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
-<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Precision and Recall Scores as a function of the decision threshold"</span>)</span>
-<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>    plt.plot(thresholds, precisions[:<span class="op">-</span><span class="dv">1</span>], <span class="st">"b--"</span>, label<span class="op">=</span><span class="st">"Precision"</span>)</span>
-<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>    plt.plot(thresholds, recalls[:<span class="op">-</span><span class="dv">1</span>], <span class="st">"g-"</span>, label<span class="op">=</span><span class="st">"Recall"</span>)</span>
-<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Score"</span>)</span>
-<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Decision Threshold"</span>)</span>
-<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc<span class="op">=</span><span class="st">'best'</span>)</span>
-<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
-<span id="cb73-14"><a href="#cb73-14" aria-hidden="true" tabindex="-1"></a>plot_precision_recall_vs_threshold(p, r, thresholds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span>train.Outcome</span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>ypred <span class="op">=</span> logit_model_diabetes.predict(train)</span>
+<span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>p, r, thresholds <span class="op">=</span> precision_recall_curve(y, ypred)</span>
+<span id="cb73-4"><a href="#cb73-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_precision_recall_vs_threshold(precisions, recalls, thresholds):</span>
+<span id="cb73-5"><a href="#cb73-5" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb73-6"><a href="#cb73-6" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">"Precision and Recall Scores as a function of the decision threshold"</span>)</span>
+<span id="cb73-7"><a href="#cb73-7" aria-hidden="true" tabindex="-1"></a>    plt.plot(thresholds, precisions[:<span class="op">-</span><span class="dv">1</span>], <span class="st">"b--"</span>, label<span class="op">=</span><span class="st">"Precision"</span>)</span>
+<span id="cb73-8"><a href="#cb73-8" aria-hidden="true" tabindex="-1"></a>    plt.plot(thresholds, recalls[:<span class="op">-</span><span class="dv">1</span>], <span class="st">"g-"</span>, label<span class="op">=</span><span class="st">"Recall"</span>)</span>
+<span id="cb73-9"><a href="#cb73-9" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"Score"</span>)</span>
+<span id="cb73-10"><a href="#cb73-10" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"Decision Threshold"</span>)</span>
+<span id="cb73-11"><a href="#cb73-11" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc<span class="op">=</span><span class="st">'best'</span>)</span>
+<span id="cb73-12"><a href="#cb73-12" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb73-13"><a href="#cb73-13" aria-hidden="true" tabindex="-1"></a>plot_precision_recall_vs_threshold(p, r, thresholds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -2111,23 +2113,22 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <p>Here is good <a href="https://developers.google.com/machine-learning/crash-course/classification/roc-and-auc">post</a> by google developers on interpreting ROC-AUC, and its advantages / disadvantages.</p>
 <p><strong>Visualize the ROC curve and compute the ROC-AUC for the model <code>logit_model_diabetes</code></strong>.</p>
 <div id="5faed7b9" class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span>train.Outcome</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>ypred <span class="op">=</span> logit_model_diabetes.predict(train)</span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>fpr, tpr, auc_thresholds <span class="op">=</span> roc_curve(y, ypred)</span>
-<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(auc(fpr, tpr))<span class="co"># AUC of ROC</span></span>
-<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_roc_curve(fpr, tpr, label<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span>
-<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'ROC Curve'</span>)</span>
-<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>    plt.plot(fpr, tpr, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span>label)</span>
-<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>    plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], <span class="st">'k--'</span>)</span>
-<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>    plt.axis([<span class="op">-</span><span class="fl">0.005</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">1.005</span>])</span>
-<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>    plt.xticks(np.arange(<span class="dv">0</span>,<span class="dv">1</span>, <span class="fl">0.05</span>), rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"False Positive Rate"</span>)</span>
-<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"True Positive Rate (Recall)"</span>)</span>
-<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a>fpr, tpr, auc_thresholds <span class="op">=</span> roc_curve(y, ypred)</span>
-<span id="cb74-17"><a href="#cb74-17" aria-hidden="true" tabindex="-1"></a>plot_roc_curve(fpr, tpr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>y<span class="op">=</span>train.Outcome</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>ypred <span class="op">=</span> logit_model_diabetes.predict(train)</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>fpr, tpr, auc_thresholds <span class="op">=</span> roc_curve(y, ypred)</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(auc(fpr, tpr))<span class="co"># AUC of ROC</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_roc_curve(fpr, tpr, label<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span>
+<span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'ROC Curve'</span>)</span>
+<span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>    plt.plot(fpr, tpr, linewidth<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span>label)</span>
+<span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>    plt.plot([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="dv">0</span>, <span class="dv">1</span>], <span class="st">'k--'</span>)</span>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>    plt.axis([<span class="op">-</span><span class="fl">0.005</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="fl">1.005</span>])</span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>    plt.xticks(np.arange(<span class="dv">0</span>,<span class="dv">1</span>, <span class="fl">0.05</span>), rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"False Positive Rate"</span>)</span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"True Positive Rate (Recall)"</span>)</span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>fpr, tpr, auc_thresholds <span class="op">=</span> roc_curve(y, ypred)</span>
+<span id="cb74-16"><a href="#cb74-16" aria-hidden="true" tabindex="-1"></a>plot_roc_curve(fpr, tpr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.8325914847653979</code></pre>
 </div>
@@ -2189,9 +2190,42 @@ ROC-AUC = 90.1%</code></pre>
 </div>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="sklearn" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="sklearn"><span class="header-section-number">4.7</span> sklearn</h2>
+<p>The <code>LogisticRegression()</code> function from the <code>linear_model</code> module of the <code>sklearn</code> library is used for fitting a logistic regression model. Note that the function as a default regularization parameter value set as <code>C = 1</code>. We’ll understand the purpose of regularization later in the course.</p>
+<div id="b46d992d" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Social_Network_Ads_train.csv'</span>) <span class="co">#Develop the model on train data</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Social_Network_Ads_test.csv'</span>) <span class="co">#Test the model on test data</span></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train[[<span class="st">'Age'</span>]]</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train[<span class="st">'Purchased'</span>]</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> test[[<span class="st">'Age'</span>]]</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test[<span class="st">'Purchased'</span>]</span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-10"><a href="#cb79-10" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(penalty<span class="op">=</span><span class="va">None</span>) <span class="co"># We will talk about this input later in the quarter.</span></span>
+<span id="cb79-11"><a href="#cb79-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-12"><a href="#cb79-12" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb79-13"><a href="#cb79-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-14"><a href="#cb79-14" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test) <span class="co"># Note that in sklearn, .predict returns the classes directly, with 0.5 threshold</span></span>
+<span id="cb79-15"><a href="#cb79-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-16"><a href="#cb79-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy = "</span>,accuracy_score(test.Purchased, y_pred)<span class="op">*</span><span class="dv">100</span>, <span class="st">"%"</span>)</span>
+<span id="cb79-17"><a href="#cb79-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-18"><a href="#cb79-18" aria-hidden="true" tabindex="-1"></a><span class="co"># To return the prediction probabilities, we need .predict_proba</span></span>
+<span id="cb79-19"><a href="#cb79-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-20"><a href="#cb79-20" aria-hidden="true" tabindex="-1"></a>y_pred_probs <span class="op">=</span> model.predict_proba(X_test)</span>
+<span id="cb79-21"><a href="#cb79-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-22"><a href="#cb79-22" aria-hidden="true" tabindex="-1"></a><span class="co"># First col: class 0 prob, second col: class 1 prob</span></span>
+<span id="cb79-23"><a href="#cb79-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-24"><a href="#cb79-24" aria-hidden="true" tabindex="-1"></a><span class="co"># We will need the probs to try different thresholds - this will be necessary for the other metrics.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy =  86.0 %</code></pre>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
