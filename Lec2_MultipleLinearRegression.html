@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -214,6 +214,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec9_RidgeRegression_Lasso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -228,31 +234,31 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 1 (Section 20).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Assignment 1 (Section 20)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Assignment 1 (Section 20)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 1 (Sections 21 &amp; 22).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Assignment 1 (Sections 21 &amp; 22)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Assignment 1 (Sections 21 &amp; 22)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Assignment 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assignment 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Homework_Assignment_3_Section20.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 20)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 20)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 3 (Section 21 &amp; 22).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 21 &amp; 22)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 21 &amp; 22)</span></span></a>
   </div>
 </li>
       </ul>
@@ -337,6 +343,7 @@ window.Quarto = {
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
+<div>
 <div>
 
 
@@ -434,6 +441,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</div>
 <section id="training-the-model" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="training-the-model"><span class="header-section-number">2.1.1</span> Training the model</h3>
 <div id="90d3c332" class="cell" data-execution_count="34">
@@ -442,6 +450,7 @@ window.Quarto = {
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="34">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>OLS Regression Results</caption>
 <tbody>
@@ -590,6 +599,7 @@ window.Quarto = {
 <br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 3.83e+07. This might indicate that there are<br>strong multicollinearity or other numerical problems.
 </div>
 </div>
+</div>
 <p>The model equation is: estimated car <code>price</code> = -3.661e6 + 1818 * <code>year</code> -0.15 * <code>mileage</code> - 79.31 * <code>mpg</code> + 12180 * <code>engineSize</code></p>
 <p>The procedure to fit the model using <code>sklearn</code> will be similar to that in simple linear regression.</p>
 <div id="d54b6c34" class="cell">
@@ -664,6 +674,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>trainp.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="49">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -721,6 +732,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</div>
 <div id="e6d81fdc" class="cell" data-execution_count="48">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> model.fittedvalues, y<span class="op">=</span>model.resid,color <span class="op">=</span> <span class="st">'orange'</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.lineplot(x <span class="op">=</span> [pred_price.<span class="bu">min</span>(),pred_price.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
@@ -750,6 +762,7 @@ window.Quarto = {
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ols_object.fit()</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>OLS Regression Results</caption>
 <tbody>
@@ -905,6 +918,7 @@ window.Quarto = {
 </tbody>
 </table>
 <br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 3.83e+07. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
 </div>
 </div>
 <p>Adding a variable with random values to the model (<code>rand_col</code>) increased the explained variation (<span class="math inline">\(R^2\)</span>). This is because the model has one more parameter to tune to reduce the residual squared error <span class="math inline">\((RSS)\)</span>. However, the <span class="math inline">\(p\)</span>-value of <code>rand_col</code> suggests that its coefficient is zero. Thus, using the model with <code>rand_col</code> may give poorer performance on unknown data, as compared to the model without <code>rand_col</code>. This implies that it is not a good idea to blindly add variables in the model to increase <span class="math inline">\(R^2\)</span>.</p>
@@ -1303,12 +1317,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Lec1_SimpleLinearRegression.html" class="pagination-link  aria-label=" &lt;span="" linear="" regression&lt;="" span&gt;"="">
+      <a href="./Lec1_SimpleLinearRegression.html" class="pagination-link" aria-label="Simple Linear Regression">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Lec3_VariableTransformations_and_Interactions.html" class="pagination-link" aria-label="<span class='chapter-number'>3</span>&nbsp; <span class='chapter-title'>Variable interactions and transformations</span>">
+      <a href="./Lec3_VariableTransformations_and_Interactions.html" class="pagination-link" aria-label="Variable interactions and transformations">
         <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variable interactions and transformations</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

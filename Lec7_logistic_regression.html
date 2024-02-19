@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.550">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Assignment 1 (Section 20).html" rel="next">
+<link href="./Lec9_RidgeRegression_Lasso.html" rel="next">
 <link href="./Lec3_VariableTransformations_and_Interactions.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -214,6 +214,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec9_RidgeRegression_Lasso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -228,31 +234,31 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 1 (Section 20).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Assignment 1 (Section 20)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Assignment 1 (Section 20)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 1 (Sections 21 &amp; 22).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Assignment 1 (Sections 21 &amp; 22)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Assignment 1 (Sections 21 &amp; 22)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Assignment 2</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assignment 2</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Homework_Assignment_3_Section20.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 20)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 20)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Assignment 3 (Section 21 &amp; 22).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 21 &amp; 22)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 21 &amp; 22)</span></span></a>
   </div>
 </li>
       </ul>
@@ -418,6 +424,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -475,6 +482,7 @@ window.Quarto = {
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -542,6 +550,7 @@ Name: Purchased, dtype: int64</code></pre>
 <div id="044fb197" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>logit_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Logit Regression Results</caption>
 <tbody>
@@ -622,6 +631,7 @@ Name: Purchased, dtype: int64</code></pre>
 </table>
 </div>
 </div>
+</div>
 <p><strong>Interpret the coefficient of age</strong></p>
 <p>For a unit increase in age, the log odds of purchase increase by 0.18, or the odds of purchase get multiplied by exp(0.18) = 1.2</p>
 <p><strong>Is the increase in probability of purchase constant with a unit increase in age?</strong></p>
@@ -636,6 +646,7 @@ Name: Purchased, dtype: int64</code></pre>
          Iterations 4</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="17">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Logit Regression Results</caption>
 <tbody>
@@ -714,6 +725,7 @@ Name: Purchased, dtype: int64</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <p>No, assuming a significance level of <span class="math inline">\(\alpha = 5\%\)</span>, <code>Gender</code> is not associated with probability of default, as the <span class="math inline">\(p\)</span>-value for <code>Male</code> is greater than 0.05.</p>
@@ -810,6 +822,7 @@ Name: Purchased, dtype: int64</code></pre>
          Iterations 7</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="102">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Logit Regression Results</caption>
 <tbody>
@@ -899,6 +912,7 @@ Name: Purchased, dtype: int64</code></pre>
 </table>
 </div>
 </div>
+</div>
 <div id="2c80571a" class="cell" data-execution_count="103">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_train(logit_model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -936,6 +950,7 @@ Name: Purchased, dtype: int64</code></pre>
          Iterations 7</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="132">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Logit Regression Results</caption>
 <tbody>
@@ -1034,6 +1049,7 @@ Name: Purchased, dtype: int64</code></pre>
 </table>
 </div>
 </div>
+</div>
 <div id="4fe4e1b8" class="cell" data-execution_count="106">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_train(logit_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1075,6 +1091,7 @@ Name: Purchased, dtype: int64</code></pre>
 <div id="3e00c7da" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
+<div>
 <div>
 
 
@@ -1157,6 +1174,7 @@ Name: Purchased, dtype: int64</code></pre>
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -1243,6 +1261,7 @@ Name: Purchased, dtype: int64</code></pre>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>age_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <div>
+<div>
 
 
 <table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
@@ -1327,6 +1346,7 @@ Name: Purchased, dtype: int64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div id="54f455f4" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizing percentage of people having diabetes with increasing Age (or Age bins)</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> age_data.index, y<span class="op">=</span> age_data[<span class="st">'diabetes_percent'</span>])</span>
@@ -1371,6 +1391,7 @@ Name: Purchased, dtype: int64</code></pre>
 <div id="f67dd504" class="cell" data-execution_count="146">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>logit_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="146">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Logit Regression Results</caption>
 <tbody>
@@ -1458,6 +1479,7 @@ Name: Purchased, dtype: int64</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <p>The log likelihood of the model is higher and both the predictors are statistically significant indicating a better model fit. However, the model may also be overfitting. Let us check the model accuracy on test data.</p>
@@ -1561,6 +1583,7 @@ Name: Purchased, dtype: int64</code></pre>
 <div id="2b78fa5c" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>logit_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Logit Regression Results</caption>
 <tbody>
@@ -1713,6 +1736,7 @@ Name: Purchased, dtype: int64</code></pre>
 </table>
 </div>
 </div>
+</div>
 <p>Note that the probability of having diabetes for each age bin is a constant, as per the above plot.</p>
 <div id="d07118fc" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>confusion_matrix_test(test,test.Outcome,logit_model,<span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1731,6 +1755,7 @@ Name: Purchased, dtype: int64</code></pre>
 <div id="58900e06" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
+<div>
 <div>
 
 
@@ -1876,6 +1901,7 @@ Name: Purchased, dtype: int64</code></pre>
 </div>
 </div>
 </div>
+</div>
 <div id="bda4e2a1" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with the quadratic transformation of Age and more predictors</span></span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>logit_model_diabetes <span class="op">=</span> sm.logit(formula <span class="op">=</span> <span class="st">'Outcome~Age+I(Age**2)+Glucose+BloodPressure+BMI+DiabetesPedigreeFunction'</span>, data <span class="op">=</span> train).fit()</span>
@@ -1886,6 +1912,7 @@ Name: Purchased, dtype: int64</code></pre>
          Iterations 6</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="10">
+<div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Logit Regression Results</caption>
 <tbody>
@@ -2009,6 +2036,7 @@ Name: Purchased, dtype: int64</code></pre>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <p>Adding more predictors has increased the log likelihood of the model as expected.</p>
@@ -2618,13 +2646,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Lec3_VariableTransformations_and_Interactions.html" class="pagination-link  aria-label=" &lt;span="" interactions="" and="" transformations&lt;="" span&gt;"="">
+      <a href="./Lec3_VariableTransformations_and_Interactions.html" class="pagination-link" aria-label="Variable interactions and transformations">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variable interactions and transformations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Assignment 1 (Section 20).html" class="pagination-link" aria-label="<span class='chapter-number'>5</span>&nbsp; <span class='chapter-title'>Assignment 1 (Section 20)</span>">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Assignment 1 (Section 20)</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Lec9_RidgeRegression_Lasso.html" class="pagination-link" aria-label="Ridge regression and Lasso">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
