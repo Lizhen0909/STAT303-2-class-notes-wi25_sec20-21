@@ -223,10 +223,32 @@
     "href": "Lec9_RidgeRegression_Lasso.html#lassoridge-classification",
     "title": "5  Ridge regression and Lasso",
     "section": "5.3 Lasso/Ridge Classification",
-    "text": "5.3 Lasso/Ridge Classification\nThe Ridge and Lasso penalties are added from inside the same LogisticRegression object, they don’t have their own objects like they do in regression.\n\n# Data\ntrain = pd.read_csv('Datasets/Social_Network_Ads_train.csv') \ntest = pd.read_csv('Datasets/Social_Network_Ads_test.csv')\n\n\n# Predictors and response\nX_train = train[['Age', 'EstimatedSalary']]\ny_train = train['Purchased']\n\nX_test = test[['Age', 'EstimatedSalary']]\ny_test = test['Purchased']\n\n\n# Creating the model\n    # penalty=None means regular logistic Regression\n    # penalty=l2 means Ridge Classification\n    # penalty=l1 means Lasso Classification\n    # C = 1/lambda\n    \nmodel = LogisticRegression(penalty='l2', C = 1)\n\n\n# Scale\nsc = StandardScaler()\nsc.fit(X_train)\nX_train_scaled = sc.transform(X_train)\nX_test_scaled = sc.transform(X_test)\n\n# Train\nmodel.fit(X_train_scaled, y_train)\ny_pred = model.predict(X_test_scaled) # threshold = 0.5 here\n\n# Evaluate\nprint(accuracy_score(test.Purchased, y_pred)*100)\n\n# Probs\ny_pred_probs = model.predict_proba(X_test_scaled)\n\n88.0",
+    "text": "5.3 Lasso/Ridge Classification\nThe Ridge and Lasso penalties are added from inside the same LogisticRegression object, they don’t have their own objects like they do in regression.\n\n# Data\ntrain = pd.read_csv('Datasets/Social_Network_Ads_train.csv') \ntest = pd.read_csv('Datasets/Social_Network_Ads_test.csv')\n\n\n# Predictors and response\nX_train = train[['Age', 'EstimatedSalary']]\ny_train = train['Purchased']\n\nX_test = test[['Age', 'EstimatedSalary']]\ny_test = test['Purchased']\n\n\n# Creating the model\n    # penalty=None means regular logistic Regression\n    # penalty=l2 means Ridge Classification\n    # penalty=l1 means Lasso Classification\n    # C = 1/lambda\n    \nmodel = LogisticRegression(penalty='l2', C = 1)\n\n\n# Scale\nsc = StandardScaler()\nsc.fit(X_train)\nX_train_scaled = sc.transform(X_train)\nX_test_scaled = sc.transform(X_test)\n\n# Train\nmodel.fit(X_train_scaled, y_train)\ny_pred = model.predict(X_test_scaled) # threshold = 0.5 here\n\n# Evaluate\nprint(accuracy_score(test.Purchased, y_pred)*100)\n\n# Probs\ny_pred_probs = model.predict_proba(X_test_scaled)\n\n88.0\n\n\n\n5.3.1 Cross-validation to find optimal C\n\n# a list of possible C values\nCs = np.logspace(-1,1)\n\n# Cs =  the C values we want to try out\n# cv = number of folds, 3,5,10 - if no input given, 5-fold\n# penalty = Ridge or Lasso\nmodel_cv = LogisticRegressionCV(Cs = Cs, cv=5, penalty='l2')\n\nmodel_cv.fit(X_train_scaled, y_train)\n\nmodel_cv.C_[0]\n\n1.3894954943731375\n\n\n\nmodel = LogisticRegression(penalty='l2', C = model_cv.C_[0])\nmodel.fit(X_train_scaled, y_train)\ny_pred = model.predict(X_test_scaled) # threshold = 0.5 here\n\n# Evaluate\nprint(accuracy_score(test.Purchased, y_pred)*100)\n\n88.0",
     "crumbs": [
       "Linear regression",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ridge regression and Lasso</span>"
+    ]
+  },
+  {
+    "objectID": "Crossvalidation.html",
+    "href": "Crossvalidation.html",
+    "title": "6  Cross-validation",
+    "section": "",
+    "text": "6.1 Regression\ntrainf = pd.read_csv('Datasets/house_feature_train.csv')\ntrainp = pd.read_csv('Datasets/house_price_train.csv')\ntestf = pd.read_csv('Datasets/house_feature_test.csv')\ntestp = pd.read_csv('Datasets/house_price_test.csv')\ntrain = pd.merge(trainf,trainp)\ntest = pd.merge(testf,testp)\nprint(train.head())\n\n   house_id  house_age  distance_MRT  number_convenience_stores  latitude  \\\n0       210        5.2      390.5684                          5  24.97937   \n1       190       35.3      616.5735                          8  24.97945   \n2       328       15.9     1497.7130                          3  24.97003   \n3         5        7.1     2175.0300                          3  24.96305   \n4       412        8.1      104.8101                          5  24.96674   \n\n   longitude  house_price  \n0  121.54245      2724.84  \n1  121.53642      1789.29  \n2  121.51696       556.96  \n3  121.51254      1030.41  \n4  121.54067      2756.25\n# Data\n\n# Train\ny_train = np.log(train.house_price) # Response (log taken to account for the skewed dist. of house prices)\nX_train = train.iloc[:,1:6] # Slice out the predictors\n\n# Test\ny_test = np.log(test.house_price) # Response (log taken to account for the skewed dist. of house prices)\nX_test = test.iloc[:,1:6] # Slice out the predictor\n\n# Scale both\nscaler = StandardScaler()\nscaler.fit(X_train)\nX_train_scaled = scaler.transform(X_train)\nX_test_scaled = scaler.transform(X_test)\n# Let's tune the lambda of a Ridge model, with 5-fold CV.\n\n# For that, we need to loop through lambda (alpha) values.\n# However, we don't need to loop through folds - we will use a function for that! - cross_val_score\n\nalphas = 10**np.linspace(10,-2,200)*0.5\n\ncv_results = []\n\nfor alpha in alphas: # For each alpha\n    model = Ridge(alpha=alpha) # Create the model\n    cv_results.append(cross_val_score(model, X_train_scaled, y_train, cv=5, scoring='neg_root_mean_squared_error')) # cross validate it\n    \n# Note that the input is the model object, the data, number of folds and the metric\n# If you don't specify the scoring, it will use r-squared for regression and accuracy for classification\n# The output is an array of k values, k being the number of folds (cv input)\n# For each alpha value, 5 RMSE values\n\n# Take the mean of each row to find avg cv score for each alpha\n# Negative sign because the scoring input has \"neg\" in the previous cell\nrmses = -np.array(cv_results).mean(axis=1)\n\n# Index of the minimum CV RMSE\nnp.argmin(rmses)\n\nalphas[np.argmin(rmses)]\n\n# Note the same alpha as in RidgeCV example in the previous notebook\n\n4.505509125832519\n# Now we need to create one final Ridge model with the optimized alpha value\n\nmodel = Ridge(alpha=alphas[np.argmin(rmses)])\n\nmodel.fit(X_train_scaled, y_train)\n\n# Predict\n# Evaluate\n\nRidge(alpha=4.505509125832519)In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.RidgeRidge(alpha=4.505509125832519)",
+    "crumbs": [
+      "Linear regression",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Cross-validation</span>"
+    ]
+  },
+  {
+    "objectID": "Crossvalidation.html#classification",
+    "href": "Crossvalidation.html#classification",
+    "title": "6  Cross-validation",
+    "section": "6.2 Classification",
+    "text": "6.2 Classification\n\n# Data\ntrain = pd.read_csv('Datasets/Social_Network_Ads_train.csv') \ntest = pd.read_csv('Datasets/Social_Network_Ads_test.csv')\n\n# Predictors and response\nX_train = train[['Age', 'EstimatedSalary']]\ny_train = train['Purchased']\n\nX_test = test[['Age', 'EstimatedSalary']]\ny_test = test['Purchased']\n\n# Scale\nsc = StandardScaler()\nsc.fit(X_train)\nX_train_scaled = sc.transform(X_train)\nX_test_scaled = sc.transform(X_test)\n\n\n# CV a logistic regression model\n\n# a list of possible C values\nCs = [0.001, 0.01, 0.1, 1, 10, 100]\n\ncv_results = []\n\nfor C in Cs:\n    model = LogisticRegression(penalty='l2', C=C)\n    cv_results.append(cross_val_score(model, X_train_scaled, y_train, cv=10))\n\n# Scoring not given, default metric is accuracy (you can use recall, precision etc.)\n\n\n# For each C, 10 accuracy values\n\naccs = np.array(cv_results).mean(axis=1)\n\nCs[np.argmax(accs)] # best C - Same as the output of LogisticRegressionCV in the previous notebook\n\n# Train the final model\n# predict\n# Evaluate\n\n1\n\n\n\nImportant question: How were these accuracies calculated? With a threhold of 0.5\nWhat if we want to change/optimize the threshold in this process as well? Then cross_val_score is not enough, we need to change the function!\n\n\n# CV a logistic regression model - but do not return the accuracy metric for each fold\n    # Return the PREDICTIONS FOR EACH FOLD\n\n# a list of possible C values\nCs = [0.001, 0.01, 0.1, 1, 10, 100]\n\ncv_results = []\n\nfor C in Cs:\n    model = LogisticRegression(penalty='l2', C=C)\n    cv_results.append(cross_val_predict(model, X_train_scaled, y_train, cv=10, method='predict_proba'))\n    \n# Cross_val_predict function has an optional input: method\n\n\n# For each C, we have an array of probabilities\n    # The class probabilities of each training observation WHEN IT WAS IN THE VALIDATION FOLD\n# First col for 0, second col for 1\ncv_results\n\n# Pick a threshold\nthr = 0.3\n\n# Now we need to loop through list of arrays\naccs = []\nfor arr in cv_results:\n    accs.append(accuracy_score(y_train,arr[:,1] &gt; 0.3))\n    \n# Now, we have an acc value for each C\naccs\n\n# Find the best C\nCs[np.argmax(accs)]\n\n# If the threshold is 0.3, the best C value after CV is 100\n\n# Train the final model\n# Predict\n# Evaluate\n\n100\n\n\n\nWe will use cross_val_score and cross_val_predict repeatedly next quarter.\nThere is a cross_validate function that allows us to use multiple metrics at once (for example, accuracy and recall) - next quarter.",
+    "crumbs": [
+      "Linear regression",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Cross-validation</span>"
     ]
   },
   {
@@ -237,7 +259,7 @@
     "text": "Instructions",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
     ]
   },
   {
@@ -248,7 +270,7 @@
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nDo not write your name on the assignment.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Wednesday, 24th January 2024 at 11:59 pm.\nThere is a bonus question worth 15 points.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 100 + 15 (bonus question) + 5 (proper formatting) = 120 out of 100. There is no partial credit for some parts of the bonus question.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
     ]
   },
   {
@@ -259,7 +281,7 @@
     "text": "1) Case Studies: Regression vs Classification and Prediction vs Inference (16 points)\n\n1a)\nFor each case below, explain (1) whether it is a classification or a regression problem and (2) whether the main purpose is prediction or inference. You need justify your answers for credit.\n\n\n1b)\nYou work for a company that is interested in conducting a marketing campaign. The goal of your project is to identify individuals who are likely to respond positively to a marketing campaign, based on observations of demographic variables (such as age, gender, income etc.) measured on each individual. (2+2 points)\n\n\n1c)\nFor the same company, now you are working on a different project. This one is focused on understanding the impact of advertisements in different media types on the company sales. For example, you are interested in the following question: ‘How large of an increase in sales is associated with a given increase in radio and TV advertising?’ (2+2 points)\n\n\n1d)\nA company is selling furniture and they are interested in the finding the association between demographic characteristics of customers (such as age, gender, income etc.) and if they would purchase a particular company product. (2+2 points)\n\n\n1e)\nWe are interested in forecasting the % change in the USD/Euro exchange rate using the weekly changes in the stock markets of a number of countries. We collect weekly data for all of 2023. For each week, we record the % change in the USD/Euro, the % change in the US market, the % change in the British market, and the % change in the German market. (2+2 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
     ]
   },
   {
@@ -270,7 +292,7 @@
     "text": "2) Examples for Different Regression Metrics: RMSE vs MAE (8 points)\n\n2a)\nDescribe a regression problem, where it will be more proper to evaluate the model performance using the root mean squared error (RMSE) metric as compared to the mean absolute error (MAE) metric. You need to justify your answer for credit. (4 points)\nNote: You are not allowed to use the datasets and examples covered in the lectures.\n\n\n2b)\nDescribe a regression problem, where it will be more proper to evaluate the model performance using the mean absolute error (MAE) metric as compared to the root mean squared error (RMSE) metric. You need to justify your answer for credit. (4 points)\nNote: You are not allowed to use the datasets and examples covered in the lectures.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
     ]
   },
   {
@@ -281,7 +303,7 @@
     "text": "3) Modeling the Petrol Consumption in U.S. States (61 points)\nRead petrol_consumption_train.csv. Assume that each observation is a U.S. state. For each observation, the data has the following variables as its five columns:\nPetrol_tax: Petrol tax (cents per gallon)\nPer_capita_income: Average income (dollars)\nPaved_highways: Paved Highways (miles)\nProp_license: Proportion of population with driver’s licenses\nPetrol_consumption: Consumption of petrol (millions of gallons)\n\n3a)\nCreate a pairwise plot of all the variables in the dataset. (1 point) Print the correlation matrix of all the variables as well. (1 point) Which variable has the highest linear correlation with Petrol_consumption? (2 points)\nNote: Remember that a pairwise plot is a visualization tool that you can find in the seaborn library.\n\n\n3b)\nFit a simple linear regression model to predict Petrol_consumption using the column you found in part a as the only predictor. Print the model summary. (4 points)\n\n\n3c)\nWhat is the increase in petrol consumption for an increase of 0.05 in the predictor? (4 points)\n\n\n3d)\nDoes petrol consumption have a statistically significant relationship with the predictor? You need to justify your answer for credit. (4 points)\n\n\n3e)\nHow much of the variation in petrol consumption can be explained by its linear relationship with the predictor? (3 points)\n\n\n3f)\nPredict the petrol consumption for a state in which 50% of the population has a driver’s license. (3 points) What are the confidence interval (3 points) and the prediction interval (3 points) for your prediction? Which interval is wider? (1 points) Why? (2 points)\n\n\n3g)\nPredict the petrol consumption for a state in which 10% of the population has a driver’s license. (3 points) Are you getting a reasonable outcome? (1 point) Why or why not? (2 points)\n\n\n3h)\nWhat is the residual standard error of the model? (3 points)\n\n\n3i)\nUsing the trained model, predict the petrol consumption of the observations in petrol_consumption_test.csv (2 points) and find the RMSE. (2 points) What is the unit of this RMSE value? (1 point)\n\n\n3j)\nBased on the answers to part g and part h, do you think the model is overfitting? You need to justify your answer for credit. (4 points)\n\n\n3k)\nMake a scatterplot of Petrol_consumption vs. the predictor using petrol_consumption_test.csv. (1 point) Over the scatterplot, plot the regression line (2 points), the prediction interval (2 points), and the confidence interval. (2 points)\nMake sure that regression line, prediction interval lines, and confidence interval lines have different colors. (1 point) Display a legend that correctly labels the lines as well. (1 point) Note that you need two lines of the same color to plot an interval.\n\n\n3l)\nFind the correlation between Petrol_consumption and the rest of the variables in petrol_consumption_train.csv. Which column would have the lowest R-squared value when used as the predictor for a Simple Linear Regression model to predict Petrol_consumption? Note that you can directly answer this question from the correlation values and do not need to develop any more linear regression models. (3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
     ]
   },
   {
@@ -292,7 +314,7 @@
     "text": "4) Reproducing the Results with Scikit-Learn (15 points)\n\n4a)\nUsing the same datasets, same response and the same predictor as Question 3, reproduce the following outputs with scikit-learn:\n\nModel RMSE for test data (3 points)\nR-squared value of the model (3 points)\nResidual standard error of the model (3 points)\n\nNote that you are only allowed to use scikit-learn, pandas, and numpy tools for this question. Any other libraries will not receive any credit.\n\n\n4b)\nWhich of the model outputs from Question 3 cannot be reproduced using scikit-learn? Give two answers. (2+2 points) What does this tell about scikit-learn? (2 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
     ]
   },
   {
@@ -303,7 +325,7 @@
     "text": "5) Bonus Question (15 points)\nPlease note that the bonus question requires you to look more into the usage of the tools we covered in class and it will be necessary to do your own research. We strongly suggest attempting it after you are done with the rest of the assignment.\n\n5a)\nFit a simple linear regression model to predict Petrol_consumption based on the predictor in Question 3, but without an intercept term. (5 points - no partial credit)\nWithout an intercept means that the equation becomes \\(Y = \\beta_1X\\). The intercept term, \\(\\beta_0\\), becomes 0.\nNote: You must answer this part correctly to qualify for the bonus points in the following parts.\n\n\n5b)\nPredict the petrol consumption for the observations in petrol_consumption_test.csv using the model without an intercept and find the RMSE. (1+2 points) Then, print the summary and find the R-squared. (2 points)\n\n\n5c)\nThe RMSE for the models with and without the intercept are similar, which indicates that both models are almost equally good. However, the R-squared for the model without intercept is much higher than the R-squared for the model with the intercept. Why? Justify your answer. (5 points - no partial credit)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Section 20)</span>"
     ]
   },
   {
@@ -314,7 +336,7 @@
     "text": "Instructions",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
     ]
   },
   {
@@ -325,7 +347,7 @@
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nDo not write your name on the assignment.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Wednesday, 24th January 2024 at 11:59 pm.\nThere is a bonus question worth 15 points.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 100 + 15 (bonus question) + 5 (proper formatting) = 120 out of 100. There is no partial credit for some parts of the bonus question.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
     ]
   },
   {
@@ -336,7 +358,7 @@
     "text": "1) Case Studies: Regression vs Classification and Prediction vs Inference (16 points)\nFor each case below, explain (1) whether it is a classification or a regression problem and (2) whether the main purpose is prediction or inference. You need justify your answers for credit.\n\n1a)\nYou work for a company that is interested in conducting a marketing campaign. The goal of your project is to identify individuals who are likely to respond positively to a marketing campaign, based on observations of demographic variables (such as age, gender, income etc.) measured on each individual. (2+2 points)\n\n\n1b)\nFor the same company, now you are working on a different project. This one is focused on understanding the impact of advertisements in different media types on the company sales. For example, you are interested in the following question: ‘How large of an increase in sales is associated with a given increase in radio and TV advertising?’ (2+2 points)\n\n\n1c)\nA company is selling furniture and they are interested in the finding the association between demographic characteristics of customers (such as age, gender, income etc.) and if they would purchase a particular company product. (2+2 points)\n\n\n1d)\nWe are interested in forecasting the % change in the USD/Euro exchange rate using the weekly changes in the stock markets of a number of countries. We collect weekly data for all of 2023. For each week, we record the % change in the USD/Euro, the % change in the US market, the % change in the British market, and the % change in the German market. (2+2 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
     ]
   },
   {
@@ -347,7 +369,7 @@
     "text": "2) Examples for Different Regression Metrics: RMSE vs MAE (8 points)\n\n2a)\nDescribe a regression problem, where it will be more proper to evaluate the model performance using the root mean squared error (RMSE) metric as compared to the mean absolute error (MAE) metric. You need to justify your answer for credit. (4 points)\nNote: You are not allowed to use the datasets and examples covered in the lectures.\n\n\n2b)\nDescribe a regression problem, where it will be more proper to evaluate the model performance using the mean absolute error (MAE) metric as compared to the root mean squared error (RMSE) metric. You need to justify your answer for credit. (4 points)\nNote: You are not allowed to use the datasets and examples covered in the lectures.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
     ]
   },
   {
@@ -358,7 +380,7 @@
     "text": "3) Simple Linear Regression: Formulation (3 points)\nWhen asked to state the simple linear regression model, a students wrote it as follows: \\(E(Y_i) = \\beta_0 + \\beta_1X_i + \\epsilon_i\\). Is this correct (1 point)? Justify your answer (2 points).",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
     ]
   },
   {
@@ -369,7 +391,7 @@
     "text": "4) Modeling the Petrol Consumption in U.S. States (58 points)\nRead petrol_consumption_train.csv. Assume that each observation is a U.S. state. For each observation, the data has the following variables as its five columns:\nPetrol_tax: Petrol tax (cents per gallon)\nPer_capita_income: Average income (dollars)\nPaved_highways: Paved Highways (miles)\nProp_license: Proportion of population with driver’s licenses\nPetrol_consumption: Consumption of petrol (millions of gallons)\n\n4a)\nCreate a pairwise plot of all the variables in the dataset. (1 point) Print the correlation matrix of all the variables as well. (1 point) Which variable has the highest linear correlation with Petrol_consumption? (1 point)\nNote: Remember that a pairwise plot is a visualization tool that you can find in the seaborn library.\n\n\n4b)\nFit a simple linear regression model to predict Petrol_consumption using the column you found in part a as the only predictor. Print the model summary. (3 points)\n\n\n4c)\nWhen asked for a point estimate of the expected petrol consumption for a state where the proportion of population with driver’s license is 54.4%, a person gave the estimate 488 million gallons because that is the mean value of Petrol_consumption for the two observations of Prop_license = 0.544 pieces in the dataset. Is there an issue with this approach? Explain. (2 points) If there is an issue, then suggest a better approach and use it to estimate the expected petrol consumption for a state where the proportion of population with driver’s license is 54.4%. (2 points)\n\n\n4d)\nWhat is the increase in petrol consumption for an increase of 0.05 in the predictor? (3 points)\n\n\n4e)\nDoes petrol consumption have a statistically significant relationship with the predictor? You need to justify your answer for credit. (3 points)\n\n\n4f)\nHow much of the variation in petrol consumption can be explained by its linear relationship with the predictor? (2 points)\n\n\n4g)\nPredict the petrol consumption for a state in which 50% of the population has a driver’s license. (2 points) What are the confidence interval (2 points) and the prediction interval (2 points) for your prediction? Which interval is wider? (1 points) Why? (2 points)\n\n\n4h)\nPredict the petrol consumption for a state in which 10% of the population has a driver’s license. (3 points) Are you getting a reasonable outcome? (1 point) Why or why not? (2 points)\n\n\n4i)\nWhat is the residual standard error of the model? (3 points)\n\n\n4j)\nUsing the trained model, predict the petrol consumption of the observations in petrol_consumption_test.csv (2 points) and find the RMSE. (2 points) What is the unit of this RMSE value? (1 point)\n\n\n4k)\nBased on the answers to part i and part j, do you think the model is overfitting? You need to justify your answer for credit. (3 points)\n\n\n4l)\nMake a scatterplot of Petrol_consumption vs. the predictor using petrol_consumption_test.csv. (1 point) Over the scatterplot, plot the regression line (1 point), the prediction interval (2 points), and the confidence interval. (2 points)\nMake sure that regression line, prediction interval lines, and confidence interval lines have different colors. (1 point) Display a legend that correctly labels the lines as well. (1 point) Note that you need two lines of the same color to plot an interval.\n\n\n4m)\nThe dataset consists of 40 US States. If you combine this data with the data of the remaining 10 US States, are you likely to obtain narrower confidence and prediction intervals in the plot developed in the previous question, for the same level of confidence? Justify your answer. (2 points).\nIf yes, then can you gaurantee that the width of these intervals will reduce? Justify your answer. If no, then can you gaurantee that the width of these intervals will not reduce? Justify your answer. (2 points)\n\n\n4n)\nFind the correlation between Petrol_consumption and the rest of the variables in petrol_consumption_train.csv. Which column would have the lowest R-squared value when used as the predictor for a Simple Linear Regression model to predict Petrol_consumption? Note that you can directly answer this question from the correlation values and do not need to develop any more linear regression models. (2 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
     ]
   },
   {
@@ -380,7 +402,7 @@
     "text": "5) Reproducing the Results with Scikit-Learn (15 points)\n\n5a)\nUsing the same datasets, same response and the same predictor as Question 4, reproduce the following outputs with scikit-learn:\n\nModel RMSE for test data (3 points)\nR-squared value of the model (3 points)\nResidual standard error of the model (3 points)\n\nNote that you are only allowed to use scikit-learn, pandas, and numpy tools for this question. Any other libraries will not receive any credit.\n\n\n5b)\nWhich of the model outputs from Question 4 cannot be reproduced using scikit-learn? Give two answers. (2+2 points) What does this tell about scikit-learn? (2 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
     ]
   },
   {
@@ -391,7 +413,7 @@
     "text": "6) Bonus Question (15 points)\nPlease note that the bonus question requires you to look more into the usage of the tools we covered in class and it will be necessary to do your own research. We strongly suggest attempting it after you are done with the rest of the assignment.\n\n6a)\nFit a simple linear regression model to predict Petrol_consumption based on the predictor in Question 4, but without an intercept term. (5 points - no partial credit)\nWithout an intercept means that the equation becomes \\(Y = \\beta_1X\\). The intercept term, \\(\\beta_0\\), becomes 0.\nNote: You must answer this part correctly to qualify for the bonus points in the following parts.\n\n\n6b)\nPredict the petrol consumption for the observations in petrol_consumption_test.csv using the model without an intercept and find the RMSE. (1+2 points) Then, print the summary and find the R-squared. (2 points)\n\n\n6c)\nThe RMSE for the models with and without the intercept are similar, which indicates that both models are almost equally good. However, the R-squared for the model without intercept is much higher than the R-squared for the model with the intercept. Why? Justify your answer. (5 points - no partial credit)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 1 (Sections 21 & 22)</span>"
     ]
   },
   {
@@ -402,7 +424,7 @@
     "text": "Instructions",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 2</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 2</span>"
     ]
   },
   {
@@ -413,7 +435,7 @@
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Sunday, 4th February 2024 at 11:59 pm.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 105 + 5 (proper formatting) = 110 out of 100.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 2</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 2</span>"
     ]
   },
   {
@@ -424,7 +446,7 @@
     "text": "1) Multiple Linear Regression (24 points)\nA study was conducted on 97 male patients with prostate cancer who were due to receive a radical prostatectomy (complete removal of the prostate). The prostate.csv file contains data on 9 measurements taken from these 97 patients. Each row (observation) represents a patient and each column (variable) represents a measurement. The description of variables can be found here: https://rafalab.github.io/pages/649/prostate.html\n\n1a)\nFit a linear regression model with lpsa as the response and all the other variables as the predictors. Print its summary. (2 points) Write down the optimal equation that predicts lpsa using the predictors. (2 points)\n\n\n1b)\nIs the overall regression statistically significant? In other words, is there a statistically significant relationship between the response and at least one predictor? You need to justify your answer for credit. (2 points)\n\n\n1c)\nWhat does the optimal coefficient of svi tell us as a numeric output? Make sure you include the predictor, (svi) the response (lpsa) and the other predictors in your answer. (2 points)\n\n\n1d)\nCheck the \\(p\\)-values of gleason and age. Are these predictors statistically significant? You need to justify your answer for credit. (2 points)\n\n\n1e)\nCheck the 95% Confidence Interval of age. How can you relate it to its p-value and statistical significance, which you found in the previous part? (2 points)\n\n\n1f)\nThis question requires some thinking, and bringing your 303-1 and 303-2 knowledge together.\nFit a simple linear regression model on lpsa against gleason and check the \\(p\\)-value of gleason using the summary. (2 point) Did the statistical significance of gleason change in the absence of other predictors? (1 point) Why or why not? (3 points)\nHints:\n\nYou need to compare this model with the Multiple Linear Regression model you created above.\nPrinting a correlation matrix of all the predictors should be useful.\n\n\n\n1g)\nPredict the lpsa of a 65 year old man with lcavol = 1.35, lweight = 3.65, lbph = 0.1, svi = 0.22, lcp = -0.18, gleason = 6.75, and pgg45 = 25. Find the 95% confidence and prediction intervals as well. (2 points)\n\n\n1h)\nIn the Multiple Linear Regression model with all the predictors, you should see a total of five predictors that appear to be statistically insignificant. Why is it not a good idea to directly conclude that all of them are statistically insignificant? (2 points) Implement the additional test that concludes the statistical insignificance of all five predictors. (2 points)\nHint: f_test() method",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 2</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 2</span>"
     ]
   },
   {
@@ -435,7 +457,7 @@
     "text": "2) Multiple Linear Regression with Variable Transformations (22 points)\nThe infmort.csv file has the infant mortality data of different countries in the world. The mortality column represents the infant mortality rate with “deaths per 1000 infants” as the unit. The income column represents the per capita income in USD. The other columns should be self-explanatory. (This is an old dataset, as can be seen from some country names.)\n\n2a)\nStart your analysis by creating (i) a boxplot of log(mortality) for each region and (ii) a boxplot of income for each region. Note that the region column has the continent names. (3 points)\nNote: You need to use np.log, which is the natural log. This is to better distinguish the mortality values.\n\n\n2b)\nIn the previous part, you should see that Europe has the lowest infant mortality rate on average, but it also has the highest per capita income on average. Our goal is to see if Europe still has the lowest mortality rate if we remove the effect of income. We will try to find an answer for the rest of this question.\nCreate four scatter plots: (i) mortality against income, (ii) log(mortality) against income, (iii) mortality against log(income), and (iv) log(mortality) against log(income). (3 points) Based on the plots, create an appropriate model to predict the mortality rate as a function of per capita income. Print the model summary. (2 points)\n\n\n2c)\nUpdate the model you created in the previous part by adding region as a predictor. Print the model summary. (2 points)\n\n\n2d)\nUse the model developed in the previous part to compute a new adjusted_mortality variable for each observation in the data. (5 points) Adjusted mortality rate is the mortality rate after removing the estimated effect of income. You need to calculate it with the following steps:\n\nMultiply the (transformed) income column with its optimal coefficient. This is the estimated effect of income.\nSubtract the product from the (transformed) response column. This removes the estimated effect of income.\nYou may need to do a inverse transformation to calculate the actual adjusted mortality rate values.\n\nMake a boxplot of log(adjusted_mortality) for each region. (2 points)\n\n\n2e)\nUsing the plots in parts a and d, answer the following questions:\n\nDoes Europe still have the lowest mortality rate on average after removing the effect of income?\nHow did the distribution of values among different continents change after removing the effect of income? How did the comparison of different continents change? Does any non-European country have a lower mortality rate than all the European countries after removing the effect of income?\n\n(5 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 2</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 2</span>"
     ]
   },
   {
@@ -446,7 +468,7 @@
     "text": "3) Variable Transformations and Interactions (38 points)\nThe soc_ind.csv dataset contains many social indicators of a number of countries. Each row is a country and each column is a social indicator. The column names should be clear on what the variables represent. The GDP per capita will be the response variable throughout this question.\n\n3a)\nUsing correlations, find out the most useful predictor for a simple linear regression model with gdpPerCapita as the response. You can ignore categorical variables for now. Let that predictor be \\(P\\). (2 points)\n\n\n3b)\nCreate a scatterplot of gdpPerCapita vs \\(P\\). Does the relationship between gdpPerCapita and \\(P\\) seem linear or non-linear? (2 points)\n\n\n3c)\nIf the relationship in the previous part is non-linear, create three models:\n\nOnly with \\(P\\)\nWith \\(P\\) and its quadratic term\nWith \\(P\\), its quadratic term and its cubic term\n\n(2x3 = 6 points)\nCompare the \\(R\\)-squared values of the models. (2 points)\n\n\n3d)\nOn the same figure:\n\ncreate the scatterplot in part b.\nplot the linear regression line (only using \\(P\\))\nplot the polynomial regression curve that includes the quadratic and cubic terms.\nadd a legend to distinguish the linear and cubic fits.\n\n(6 points)\n\n\n3e)\nDevelop a model to predict gdpPerCapita using \\(P\\) and continent as predictors. (No higher-order terms.)\n\nWhich continent creates the baseline? (2 points) Write down its equation. (2 points)\nFor a given value of \\(P\\), are there any continents that do not have a statistically significant difference of predicted gdpPerCapita from the baseline continent? If yes, then which ones, and why? If no, then why not? You need to justify your answers for credit. (4 points)\n\n\n\n3f)\nThe model developed in the previous part has a limitation. It assumes that the increase in predicted gdpPerCapita with a unit increase in \\(P\\) does not depend on the continent.\nEliminate this limitation by including the interaction of continent with \\(P\\) in the model. Print the model summary of the model with interactions. (2 points) Which continent has the closest increase in predicted gdpPerCapita to the baseline continent with a unit increase in \\(P\\). Which continent has the furthest? You need to justify your answers for credit. (5 points)\n\n\n3g)\nUsing the model developed in the previous part, plot the regression lines of all the continents on the same figure. Put gdpPerCapita on the y-axis and \\(P\\) on the x-axis. (4 points) Use a legend to color-code the continents. (1 point)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 2</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 2</span>"
     ]
   },
   {
@@ -457,7 +479,7 @@
     "text": "4) Prediction with Sklearn (21 points)\nUsing the soc_ind.csv dataset and only sklearn and pandas, train a Linear Regression model. You need the following steps:\n\ngdpPerCapita is the response. (2 points)\nIndex, geographic_location and country columns are not necessary. (2 points)\nAll the remaining columns are predictors. (2 points)\ncontinent column needs to be one-hot-encoded. (2 points)\nSince the numeric values have different orders of magnitude, you need to scale the dataset. You can use StandardScaler from sklearn.preprocessing for this. Create an object (just like a model) and use .fit_transform with the data as the input. (4 points)\nTrain a LinearRegression model. Use the entire dataset as the training data. (3 points)\nGet the predictions for the training data. (3 points)\nCalculate the RMSE and MAE. (3 points)\n\nFor this question, you only need to calculate the training performance. In the future, we will see how to split a dataset into training and test sets.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Assignment 2</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 2</span>"
     ]
   },
   {
@@ -468,7 +490,7 @@
     "text": "Instructions",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
     ]
   },
   {
@@ -479,7 +501,7 @@
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Tuesday, 20th February 2024 at 11:59 pm.\nThere is a bonus question worth 12 points.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 103 + 12 + 5 = 120 out of 100.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
     ]
   },
   {
@@ -490,7 +512,7 @@
     "text": "Introduction (0 points)\nRead the train.csv, test1.csv, and test2.csv. All datasets are about direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls, where bank clients were called to subscribe for a term deposit. Each observation is a phone call and each column is a variable about the client or the phone call. The columns are described as follows:\n\nage: Age of the client\neducation: Education level of the client\nday: Day of the month the call is made\nmonth: Month of the call\ny: did the client subscribe to a term deposit? (This is the classification response.)\nduration: Call duration, in seconds. This variable highly affects the output (e.g., if duration=0 then y=‘no’). Yet, the duration is not known before a call is performed. Also, after the end of the call y is usually known. Therefore, it is a better idea that this variable should only be used for inference purposes and should be discarded if the intention is to have a realistic predictive model.\n\n(Source: UCI Data Archive. Please use the given datasets for the assignment, not the raw data from the source. It is just for reference.)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
     ]
   },
   {
@@ -501,7 +523,7 @@
     "text": "1) Investigating the Effect of Call Duration on Subscription Probability (44 points)\n\n1a)\nFirst of all, you need a numeric response value for your statsmodels functions. (Numeric, not Boolean!) Convert the response column, y, of the training data (train.csv) into 0s for ‘no’ and 1s for ‘yes’. (2 points)\n\n\n1b)\nUsing the training data and statsmodels, train a logistic regression model to predict if the client subscribed to a term deposit using the call duration. Print its summary. (2 points)\nYou need to use this model to answer all the remaining parts of this question.\n\n\n1c)\nIs the effect of the call duration on the probability of the client subscription statistically significant? Justify your answer. (2 points)\n\n\n1d)\nWhat is the probability of the client subscribing after a 5-minute marketing call? (Note that the duration variable is in given in seconds.) (3 points)\n\n\n1e)\nHow many minutes are necessary to have at least 95% probability of the client subscribing? Print it in the following format: “… minutes or higher” (5 points: 4 points for the calculation, 1 point for formatting)\n\n\n1f)\nWhat is the percentage increase in the odds of a client subscribing when the call duration increases by a minute? (4 points)\n\n\n1g)\nHow many minutes need to be added to a call to double the odds of a client subscribing? (3 points)\n\n\n1h)\nAfter exploring the model coefficients, it is time to see the limitations of this rather simplistic model.\nWhat is the maximum call duration (in minutes) after which the client refused to subscribe? (Note that you need the dataset itself for this question, not the model.) (2 points) What is the subscription probability that the model predicts for that client? (2 points)\n\n\n1i)\nUse a scatterplot to visualize the data. You need to plot the classes against the duration values. (2 points) Add some small random noise (also called jitter) on the class values to visualize as many observations as possible. (1 point) On top of that, add the curve that the model fits to this data. (2 points) You should see a sigmoid fit without its bottom end. Does it look like the duration of the call is enough by itself to predict the client subscription? (1 point) Why or why not? (1 point)\n\n\n1j)\nPredict the accuracy and recall using a threshold of 0.5 for test_data1.csv and test_data2.csv. You should print 4 numbers. (4 points) You should see very different values for the different metrics. Explain why this is happening and which metric is a better evaluation of the prediction performance. (3 points)\nHint: Checking the value counts of the response variable might be a good idea.\n\n\n1k)\nRepeat the previous question with a threshold of 0.3. Did the accuracy change much? How about recall? Explain why the results changed (or not) in terms of the confusion matrix elements. (5 points: 1 point for the calculation, 2 points for the recall explanation, 2 points for the accuracy explanation)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
     ]
   },
   {
@@ -512,7 +534,7 @@
     "text": "2) Exploring Variable Interactions (10 points)\n\n2a)\nUsing the training data and statsmodels, train a logistic regression model to predict if the client subscribed to a term deposit using the education level and the age. Assume that the effect of age on the log-odds depends on the education level of the client. Print the summary. (2 points)\nYou need to use this model to answer all the remaining parts of this question.\n\n\n2b)\nPeople with which level of education have the highest percentage increase in odds of a client subscribing with a unit increase in age? Justify your answer. (4 points)\n\n\n2c)\nWhat is the maximum age of a client with tertiary education to have 15% subscription probability or lower? (4 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
     ]
   },
   {
@@ -523,7 +545,7 @@
     "text": "3) Model Development and Evaluation (29 points)\n\n3a)\nUsing the training data and statsmodels, train a logistic regression model to predict if the client subscribed to a term deposit using age, education, day, and month. The model must have:\n\nA minimum of 75.0% accuracy for all three datasets. (train.csv, test1.csv, and test2.csv) (3 points)\nA minimum of 50.0% recall for all three datasets. (6 points)\n\nPrint the model summary. (1 point) For all three datasets, print the accuracy scores, recall scores and confusion matrices. (3 points)\nNotes:\n\nYou cannot use duration as a predictor. The reason is explained in the description of the dataset in Introduction. (No credit from the entire question for models that use duration.)\nExplore some interactions and transformations. You do not need to go too high. (Still ok if you do and pass the given cutoffs.)\nYou are free to choose the decision threshold as you wish. However, you must use the same threshold for all three datasets. (No credit from the entire question for using different thresholds.)\nNo rounding. (For example, a recall of 49.9% is not considered correct.)\n\nYou need to use this model (and threshold, unless stated otherwise) to answer all the remaining parts of this question.\n\n\n3b)\nWhat is the probability that the model will predict a higher probability for a client who will subscribe compared to a client who will not? Justify your answer. (3 points)\n\n\n3c)\nAssume that you want to project all your prediction results for test1.csv and test2.csv to real-life profits. Assume that:\n\nOnly the clients who are predicted to subscribe are called.\nA client who is called and subscribes returns a profit of $100.\nA client who is called and does not subscribe returns a loss of $10.\n\nWhat is the net profit of the results? (3 points) Note that you need to use the confusion matrices printed in part a.\n\n\n3d)\nUsing the same assumptions in part c, find the threshold that would maximize the net profit. (5 points) Use the training data for this.\nThis is probably the most challenging part of this assignment. Here are some suggestions:\n\nYou do not need to calculate results for every possible threshold. You should already have some metrics calculated for a large array of thresholds in part b.\nUse those metrics and the proportion of class 1 observations in the dataset to find the net profit for all thresholds.\nFind the index of the highest profit to find the threshold, again using the threshold array from part b.\n\n\n\n3e)\nUsing the new threshold you found in the previous part, calculate the net profit using test1.csv and test2.csv. (4 points)\n\n\n3f)\nJust an intuitive question: In a real-life setting like this, would you prefer the threshold you found in part a that maximizes some mathematical concepts or the threshold you found in part d that maximizes your profit? (1 point)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
     ]
   },
   {
@@ -534,7 +556,7 @@
     "text": "4) Sklearn (20 points)\nUsing train.csv and only sklearn, pandas, and numpy, train a Logistic Regression model. You need the following steps:\n\nThe response is still y. (1 point)\nPredictors are education, month, day and age. (1 point)\nNumerical predictors need to be transformed to all their second-order polynomial versions. (3 points)\nCategorical predictors need to be one-hot-encoded. (2 points) They should not interact with the numerical predictors. (2 points)\nAfterwards, the all the predictors needs to be standard scaled. (3 points)\n\nPrint the accuracy and recall for both training and test data using a threshold of 0.11. (5 points) Use test1.csv as the test dataset. Remember that the test dataset needs to go through the exact same transformation pipeline as the training dataset. (3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
     ]
   },
   {
@@ -545,7 +567,7 @@
     "text": "5) Bonus: Data Visualization with Precision, Recall and FPR (12 points)\n\n5a)\nPlot the ROC curve for the model you trained in Question 3. Mark the point that corresponds to the decision threshold you found in 3d. (You can use a red solid point or whatever shape/color you want, as long as it is clearly marked.) Make sure you have the axis labels and the x=y line for comparison. (3 points)\n\n\n5b)\nConvert the previous plot to a scatter plot of TPR against FPR and color-code each point based on the corresponding profit. (5 points)\n\n\n5c)\nPlot the Precision-Recall curve for the model you trained in Question 3. Mark the decision threshold you found in 3d as a dashed vertical line. Make sure you have the axis labels. (4 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 20)</span>"
     ]
   },
   {
@@ -556,7 +578,7 @@
     "text": "Instructions",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -567,7 +589,7 @@
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answer in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to understand and grade.\nUse Quarto to print the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Tuesday, 20th February 2024 at 11:59 pm.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -578,7 +600,7 @@
     "text": "Data description\nThe data is related with direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls, where bank clients were called to subscribe for a term deposit.\nThere is one train data - train.csv, which you will use to develop a model. There are two test datasets - test1.csv and test2.csv, which you will use to test your model. Each observation is a phone call and each column is a variable about the client or the phone call. Each dataset has the following attributes about the clients called in the marketing campaign:\n\nage: Age of the client\neducation: Education level of the client\nday: Day of the month the call is made\nmonth: Month of the call\ny: did the client subscribe to a term deposit?\nduration: Call duration, in seconds. This attribute highly affects the output target (e.g., if duration=0 then y=‘no’). Yet, the duration is not known before a call is performed. Also, after the end of the call y is obviously known. Thus, this input should only be included for inference purposes and should be discarded if the intention is to have a realistic predictive model.\n\n(Source: UCI Data Archive. Please use the given datasets for the assignment, not the raw data from the source. It is just for reference.)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -589,7 +611,7 @@
     "text": "Instructions / suggestions for answering questions\n\nInstruction: Use train.csv for all questions, unless otherwise stated.\nSuggestion 1: You may use the functions in the class notes for printing the confusion matrix and the overall classification accuracy based on test / train data.\nSuggestion 2:: If you make variable transformations, you will need to do it for all the three datasets. Your code will be a bit concise if you make a function containing all the transformations, and then call it for the training and the two test datasets. You can put this function in the beginning of the code and keep adding transformations to it as you proceed with the assignment. You may need transformations in questions (1) and (13).",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -600,7 +622,7 @@
     "text": "1)\nRead the datasets. Make an appropriate visualization to visualize how the proportion of clients subscribing to a term deposit change with increasing call duration.\n(4 points)\nHints:\n\nBin duration to create duration_binned. Group the data to find the fraction of clients responding positively to the marketing campaign for each bin in duration_binned. Make a lineplot of percentage of clients subscribing to a term deposit vs duration_binned, where the bins in duration_binned are arranged in increasing order of duration.\nYou may choose an appropriate number of bins & type of binning that helps you visualize well.\nYou may also think of other ways of visualization. You don’t need to stick with this one.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -611,7 +633,7 @@
     "text": "2) Predictor duration\nBased on the plot in (1), comment whether duration seems to be a useful variable to predict if the client will subscribe to a term deposit.\n(1 point)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -622,7 +644,7 @@
     "text": "3) Model based on duration\nDevelop a logistic regression model to predict if the client subscribed to a term deposit based on call duration. Use the model to make a lineplot showing the probability of the client subscribing to a term deposit based on call duration.\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -633,7 +655,7 @@
     "text": "Note\nAnswer questions 4 to 11 based on the regression model developed in (3).",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -644,7 +666,7 @@
     "text": "4) Model significance\nIs the regression model in statistically significant? Justify your answer.\n(1 point for code, 1 point for answer)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -655,7 +677,7 @@
     "text": "5) Subscription probability in 5 minutes\nWhat is the probability that the client subscribes to a term deposit with a 5-minute marketing call? Note that the call duration in data is given in seconds.\n(2 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -666,7 +688,7 @@
     "text": "6) Call duration for subscription\nWhat is the minimum call duration (in minutes) for which a client has a 95% or higher chance of subscribing to a term deposit?\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -677,7 +699,7 @@
     "text": "7) Maximum call duration\nWhat is the maximum call duration (in minutes) in which a client refused to subscribe to a term deposit? What was the probability of the client subscribing to the term deposit in that call?\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -688,7 +710,7 @@
     "text": "8) Percent increase in odds\nWhat is the percentage increase in the odds of a client subscribing to a term deposit when the call duration increases by a minute?\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -699,7 +721,7 @@
     "text": "9) Doubling the subscription odds\nHow much must the call duration increase (in minutes) so that it doubles the odds of the client subscribing to a term deposit.\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -710,7 +732,7 @@
     "text": "10) Classification accuracy\nWhat is minimum overall classification accuracy of the model among the classification accuracies on train.csv, test1.csv and test2.csv? Consider a threshold of 30% when classifying observations.\n(2 + 1 + 1 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -721,7 +743,7 @@
     "text": "11) Recall\nWhat is the minimum Recall of the model among the Recall performance on train.csv, test1.csv and test2.csv? Consider a decision threshold probability of 30% when classifying observations.\nHere, Recall is the proportion of clients predicted to subscribe to a term deposit among those who actually subscribed.\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -732,7 +754,7 @@
     "text": "12) Subscription probability based on age and education\nDevelop a logistic regression model to predict the probability of a client subscribing to a term deposit based on age, education and the two-factor interaction between age and education. Based on the model, answer:\n\nPeople with which type of education (primary / secondary / tertiary / unknown) have the highest percentage increase in odds of subscribing to a term deposit with a unit increase in age? Justify your answer.\nWhat is the percentage increase in odds of a person subscribing to a term deposit for a unit increase in age, if the person has tertiary education.\nWhat is the percentage increase in odds of a person subscribing to a term deposit for a unit increase in age, if the person has primary education.\n\n(1 point for developing the model, 3 points for (a), 3 points for (b), 3 points for (c))",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -743,7 +765,7 @@
     "text": "13) Model development\nDevelop a logistic regression model (using train.csv) to predict the probability of a client subscribing to a term deposit based on age, education, day and month. The model must have:\n\nMinimum overall classification accuracy of 75% among the classification accuracies on train.csv, test1.csv and test2.csv.\nMinimum recall of 50% among the recall performance on train.csv, test1.csv and test2.csv.\n\nFor all the three datasets - train.csv, test1.csv and test2.csv, print the:\n\nModel summary (only for train.csv),\nConfusion matrices,\nOverall classification accuracies, and\nRecall\n\nNote that:\n\nYou cannot use duration as a predictor because its value is determined after the marketing call ends. However, after the call ends, we already know whether the client responded positively or negatively. That is why we have used duration only for inference in the previous questions. It helped us understand the effect of the length of the call on marketing success.\nIt is possible to develop the model satisfying constrains (a) and (b) with just appropriate transformation(s) of the predictor(s). However, you may consider interactions if you wish. Justify the transformations, if any, with visualizations.\nYou are free to choose any value of the decision threshold probability for classifying observations. However, you must use the same threshold on all the three datasets.\n\n(10 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -754,7 +776,7 @@
     "text": "14) ROC-AUC\nReport the probability that the model will predict a higher probability of response for a customer who signs up for the term deposit as compared to the customer who does not sign up, i.e., the ROC-AUC of the developed model in (13).\nHint: Use the functions roc_curve, and auc from the sklearn.metrics module\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -765,7 +787,7 @@
     "text": "15) Net-profit\nSuppose that the model developed in (13) is used to predict the clients in test1.csv and test2.csv who will respond positively to the campaign. Only those clients who are predicted to respond positively are called during the marketing campaign. Assume that:\n\nA profit of \\$100 is associated with a client who responds positively to the campaign,\nA loss of \\$10 is associated with a client who responds negatively to the campaign\n\nWhat is the net profit from the campaign? Use the confusion matrices printed in (13).\n(4 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -776,7 +798,7 @@
     "text": "16) Decision threshold probability\nBased on the profit and loss associated with client responses specified in (15), and the model developed in (13), find the decision threshold probability of classification, such that the net profit is maximized. Use train.csv\nProceed as follows:\n\nYou would have obtained FPR and TPR for all potential decision threshold probabilities in (14).\nFormulate an expression quantifying the net profit per client, in terms of FPR, TPR, and the overall response rate, i.e., proportion of people actually subscribing to the term deposit.\nFind the decision threshold probability that maximizes the expression in (2).\n\n(5 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -787,7 +809,7 @@
     "text": "17) Net profit based on new decision threshold probability\nUsing the new decision threshold probability obtained in (16), answer (15), i.e., what is the net-profit associated with the clients in test1.csv and test2.csv if a marketing campaign is performed. Again, only those clients who are predicted to respond positively, based on the new decision threshold probability, are called during the marketing campaign\nAlso, print the confusion matrices for predictions on test1.csv and test2.csv with the new threshold probability.\n(4 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -798,7 +820,7 @@
     "text": "18) Model preference\nWas the classification accuracy of the model in (13) higher than that of the model in (17)? If yes, then should you prefer the model in (13) for the marketing campaign? Why or why not?\nNote: The model in (17) is the same as in (13), except with a different decision threshold probability\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -809,7 +831,7 @@
     "text": "19) ROC curve\nPlot the ROC curve for the model developed in (13). Mark the point on the curve corresponding to the decision threshold probability identified in (16).\nNote that the ROC curve is independent of the decision threshold probability used by the model for prediction\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -820,7 +842,7 @@
     "text": "20) Profit with TPR / FPR\nMake a scatterplot of TPR vs FPR, and color the points based on net profit per client.\nYou can use the following code to make the plot if you have the relevant metrics in tpr, fpr, and net_profit\n(1 point)\n\n\nCode\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nsns.set(font_scale=1.5)\nplt.rcParams[\"figure.figsize\"] = (9,6)\nplt.rcParams[\"figure.autolayout\"] = True\nf, ax = plt.subplots()\npoints = ax.scatter(fpr, tpr, c = net_profit, s=50, cmap=\"Blues\")\nf.colorbar(points, label = \"Net profit ($) \\n(per client)\")\nplt.xlabel(\"False positive rate\")\nplt.ylabel(\"True positive rate\")\nplt.show()",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -831,7 +853,7 @@
     "text": "21) Precision-recall\nCompare the precision and recall of the models in (13) and (17) on train.csv.\nNote: The model in (17) is the same as in (13), except with a different decision threshold probability\n(4 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -842,7 +864,7 @@
     "text": "22) Precision-recall: important metric\nBased on the above comparison, which metric among precision and recall turns out to be more important for maximizing the net profit in the marketing campaign?\n(1 point)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -853,7 +875,7 @@
     "text": "23) Precision-recall curve\nPlot the precision-recall curve vs decision threshold probability for the model developed in (13). Mark the points on the curve corresponding to the decision threshold probability identified in (16).\n(3 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -864,7 +886,7 @@
     "text": "24) Precision-recall vs FPR-TPR\nInstead of using the FPR and TPR metrics to find the optimum decision threshold probability in (16), use the precision-recall metrics to find the same.\n(5 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
@@ -875,7 +897,7 @@
     "text": "25) Sklearn\nUsing train.csv and only sklearn, pandas, and numpy, train a Logistic Regression model. You need the following steps:\n\nThe response is still y.\nPredictors are education, month, day and age.\nNumerical predictors need to be transformed to all their second-order polynomial versions.\nCategorical predictors need to be one-hot-encoded. They should not interact with the numerical predictors.\nAfterwards, the all the predictors needs to be standard scaled.\n\nPrint the accuracy and recall for both training and test data using a threshold of 0.11. Use test1.csv as the test dataset. Remember that the test dataset needs to go through the exact same transformation pipeline as the training dataset.\n(8 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Assignment 3 (Section 21 & 22)</span>"
     ]
   },
   {
