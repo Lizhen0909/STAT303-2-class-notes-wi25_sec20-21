@@ -267,6 +267,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Assignment 3 (Section 21 &amp; 22)</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Assignment_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Assignment 4</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -785,7 +791,7 @@ window.Quarto = {
 </div>
 <section id="cross-validation-to-find-optimal-c" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="cross-validation-to-find-optimal-c"><span class="header-section-number">5.3.1</span> Cross-validation to find optimal <code>C</code></h3>
-<div id="0ae58457" class="cell" data-execution_count="37">
+<div id="2a255cb1" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a list of possible C values</span></span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>Cs <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -801,7 +807,7 @@ window.Quarto = {
 <pre><code>1.3894954943731375</code></pre>
 </div>
 </div>
-<div id="936f6886" class="cell" data-execution_count="42">
+<div id="25740491" class="cell" data-execution_count="42">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LogisticRegression(penalty<span class="op">=</span><span class="st">'l2'</span>, C <span class="op">=</span> model_cv.C_[<span class="dv">0</span>])</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>model.fit(X_train_scaled, y_train)</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test_scaled) <span class="co"># threshold = 0.5 here</span></span>

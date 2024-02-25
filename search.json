@@ -901,6 +901,72 @@
     ]
   },
   {
+    "objectID": "Assignment_4.html",
+    "href": "Assignment_4.html",
+    "title": "12  Assignment 4",
+    "section": "",
+    "text": "Instructions",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Assignment 4</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_4.html#instructions",
+    "href": "Assignment_4.html#instructions",
+    "title": "12  Assignment 4",
+    "section": "",
+    "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Sunday, 3rd March 2024 at 11:59 pm.\nThere is a bonus question worth 11 points.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 99 + 11 + 5 = 115 out of 100.",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Assignment 4</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_4.html#modeling-the-radii-of-exoplanets-40-points",
+    "href": "Assignment_4.html#modeling-the-radii-of-exoplanets-40-points",
+    "title": "12  Assignment 4",
+    "section": "12.1 1) Modeling the Radii of Exoplanets (40 points)",
+    "text": "12.1 1) Modeling the Radii of Exoplanets (40 points)\nFor this question, we are interested in predicting the radius of exoplanets (planets outside the Solar System) in kilometers. To achieve this goal, we will use NASA’s Composite Planetary Systems dataset and different regression models. (See https://exoplanetarchive.ipac.caltech.edu for more context.)\nRead all three CompositePlanetarySystems datasets - you should have one training and two test datasets. Each row is an exoplanet. pl_rade column represents the radius of each exoplanet as a proportion of Earth’s radius, which is approximately 6,378 km.\n\n12.1.1 a)\nDevelop a linear regression model (no non-linear terms) to predict pl_rade using all the variables in the data except pl_name, disc_facility and disc_locale. You can use statsmodels or sklearn. (2 points)\n\n\n12.1.2 b)\nFind the RMSE of the model using both test sets separately. (You need to print two RMSE values.) Note that the library you used should not make a difference here! (2 points)\nPrint the training RMSE as well for reference. (1 point)\n\n\n12.1.3 c)\nCompare the training and test RMSEs. (1 point) What is the issue with this model? (1 point)\n\n\n12.1.4 d)\nTrain a Ridge regression model to predict pl_rade using the same variables as above. Optimize the hyperparameter using the RidgeCV object with LOOCV and neg_root_mean_squared_error scoring. What is the optimal hyperparameter value? (5 points)\nNote:\n\nKeep in mind that scaling is always necessary before Ridge/Lasso regression.\nUse the following array of possible hyperparameter values: alphas = np.logspace(2,0.5,200)\nYou have to use the RidgeCV object for this question.\n\n\n\n12.1.5 e)\nUsing the optimized and trained model, print the RMSEs for the training set and both test sets. (4 points)\n\n\n12.1.6 f)\nHow did the training and test performance change? Explain why the Ridge regression changed the training and test results. (3 points)\n\n\n12.1.7 g)\nFind the predictor whose coefficient is shrunk by far the most by Ridge regularization. (3 points)\nHint: .coef_ and .columns attributes should be helpful.\n\n\n12.1.8 h)\nWhy did the coefficient of the predictor identified in the previous question shrunk the most? Justify your answer for credit. (2 points)\nHint: Correlation vector/matrix\n\n\n12.1.9 i)\nVisualize how the coefficients change with the change in the hyperparameter value:\n\nCreate a line plot of coefficient values vs. the hyperparameter value.\nColor code each predictor’s coefficient values.\nUse log scale where necessary.\nUse an alphas vector of np.logspace(7,0,200) for better visualization\n\n(5 points)\n\n\n12.1.10 j)\nRecreate some of the previous steps with Lasso regression.\n\nUsing LassoCV only, find the optimal hyperparameter value. (2 points)\n\nYou need a different hyperparameter array - use: np.logspace(0,-2.5,200)\nUse 10-fold CV.\nLasso object does not have a scoring input.\n\nUsing the optimized and trained Lasso model, print the RMSEs for the training set and both test sets. (2 points)\nVisualize how the coefficients change with the change in the hyperparameter value. (2 points)\n\nUse the hyperparameter array as np.logspace(7,-2.5,200) for better visualization.\n\n\n\n\n12.1.11 k)\nUsing the two figures created in parts i and j, explain how the Ridge and the Lasso models behave differently as the hyperparameter value changes. (2 points) What does that difference mean for the usage of the Lasso model? (1 point)\n\n\n12.1.12 l)\nFind the predictors that are eliminated by Lasso regularization. (2 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Assignment 4</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_4.html#improving-house-prices-prediction-with-higher-order-terms-and-crossvalidation-29-points",
+    "href": "Assignment_4.html#improving-house-prices-prediction-with-higher-order-terms-and-crossvalidation-29-points",
+    "title": "12  Assignment 4",
+    "section": "12.2 2) Improving House Prices Prediction with Higher-order Terms and Crossvalidation (29 points)",
+    "text": "12.2 2) Improving House Prices Prediction with Higher-order Terms and Crossvalidation (29 points)\nIn this question, we are interested in improving the prediction performance for house prices using five predictors.\n\n12.2.1 a)\nRead the house feature and price files and create the training and test datasets. The response is log-price and the five predictors are the rest of the variables, except house_id. (2 points)\n\n\n12.2.2 b)\nIn class, we saw how an entirely linear model is not enough to capture the complexity in the relationship between the response and the predictors - in other words, it is underfitting. We want to analyze how the training and test performance change as the level of model complexity increases.\nUsing PolynomialFeatures object, create higher-order versions of the predictors (both transformations and interactions) in the training and test data. (3 points) Using all predictors (linear and transformed), train a Ridge model with alpha=0.000001 (2 points) and store the training and test RMSEs. (2 points) Repeat this process from order 1 to order 6. (2 points)\nFinally, plot the training and test RMSE values on the same figure against the order. (1 point) Make sure the two lineplots have different colors and a legend is included. (1 points)\nNote:\n\nThis question needs a loop.\nPolynomialFeatures object keeps the lower order terms (k-1 to 1) while creating new predictors of order k, so no need to concatenate.\nDon’t forget to exclude the bias term created by default with PolynomialFeatures.\nDon’t forget to scale (correctly) (2 points)\nMinimal regularization is necessary for this question, as opposed to pure Linear Regression, otherwise the test RMSE values go to infinity very quickly for higher orders.\n\n\n\n12.2.3 c)\nWhich order has the best test RMSE? (1 point) What is the best test RMSE? (1 point) At which order does the overfitting start? (1 point)\n\n\n12.2.4 d)\nRepeat part b, only this time use RidgeCV to find the best amount of regularization for each order by cross-validation. Use alphas = np.logspace(2,0.5,200) and LOOCV. Use neg_root_mean_squared_error for scoring. Create the same plot as part b. (4 points) Describe the obvious difference between the plot in this part and the plot in part b. (2 points)\n\n\n12.2.5 e)\nWhat is the best test RMSE found by using higher-orders and regularization? (1 point) Which order achieved this test RMSE? (1 point) Why did this order with regularization perform better than any lower order with or (almost) without regularization? (3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Assignment 4</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_4.html#systematic-elimination-of-interaction-terms-30-points",
+    "href": "Assignment_4.html#systematic-elimination-of-interaction-terms-30-points",
+    "title": "12  Assignment 4",
+    "section": "12.3 3) Systematic Elimination of Interaction Terms (30 points)",
+    "text": "12.3 3) Systematic Elimination of Interaction Terms (30 points)\nIn this question, we are interested in predicting if the client subscribed to a term deposit or not after a phone call using age and education of the client and the day and the month the call took place.\nNote that this is the same problem as in the previous assignment, however, using sklearn, we aim to make the predictive analysis with interactions more systematic.\n\n12.3.1 a)\nRead train.csv, test1.csv, and test2.csv. Prepare the training and two test datasets according the description above. (2 points)\n\n\n12.3.2 b)\nFor all datasets:\n\nOne-hot-encode the categorical predictors. (2 points)\nGet the interactions of all the predictors. (Numeric and one-hot-encoded) (3 points)\n\nNote that there is a very quick way of doing this with PolynomialFeatures\nDon’t forget to exclude the bias.\n\nScale the predictors (correctly.) (2 points)\n\n\n\n12.3.3 c)\nTrain a Logistic Regression model with Lasso penalty. (2 points) The idea is to discard interactions that are not useful. Note that instead of the manual, trial-and-error way of adding interactions in statsmodels, we include all the possible interactions and then discard the useless ones here.\n\nUse [0.0001,0.001, 0.01, 0.1, 1, 10, 100, 1000] as the possible C values. (1 point)\nUse 10-fold cross-validation to optimize the C value. (1 point)\nLasso is very useful, but it needs special algorithms, since it includes non-differentiable absolute values. Use saga as the solver. (1 point)\nFor the same reason as above, the default number of iterations the algorithm takes is usually not enough for Lasso. Use max_iter = 1000. (Default is 500) (1 point)\nThis will take 10-20 minutes to run.\n\n\n\n12.3.4 d)\nHow many models in total are run by this cross-validation process? (2 points)\n\n\n12.3.5 e)\nWhat is the optimum C value? (1 point) What is the lambda (in the Lasso cost) value it corresponds to? (1 point)\n\n\n12.3.6 f)\nWhat is the percentage of terms (linear or interaction) that are discarded by Lasso? (Hint: .coef_) (2 points)\n\n\n12.3.7 g)\nFind the five terms that have the highest effect on the logodds of a subscription. Assume that we are quantifying the effect of a term with the absolute value of its coefficient. (Hint: .get_feature_names_out()) (4 points)\n\n\n12.3.8 h)\nCome up with real-life explanations on why the terms identified in the previous part are important. (This is an open-ended question, just make sure your answer makes sense.) (2 points)\n\n\n12.3.9 i)\nLastly, find a threshold to get all three (training and both test) datasets above 75% accuracy and 50% recall. Note that you only worry about the threshold now. Lasso took care of finding good interactions. (3 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Assignment 4</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_4.html#bonus-elasticnet-11-points",
+    "href": "Assignment_4.html#bonus-elasticnet-11-points",
+    "title": "12  Assignment 4",
+    "section": "12.4 4) Bonus: ElasticNet (11 points)",
+    "text": "12.4 4) Bonus: ElasticNet (11 points)\nThe entire goal of this part is to get you familiar with an alternate model: ElasticNet. It is implemented by adding both Lasso and Ridge penalties to the RSS (or subtracting them from the loglikelihood.) How much Lasso and how much Ridge penalty is up to two hyperparameters.\n\n12.4.1 a)\nFor regression, sklearn has its own object and its CV version for ElasticNet.\nDo your own research and implement a 5-fold cross-validation for the options of 25% Lasso-75% Ridge, 50% Lasso-50% Ridge and 75% Lasso- 25% Ridge, and the alpha values of alphas = np.logspace(10,0.1,200).\n\nUse the dataset given in the first question (with the same columns dropped.)\nYou still need to scale.\nReturn the best Lasso-Ridge ratio and the alpha value pair that corresponds to the best test performance.\nNote that even if you use the CV object, you have to use loops.\n\n(8 points)\n\n\n12.4.2 b)\nHow many models were run in the cross-validation process of two hyperparameters? (1 point)\n\n\n12.4.3 c)\nBriefly mention how you would implement ElasticNet for Logistic Regression. Again, you need to do your own research. (2 points)",
+    "crumbs": [
+      "Assignments",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Assignment 4</span>"
+    ]
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
     "title": "Appendix A — Datasets, assignment and project files",
