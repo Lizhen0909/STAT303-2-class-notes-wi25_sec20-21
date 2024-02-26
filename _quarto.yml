@@ -23,6 +23,7 @@ book:
         - Lec7_logistic_regression.ipynb
         - Lec9_RidgeRegression_Lasso.ipynb
         - Crossvalidation.ipynb
+        - Lec5_Potential_issues.ipynb
     - part: "Assignments"
       chapters:
         - Assignment 1 (Section 20).ipynb
