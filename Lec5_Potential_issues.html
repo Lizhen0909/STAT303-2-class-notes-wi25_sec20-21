@@ -346,7 +346,7 @@ window.Quarto = {
 <p><em>Read section 3.3.3 (4, 5, &amp; 6) of the book before using these notes.</em></p>
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
 <p>Let us continue with the car price prediction example from the previous chapter.</p>
-<div id="2f66df9f" class="cell" data-execution_count="7">
+<div id="2f66df9f" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
@@ -462,13 +462,13 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="4984470b" class="cell" data-execution_count="161">
+<div id="4984470b" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Considering the model developed to address assumptions in the previous chapter</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Model with an interaction term and a variable transformation term</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="161">
+<div class="cell-output cell-output-display" data-execution_count="3">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>OLS Regression Results</caption>
@@ -493,13 +493,13 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Wed, 28 Feb 2024</td>
+<td>Mon, 04 Mar 2024</td>
 <td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
 <td>0.00</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>13:32:48</td>
+<td>00:57:09</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-1173.8</td>
 </tr>
@@ -682,11 +682,11 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div id="c18e7ac7" class="cell" data-execution_count="162">
+<div id="c18e7ac7" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pred_price_log <span class="op">=</span> model_log.predict(testf)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> np.exp(pred_price_log))<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="162">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>9094.209473232966</code></pre>
 </div>
 </div>
@@ -716,36 +716,36 @@ window.Quarto = {
 <p><strong>Issue with standardized residuals:</strong>, If the observation corresponding to the standardized residual has a high leverage, then it will drag the regression line / plane / hyperplane towards it, thereby influencing the estimate of the residual itself.</p>
 <p><strong>Studentized residuals:</strong> To address the issue with standardized residuals, studentized residual for the <span class="math inline">\(i^{th}\)</span> observation is computed as the standardized residual, but with the <span class="math inline">\(RSE\)</span> (residual standard error) computed after removing the <span class="math inline">\(i^{th}\)</span> observation from the data. Studentized residual, <span class="math inline">\(t_i\)</span> for the <span class="math inline">\(i^{th}\)</span> observation is given as:</p>
 <p><span class="math display">\[t_i = \frac{e_i}{RSE_{i}(\sqrt{1-h_{ii}})},\]</span> where <span class="math inline">\(RSE_{i}\)</span> is the residual standard error of the model developed on the data without the <span class="math inline">\(i^{th}\)</span> observation.</p>
-<p>If the regression model is appropriate such that no case is outlying because of a change in the model, then each studentized residual will follow a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\((n–p–1)\)</span> degrees of freedom.</p>
+<p><strong>Distribution of studentized residuals:</strong> If the regression model is appropriate such that no case is outlying because of a change in the model, then each studentized residual will follow a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\((n–p–1)\)</span> degrees of freedom.</p>
 <p>As the studentized residuals follow a <span class="math inline">\(t\)</span> distribution, we can conduct a hypothesis test to identify whether an observation is an outlier or not for a given sigificance level. Note that the test will be two-sided since we are not concerned with the sign of the residuals, but only their absolute values.</p>
 <p>In the current example, for a signficance level of 5%, the critical <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(t\big(1 - \frac{\alpha}{2}, n - p - 1\big)\)</span>, as calculated below.</p>
-<div id="42af699d" class="cell" data-execution_count="15">
+<div id="42af699d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> train.shape[<span class="dv">0</span>]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> model_log.df_model</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Critical value</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>stats.t.ppf(<span class="dv">1</span> <span class="op">-</span> alpha<span class="op">/</span><span class="dv">2</span>, n <span class="op">-</span> p <span class="op">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>1.9604435402730618</code></pre>
 </div>
 </div>
-<p>If were conducting the test for a single observation, we’ll compare the studentized residual for that observation with the critical <span class="math inline">\(t\)</span>-statistic, and if the residual is greater than the critical value, we’ll consider that observation as an outlier.</p>
+<p>If we were conducting the test for a single observation, we’ll compare the studentized residual for that observation with the critical <span class="math inline">\(t\)</span>-statistic, and if the residual is greater than the critical value, we’ll consider that observation as an outlier.</p>
 <p>However, typically, we’ll be interested in conducting this test for all observations, and thus we’ll need a more conservative critical value for the same signficance level. This critical value is given by the Bonferroni correction as <span class="math inline">\(t\big(1 - \frac{\alpha}{2n}, n - p - 1\big)\)</span>.</p>
 <p>Thus, the minimum value of studentized residual for which the observation will be classified as an outlier is:</p>
-<div id="769ba052" class="cell" data-execution_count="18">
+<div id="769ba052" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>critical_value <span class="op">=</span> stats.t.ppf(<span class="dv">1</span><span class="op">-</span>alpha<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>n), n <span class="op">-</span> p <span class="op">-</span> <span class="dv">1</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>critical_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>4.4200129981725365</code></pre>
 </div>
 </div>
 <p>The studentized residuals can be obtained using the <code>outlier_test()</code> method of the object returned by the <code>fit()</code> method of an OLS object. Let us find the studentized residuals in our car <code>price</code> prediction model.</p>
-<div id="bba48749" class="cell" data-execution_count="6">
+<div id="bba48749" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Studentized residuals</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> model_log.outlier_test()</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 <div>
 
@@ -834,38 +834,42 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Studentized residuals are in the first column of the above table.</p>
-<div id="5ec1cee2" class="cell" data-execution_count="155">
+<p>Studentized residuals are in the first column of the above table. Let us plot the studentized residuals against fitted values. In the figure below, the studentized residuals above the top dotted green line and below the bottom dotted green line are outliers.</p>
+<div id="5ec1cee2" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting studentized residuals vs fitted values</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> (model_log.fittedvalues), y<span class="op">=</span>(out.student_resid),color <span class="op">=</span> <span class="st">'orange'</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [model_log.fittedvalues.<span class="bu">min</span>(),model_log.fittedvalues.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Studentized Residuals'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="155">
-<pre><code>Text(0, 0.5, 'Studentized Residuals')</code></pre>
-</div>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.lineplot(x <span class="op">=</span> [model_log.fittedvalues.<span class="bu">min</span>(),model_log.fittedvalues.<span class="bu">max</span>()],y <span class="op">=</span> [critical_value, critical_value],</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>             color <span class="op">=</span> <span class="st">'green'</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [model_log.fittedvalues.<span class="bu">min</span>(),model_log.fittedvalues.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="op">-</span>critical_value, <span class="op">-</span>critical_value],</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>             color <span class="op">=</span> <span class="st">'green'</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ax.lines[<span class="dv">1</span>].set_linestyle(<span class="st">"--"</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ax.lines[<span class="dv">2</span>].set_linestyle(<span class="st">"--"</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Studentized Residuals'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Lec5_Potential_issues_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="Lec5_Potential_issues_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>Potential outliers:</strong> Observations whose studentized residuals have a magnitude greater than 3.</p>
-<p><strong>Impact of outliers:</strong> Outliers do not have a large impact on the OLS line / plane / hyperplane. However, outliers do inflate the residual standard error (RSE). RSE in turn is used to compute the standard errors of regression coefficients. As a result, statistically significant variables may appear to be insignificant, and <span class="math inline">\(R^2\)</span> may appear to be lower.</p>
+<p><strong>Outliers:</strong> Observations whose studentized residuals have a magnitude greater than <span class="math inline">\(t\big(1 - \frac{\alpha}{2n}, n - p - 1\big)\)</span>.</p>
+<p><strong>Impact of outliers:</strong> Outliers do not have a large impact on the OLS line / plane / hyperplane as long as they don’t have a high leverage <em>(discussed in the next section)</em>. However, outliers do inflate the residual standard error (RSE). RSE in turn is used to compute the standard errors of regression coefficients. As a result, statistically significant variables may appear to be insignificant, and <span class="math inline">\(R^2\)</span> may appear to be lower.</p>
 <p><strong>Are there outliers in our example?</strong></p>
 <div id="057fc1cc" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of points with absolute studentized residuals greater than critical_value</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> critical_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of points with absolute studentized residuals greater than critical_value</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> critical_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>19</code></pre>
 </div>
 </div>
 <p>Let us analyze the outliers.</p>
 <div id="604af257" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> (np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> critical_value)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>pd.concat([train.loc[ind,:], np.exp(model_log.fittedvalues[ind])], axis <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> (np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> critical_value)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pd.concat([train.loc[ind,:], np.exp(model_log.fittedvalues[ind])], axis <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
 <div>
 <div>
@@ -1187,19 +1191,34 @@ window.Quarto = {
 </section>
 <section id="high-leverage-points" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="high-leverage-points"><span class="header-section-number">7.2</span> High leverage points</h2>
-<p>High leverage points are those with an unsual value of the predictor(s). They have a relatively higher impact on the OLS line / plane / hyperplane, as compared to the outliers.</p>
+<p>High leverage points are those with an unsual value of the predictor(s). They have the potential to have a relatively higher impact on the OLS line / plane / hyperplane, as compared to the outliers.</p>
 <p><strong>Leverage statistic</strong> (page 99 of the book): In order to quantify an observation’s leverage, we compute the leverage statistic. A large value of this statistic indicates an observation with high leverage. For simple linear regression, <span class="math display">\[\begin{equation}
 h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 \end{equation}\]</span></p>
-<p>It is clear from this equation that <span class="math inline">\(h_i\)</span> increases with the distance of <span class="math inline">\(x_i\)</span> from <span class="math inline">\(\bar x\)</span>.The leverage statistic <span class="math inline">\(h_i\)</span> is always between <span class="math inline">\(1/n\)</span> and <span class="math inline">\(1\)</span>, and the average leverage for all the observations is always equal to <span class="math inline">\((p+1)/n\)</span>. So if a given observation has a leverage statistic that greatly exceeds <span class="math inline">\((p+1)/n\)</span>, then we may suspect that the corresponding point has high leverage.</p>
+<p>It is clear from this equation that <span class="math inline">\(h_i\)</span> increases with the distance of <span class="math inline">\(x_i\)</span> from <span class="math inline">\(\bar x\)</span>. A large value of <span class="math inline">\(h_i\)</span> indicates that the <span class="math inline">\(i^{th}\)</span> observation is distance from the center of all the other observations in terms of predictor values.</p>
+<p>The leverage statistic <span class="math inline">\(h_i\)</span> is always between <span class="math inline">\(1/n\)</span> and <span class="math inline">\(1\)</span>, and the average leverage for all the observations is always equal to <span class="math inline">\((p+1)/n\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+\bar{h} = \frac{p+1}{n}
+\end{equation}\]</span></p>
+<p>So if a given observation has a leverage statistic that greatly exceeds <span class="math inline">\((p+1)/n\)</span>, then we may suspect that the corresponding point has high leverage.</p>
+<p>If the <span class="math inline">\(i^{th}\)</span> observation has a large leverage <span class="math inline">\(h_i\)</span>, it may exercise substantial leverage in determining the fitted value <span class="math inline">\(\hat{Y}_i\)</span>, because:</p>
+<ul>
+<li><p>The fitted value <span class="math inline">\(\hat{Y}_i\)</span> is a linear combination of the observed <span class="math inline">\(Y\)</span> values, and <span class="math inline">\(h_i\)</span> is the weight of observation <span class="math inline">\(Y_i\)</span> in determining this fitted value.</p></li>
+<li><p>The larger the <span class="math inline">\(h_i\)</span>, the smaller is the variance of the residual <span class="math inline">\(e_i\)</span>, and the closer the fitted value <span class="math inline">\(\hat{Y}_i\)</span> will tend to be the observed value <span class="math inline">\(Y_i\)</span>.</p></li>
+</ul>
+<p><strong>Thumb rules:</strong></p>
+<ul>
+<li>A leverage <span class="math inline">\(h_i\)</span> is usually considered large if it is more than twice as large as the mean value <span class="math inline">\(\bar{h}\)</span>.</li>
+<li>Another suggested guideline is that <span class="math inline">\(h_i\)</span> values exceeding 0.5 indicate <strong>very high leverage</strong>, whereas those between 0.2 and 0.5 indicate moderate leverage.</li>
+</ul>
 <p><strong>Influential points:</strong> Note that if a high leverage point falls in line with the regression line, then it will not affect the regression line. However, it may inflate R-squared and increase the significance of predictors. If a high leverage point falls away from the regression line, then it is also an outlier, and will affect the regression line. The points whose presence significantly affects the regression line are called influential points. A point that is both a high leverage point and an outlier is likely to be an influential point. However, a high leverage point is not necessarily an influential point.</p>
 <p><em>Source for influential points: https://online.stat.psu.edu/stat501/book/export/html/973</em></p>
 <p>Let us see if there are any high leverage points in our regression model without the predictor - <code>model</code>.</p>
 <div id="e4933a3c" class="cell" data-execution_count="82">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with an interaction term and a variable transformation term</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with an interaction term and a variable transformation term</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="82">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1415,14 +1434,14 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 </div>
 </div>
 <div id="379017a7" class="cell" data-execution_count="83">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing the leverage statistic for each observation</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>influence <span class="op">=</span> model_log.get_influence()</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>leverage <span class="op">=</span> influence.hat_matrix_diag</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing the leverage statistic for each observation</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>influence <span class="op">=</span> model_log.get_influence()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>leverage <span class="op">=</span> influence.hat_matrix_diag</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="8c9d7a92" class="cell" data-execution_count="70">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizng leverage against studentized residuals</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc<span class="op">=</span>{<span class="st">'figure.figsize'</span>:(<span class="dv">15</span>,<span class="dv">8</span>)})</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>sm.graphics.influence_plot(model_log)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizng leverage against studentized residuals</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc<span class="op">=</span>{<span class="st">'figure.figsize'</span>:(<span class="dv">15</span>,<span class="dv">8</span>)})</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sm.graphics.influence_plot(model_log)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1433,24 +1452,24 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 </div>
 <p>Let us identify the high leverage points in the data, as they may be affecting the regression line if they are outliers as well, i.e., if they are influential points. Note that there is no defined threshold for a point to be classified as a high leverage point. Some statisticians consider points having twice the average leverage as high leverage points, some consider points having thrice the average leverage as high leverage points, and so on.</p>
 <div id="255d189c" class="cell" data-execution_count="84">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> model_log.outlier_test()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> model_log.outlier_test()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="19265368" class="cell" data-execution_count="128">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Average leverage of points</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>average_leverage <span class="op">=</span> (model_log.df_model<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span>model_log.nobs</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>average_leverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Average leverage of points</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>average_leverage <span class="op">=</span> (model_log.df_model<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span>model_log.nobs</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>average_leverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="128">
 <pre><code>0.002425222312045271</code></pre>
 </div>
 </div>
 <p>Let us consider points having four times the average leverage as high leverage points.</p>
 <div id="3127d045" class="cell" data-execution_count="148">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We will remove all observations that have leverage higher than the threshold value.</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>high_leverage_threshold <span class="op">=</span> <span class="dv">4</span><span class="op">*</span>average_leverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We will remove all observations that have leverage higher than the threshold value.</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>high_leverage_threshold <span class="op">=</span> <span class="dv">4</span><span class="op">*</span>average_leverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="68080b90" class="cell" data-execution_count="149">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of high leverage points in the dataset</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(leverage<span class="op">&gt;</span>high_leverage_threshold)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of high leverage points in the dataset</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(leverage<span class="op">&gt;</span>high_leverage_threshold)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="149">
 <pre><code>196</code></pre>
 </div>
@@ -1460,30 +1479,30 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <h2 data-number="7.3" class="anchored" data-anchor-id="influential-points"><span class="header-section-number">7.3</span> Influential points</h2>
 <p>Observations that are both high leverage points and outliers are influential points that may affect the regression line. Let’s remove these influential points from the data and see if it improves the model prediction accuracy on test data.</p>
 <div id="d5e4ea49" class="cell" data-execution_count="155">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dropping influential points from data</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>train_filtered <span class="op">=</span> train.drop(np.intersect1d(np.where(np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> <span class="dv">4</span>)[<span class="dv">0</span>],</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                                           (np.where(leverage<span class="op">&gt;</span>high_leverage_threshold)[<span class="dv">0</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dropping influential points from data</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>train_filtered <span class="op">=</span> train.drop(np.intersect1d(np.where(np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> <span class="dv">4</span>)[<span class="dv">0</span>],</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                                           (np.where(leverage<span class="op">&gt;</span>high_leverage_threshold)[<span class="dv">0</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that as the Bonferroni’s critical value is very conservative estimate, we have rounded off the critical value to 4, instead of 4.42.</p>
 <div id="a486b4f6" class="cell" data-execution_count="156">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>train_filtered.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>train_filtered.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="156">
 <pre><code>(4935, 11)</code></pre>
 </div>
 </div>
 <div id="a58fbd34" class="cell" data-execution_count="157">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of points removed as they were influential</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>train.shape[<span class="dv">0</span>]<span class="op">-</span>train_filtered.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of points removed as they were influential</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>train.shape[<span class="dv">0</span>]<span class="op">-</span>train_filtered.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="157">
 <pre><code>25</code></pre>
 </div>
 </div>
 <p>We removed 25 influential data points from the training data.</p>
 <div id="99df9b10" class="cell" data-execution_count="159">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model after removing the influential observations</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train_filtered)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model after removing the influential observations</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train_filtered)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="159">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1700,9 +1719,9 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 </div>
 <p>Note that we obtain a higher R-sqauared value of 83% as compared to 80% with the complete data. Removing the influential points helped obtain a better model fit. However, that may also happen just by reducing observations.</p>
 <div id="1191d611" class="cell" data-execution_count="160">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>pred_price_log <span class="op">=</span> model_log.predict(testf)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> np.exp(pred_price_log))<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>pred_price_log <span class="op">=</span> model_log.predict(testf)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> np.exp(pred_price_log))<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="160">
 <pre><code>8813.186842472378</code></pre>
 </div>
@@ -1731,8 +1750,8 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 \end{equation}\]</span></p>
 <div id="a452d7f2" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Correlation matrix</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>train.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Correlation matrix</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>train.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 <div>
@@ -1831,25 +1850,25 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 <p>Let us compute the Variance Inflation Factor (VIF) for the four predictors.</p>
 <div id="58af88e9" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> train[[<span class="st">'mpg'</span>,<span class="st">'year'</span>,<span class="st">'mileage'</span>,<span class="st">'engineSize'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> train[[<span class="st">'mpg'</span>,<span class="st">'year'</span>,<span class="st">'mileage'</span>,<span class="st">'engineSize'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="2abb6d0a" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>X.columns[<span class="dv">1</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>X.columns[<span class="dv">1</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="22">
 <pre><code>Index(['year', 'mileage', 'engineSize'], dtype='object')</code></pre>
 </div>
 </div>
 <div id="ac8d3b13" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tools.tools <span class="im">import</span> add_constant</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> add_constant(X)</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>vif_data <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"feature"</span>] <span class="op">=</span> X.columns</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X.columns)):</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    vif_data.loc[i,<span class="st">'VIF'</span>] <span class="op">=</span> variance_inflation_factor(X.values, i)</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tools.tools <span class="im">import</span> add_constant</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> add_constant(X)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>vif_data <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"feature"</span>] <span class="op">=</span> X.columns</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X.columns)):</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    vif_data.loc[i,<span class="st">'VIF'</span>] <span class="op">=</span> variance_inflation_factor(X.values, i)</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      feature           VIF
 0       const  1.201579e+06
@@ -1866,10 +1885,10 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 <section id="manual-computation-of-vif" class="level3" data-number="7.4.3">
 <h3 data-number="7.4.3" class="anchored" data-anchor-id="manual-computation-of-vif"><span class="header-section-number">7.4.3</span> Manual computation of VIF</h3>
 <div id="b52c77cc" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'year~mpg+engineSize+mileage'</span>, data <span class="op">=</span> train)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'year~mpg+engineSize+mileage'</span>, data <span class="op">=</span> train)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
@@ -2013,17 +2032,17 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 </div>
 <div id="138d152e" class="cell" data-execution_count="470">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#VIF for year</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span><span class="op">-</span><span class="fl">0.592</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#VIF for year</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span><span class="op">-</span><span class="fl">0.592</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="470">
 <pre><code>2.4509803921568625</code></pre>
 </div>
 </div>
 <p>Note that year and mileage have a high linear correlation. Removing one of them should decrease the standard error of the coefficient of the other, without significanty decrease R-squared.</p>
 <div id="f2f72227" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+mileage+year'</span>, data <span class="op">=</span> train)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+mileage+year'</span>, data <span class="op">=</span> train)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
@@ -2177,9 +2196,9 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 <p>Removing mileage from the above regression.</p>
 <div id="675ce850" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+year'</span>, data <span class="op">=</span> train)</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+year'</span>, data <span class="op">=</span> train)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
