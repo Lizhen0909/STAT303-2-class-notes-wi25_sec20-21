@@ -1495,25 +1495,25 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <section id="identifying-extrapolation-using-leverage" class="level3" data-number="7.2.1">
 <h3 data-number="7.2.1" class="anchored" data-anchor-id="identifying-extrapolation-using-leverage"><span class="header-section-number">7.2.1</span> Identifying extrapolation using leverage</h3>
 <p>Leverage can be used to check if prediction on a particular point will lead to extrapolation.</p>
-<p>Below is the function that can be used to find the leverage at for a particular observation <code>xnew</code>.</p>
-<div id="86e94a26" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> leverage_compute(xnew):</span>
+<p>Below is the function that can be used to find the leverage at for a particular observation <code>xnew</code>. Note that <code>xnew</code> has to be a single-dimensional array, and <code>X</code> has to be the predictor matrix (also called the design matrix).</p>
+<div id="8cc9cf51" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> leverage_compute(xnew, X):</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(xnew.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>).T.dot(np.linalg.inv(X.T.dot(X))).dot(xnew.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))[<span class="dv">0</span>][<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>As expected, the function will return the same leverage as provided by the <code>hat_matrix_diag</code> attribute of the objected returned by the <code>get_influence()</code> method of <code>model_log</code> as shown below:</p>
-<div id="a12f5371" class="cell" data-execution_count="17">
+<div id="62501c2c" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>leverage[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>0.0026426981240353694</code></pre>
 </div>
 </div>
 <p>As the observation for prediction is required we need to create the predictor matrix <code>X</code> to create all the observations with the interactions specified in the model.</p>
-<div id="3ad7864f" class="cell" data-execution_count="31">
+<div id="2f0985f7" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>y, X <span class="op">=</span> dmatrices(<span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="5aee968d" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>leverage_compute(X[<span class="dv">0</span>,:])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="32">
+<div id="523308d0" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>leverage_compute(X[<span class="dv">0</span>,:], X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="40">
 <pre><code>0.0026426973869101977</code></pre>
 </div>
 </div>
