@@ -1013,56 +1013,56 @@
   {
     "objectID": "Assignment5_Section20.html",
     "href": "Assignment5_Section20.html",
-    "title": "Assignment 5 (Section 20)",
+    "title": "Assignment 5",
     "section": "",
     "text": "Instructions",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5 (Section 20)</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5</span>"
     ]
   },
   {
     "objectID": "Assignment5_Section20.html#instructions",
     "href": "Assignment5_Section20.html#instructions",
-    "title": "Assignment 5 (Section 20)",
+    "title": "Assignment 5",
     "section": "",
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThe assignment is worth 100 points, and is due on Thursday, 14th March 2024 at 11:59 pm.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 100 + 5 = 105 out of 100.",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5 (Section 20)</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5</span>"
     ]
   },
   {
     "objectID": "Assignment5_Section20.html#cross-validation-for-a-regression-task-34-points",
     "href": "Assignment5_Section20.html#cross-validation-for-a-regression-task-34-points",
-    "title": "Assignment 5 (Section 20)",
+    "title": "Assignment 5",
     "section": "1) Cross-validation for a Regression Task (34 points)",
     "text": "1) Cross-validation for a Regression Task (34 points)\nFor this question, we are interested in using lower-level cross-validation tools for a regression task. Read the soc_ind.csv file. The column names should be clear on what the variables represent.\n\na)\ngdpPerCapita will be the response for this regression analysis. Before anything else, create two density plots to see if we should use it as it is or its log-transformed version. Justify your answer with the plots. (2 points)\nHint: sns.kdeplot\n\n\nb)\nCreate the proper response variable based on your answer in the previous part. The predictors are the rest of the variables except Index, geographic_location, and country. Create a predictor matrix accordingly. (2 points)\nUsing train_test_split from sklearn.model_selection create the training and test data. (You may need to read its documentation.) Use a 80%-20% train-test split and use random_state=2 for reproducible results. (3 points)\n\n\nc)\nOne-hot-encode and scale (in this order) both the training and the test dataset. (2 points)\n\n\nd)\nUsing a hyperparameter vector of np.logspace(2,0.5,200), cross-validate a Ridge Regression model. Use 10 folds and neg_mean_absolute_error as the scoring metric. (4 points) Save all your cross-validation (CV) scores in a numpy array. (1 point)\n\n\ne)\nUsing the array you created in the previous part, find the optimal hyperparameter value and the best CV score that corresponds to it. (1+1=2 points)\n\n\nf)\nCheck the best CV score you found in the previous part. What seems to be the issue with it? Remember that the response is GDP per capita of countries. (We will solve this issue later in this question.) (2 points)\n\n\ng)\nCreate a final model with the optimal hyperparameter value you found in the previous question. Return the test MAE. You need to return the test MAE in terms of actual GDP values for credit. (3 points)\n\n\nh)\nNow, it is time to calculate proper MAE values for the cross-validation results and optimize the hyperparameter value based on them. Using cross_val_predict, return the CV predictions for all hyperparameter values. Use a hyperparameter vector of np.logspace(2,0.5,200). (Same as part d.). (4 points) Save all the predictions in a DataFrame. (1 point)\n\n\ni)\nUsing the DataFrame you created in the previous part, find the optimal hyperparameter value and the best CV MAE that corresponds to it. (4 points)\nNote:\n\nThe MAE should be in terms of actual GDP values for credit.\nNo loops are allowed for this question. You may want to refresh your memory on .apply.\n\n\n\nj)\nWith the hyperparameter value you found in the previous part, train a final model and print its test MAE. (2 points) How does it compare to the test MAE you found with cross_val_score? (1 point) Why do you think this is the case? (1 point)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5 (Section 20)</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5</span>"
     ]
   },
   {
     "objectID": "Assignment5_Section20.html#cross-validation-for-a-classification-task-36-points",
     "href": "Assignment5_Section20.html#cross-validation-for-a-classification-task-36-points",
-    "title": "Assignment 5 (Section 20)",
+    "title": "Assignment 5",
     "section": "2) Cross-validation for a Classification Task (36 points)",
     "text": "2) Cross-validation for a Classification Task (36 points)\nFor this question, we are interested in using lower-level cross-validation tools for a classification task. Read the diabetes_train.csv and diabetes_test.csv files. The Outcome variable represents whether the patient has diabetes or not. The rest of the variables are medical predictors we will use to predict the outcome.\n\na)\nCreate the training and the test data. (2 points)\n\n\nb)\nScale the datasets. (1 point)\n\n\nc)\nUsing a hyperparameter vector of Cs = np.logspace(2,-2,200), cross-validate a Lasso Classification model. Use 5 folds and the default scoring metric (which is accuracy.) (4 points) Save all your cross-validation (CV) scores in a numpy array. (1 point)\n\n\nd)\nUsing the array you created in the previous part, find the optimal hyperparameter value and the best CV score that corresponds to it. (1+1=2 points)\n\n\ne)\nCreate a final model with the optimal hyperparameter value you found in the previous question. Return the test accuracy, recall and AUC with a threshold of 0.5. (4 points) Which metric looks problematic? (1 point)\n\n\nf)\nWhat was the threshold cross_val_score used to return the accuracy scores? (1 point) How did that contribute to the problem in the previous part? (1 point)\n\n\ng)\nNow, it is time to return the CV predictions and optimize the threshold based on them. Using cross_val_predict, return the CV prediction probabilities for the best hyperparameter value your found in part d. (3 points) Note that you don’t need any loops for this question, because you already know which C value to use.\n\n\nh)\nUsing the output of the previous part, calculate and store the accuracy, recall and AUC of all possible threshold values from 0 to 1 with a stepsize of 0.001. (4 points)\n\n\ni)\nPlot the accuracy, recall and AUC values against the threshold on the same graph. (2 points) Include a legend. (1 point)\n\n\nj)\nIn the plot, you should see a threshold value where the accuracy, recall and AUC values are all the same. Find that value. (3 points)\nNote:\n\nThe metric values are the same if you round them to 2 digits after the decimal point. (That is just the rounded integer values if you multiply the metric values by 100 in the previous question.)\nTrial-and-error will not receive any credit for this question. You need to use logical indexing.\nnp.where and np.round should be helpful. (Along with the & operator.)\n\n\n\nk)\nUsing the threshold value you found in the previous question and the best hyperparameter value you found in part d, train a final Lasso Classification model and return its test accuracy, recall and AUC. (3 points) How do the accuracy and recall results compare to part e? (1 point) Did AUC change? (1 point) Why or why not? (1 point)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5 (Section 20)</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5</span>"
     ]
   },
   {
     "objectID": "Assignment5_Section20.html#outliers-and-collinearity-30-points",
     "href": "Assignment5_Section20.html#outliers-and-collinearity-30-points",
-    "title": "Assignment 5 (Section 20)",
+    "title": "Assignment 5",
     "section": "3) Outliers and Collinearity (30 points)",
     "text": "3) Outliers and Collinearity (30 points)\nFor this question, we are interested in analyzing how removing the unnecessary observations and predictors improve the prediction and inference performance of our model. Read the Austin_Affordable_Housing_Train.csv and Austin_Affordable_Housing_Test.csv files. Each row represents a housing development in Austin, TX.\nThe City_Amount variable represents the amount (in USD) provided by the city of Austin to the development and it is the response for the regression task.\n\na)\nUse Market_Rate_Units, Total_Affordable_Units, Total_Accessible_Units, and Total_Units as four predictors to the linear regression model. Do not include any interaction terms and do not transform anything. Do not transform the response either.\nCreate the model using statsmodels. Print the model summary and the test RMSE. (3 points) Which predictor is statistically insignificant? (1 point)\n\n\nb)\nTo dive deeper into the statistical significance of the four predictors, create their correlation matrix first. (1 point) How many pairs seem to be highly correlated? (1 point) Why is this matrix not useful to detect collinearity in the model? (2 points)\n\n\nc)\nCreate the Variation Inflation Factor (VIF) table of the predictors. (1 point) Which predictors seem to be highly correlated? (1 point)\n\n\nd)\nRemove the predictor with the highest VIF and create the VIF table again. (1 point) Is there any collinearity left? (1 point)\n\n\ne)\nWith the remaining predictors, create the model again. Print its summary and test RMSE. (1 point) How did they change? Mention test RMSE (1 point), R-squared (1 point) and the statistical significance. (1 point). What is the reason behind these changes? (2 points)\n\n\nf)\nNow, it is time to clean out the observations. Find the influential points in the training dataset and filter them out. (5 points) How many observations did you discard? (1 point)\n\n\ng)\nRetrain the model in part e with the clean training dataset. Print the summary and the test RMSE. (1 point) How do the test RMSE and R-squared compare with the results in part e? (2 points) Do you also see a change in statistical significance? (1 point) Explain the reasons behind these changes. (2 points)",
     "crumbs": [
       "Assignments",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5 (Section 20)</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Assignment 5</span>"
     ]
   },
   {
