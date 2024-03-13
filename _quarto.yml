@@ -35,6 +35,7 @@ book:
         - Assignment5_Section20.ipynb
 
   appendices: 
+    - Prediction problem code sol.ipynb
     - Datasets.ipynb
 
 format:
