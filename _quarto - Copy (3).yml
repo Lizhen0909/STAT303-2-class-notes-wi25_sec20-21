@@ -15,7 +15,7 @@ book:
     
   chapters:
     - index.qmd
-    - part: "Code"
+    - part: "Linear regression"
       chapters:
         - Lec1_SimpleLinearRegression.ipynb
         - Lec2_MultipleLinearRegression.ipynb
