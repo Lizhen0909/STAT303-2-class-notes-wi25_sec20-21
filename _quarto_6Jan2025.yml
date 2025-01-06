@@ -24,7 +24,17 @@ book:
         - Lec9_RidgeRegression_Lasso.ipynb
         - Crossvalidation.ipynb
         - Lec5_Potential_issues.ipynb
-     appendices: 
+    - part: "Assignments"
+      chapters:
+        - Assignment 1 (Section 20).ipynb
+        - Assignment 1 (Sections 21 & 22).ipynb
+        - Assignment 2.ipynb
+        - Homework_Assignment_3_Section20.ipynb
+        - Assignment 3 (Section 21 & 22).ipynb
+        - Assignment_4.ipynb
+        - Assignment5_Section20.ipynb
+
+  appendices: 
     - Prediction problem code sol.ipynb
     - Datasets.ipynb
 
