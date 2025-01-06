@@ -15,16 +15,14 @@ book:
     
   chapters:
     - index.qmd
-      chapters:
-        - Lec1_SimpleLinearRegression.ipynb
-        - Lec2_MultipleLinearRegression.ipynb
-        - Lec3_VariableTransformations_and_Interactions.ipynb
-        - Lec7_logistic_regression.ipynb
-        - Lec9_RidgeRegression_Lasso.ipynb
-        - Crossvalidation.ipynb
-        - Lec5_Potential_issues.ipynb
+    - Lec1_SimpleLinearRegression.ipynb
+    - Lec2_MultipleLinearRegression.ipynb
+    - Lec3_VariableTransformations_and_Interactions.ipynb
+    - Lec7_logistic_regression.ipynb
+    - Lec9_RidgeRegression_Lasso.ipynb
+    - Crossvalidation.ipynb
+    - Lec5_Potential_issues.ipynb
    
-
   appendices: 
     - Prediction problem code sol.ipynb
     - Datasets.ipynb
