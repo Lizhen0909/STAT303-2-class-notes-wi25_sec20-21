@@ -23,9 +23,6 @@ book:
     - Crossvalidation.ipynb
     - Lec5_Potential_issues.ipynb
    
-  appendices: 
-    - Prediction problem code sol.ipynb
-    - Datasets.ipynb
 
 format:
   html:
