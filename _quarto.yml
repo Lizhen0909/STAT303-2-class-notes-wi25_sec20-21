@@ -24,7 +24,8 @@ book:
     - Crossvalidation.ipynb
     - Lec5_Potential_issues.ipynb
    
-
+  appendices: 
+    - Datasets.ipynb
 format:
   html:
     theme: cosmo
