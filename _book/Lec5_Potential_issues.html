@@ -1,0 +1,3373 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data Science II with python (Class notes) - 7&nbsp; Potential issues</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./Crossvalidation.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Lec5_Potential_issues.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Potential issues</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./NU_Stat_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Science II with python (Class notes)</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec1_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec2_MultipleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec3_VariableTransformations_and_Interactions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variable interactions and transformations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec7_logistic_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec9_RidgeRegression_Lasso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Crossvalidation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cross-validation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec5_Potential_issues.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Potential issues</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#outliers" id="toc-outliers" class="nav-link active" data-scroll-target="#outliers"><span class="header-section-number">7.1</span> Outliers</a></li>
+  <li><a href="#high-leverage-points" id="toc-high-leverage-points" class="nav-link" data-scroll-target="#high-leverage-points"><span class="header-section-number">7.2</span> High leverage points</a>
+  <ul>
+  <li><a href="#identifying-extrapolation-using-leverage" id="toc-identifying-extrapolation-using-leverage" class="nav-link" data-scroll-target="#identifying-extrapolation-using-leverage"><span class="header-section-number">7.2.1</span> Identifying extrapolation using leverage</a></li>
+  </ul></li>
+  <li><a href="#influential-points" id="toc-influential-points" class="nav-link" data-scroll-target="#influential-points"><span class="header-section-number">7.3</span> Influential points</a>
+  <ul>
+  <li><a href="#influence-on-single-fitted-value-dffits" id="toc-influence-on-single-fitted-value-dffits" class="nav-link" data-scroll-target="#influence-on-single-fitted-value-dffits"><span class="header-section-number">7.3.1</span> Influence on single fitted value (DFFITS)</a></li>
+  <li><a href="#influence-on-all-fitted-values-cooks-distance" id="toc-influence-on-all-fitted-values-cooks-distance" class="nav-link" data-scroll-target="#influence-on-all-fitted-values-cooks-distance"><span class="header-section-number">7.3.2</span> Influence on all fitted values (Cook’s distance)</a></li>
+  <li><a href="#influence-on-regression-coefficients-dfbetas" id="toc-influence-on-regression-coefficients-dfbetas" class="nav-link" data-scroll-target="#influence-on-regression-coefficients-dfbetas"><span class="header-section-number">7.3.3</span> Influence on regression coefficients (DFBETAS)</a></li>
+  </ul></li>
+  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="header-section-number">7.4</span> Collinearity</a>
+  <ul>
+  <li><a href="#why-and-how-is-collinearity-a-problem" id="toc-why-and-how-is-collinearity-a-problem" class="nav-link" data-scroll-target="#why-and-how-is-collinearity-a-problem"><span class="header-section-number">7.4.1</span> Why and how is collinearity a problem</a></li>
+  <li><a href="#how-to-measure-collinearitymulticollinearity" id="toc-how-to-measure-collinearitymulticollinearity" class="nav-link" data-scroll-target="#how-to-measure-collinearitymulticollinearity"><span class="header-section-number">7.4.2</span> How to measure collinearity/multicollinearity</a></li>
+  <li><a href="#manual-computation-of-vif" id="toc-manual-computation-of-vif" class="nav-link" data-scroll-target="#manual-computation-of-vif"><span class="header-section-number">7.4.3</span> Manual computation of VIF</a></li>
+  <li><a href="#when-can-we-overlook-multicollinearity" id="toc-when-can-we-overlook-multicollinearity" class="nav-link" data-scroll-target="#when-can-we-overlook-multicollinearity"><span class="header-section-number">7.4.4</span> When can we overlook multicollinearity?</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Potential issues</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p><em>Read section 3.3.3 (4, 5, &amp; 6) of the book before using these notes.</em></p>
+<p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
+<p>Let us continue with the car price prediction example from the previous chapter.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy <span class="im">import</span> stats</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> cross_val_predict</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> patsy <span class="im">import</span> dmatrices</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>trainf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_train.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>trainp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_train.csv'</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>testf <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_features_test.csv'</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>testp <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Car_prices_test.csv'</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.merge(trainf,trainp)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>train.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">carID</th>
+<th data-quarto-table-cell-role="th">brand</th>
+<th data-quarto-table-cell-role="th">model</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">transmission</th>
+<th data-quarto-table-cell-role="th">mileage</th>
+<th data-quarto-table-cell-role="th">fuelType</th>
+<th data-quarto-table-cell-role="th">tax</th>
+<th data-quarto-table-cell-role="th">mpg</th>
+<th data-quarto-table-cell-role="th">engineSize</th>
+<th data-quarto-table-cell-role="th">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>18473</td>
+<td>bmw</td>
+<td>6 Series</td>
+<td>2020</td>
+<td>Semi-Auto</td>
+<td>11</td>
+<td>Diesel</td>
+<td>145</td>
+<td>53.3282</td>
+<td>3.0</td>
+<td>37980</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>15064</td>
+<td>bmw</td>
+<td>6 Series</td>
+<td>2019</td>
+<td>Semi-Auto</td>
+<td>10813</td>
+<td>Diesel</td>
+<td>145</td>
+<td>53.0430</td>
+<td>3.0</td>
+<td>33980</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>18268</td>
+<td>bmw</td>
+<td>6 Series</td>
+<td>2020</td>
+<td>Semi-Auto</td>
+<td>6</td>
+<td>Diesel</td>
+<td>145</td>
+<td>53.4379</td>
+<td>3.0</td>
+<td>36850</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>18480</td>
+<td>bmw</td>
+<td>6 Series</td>
+<td>2017</td>
+<td>Semi-Auto</td>
+<td>18895</td>
+<td>Diesel</td>
+<td>145</td>
+<td>51.5140</td>
+<td>3.0</td>
+<td>25998</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>18492</td>
+<td>bmw</td>
+<td>6 Series</td>
+<td>2015</td>
+<td>Automatic</td>
+<td>62953</td>
+<td>Diesel</td>
+<td>160</td>
+<td>51.4903</td>
+<td>3.0</td>
+<td>18990</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Considering the model developed to address assumptions in the previous chapter</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Model with an interaction term and a variable transformation term</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>np.log(price)</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.803</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.803</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>1834.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Sun, 10 Mar 2024</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>16:51:01</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-1173.8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4960</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>2372.</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4948</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>2450.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>11</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>-238.2125</td>
+<td>25.790</td>
+<td>-9.237</td>
+<td>0.000</td>
+<td>-288.773</td>
+<td>-187.652</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year</td>
+<td>0.1227</td>
+<td>0.013</td>
+<td>9.608</td>
+<td>0.000</td>
+<td>0.098</td>
+<td>0.148</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize</td>
+<td>13.8349</td>
+<td>5.795</td>
+<td>2.387</td>
+<td>0.017</td>
+<td>2.475</td>
+<td>25.195</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mileage</td>
+<td>0.0005</td>
+<td>0.000</td>
+<td>3.837</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>-1.2446</td>
+<td>0.345</td>
+<td>-3.610</td>
+<td>0.000</td>
+<td>-1.921</td>
+<td>-0.569</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year:engineSize</td>
+<td>-0.0067</td>
+<td>0.003</td>
+<td>-2.324</td>
+<td>0.020</td>
+<td>-0.012</td>
+<td>-0.001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">year:mileage</td>
+<td>-2.67e-07</td>
+<td>6.8e-08</td>
+<td>-3.923</td>
+<td>0.000</td>
+<td>-4e-07</td>
+<td>-1.34e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year:mpg</td>
+<td>0.0006</td>
+<td>0.000</td>
+<td>3.591</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize:mileage</td>
+<td>-2.668e-07</td>
+<td>4.08e-07</td>
+<td>-0.654</td>
+<td>0.513</td>
+<td>-1.07e-06</td>
+<td>5.33e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">engineSize:mpg</td>
+<td>0.0028</td>
+<td>0.000</td>
+<td>6.842</td>
+<td>0.000</td>
+<td>0.002</td>
+<td>0.004</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mileage:mpg</td>
+<td>7.235e-08</td>
+<td>1.79e-08</td>
+<td>4.036</td>
+<td>0.000</td>
+<td>3.72e-08</td>
+<td>1.08e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">I(mileage ** 2)</td>
+<td>1.828e-11</td>
+<td>5.64e-12</td>
+<td>3.240</td>
+<td>0.001</td>
+<td>7.22e-12</td>
+<td>2.93e-11</td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>711.514</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>0.498</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>2545.807</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>0.699</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>6.220</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>1.73e+13</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.73e+13. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pred_price_log <span class="op">=</span> model_log.predict(testf)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> np.exp(pred_price_log))<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>9094.209473232966</code></pre>
+</div>
+</div>
+<section id="outliers" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="outliers"><span class="header-section-number">7.1</span> Outliers</h2>
+<p>An outlier is a point for which the true response (<span class="math inline">\(y_i\)</span>) is far from the value predicted by the model. Residual plots can be used to identify outliers.</p>
+<p>If the the response at the <span class="math inline">\(i^{th}\)</span> observation is <span class="math inline">\(y_i\)</span>, the prediction is <span class="math inline">\(\hat{y}_i\)</span>, then the residual <span class="math inline">\(e_i\)</span> is:</p>
+<p><span class="math display">\[e_i = y_i - \hat{y_i}\]</span></p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting residuals vs fitted values</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc<span class="op">=</span>{<span class="st">'figure.figsize'</span>:(<span class="dv">10</span>,<span class="dv">6</span>)})</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> (model_log.fittedvalues), y<span class="op">=</span>(model_log.resid),color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [model_log.fittedvalues.<span class="bu">min</span>(),model_log.fittedvalues.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Residuals'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Lec5_Potential_issues_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Some of the errors may be high. However, it is difficult to decide how large a residual needs to be before we can consider a point to be an outlier. To address this problem, we have standardized residuals, which are defined as:</p>
+<p><span class="math display">\[r_i = \frac{e_i}{RSE(\sqrt{1-h_{ii}})},\]</span> where <span class="math inline">\(r_i\)</span> is the standardized residual, <span class="math inline">\(RSE\)</span> is the residual standard error, and <span class="math inline">\(h_{ii}\)</span> is the leverage <em>(introduced in the next section)</em> of the <span class="math inline">\(i^{th}\)</span> observation.</p>
+<p>Standardized residuals, allow the residuals to be compared on a <em>standard scale</em>.</p>
+<p><strong>Issue with standardized residuals:</strong>, If the observation corresponding to the standardized residual has a high leverage, then it will drag the regression line / plane / hyperplane towards it, thereby influencing the estimate of the residual itself.</p>
+<p><strong>Studentized residuals:</strong> To address the issue with standardized residuals, studentized residual for the <span class="math inline">\(i^{th}\)</span> observation is computed as the standardized residual, but with the <span class="math inline">\(RSE\)</span> (residual standard error) computed after removing the <span class="math inline">\(i^{th}\)</span> observation from the data. Studentized residual, <span class="math inline">\(t_i\)</span> for the <span class="math inline">\(i^{th}\)</span> observation is given as:</p>
+<p><span class="math display">\[t_i = \frac{e_i}{RSE_{i}(\sqrt{1-h_{ii}})},\]</span> where <span class="math inline">\(RSE_{i}\)</span> is the residual standard error of the model developed on the data without the <span class="math inline">\(i^{th}\)</span> observation.</p>
+<p><strong>Distribution of studentized residuals:</strong> If the regression model is appropriate such that no case is outlying because of a change in the model, then each studentized residual will follow a <span class="math inline">\(t\)</span> distribution with <span class="math inline">\((n–p–1)\)</span> degrees of freedom.</p>
+<p>As the studentized residuals follow a <span class="math inline">\(t\)</span> distribution, we can conduct a hypothesis test to identify whether an observation is an outlier or not for a given sigificance level. Note that the test will be two-sided since we are not concerned with the sign of the residuals, but only their absolute values.</p>
+<p>In the current example, for a signficance level of 5%, the critical <span class="math inline">\(t\)</span>-statistic is <span class="math inline">\(t\big(1 - \frac{\alpha}{2}, n - p - 1\big)\)</span>, as calculated below.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> train.shape[<span class="dv">0</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> model_log.df_model</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.05</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Critical value</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>stats.t.ppf(<span class="dv">1</span> <span class="op">-</span> alpha<span class="op">/</span><span class="dv">2</span>, n <span class="op">-</span> p <span class="op">-</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>1.9604435402730618</code></pre>
+</div>
+</div>
+<p>If we were conducting the test for a single observation, we’ll compare the studentized residual for that observation with the critical <span class="math inline">\(t\)</span>-statistic, and if the residual is greater than the critical value, we’ll consider that observation as an outlier.</p>
+<p>However, typically, we’ll be interested in conducting this test for all observations, and thus we’ll need a more conservative critical value for the same signficance level. This critical value is given by the Bonferroni correction as <span class="math inline">\(t\big(1 - \frac{\alpha}{2n}, n - p - 1\big)\)</span>.</p>
+<p>Thus, the minimum value of studentized residual for which the observation will be classified as an outlier is:</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>critical_value <span class="op">=</span> stats.t.ppf(<span class="dv">1</span><span class="op">-</span>alpha<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>n), n <span class="op">-</span> p <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>critical_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>4.4200129981725365</code></pre>
+</div>
+</div>
+<p>The studentized residuals can be obtained using the <code>outlier_test()</code> method of the object returned by the <code>fit()</code> method of an OLS object. Let us find the studentized residuals in our car <code>price</code> prediction model.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Studentized residuals</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> model_log.outlier_test()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">student_resid</th>
+<th data-quarto-table-cell-role="th">unadj_p</th>
+<th data-quarto-table-cell-role="th">bonf(p)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>-1.164204</td>
+<td>0.244398</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>-0.801879</td>
+<td>0.422661</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>-1.263820</td>
+<td>0.206354</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>-0.614171</td>
+<td>0.539131</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0.027929</td>
+<td>0.977720</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4955</td>
+<td>-0.523361</td>
+<td>0.600747</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4956</td>
+<td>-0.509538</td>
+<td>0.610398</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4957</td>
+<td>-1.718808</td>
+<td>0.085712</td>
+<td>1.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4958</td>
+<td>-0.077594</td>
+<td>0.938154</td>
+<td>1.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4959</td>
+<td>-0.482388</td>
+<td>0.629551</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+
+<p>4960 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<p>Studentized residuals are in the first column of the above table. Let us plot the studentized residuals against fitted values. In the figure below, the studentized residuals above the top dotted green line and below the bottom dotted green line are outliers.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting studentized residuals vs fitted values</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> (model_log.fittedvalues), y<span class="op">=</span>(out.student_resid),color <span class="op">=</span> <span class="st">'orange'</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [model_log.fittedvalues.<span class="bu">min</span>(),model_log.fittedvalues.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="dv">0</span>,<span class="dv">0</span>],color <span class="op">=</span> <span class="st">'blue'</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> sns.lineplot(x <span class="op">=</span> [model_log.fittedvalues.<span class="bu">min</span>(),model_log.fittedvalues.<span class="bu">max</span>()],y <span class="op">=</span> [critical_value, critical_value],</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>             color <span class="op">=</span> <span class="st">'green'</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> [model_log.fittedvalues.<span class="bu">min</span>(),model_log.fittedvalues.<span class="bu">max</span>()],y <span class="op">=</span> [<span class="op">-</span>critical_value, <span class="op">-</span>critical_value],</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>             color <span class="op">=</span> <span class="st">'green'</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>ax.lines[<span class="dv">1</span>].set_linestyle(<span class="st">"--"</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ax.lines[<span class="dv">2</span>].set_linestyle(<span class="st">"--"</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Fitted values'</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Studentized Residuals'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Lec5_Potential_issues_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Outliers:</strong> Observations whose studentized residuals have a magnitude greater than <span class="math inline">\(t\big(1 - \frac{\alpha}{2n}, n - p - 1\big)\)</span>.</p>
+<p><strong>Impact of outliers:</strong> Outliers do not have a large impact on the OLS line / plane / hyperplane as long as they don’t have a high leverage <em>(discussed in the next section)</em>. However, outliers do inflate the residual standard error (RSE). RSE in turn is used to compute the standard errors of regression coefficients. As a result, statistically significant variables may appear to be insignificant, and <span class="math inline">\(R^2\)</span> may appear to be lower.</p>
+<p><strong>Are there outliers in our example?</strong></p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of points with absolute studentized residuals greater than critical_value</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> critical_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>19</code></pre>
+</div>
+</div>
+<p>Let us analyze the outliers.</p>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> (np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> critical_value)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>pd.concat([train.loc[ind,:], np.exp(model_log.fittedvalues[ind])], axis <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">carID</th>
+<th data-quarto-table-cell-role="th">brand</th>
+<th data-quarto-table-cell-role="th">model</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">transmission</th>
+<th data-quarto-table-cell-role="th">mileage</th>
+<th data-quarto-table-cell-role="th">fuelType</th>
+<th data-quarto-table-cell-role="th">tax</th>
+<th data-quarto-table-cell-role="th">mpg</th>
+<th data-quarto-table-cell-role="th">engineSize</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">0</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2042</td>
+<td>18228</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2017</td>
+<td>Automatic</td>
+<td>24041</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>78.2726</td>
+<td>0.0</td>
+<td>21495</td>
+<td>5537.337460</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2046</td>
+<td>17362</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2016</td>
+<td>Automatic</td>
+<td>68000</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>78.0258</td>
+<td>0.0</td>
+<td>15990</td>
+<td>4107.811771</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2050</td>
+<td>19224</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2016</td>
+<td>Automatic</td>
+<td>20013</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>77.9310</td>
+<td>0.0</td>
+<td>19875</td>
+<td>4784.986021</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2051</td>
+<td>13913</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2014</td>
+<td>Automatic</td>
+<td>34539</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>78.3838</td>
+<td>0.0</td>
+<td>14495</td>
+<td>3269.686113</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2055</td>
+<td>16512</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2017</td>
+<td>Automatic</td>
+<td>28169</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>77.9799</td>
+<td>0.0</td>
+<td>23751</td>
+<td>5454.207333</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2059</td>
+<td>15844</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2016</td>
+<td>Automatic</td>
+<td>19995</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>78.2825</td>
+<td>0.0</td>
+<td>19850</td>
+<td>4773.707307</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2060</td>
+<td>12107</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2016</td>
+<td>Automatic</td>
+<td>8421</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>77.9125</td>
+<td>0.0</td>
+<td>19490</td>
+<td>5028.048305</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2061</td>
+<td>18215</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2014</td>
+<td>Automatic</td>
+<td>37161</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>77.7505</td>
+<td>0.0</td>
+<td>14182</td>
+<td>3259.101789</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2063</td>
+<td>15617</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2017</td>
+<td>Automatic</td>
+<td>41949</td>
+<td>Hybrid</td>
+<td>140</td>
+<td>78.1907</td>
+<td>0.0</td>
+<td>19998</td>
+<td>5173.402125</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2064</td>
+<td>18020</td>
+<td>bmw</td>
+<td>i3</td>
+<td>2015</td>
+<td>Automatic</td>
+<td>9886</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>78.1810</td>
+<td>0.0</td>
+<td>17481</td>
+<td>4214.053932</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2143</td>
+<td>12972</td>
+<td>bmw</td>
+<td>i8</td>
+<td>2017</td>
+<td>Automatic</td>
+<td>9992</td>
+<td>Hybrid</td>
+<td>135</td>
+<td>69.2767</td>
+<td>1.5</td>
+<td>59950</td>
+<td>14675.519883</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2144</td>
+<td>13826</td>
+<td>bmw</td>
+<td>i8</td>
+<td>2015</td>
+<td>Automatic</td>
+<td>43323</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>69.2683</td>
+<td>1.5</td>
+<td>44990</td>
+<td>9289.744847</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2150</td>
+<td>18949</td>
+<td>bmw</td>
+<td>i8</td>
+<td>2015</td>
+<td>Automatic</td>
+<td>43102</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>69.0922</td>
+<td>1.5</td>
+<td>42890</td>
+<td>9300.576839</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2151</td>
+<td>18977</td>
+<td>bmw</td>
+<td>i8</td>
+<td>2016</td>
+<td>Automatic</td>
+<td>10087</td>
+<td>Hybrid</td>
+<td>0</td>
+<td>68.9279</td>
+<td>1.5</td>
+<td>48998</td>
+<td>12607.867130</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2744</td>
+<td>18866</td>
+<td>merc</td>
+<td>M Class</td>
+<td>2004</td>
+<td>Automatic</td>
+<td>121000</td>
+<td>Diesel</td>
+<td>325</td>
+<td>29.3713</td>
+<td>2.7</td>
+<td>19950</td>
+<td>4068.883513</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3548</td>
+<td>13149</td>
+<td>audi</td>
+<td>S4</td>
+<td>2019</td>
+<td>Automatic</td>
+<td>4900</td>
+<td>Diesel</td>
+<td>145</td>
+<td>40.7030</td>
+<td>0.0</td>
+<td>45000</td>
+<td>10679.644966</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4116</td>
+<td>16420</td>
+<td>audi</td>
+<td>SQ5</td>
+<td>2020</td>
+<td>Automatic</td>
+<td>1500</td>
+<td>Diesel</td>
+<td>145</td>
+<td>34.7968</td>
+<td>0.0</td>
+<td>56450</td>
+<td>13166.374034</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4117</td>
+<td>17611</td>
+<td>audi</td>
+<td>SQ5</td>
+<td>2019</td>
+<td>Automatic</td>
+<td>1500</td>
+<td>Diesel</td>
+<td>145</td>
+<td>34.5016</td>
+<td>0.0</td>
+<td>48800</td>
+<td>11426.005642</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4851</td>
+<td>16577</td>
+<td>bmw</td>
+<td>Z3</td>
+<td>2002</td>
+<td>Automatic</td>
+<td>16500</td>
+<td>Petrol</td>
+<td>325</td>
+<td>29.7614</td>
+<td>2.2</td>
+<td>14995</td>
+<td>3426.196256</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><strong>Do you notice some unique characteristics of these observations due to which they may be outliers?</strong></p>
+<p><strong>What methods you can propose to estimate the price of these outliers more accurately, which will also result in the overall reduction in RMSE?</strong></p>
+</section>
+<section id="high-leverage-points" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="high-leverage-points"><span class="header-section-number">7.2</span> High leverage points</h2>
+<p>High leverage points are those with an unsual value of the predictor(s). They have the potential to have a relatively higher impact on the OLS line / plane / hyperplane, as compared to the outliers.</p>
+<p><strong>Leverage statistic</strong> (page 99 of the book): In order to quantify an observation’s leverage, we compute the leverage statistic. A large value of this statistic indicates an observation with high leverage. For simple linear regression, <span class="math display">\[\begin{equation}
+h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
+\end{equation}\]</span></p>
+<p>It is clear from this equation that <span class="math inline">\(h_i\)</span> increases with the distance of <span class="math inline">\(x_i\)</span> from <span class="math inline">\(\bar x\)</span>. A large value of <span class="math inline">\(h_i\)</span> indicates that the <span class="math inline">\(i^{th}\)</span> observation is distance from the center of all the other observations in terms of predictor values.</p>
+<p>The leverage statistic <span class="math inline">\(h_i\)</span> is always between <span class="math inline">\(1/n\)</span> and <span class="math inline">\(1\)</span>, and the average leverage for all the observations is always equal to <span class="math inline">\((p+1)/n\)</span>:</p>
+<p><span class="math display">\[\begin{equation}
+\bar{h} = \frac{p+1}{n}
+\end{equation}\]</span></p>
+<p>So if a given observation has a leverage statistic that greatly exceeds <span class="math inline">\((p+1)/n\)</span>, then we may suspect that the corresponding point has high leverage.</p>
+<p>If the <span class="math inline">\(i^{th}\)</span> observation has a large leverage <span class="math inline">\(h_i\)</span>, it may exercise substantial leverage in determining the fitted value <span class="math inline">\(\hat{Y}_i\)</span>, because:</p>
+<ul>
+<li><p>The fitted value <span class="math inline">\(\hat{Y}_i\)</span> is a linear combination of the observed <span class="math inline">\(Y\)</span> values, and <span class="math inline">\(h_i\)</span> is the weight of observation <span class="math inline">\(Y_i\)</span> in determining this fitted value.</p></li>
+<li><p>The larger the <span class="math inline">\(h_i\)</span>, the smaller is the variance of the residual <span class="math inline">\(e_i\)</span>, and the closer the fitted value <span class="math inline">\(\hat{Y}_i\)</span> will tend to be the observed value <span class="math inline">\(Y_i\)</span>.</p></li>
+</ul>
+<p><strong>Thumb rules:</strong></p>
+<ul>
+<li>A leverage <span class="math inline">\(h_i\)</span> is usually considered large if it is more than twice as large as the mean value <span class="math inline">\(\bar{h}\)</span>.</li>
+<li>Another suggested guideline is that <span class="math inline">\(h_i\)</span> values exceeding 0.5 indicate <strong>very high leverage</strong>, whereas those between 0.2 and 0.5 indicate moderate leverage.</li>
+</ul>
+<p><strong>Influential points:</strong> Note that if a high leverage point falls in line with the regression line, then it will not affect the regression line. However, it may inflate <span class="math inline">\(R\)</span>-squared and increase the significance of predictors. If a high leverage point falls away from the regression line, then it is also an outlier, and will affect the regression line. The points whose presence significantly affects the regression line are called influential points. A point that is both a high leverage point and an outlier is likely to be an influential point. However, a high leverage point is not necessarily an influential point.</p>
+<p><em>Source for influential points: https://online.stat.psu.edu/stat501/book/export/html/973</em></p>
+<p>Let us see if there are any high leverage points in our regression <code>model</code>.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model with an interaction term and a variable transformation term</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>np.log(price)</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.803</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.803</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>1834.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Sun, 10 Mar 2024</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>16:53:39</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-1173.8</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4960</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>2372.</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4948</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>2450.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>11</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>-238.2125</td>
+<td>25.790</td>
+<td>-9.237</td>
+<td>0.000</td>
+<td>-288.773</td>
+<td>-187.652</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year</td>
+<td>0.1227</td>
+<td>0.013</td>
+<td>9.608</td>
+<td>0.000</td>
+<td>0.098</td>
+<td>0.148</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize</td>
+<td>13.8349</td>
+<td>5.795</td>
+<td>2.387</td>
+<td>0.017</td>
+<td>2.475</td>
+<td>25.195</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mileage</td>
+<td>0.0005</td>
+<td>0.000</td>
+<td>3.837</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>-1.2446</td>
+<td>0.345</td>
+<td>-3.610</td>
+<td>0.000</td>
+<td>-1.921</td>
+<td>-0.569</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year:engineSize</td>
+<td>-0.0067</td>
+<td>0.003</td>
+<td>-2.324</td>
+<td>0.020</td>
+<td>-0.012</td>
+<td>-0.001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">year:mileage</td>
+<td>-2.67e-07</td>
+<td>6.8e-08</td>
+<td>-3.923</td>
+<td>0.000</td>
+<td>-4e-07</td>
+<td>-1.34e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year:mpg</td>
+<td>0.0006</td>
+<td>0.000</td>
+<td>3.591</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize:mileage</td>
+<td>-2.668e-07</td>
+<td>4.08e-07</td>
+<td>-0.654</td>
+<td>0.513</td>
+<td>-1.07e-06</td>
+<td>5.33e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">engineSize:mpg</td>
+<td>0.0028</td>
+<td>0.000</td>
+<td>6.842</td>
+<td>0.000</td>
+<td>0.002</td>
+<td>0.004</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mileage:mpg</td>
+<td>7.235e-08</td>
+<td>1.79e-08</td>
+<td>4.036</td>
+<td>0.000</td>
+<td>3.72e-08</td>
+<td>1.08e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">I(mileage ** 2)</td>
+<td>1.828e-11</td>
+<td>5.64e-12</td>
+<td>3.240</td>
+<td>0.001</td>
+<td>7.22e-12</td>
+<td>2.93e-11</td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>711.514</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>0.498</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>2545.807</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>0.699</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>6.220</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>1.73e+13</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.73e+13. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing the leverage statistic for each observation</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>influence <span class="op">=</span> model_log.get_influence()</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>leverage <span class="op">=</span> influence.hat_matrix_diag</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualizng leverage against studentized residuals</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(rc<span class="op">=</span>{<span class="st">'figure.figsize'</span>:(<span class="dv">15</span>,<span class="dv">8</span>)})</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sm.graphics.influence_plot(model_log)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Lec5_Potential_issues_files/figure-html/cell-15-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Let us identify the high leverage points in the data, as they may be affecting the regression line if they are outliers as well, i.e., if they are influential points. Note that there is no defined threshold for a point to be classified as a high leverage point. Some statisticians consider points having twice the average leverage as high leverage points, some consider points having thrice the average leverage as high leverage points, and so on.</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>out <span class="op">=</span> model_log.outlier_test()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Average leverage of points</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>average_leverage <span class="op">=</span> (model_log.df_model<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span>model_log.nobs</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>average_leverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>0.0024193548387096775</code></pre>
+</div>
+</div>
+<p>Let us consider points having four times the average leverage as high leverage points.</p>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We will remove all observations that have leverage higher than the threshold value.</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>high_leverage_threshold <span class="op">=</span> <span class="dv">3</span><span class="op">*</span>average_leverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of high leverage points in the dataset</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>np.<span class="bu">sum</span>(leverage<span class="op">&gt;</span>high_leverage_threshold)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>269</code></pre>
+</div>
+</div>
+<section id="identifying-extrapolation-using-leverage" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="identifying-extrapolation-using-leverage"><span class="header-section-number">7.2.1</span> Identifying extrapolation using leverage</h3>
+<p>Leverage can be used to check if prediction on a particular point will lead to extrapolation.</p>
+<p>Below is the function that can be used to find the leverage at for a particular observation <code>xnew</code>. Note that <code>xnew</code> has to be a single-dimensional array, and <code>X</code> has to be the predictor matrix (also called the design matrix).</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> leverage_compute(xnew, X):</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span>(xnew.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>).T.dot(np.linalg.inv(X.T.dot(X))).dot(xnew.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>))[<span class="dv">0</span>][<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As expected, the function will return the same leverage as provided by the <code>hat_matrix_diag</code> attribute of the objected returned by the <code>get_influence()</code> method of <code>model_log</code> as shown below:</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>leverage[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>0.0026426981240353694</code></pre>
+</div>
+</div>
+<p>As the observation for prediction is required we need to create the predictor matrix <code>X</code> to create all the observations with the interactions specified in the model.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>y, X <span class="op">=</span> dmatrices(<span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>leverage_compute(X[<span class="dv">0</span>,:], X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>0.0026426973869101977</code></pre>
+</div>
+</div>
+<p>If the leverage for a new observation is higher than the maximum leverage among all the observations in the training dataset, then prediction at the new observation will be extrapolation.</p>
+</section>
+</section>
+<section id="influential-points" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="influential-points"><span class="header-section-number">7.3</span> Influential points</h2>
+<p>Observations that are both high leverage points and outliers are influential points that may affect the regression line. Let’s remove these influential points from the data and see if it improves the model prediction accuracy on test data.</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dropping influential points from data</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>train_filtered <span class="op">=</span> train.drop(np.intersect1d(np.where(np.<span class="bu">abs</span>(out.student_resid) <span class="op">&gt;</span> critical_value)[<span class="dv">0</span>],</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                                           (np.where(leverage<span class="op">&gt;</span>high_leverage_threshold)[<span class="dv">0</span>])))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that as the Bonferroni’s critical value is very conservative estimate, we have rounded off the critical value to 4, instead of 4.42.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>train_filtered.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>(4948, 11)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Number of points removed as they were influential</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>train.shape[<span class="dv">0</span>]<span class="op">-</span>train_filtered.shape[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>12</code></pre>
+</div>
+</div>
+<p>We removed 12 influential data points from the training data.</p>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Model after removing the influential observations</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train_filtered)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>np.log(price)</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.815</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.814</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>1971.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Sun, 10 Mar 2024</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>16:54:08</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-1027.9</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4948</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>2080.</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4936</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>2158.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>11</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>-256.2339</td>
+<td>25.421</td>
+<td>-10.080</td>
+<td>0.000</td>
+<td>-306.070</td>
+<td>-206.398</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year</td>
+<td>0.1317</td>
+<td>0.013</td>
+<td>10.462</td>
+<td>0.000</td>
+<td>0.107</td>
+<td>0.156</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize</td>
+<td>18.4650</td>
+<td>5.663</td>
+<td>3.261</td>
+<td>0.001</td>
+<td>7.364</td>
+<td>29.566</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mileage</td>
+<td>0.0006</td>
+<td>0.000</td>
+<td>4.288</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>-1.1810</td>
+<td>0.338</td>
+<td>-3.489</td>
+<td>0.000</td>
+<td>-1.845</td>
+<td>-0.517</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year:engineSize</td>
+<td>-0.0090</td>
+<td>0.003</td>
+<td>-3.208</td>
+<td>0.001</td>
+<td>-0.015</td>
+<td>-0.004</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">year:mileage</td>
+<td>-2.933e-07</td>
+<td>6.7e-08</td>
+<td>-4.374</td>
+<td>0.000</td>
+<td>-4.25e-07</td>
+<td>-1.62e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year:mpg</td>
+<td>0.0006</td>
+<td>0.000</td>
+<td>3.458</td>
+<td>0.001</td>
+<td>0.000</td>
+<td>0.001</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize:mileage</td>
+<td>-4.316e-07</td>
+<td>4e-07</td>
+<td>-1.080</td>
+<td>0.280</td>
+<td>-1.21e-06</td>
+<td>3.52e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">engineSize:mpg</td>
+<td>0.0048</td>
+<td>0.000</td>
+<td>11.537</td>
+<td>0.000</td>
+<td>0.004</td>
+<td>0.006</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mileage:mpg</td>
+<td>7.254e-08</td>
+<td>1.75e-08</td>
+<td>4.140</td>
+<td>0.000</td>
+<td>3.82e-08</td>
+<td>1.07e-07</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">I(mileage ** 2)</td>
+<td>1.668e-11</td>
+<td>5.53e-12</td>
+<td>3.017</td>
+<td>0.003</td>
+<td>5.84e-12</td>
+<td>2.75e-11</td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>718.619</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>0.521</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>2512.509</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>0.714</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>6.185</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>1.75e+13</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.75e+13. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<p>Let us compare the square root of 5-fold cross-validated mean squared error of the model with and without the influential points.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>y, X <span class="op">=</span> dmatrices(<span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(mean_squared_error(np.exp(cross_val_predict(LinearRegression(), X, y)), np.exp(y)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>9811.74078331643</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>y, X <span class="op">=</span> dmatrices(<span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, data <span class="op">=</span> train_filtered)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>np.sqrt(mean_squared_error(np.exp(cross_val_predict(LinearRegression(), X, y)), np.exp(y)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>9800.202063309154</code></pre>
+</div>
+</div>
+<p><strong>Why can’t we use <code>cross_val_score()</code> instead of <code>cross_val_predict()</code> here?</strong></p>
+<p>There seems to be a slight improvement in prediction error after removing influential points. Note that none of the points had “very high leverage”, and thus the change is not substantial.</p>
+<p>Note that we obtain a higher R-squared value of 81.5% as compared to 80% with the complete data. Removing the influential points helped obtain a slightly better model fit. However, that may also happen just by reducing observations.</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Computing RMSE on test data</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>pred_price_log <span class="op">=</span> model_log.predict(testf)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>np.sqrt(((testp.price <span class="op">-</span> np.exp(pred_price_log))<span class="op">**</span><span class="dv">2</span>).mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>8922.977452912108</code></pre>
+</div>
+</div>
+<p>The RMSE on test data has also reduced. This shows that some of the influential points were impacting the regression line. With those points removed, the model better captures the general trend in the data.</p>
+<section id="influence-on-single-fitted-value-dffits" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="influence-on-single-fitted-value-dffits"><span class="header-section-number">7.3.1</span> Influence on single fitted value (DFFITS)</h3>
+<ul>
+<li>A useful measure of the influence that the <span class="math inline">\(i^{th}\)</span> observation has on the fitted value <span class="math inline">\(\hat{Y}_i\)</span> is:</li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+(DFFITS)_i = \frac{\hat{Y}_i-\hat{Y}_{i(i)}}{\sqrt{MSE_{i}h_i}}
+\end{equation}\]</span></p>
+<ul>
+<li><p>Note that the denominator in the above fraction is the estimated standard deviation of <span class="math inline">\(\hat{Y}_i\)</span>, but uses the error mean square when the <span class="math inline">\(i^{th}\)</span> observation is omitted.</p></li>
+<li><p><span class="math inline">\(DFFITS\)</span> for the <span class="math inline">\(i^{th}\)</span> observation represents the number of estimated standard deviations of <span class="math inline">\(\hat{Y}_i\)</span> that the fitted value <span class="math inline">\(\hat{Y}_i\)</span> increases or decreases with the inclusion of the <span class="math inline">\(i^{th}\)</span> observation in fitting the regression model.</p></li>
+<li><p>It can be shown that:</p></li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+(DFFITS)_i = t_i\sqrt{\frac{h_i}{1-h_i}}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(t_i\)</span> is the studentized deleted residual for the <span class="math inline">\(i^{th}\)</span> observation.</p>
+<ul>
+<li><p>We can see that if an observation has high leverage and is an outlier, it is likely to be influential</p></li>
+<li><p>For large datasets, an observation is considered influential if the magnitude of <span class="math inline">\(DFFITS\)</span> for it exceeds <span class="math inline">\(2\sqrt{\frac{p}{n}}\)</span></p></li>
+</ul>
+<div class="cell" data-execution_count="165">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale <span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> <span class="bu">range</span>(train.shape[<span class="dv">0</span>]), y <span class="op">=</span> influence.dffits[<span class="dv">0</span>])</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Observation index'</span>)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'DFFITS (model)'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Lec5_Potential_issues_files/figure-html/cell-31-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p><strong>Let us analyze the point with the highest <span class="math inline">\(DFFITS\)</span></strong>.</p>
+<div class="cell" data-execution_count="200">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>np.where(influence.dffits[<span class="dv">0</span>]<span class="op">&gt;</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="200">
+<pre><code>(array([ 813, 4851], dtype=int64),)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="201">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>train.loc[<span class="dv">813</span>,:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="201">
+<pre><code>carID                12454
+brand                   vw
+model            Caravelle
+year                  2012
+transmission     Semi-Auto
+mileage             212000
+fuelType            Diesel
+tax                    325
+mpg                34.4424
+engineSize             2.0
+price                11995
+Name: 813, dtype: object</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="195">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>train.loc[train.model <span class="op">==</span> <span class="st">' Caravelle'</span>,<span class="st">'mileage'</span>].describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="195">
+<pre><code>count        65.000000
+mean      25638.692308
+std       42954.135726
+min          10.000000
+25%        3252.000000
+50%        6900.000000
+75%       30414.000000
+max      212000.000000
+Name: mileage, dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="205">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction with model developed based on all points</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, </span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>                     data <span class="op">=</span> train)</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()<span class="op">;</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>np.exp(model_log.predict(train.loc[[<span class="dv">813</span>],:]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="205">
+<pre><code>813    5502.647323
+dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="207">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction with model developed based on all points except the 813th point</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'np.log(price)~(year+engineSize+mileage+mpg)**2+I(mileage**2)'</span>, </span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>                     data <span class="op">=</span> train.drop(index <span class="op">=</span> <span class="dv">813</span>))</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()<span class="op">;</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>np.exp(model_log.predict(train.loc[[<span class="dv">813</span>],:]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="207">
+<pre><code>813    4581.374593
+dtype: float64</code></pre>
+</div>
+</div>
+<p>Let us see the leverage and studentized residual for this observation.</p>
+<div class="cell" data-execution_count="249">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leverage</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>leverage[<span class="dv">813</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="249">
+<pre><code>0.19038697461006687</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="250">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Studentized residual</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>out.student_resid[<span class="dv">813</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="250">
+<pre><code>2.823478041409651</code></pre>
+</div>
+</div>
+<p><strong>Do you notice what may be contributing to the high influence of this point?</strong></p>
+</section>
+<section id="influence-on-all-fitted-values-cooks-distance" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="influence-on-all-fitted-values-cooks-distance"><span class="header-section-number">7.3.2</span> Influence on all fitted values (Cook’s distance)</h3>
+<p>In contrast to <span class="math inline">\(DFFITS\)</span>, which considers the influence of the <span class="math inline">\(i^{th}\)</span> observation on the fitted value <span class="math inline">\(\hat{Y}_i\)</span>, Cook’s distance considers the influence of the <span class="math inline">\(i^{th}\)</span> observation on all <span class="math inline">\(n\)</span> the fitted values:</p>
+<p><span class="math display">\[\begin{equation}
+D_i = \frac{\sum_{j=1}^{n} (\hat{Y}_j - \hat{Y}_{j(i)})^2}{pMSE}
+\end{equation}\]</span></p>
+<p>It can be shown that:</p>
+<p><span class="math display">\[\begin{equation}
+D_i = \frac{e_i^2}{pMSE}\bigg[\frac{h_i}{(1-h_i)^2}\bigg]
+\end{equation}\]</span></p>
+<p>The larger <span class="math inline">\(h_i\)</span> or <span class="math inline">\(e_i\)</span>, the larger is <span class="math inline">\(D_i\)</span>. <span class="math inline">\(D_i\)</span> can be related to the <span class="math inline">\(F(p, n- p)\)</span> distribution. If the percentile value is 50% or more, the observation is considered as highly influential.</p>
+<p>Cook’s distance is considered high if it is greater than 0.5 and extreme if it is greater than 1.</p>
+<div class="cell" data-execution_count="214">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale <span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> <span class="bu">range</span>(train.shape[<span class="dv">0</span>]), y <span class="op">=</span> influence.cooks_distance[<span class="dv">0</span>])</span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Observation index'</span>)</span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Cook's Distance (model)"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Lec5_Potential_issues_files/figure-html/cell-39-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="217">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Point with the highest Cook's distance</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>np.where(influence.cooks_distance[<span class="dv">0</span>]<span class="op">&gt;</span><span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="217">
+<pre><code>(array([813], dtype=int64),)</code></pre>
+</div>
+</div>
+<p>The critical Cook’s distance value for a point to be highly influential in this dataset is:</p>
+<div class="cell" data-execution_count="228">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>stats.f.ppf(<span class="fl">0.5</span>, <span class="dv">11</span>, <span class="dv">4949</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="228">
+<pre><code>0.9402181103263811</code></pre>
+</div>
+</div>
+<p>Thus, we don’t have any highly influential points in the dataset.</p>
+</section>
+<section id="influence-on-regression-coefficients-dfbetas" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="influence-on-regression-coefficients-dfbetas"><span class="header-section-number">7.3.3</span> Influence on regression coefficients (DFBETAS)</h3>
+<ul>
+<li><p><span class="math inline">\(DFBETAS\)</span> measures the influence of the <span class="math inline">\(i^{th}\)</span> observation on the regression coefficient.</p></li>
+<li><p><span class="math inline">\(DFBETAS\)</span> of the <span class="math inline">\(i^{th}\)</span> observation on the <span class="math inline">\(k^{th}\)</span> regression coefficient is:</p></li>
+</ul>
+<p><span class="math display">\[\begin{equation}
+(DFBETAS)_{k(i)} = \frac{\hat{\beta}_k-\hat{\beta}_{k(i)}}{\sqrt{MSE_ic_{k}}}
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(c_k\)</span> is the <span class="math inline">\(k^{th}\)</span> diagonal element of <span class="math inline">\((X^TX)^{-1}\)</span>.</p>
+<p>For large datasets, an observation is considered influential if <span class="math inline">\(DFBETAS\)</span> exceeds <span class="math inline">\(\frac{2}{\sqrt{n}}\)</span>.</p>
+<p>Below is the plot of <span class="math inline">\(DFBETAS\)</span> for the <code>year</code> predictor against the observation index.</p>
+<div class="cell" data-execution_count="234">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale <span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(x <span class="op">=</span> <span class="bu">range</span>(train.shape[<span class="dv">0</span>]), y <span class="op">=</span> influence.dfbetas[:,<span class="dv">1</span>])</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Observation index'</span>)</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"DFBETAS (year)"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="Lec5_Potential_issues_files/figure-html/cell-42-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+<p>Let us analyze the point with the highest magnitude of <span class="math inline">\(DFBETAS\)</span>.</p>
+<div class="cell" data-execution_count="238">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>np.where(influence.dfbetas[:,<span class="dv">1</span>]<span class="op">&lt;-</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="238">
+<pre><code>(array([4851], dtype=int64),)</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="240">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>train.year.describe()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="240">
+<pre><code>count    4960.000000
+mean     2016.737903
+std         2.884035
+min      1997.000000
+25%      2016.000000
+50%      2017.000000
+75%      2019.000000
+max      2020.000000
+Name: year, dtype: float64</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="242">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>train.loc[train.year<span class="op">&lt;=</span><span class="dv">2002</span>,:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="242">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">carID</th>
+<th data-quarto-table-cell-role="th">brand</th>
+<th data-quarto-table-cell-role="th">model</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">transmission</th>
+<th data-quarto-table-cell-role="th">mileage</th>
+<th data-quarto-table-cell-role="th">fuelType</th>
+<th data-quarto-table-cell-role="th">tax</th>
+<th data-quarto-table-cell-role="th">mpg</th>
+<th data-quarto-table-cell-role="th">engineSize</th>
+<th data-quarto-table-cell-role="th">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">330</td>
+<td>13200</td>
+<td>audi</td>
+<td>A8</td>
+<td>1997</td>
+<td>Automatic</td>
+<td>122000</td>
+<td>Petrol</td>
+<td>265</td>
+<td>19.3511</td>
+<td>4.2</td>
+<td>4650</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">732</td>
+<td>13988</td>
+<td>vw</td>
+<td>Beetle</td>
+<td>2001</td>
+<td>Manual</td>
+<td>47729</td>
+<td>Petrol</td>
+<td>330</td>
+<td>32.5910</td>
+<td>2.0</td>
+<td>2490</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3157</td>
+<td>18794</td>
+<td>ford</td>
+<td>Puma</td>
+<td>2002</td>
+<td>Manual</td>
+<td>108000</td>
+<td>Petrol</td>
+<td>230</td>
+<td>38.5757</td>
+<td>1.7</td>
+<td>2195</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3525</td>
+<td>19395</td>
+<td>merc</td>
+<td>S Class</td>
+<td>2001</td>
+<td>Automatic</td>
+<td>108800</td>
+<td>Diesel</td>
+<td>325</td>
+<td>31.5473</td>
+<td>3.2</td>
+<td>1695</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3532</td>
+<td>17531</td>
+<td>merc</td>
+<td>S Class</td>
+<td>1999</td>
+<td>Automatic</td>
+<td>34000</td>
+<td>Petrol</td>
+<td>145</td>
+<td>24.8735</td>
+<td>3.2</td>
+<td>5995</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3533</td>
+<td>18761</td>
+<td>merc</td>
+<td>S Class</td>
+<td>2001</td>
+<td>Automatic</td>
+<td>66000</td>
+<td>Petrol</td>
+<td>570</td>
+<td>24.7744</td>
+<td>3.2</td>
+<td>4495</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3535</td>
+<td>18813</td>
+<td>merc</td>
+<td>S Class</td>
+<td>1998</td>
+<td>Automatic</td>
+<td>43534</td>
+<td>Petrol</td>
+<td>265</td>
+<td>23.2962</td>
+<td>6.0</td>
+<td>19990</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3536</td>
+<td>17891</td>
+<td>merc</td>
+<td>S Class</td>
+<td>2002</td>
+<td>Automatic</td>
+<td>24000</td>
+<td>Petrol</td>
+<td>570</td>
+<td>20.7968</td>
+<td>5.0</td>
+<td>6995</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3707</td>
+<td>18746</td>
+<td>hyundi</td>
+<td>Santa Fe</td>
+<td>2002</td>
+<td>Manual</td>
+<td>94000</td>
+<td>Petrol</td>
+<td>325</td>
+<td>30.2671</td>
+<td>2.4</td>
+<td>1200</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4091</td>
+<td>12995</td>
+<td>merc</td>
+<td>SLK</td>
+<td>1998</td>
+<td>Automatic</td>
+<td>113557</td>
+<td>Petrol</td>
+<td>265</td>
+<td>31.8368</td>
+<td>2.3</td>
+<td>1990</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4094</td>
+<td>19585</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2001</td>
+<td>Automatic</td>
+<td>69234</td>
+<td>Petrol</td>
+<td>325</td>
+<td>30.8839</td>
+<td>2.0</td>
+<td>3990</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4096</td>
+<td>14265</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2001</td>
+<td>Automatic</td>
+<td>48172</td>
+<td>Petrol</td>
+<td>325</td>
+<td>29.7058</td>
+<td>2.3</td>
+<td>3990</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4097</td>
+<td>15821</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2002</td>
+<td>Automatic</td>
+<td>61400</td>
+<td>Petrol</td>
+<td>325</td>
+<td>29.6568</td>
+<td>2.3</td>
+<td>3990</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4098</td>
+<td>13021</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2001</td>
+<td>Automatic</td>
+<td>91000</td>
+<td>Petrol</td>
+<td>325</td>
+<td>30.3248</td>
+<td>2.3</td>
+<td>3950</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4099</td>
+<td>12660</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2001</td>
+<td>Automatic</td>
+<td>42087</td>
+<td>Petrol</td>
+<td>325</td>
+<td>29.9404</td>
+<td>2.3</td>
+<td>4490</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4101</td>
+<td>17521</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2002</td>
+<td>Automatic</td>
+<td>75034</td>
+<td>Petrol</td>
+<td>325</td>
+<td>30.1380</td>
+<td>2.3</td>
+<td>4990</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4107</td>
+<td>13977</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2000</td>
+<td>Automatic</td>
+<td>87000</td>
+<td>Petrol</td>
+<td>265</td>
+<td>27.2998</td>
+<td>3.2</td>
+<td>1490</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4108</td>
+<td>18679</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2000</td>
+<td>Automatic</td>
+<td>113237</td>
+<td>Petrol</td>
+<td>270</td>
+<td>26.8765</td>
+<td>3.2</td>
+<td>3990</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4109</td>
+<td>14598</td>
+<td>merc</td>
+<td>SLK</td>
+<td>2001</td>
+<td>Automatic</td>
+<td>64476</td>
+<td>Petrol</td>
+<td>325</td>
+<td>27.4628</td>
+<td>3.2</td>
+<td>4990</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4847</td>
+<td>17268</td>
+<td>bmw</td>
+<td>Z3</td>
+<td>1997</td>
+<td>Manual</td>
+<td>49000</td>
+<td>Petrol</td>
+<td>270</td>
+<td>34.9548</td>
+<td>1.9</td>
+<td>3950</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4848</td>
+<td>12137</td>
+<td>bmw</td>
+<td>Z3</td>
+<td>1999</td>
+<td>Manual</td>
+<td>58000</td>
+<td>Petrol</td>
+<td>270</td>
+<td>35.3077</td>
+<td>1.9</td>
+<td>3950</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4849</td>
+<td>13288</td>
+<td>bmw</td>
+<td>Z3</td>
+<td>1999</td>
+<td>Manual</td>
+<td>74282</td>
+<td>Petrol</td>
+<td>245</td>
+<td>35.4143</td>
+<td>1.9</td>
+<td>3995</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4850</td>
+<td>19172</td>
+<td>bmw</td>
+<td>Z3</td>
+<td>2001</td>
+<td>Manual</td>
+<td>60000</td>
+<td>Petrol</td>
+<td>325</td>
+<td>30.7305</td>
+<td>2.2</td>
+<td>5950</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4851</td>
+<td>16577</td>
+<td>bmw</td>
+<td>Z3</td>
+<td>2002</td>
+<td>Automatic</td>
+<td>16500</td>
+<td>Petrol</td>
+<td>325</td>
+<td>29.7614</td>
+<td>2.2</td>
+<td>14995</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Let us see the leverage and studentized residual for this observation.</p>
+<div class="cell" data-execution_count="251">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leverage</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>leverage[<span class="dv">4851</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="251">
+<pre><code>0.047120455781282225</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="253">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Studentized residual</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>out.student_resid[<span class="dv">4851</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="253">
+<pre><code>4.938606329343604</code></pre>
+</div>
+</div>
+<p><strong>Do you see what makes this point influential?</strong></p>
+</section>
+</section>
+<section id="collinearity" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="collinearity"><span class="header-section-number">7.4</span> Collinearity</h2>
+<p>Collinearity refers to the situation when two or more predictor variables have a high linear association. Linear association between a pair of variables can be measured by the correlation coefficient. Thus the correlation matrix can indicate some potential collinearity problems.</p>
+<section id="why-and-how-is-collinearity-a-problem" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="why-and-how-is-collinearity-a-problem"><span class="header-section-number">7.4.1</span> Why and how is collinearity a problem</h3>
+<p><em>(Source: page 100-101 of book)</em></p>
+<p>The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response.</p>
+<p>Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for <span class="math inline">\(\hat \beta_j\)</span> to grow. Recall that the t-statistic for each predictor is calculated by dividing <span class="math inline">\(\hat \beta_j\)</span> by its standard error. Consequently, collinearity results in a decline in the <span class="math inline">\(t\)</span>-statistic. As a result, <strong>in the presence of collinearity, we may fail to reject <span class="math inline">\(H_0: \beta_j = 0\)</span>. This means that the power of the hypothesis test—the probability of correctly detecting a non-zero coefficient—is reduced by collinearity.</strong></p>
+</section>
+<section id="how-to-measure-collinearitymulticollinearity" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="how-to-measure-collinearitymulticollinearity"><span class="header-section-number">7.4.2</span> How to measure collinearity/multicollinearity</h3>
+<p><em>(Source: page 102 of book)</em></p>
+<p>Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix: it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation. We call this situation multicollinearity. Instead of inspecting the correlation matrix, a better way to assess multicollinearity is to compute the variance inflation factor (VIF). The VIF is variance inflation factor the ratio of the variance of <span class="math inline">\(\hat \beta_j\)</span> when fitting the full model divided by the variance of <span class="math inline">\(\hat \beta_j\)</span> if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. Typically in practice there is a small amount of collinearity among the predictors. As a rule of thumb, a <strong>VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity.</strong></p>
+<p>The estimated variance of the coefficient <span class="math inline">\(\beta_j\)</span>, of the <span class="math inline">\(j^{th}\)</span> predictor <span class="math inline">\(X_j\)</span>, can be expressed as:</p>
+<p><span class="math display">\[\hat{var}(\hat{\beta_j}) = \frac{(\hat{\sigma})^2}{(n-1)\hat{var}({X_j})}.\frac{1}{1-R^2_{X_j|X_{-j}}},\]</span></p>
+<p>where <span class="math inline">\(R^2_{X_j|X_{-j}}\)</span> is the <span class="math inline">\(R\)</span>-squared for the regression of <span class="math inline">\(X_j\)</span> on the other covariates (a regression that does not involve the response variable <span class="math inline">\(Y\)</span>).</p>
+<p>In case of simple linear regression, the variance expression in the equation above does not contain the term <span class="math inline">\(\frac{1}{1-R^2_{X_j|X_{-j}}}\)</span>, as there is only one predictor. However, in case of multiple linear regression, the variance of the estimate of the <span class="math inline">\(j^{th}\)</span> coefficient (<span class="math inline">\(\hat{\beta_j}\)</span>) gets inflated by a factor of <span class="math inline">\(\frac{1}{1-R^2_{X_j|X_{-j}}}\)</span> <em>(Note that in the complete absence of collinearity, <span class="math inline">\(R^2_{X_j|X_{-j}}=0\)</span>, and the value of this factor will be 1).</em></p>
+<p>Thus, the Variance inflation factor, or the VIF for the estimated coefficient of the <span class="math inline">\(j^{th}\)</span> predictor <span class="math inline">\(X_j\)</span> is:</p>
+<p><span class="math display">\[\begin{equation}
+VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
+\end{equation}\]</span></p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Correlation matrix</span></span>
+<span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>train.corr()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">carID</th>
+<th data-quarto-table-cell-role="th">year</th>
+<th data-quarto-table-cell-role="th">mileage</th>
+<th data-quarto-table-cell-role="th">tax</th>
+<th data-quarto-table-cell-role="th">mpg</th>
+<th data-quarto-table-cell-role="th">engineSize</th>
+<th data-quarto-table-cell-role="th">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">carID</td>
+<td>1.000000</td>
+<td>0.006251</td>
+<td>-0.001320</td>
+<td>0.023806</td>
+<td>-0.010774</td>
+<td>0.011365</td>
+<td>0.012129</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">year</td>
+<td>0.006251</td>
+<td>1.000000</td>
+<td>-0.768058</td>
+<td>-0.205902</td>
+<td>-0.057093</td>
+<td>0.014623</td>
+<td>0.501296</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mileage</td>
+<td>-0.001320</td>
+<td>-0.768058</td>
+<td>1.000000</td>
+<td>0.133744</td>
+<td>0.125376</td>
+<td>-0.006459</td>
+<td>-0.478705</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">tax</td>
+<td>0.023806</td>
+<td>-0.205902</td>
+<td>0.133744</td>
+<td>1.000000</td>
+<td>-0.488002</td>
+<td>0.465282</td>
+<td>0.144652</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>-0.010774</td>
+<td>-0.057093</td>
+<td>0.125376</td>
+<td>-0.488002</td>
+<td>1.000000</td>
+<td>-0.419417</td>
+<td>-0.369919</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize</td>
+<td>0.011365</td>
+<td>0.014623</td>
+<td>-0.006459</td>
+<td>0.465282</td>
+<td>-0.419417</td>
+<td>1.000000</td>
+<td>0.624899</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">price</td>
+<td>0.012129</td>
+<td>0.501296</td>
+<td>-0.478705</td>
+<td>0.144652</td>
+<td>-0.369919</td>
+<td>0.624899</td>
+<td>1.000000</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Let us compute the Variance Inflation Factor (VIF) for the four predictors.</p>
+<div class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> train[[<span class="st">'mpg'</span>,<span class="st">'year'</span>,<span class="st">'mileage'</span>,<span class="st">'engineSize'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>X.columns[<span class="dv">1</span>:]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
+<pre><code>Index(['year', 'mileage', 'engineSize'], dtype='object')</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> variance_inflation_factor</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tools.tools <span class="im">import</span> add_constant</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> add_constant(X)</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>vif_data <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>vif_data[<span class="st">"feature"</span>] <span class="op">=</span> X.columns</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(X.columns)):</span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a>    vif_data.loc[i,<span class="st">'VIF'</span>] <span class="op">=</span> variance_inflation_factor(X.values, i)</span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-10"><a href="#cb77-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vif_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      feature           VIF
+0       const  1.201579e+06
+1         mpg  1.243040e+00
+2        year  2.452891e+00
+3     mileage  2.490210e+00
+4  engineSize  1.219170e+00</code></pre>
+</div>
+</div>
+<p>As all the values of VIF are close to one, we do not have the problem of multicollinearity in the model. Note that the VIF of <code>year</code> and <code>mileage</code> is relatively high as they are the most correlated.</p>
+<p><strong>Q1:</strong> Why is the VIF of the constant so high?</p>
+<p><strong>Q2:</strong> Why do we need to include the constant while finding the VIF?</p>
+</section>
+<section id="manual-computation-of-vif" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="manual-computation-of-vif"><span class="header-section-number">7.4.3</span> Manual computation of VIF</h3>
+<div class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg'</span>, data <span class="op">=</span> train)</span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>price</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.137</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.137</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>786.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Wed, 06 Mar 2024</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>1.14e-160</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>17:04:39</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-54812.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4960</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>1.096e+05</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4958</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>1.096e+05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>1</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>4.144e+04</td>
+<td>676.445</td>
+<td>61.258</td>
+<td>0.000</td>
+<td>4.01e+04</td>
+<td>4.28e+04</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>-374.2975</td>
+<td>13.351</td>
+<td>-28.036</td>
+<td>0.000</td>
+<td>-400.471</td>
+<td>-348.124</td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>2132.208</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>0.320</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>13751.995</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>1.942</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>10.174</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>158.</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+</div>
+</div>
+<div class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a>(<span class="fl">13.351</span><span class="op">/</span><span class="fl">9.338</span>)<span class="op">**</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<pre><code>2.044183378279958</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~year+mpg+engineSize+mileage'</span>, data <span class="op">=</span> train)</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>price</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.660</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.660</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>2410.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Wed, 06 Mar 2024</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>17:01:18</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-52497.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4960</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>1.050e+05</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4955</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>1.050e+05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>4</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>-3.661e+06</td>
+<td>1.49e+05</td>
+<td>-24.593</td>
+<td>0.000</td>
+<td>-3.95e+06</td>
+<td>-3.37e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year</td>
+<td>1817.7366</td>
+<td>73.751</td>
+<td>24.647</td>
+<td>0.000</td>
+<td>1673.151</td>
+<td>1962.322</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>-79.3126</td>
+<td>9.338</td>
+<td>-8.493</td>
+<td>0.000</td>
+<td>-97.620</td>
+<td>-61.006</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">engineSize</td>
+<td>1.218e+04</td>
+<td>189.969</td>
+<td>64.107</td>
+<td>0.000</td>
+<td>1.18e+04</td>
+<td>1.26e+04</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">mileage</td>
+<td>-0.1474</td>
+<td>0.009</td>
+<td>-16.817</td>
+<td>0.000</td>
+<td>-0.165</td>
+<td>-0.130</td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>2450.973</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>0.541</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>31060.548</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>2.045</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>14.557</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>3.83e+07</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 3.83e+07. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'year~mpg+engineSize+mileage'</span>, data <span class="op">=</span> train)</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="44">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>year</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.592</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.592</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>2400.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Wed, 06 Mar 2024</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>17:00:13</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-10066.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4960</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>2.014e+04</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4956</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>2.017e+04</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>3</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>2018.3135</td>
+<td>0.140</td>
+<td>1.44e+04</td>
+<td>0.000</td>
+<td>2018.039</td>
+<td>2018.588</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>0.0095</td>
+<td>0.002</td>
+<td>5.301</td>
+<td>0.000</td>
+<td>0.006</td>
+<td>0.013</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize</td>
+<td>0.1171</td>
+<td>0.037</td>
+<td>3.203</td>
+<td>0.001</td>
+<td>0.045</td>
+<td>0.189</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mileage</td>
+<td>-9.139e-05</td>
+<td>1.08e-06</td>
+<td>-84.615</td>
+<td>0.000</td>
+<td>-9.35e-05</td>
+<td>-8.93e-05</td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>2949.664</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>1.161</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>63773.271</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>-2.426</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>19.883</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>1.91e+05</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.91e+05. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<div class="cell" data-execution_count="470">
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co">#VIF for year</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span><span class="op">-</span><span class="fl">0.592</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="470">
+<pre><code>2.4509803921568625</code></pre>
+</div>
+</div>
+<p>Note that year and mileage have a high linear correlation. Removing one of them should decrease the standard error of the coefficient of the other, without significanty decrease R-squared.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+mileage+year'</span>, data <span class="op">=</span> train)</span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>price</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.660</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.660</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>2410.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Tue, 07 Feb 2023</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>21:39:45</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-52497.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4960</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>1.050e+05</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4955</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>1.050e+05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>4</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>-3.661e+06</td>
+<td>1.49e+05</td>
+<td>-24.593</td>
+<td>0.000</td>
+<td>-3.95e+06</td>
+<td>-3.37e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>-79.3126</td>
+<td>9.338</td>
+<td>-8.493</td>
+<td>0.000</td>
+<td>-97.620</td>
+<td>-61.006</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize</td>
+<td>1.218e+04</td>
+<td>189.969</td>
+<td>64.107</td>
+<td>0.000</td>
+<td>1.18e+04</td>
+<td>1.26e+04</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mileage</td>
+<td>-0.1474</td>
+<td>0.009</td>
+<td>-16.817</td>
+<td>0.000</td>
+<td>-0.165</td>
+<td>-0.130</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">year</td>
+<td>1817.7366</td>
+<td>73.751</td>
+<td>24.647</td>
+<td>0.000</td>
+<td>1673.151</td>
+<td>1962.322</td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>2450.973</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>0.541</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>31060.548</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>2.045</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>14.557</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>3.83e+07</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 3.83e+07. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<p>Removing mileage from the above regression.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg+engineSize+year'</span>, data <span class="op">=</span> train)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>model_log <span class="op">=</span> ols_object.fit()</span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>model_log.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>OLS Regression Results</caption>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Dep. Variable:</td>
+<td>price</td>
+<td data-quarto-table-cell-role="th">R-squared:</td>
+<td>0.641</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Model:</td>
+<td>OLS</td>
+<td data-quarto-table-cell-role="th">Adj. R-squared:</td>
+<td>0.641</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Method:</td>
+<td>Least Squares</td>
+<td data-quarto-table-cell-role="th">F-statistic:</td>
+<td>2951.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Date:</td>
+<td>Tue, 07 Feb 2023</td>
+<td data-quarto-table-cell-role="th">Prob (F-statistic):</td>
+<td>0.00</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Time:</td>
+<td>21:40:00</td>
+<td data-quarto-table-cell-role="th">Log-Likelihood:</td>
+<td>-52635.</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">No. Observations:</td>
+<td>4960</td>
+<td data-quarto-table-cell-role="th">AIC:</td>
+<td>1.053e+05</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Df Residuals:</td>
+<td>4956</td>
+<td data-quarto-table-cell-role="th">BIC:</td>
+<td>1.053e+05</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Df Model:</td>
+<td>3</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Covariance Type:</td>
+<td>nonrobust</td>
+<td data-quarto-table-cell-role="th"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td></td>
+<td data-quarto-table-cell-role="th">coef</td>
+<td data-quarto-table-cell-role="th">std err</td>
+<td data-quarto-table-cell-role="th">t</td>
+<td data-quarto-table-cell-role="th">P&gt;|t|</td>
+<td data-quarto-table-cell-role="th">[0.025</td>
+<td data-quarto-table-cell-role="th">0.975]</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Intercept</td>
+<td>-5.586e+06</td>
+<td>9.78e+04</td>
+<td>-57.098</td>
+<td>0.000</td>
+<td>-5.78e+06</td>
+<td>-5.39e+06</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">mpg</td>
+<td>-101.9120</td>
+<td>9.500</td>
+<td>-10.727</td>
+<td>0.000</td>
+<td>-120.536</td>
+<td>-83.288</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">engineSize</td>
+<td>1.196e+04</td>
+<td>194.848</td>
+<td>61.392</td>
+<td>0.000</td>
+<td>1.16e+04</td>
+<td>1.23e+04</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">year</td>
+<td>2771.1844</td>
+<td>48.492</td>
+<td>57.147</td>
+<td>0.000</td>
+<td>2676.118</td>
+<td>2866.251</td>
+</tr>
+</tbody>
+</table>
+<table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Omnibus:</td>
+<td>2389.075</td>
+<td data-quarto-table-cell-role="th">Durbin-Watson:</td>
+<td>0.528</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Prob(Omnibus):</td>
+<td>0.000</td>
+<td data-quarto-table-cell-role="th">Jarque-Bera (JB):</td>
+<td>26920.051</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">Skew:</td>
+<td>2.018</td>
+<td data-quarto-table-cell-role="th">Prob(JB):</td>
+<td>0.00</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">Kurtosis:</td>
+<td>13.675</td>
+<td data-quarto-table-cell-role="th">Cond. No.</td>
+<td>1.41e+06</td>
+</tr>
+</tbody>
+</table>
+<br><br>Notes:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br>[2] The condition number is large, 1.41e+06. This might indicate that there are<br>strong multicollinearity or other numerical problems.
+</div>
+</div>
+<p>Note that the standard error of the coefficient of <em>year</em> has reduced from 73 to 48, without any large reduction in R-squared.</p>
+</section>
+<section id="when-can-we-overlook-multicollinearity" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="when-can-we-overlook-multicollinearity"><span class="header-section-number">7.4.4</span> When can we overlook multicollinearity?</h3>
+<ul>
+<li><p>The severity of the problems increases with the degree of the multicollinearity. Therefore, if there is only moderate multicollinearity <em>(5 &lt; VIF &lt; 10)</em>, we may overlook it.</p></li>
+<li><p>Multicollinearity affects only the standard errors of the coefficients of collinear predictors. Therefore, if multicollinearity is not present for the predictors that we are particularly interested in, we may not need to resolve it.</p></li>
+<li><p>Multicollinearity affects the standard error of the coefficients and thereby their <span class="math inline">\(p\)</span>-values, but in general, it does not influence the prediction accuracy, except in the case that the coefficients are so unstable that the predictions are outside of the domain space of the response. If our sole aim is prediction, and we don’t wish to infer the statistical significance of predictors, then we may avoid addressing multicollinearity. “<em>The fact that some or all predictor variables are correlated among themselves does not, in general, inhibit our ability to obtain a good fit nor does it tend to affect inferences about mean responses or predictions of new observations, provided these inferences are made within the region of observations” - Neter, John, Michael H. Kutner, Christopher J. Nachtsheim, and William Wasserman. “Applied linear statistical models.” (1996): 318.</em></p></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Crossvalidation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cross-validation</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
