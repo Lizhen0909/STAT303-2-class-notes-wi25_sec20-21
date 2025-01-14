@@ -25,6 +25,7 @@ book:
     - Lec5_Potential_issues.ipynb
    
   appendices: 
+    - Assignment_1_wi25.ipynb
     - Datasets.ipynb
 format:
   html:
