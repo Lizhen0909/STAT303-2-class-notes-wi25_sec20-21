@@ -19,10 +19,11 @@ book:
     - Lec1_SimpleLinearRegression.ipynb
     - Lec2_MultipleLinearRegression.ipynb
     - Lec3_VariableTransformations_and_Interactions.ipynb
+    - Lec5_Potential_issues.ipynb
     - Lec7_logistic_regression.ipynb
     - Lec9_RidgeRegression_Lasso.ipynb
     - Crossvalidation.ipynb
-    - Lec5_Potential_issues.ipynb
+    
    
   appendices: 
     - Assignment_1_wi25.ipynb
@@ -33,6 +34,3 @@ format:
     theme: cosmo
   pdf:
     documentclass: scrreprt
-
-
-

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Potential issues – Data Science II with python (Class notes)</title>
+<title>4&nbsp; Beyond Fit: Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns – Data Science II with python (Class notes)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Assignment_1_wi25.html" rel="next">
-<link href="./Crossvalidation.html" rel="prev">
+<link href="./Lec7_logistic_regression.html" rel="next">
+<link href="./Lec3_VariableTransformations_and_Interactions.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Lec5_Potential_issues.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Potential issues</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Lec5_Potential_issues.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Beyond Fit: Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -196,31 +196,31 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Lec3_VariableTransformations_and_Interactions.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Variable interactions and transformations</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Lec7_logistic_regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Lec9_RidgeRegression_Lasso.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./Crossvalidation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cross-validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Extending Linear Regression: Categorical Predictors, Interaction Effects, and Transformations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Lec5_Potential_issues.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Potential issues</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Beyond Fit: Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec7_logistic_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec9_RidgeRegression_Lasso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Crossvalidation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cross-validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -262,23 +262,23 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#outliers" id="toc-outliers" class="nav-link active" data-scroll-target="#outliers"><span class="header-section-number">7.1</span> Outliers</a></li>
-  <li><a href="#high-leverage-points" id="toc-high-leverage-points" class="nav-link" data-scroll-target="#high-leverage-points"><span class="header-section-number">7.2</span> High leverage points</a>
+  <li><a href="#outliers" id="toc-outliers" class="nav-link active" data-scroll-target="#outliers"><span class="header-section-number">4.1</span> Outliers</a></li>
+  <li><a href="#high-leverage-points" id="toc-high-leverage-points" class="nav-link" data-scroll-target="#high-leverage-points"><span class="header-section-number">4.2</span> High leverage points</a>
   <ul>
-  <li><a href="#identifying-extrapolation-using-leverage" id="toc-identifying-extrapolation-using-leverage" class="nav-link" data-scroll-target="#identifying-extrapolation-using-leverage"><span class="header-section-number">7.2.1</span> Identifying extrapolation using leverage</a></li>
+  <li><a href="#identifying-extrapolation-using-leverage" id="toc-identifying-extrapolation-using-leverage" class="nav-link" data-scroll-target="#identifying-extrapolation-using-leverage"><span class="header-section-number">4.2.1</span> Identifying extrapolation using leverage</a></li>
   </ul></li>
-  <li><a href="#influential-points" id="toc-influential-points" class="nav-link" data-scroll-target="#influential-points"><span class="header-section-number">7.3</span> Influential points</a>
+  <li><a href="#influential-points" id="toc-influential-points" class="nav-link" data-scroll-target="#influential-points"><span class="header-section-number">4.3</span> Influential points</a>
   <ul>
-  <li><a href="#influence-on-single-fitted-value-dffits" id="toc-influence-on-single-fitted-value-dffits" class="nav-link" data-scroll-target="#influence-on-single-fitted-value-dffits"><span class="header-section-number">7.3.1</span> Influence on single fitted value (DFFITS)</a></li>
-  <li><a href="#influence-on-all-fitted-values-cooks-distance" id="toc-influence-on-all-fitted-values-cooks-distance" class="nav-link" data-scroll-target="#influence-on-all-fitted-values-cooks-distance"><span class="header-section-number">7.3.2</span> Influence on all fitted values (Cook’s distance)</a></li>
-  <li><a href="#influence-on-regression-coefficients-dfbetas" id="toc-influence-on-regression-coefficients-dfbetas" class="nav-link" data-scroll-target="#influence-on-regression-coefficients-dfbetas"><span class="header-section-number">7.3.3</span> Influence on regression coefficients (DFBETAS)</a></li>
+  <li><a href="#influence-on-single-fitted-value-dffits" id="toc-influence-on-single-fitted-value-dffits" class="nav-link" data-scroll-target="#influence-on-single-fitted-value-dffits"><span class="header-section-number">4.3.1</span> Influence on single fitted value (DFFITS)</a></li>
+  <li><a href="#influence-on-all-fitted-values-cooks-distance" id="toc-influence-on-all-fitted-values-cooks-distance" class="nav-link" data-scroll-target="#influence-on-all-fitted-values-cooks-distance"><span class="header-section-number">4.3.2</span> Influence on all fitted values (Cook’s distance)</a></li>
+  <li><a href="#influence-on-regression-coefficients-dfbetas" id="toc-influence-on-regression-coefficients-dfbetas" class="nav-link" data-scroll-target="#influence-on-regression-coefficients-dfbetas"><span class="header-section-number">4.3.3</span> Influence on regression coefficients (DFBETAS)</a></li>
   </ul></li>
-  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="header-section-number">7.4</span> Collinearity</a>
+  <li><a href="#collinearity" id="toc-collinearity" class="nav-link" data-scroll-target="#collinearity"><span class="header-section-number">4.4</span> Collinearity</a>
   <ul>
-  <li><a href="#why-and-how-is-collinearity-a-problem" id="toc-why-and-how-is-collinearity-a-problem" class="nav-link" data-scroll-target="#why-and-how-is-collinearity-a-problem"><span class="header-section-number">7.4.1</span> Why and how is collinearity a problem</a></li>
-  <li><a href="#how-to-measure-collinearitymulticollinearity" id="toc-how-to-measure-collinearitymulticollinearity" class="nav-link" data-scroll-target="#how-to-measure-collinearitymulticollinearity"><span class="header-section-number">7.4.2</span> How to measure collinearity/multicollinearity</a></li>
-  <li><a href="#manual-computation-of-vif" id="toc-manual-computation-of-vif" class="nav-link" data-scroll-target="#manual-computation-of-vif"><span class="header-section-number">7.4.3</span> Manual computation of VIF</a></li>
-  <li><a href="#when-can-we-overlook-multicollinearity" id="toc-when-can-we-overlook-multicollinearity" class="nav-link" data-scroll-target="#when-can-we-overlook-multicollinearity"><span class="header-section-number">7.4.4</span> When can we overlook multicollinearity?</a></li>
+  <li><a href="#why-and-how-is-collinearity-a-problem" id="toc-why-and-how-is-collinearity-a-problem" class="nav-link" data-scroll-target="#why-and-how-is-collinearity-a-problem"><span class="header-section-number">4.4.1</span> Why and how is collinearity a problem</a></li>
+  <li><a href="#how-to-measure-collinearitymulticollinearity" id="toc-how-to-measure-collinearitymulticollinearity" class="nav-link" data-scroll-target="#how-to-measure-collinearitymulticollinearity"><span class="header-section-number">4.4.2</span> How to measure collinearity/multicollinearity</a></li>
+  <li><a href="#manual-computation-of-vif" id="toc-manual-computation-of-vif" class="nav-link" data-scroll-target="#manual-computation-of-vif"><span class="header-section-number">4.4.3</span> Manual computation of VIF</a></li>
+  <li><a href="#when-can-we-overlook-multicollinearity" id="toc-when-can-we-overlook-multicollinearity" class="nav-link" data-scroll-target="#when-can-we-overlook-multicollinearity"><span class="header-section-number">4.4.4</span> When can we overlook multicollinearity?</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -288,7 +288,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Potential issues</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Beyond Fit: Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></h1>
 </div>
 
 
@@ -656,8 +656,8 @@ window.Quarto = {
 <pre><code>9094.209473232966</code></pre>
 </div>
 </div>
-<section id="outliers" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="outliers"><span class="header-section-number">7.1</span> Outliers</h2>
+<section id="outliers" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="outliers"><span class="header-section-number">4.1</span> Outliers</h2>
 <p>An outlier is a point for which the true response (<span class="math inline">\(y_i\)</span>) is far from the value predicted by the model. Residual plots can be used to identify outliers.</p>
 <p>If the the response at the <span class="math inline">\(i^{th}\)</span> observation is <span class="math inline">\(y_i\)</span>, the prediction is <span class="math inline">\(\hat{y}_i\)</span>, then the residual <span class="math inline">\(e_i\)</span> is:</p>
 <p><span class="math display">\[e_i = y_i - \hat{y_i}\]</span></p>
@@ -1151,8 +1151,8 @@ window.Quarto = {
 <p><strong>Do you notice some unique characteristics of these observations due to which they may be outliers?</strong></p>
 <p><strong>What methods you can propose to estimate the price of these outliers more accurately, which will also result in the overall reduction in RMSE?</strong></p>
 </section>
-<section id="high-leverage-points" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="high-leverage-points"><span class="header-section-number">7.2</span> High leverage points</h2>
+<section id="high-leverage-points" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="high-leverage-points"><span class="header-section-number">4.2</span> High leverage points</h2>
 <p>High leverage points are those with an unsual value of the predictor(s). They have the potential to have a relatively higher impact on the OLS line / plane / hyperplane, as compared to the outliers.</p>
 <p><strong>Leverage statistic</strong> (page 99 of the book): In order to quantify an observation’s leverage, we compute the leverage statistic. A large value of this statistic indicates an observation with high leverage. For simple linear regression, <span class="math display">\[\begin{equation}
 h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
@@ -1438,8 +1438,8 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <pre><code>269</code></pre>
 </div>
 </div>
-<section id="identifying-extrapolation-using-leverage" class="level3" data-number="7.2.1">
-<h3 data-number="7.2.1" class="anchored" data-anchor-id="identifying-extrapolation-using-leverage"><span class="header-section-number">7.2.1</span> Identifying extrapolation using leverage</h3>
+<section id="identifying-extrapolation-using-leverage" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="identifying-extrapolation-using-leverage"><span class="header-section-number">4.2.1</span> Identifying extrapolation using leverage</h3>
 <p>Leverage can be used to check if prediction on a particular point will lead to extrapolation.</p>
 <p>Below is the function that can be used to find the leverage at for a particular observation <code>xnew</code>. Note that <code>xnew</code> has to be a single-dimensional array, and <code>X</code> has to be the predictor matrix (also called the design matrix).</p>
 <div id="684ef428" class="cell" data-execution_count="14">
@@ -1466,8 +1466,8 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 <p>If the leverage for a new observation is higher than the maximum leverage among all the observations in the training dataset, then prediction at the new observation will be extrapolation.</p>
 </section>
 </section>
-<section id="influential-points" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="influential-points"><span class="header-section-number">7.3</span> Influential points</h2>
+<section id="influential-points" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="influential-points"><span class="header-section-number">4.3</span> Influential points</h2>
 <p>Observations that are both high leverage points and outliers are influential points that may affect the regression line. Let’s remove these influential points from the data and see if it improves the model prediction accuracy on test data.</p>
 <div id="d5e4ea49" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dropping influential points from data</span></span>
@@ -1737,8 +1737,8 @@ h_i = \frac{1}{n} + \frac{(x_i - \bar x)^2}{\sum_{i'=1}^{n}(x_{i'} - \bar x)^2}.
 </div>
 </div>
 <p>The RMSE on test data has also reduced. This shows that some of the influential points were impacting the regression line. With those points removed, the model better captures the general trend in the data.</p>
-<section id="influence-on-single-fitted-value-dffits" class="level3" data-number="7.3.1">
-<h3 data-number="7.3.1" class="anchored" data-anchor-id="influence-on-single-fitted-value-dffits"><span class="header-section-number">7.3.1</span> Influence on single fitted value (DFFITS)</h3>
+<section id="influence-on-single-fitted-value-dffits" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="influence-on-single-fitted-value-dffits"><span class="header-section-number">4.3.1</span> Influence on single fitted value (DFFITS)</h3>
 <ul>
 <li>A useful measure of the influence that the <span class="math inline">\(i^{th}\)</span> observation has on the fitted value <span class="math inline">\(\hat{Y}_i\)</span> is:</li>
 </ul>
@@ -1848,8 +1848,8 @@ dtype: float64</code></pre>
 </div>
 <p><strong>Do you notice what may be contributing to the high influence of this point?</strong></p>
 </section>
-<section id="influence-on-all-fitted-values-cooks-distance" class="level3" data-number="7.3.2">
-<h3 data-number="7.3.2" class="anchored" data-anchor-id="influence-on-all-fitted-values-cooks-distance"><span class="header-section-number">7.3.2</span> Influence on all fitted values (Cook’s distance)</h3>
+<section id="influence-on-all-fitted-values-cooks-distance" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="influence-on-all-fitted-values-cooks-distance"><span class="header-section-number">4.3.2</span> Influence on all fitted values (Cook’s distance)</h3>
 <p>In contrast to <span class="math inline">\(DFFITS\)</span>, which considers the influence of the <span class="math inline">\(i^{th}\)</span> observation on the fitted value <span class="math inline">\(\hat{Y}_i\)</span>, Cook’s distance considers the influence of the <span class="math inline">\(i^{th}\)</span> observation on all <span class="math inline">\(n\)</span> the fitted values:</p>
 <p><span class="math display">\[\begin{equation}
 D_i = \frac{\sum_{j=1}^{n} (\hat{Y}_j - \hat{Y}_{j(i)})^2}{pMSE}
@@ -1889,8 +1889,8 @@ D_i = \frac{e_i^2}{pMSE}\bigg[\frac{h_i}{(1-h_i)^2}\bigg]
 </div>
 <p>Thus, we don’t have any highly influential points in the dataset.</p>
 </section>
-<section id="influence-on-regression-coefficients-dfbetas" class="level3" data-number="7.3.3">
-<h3 data-number="7.3.3" class="anchored" data-anchor-id="influence-on-regression-coefficients-dfbetas"><span class="header-section-number">7.3.3</span> Influence on regression coefficients (DFBETAS)</h3>
+<section id="influence-on-regression-coefficients-dfbetas" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="influence-on-regression-coefficients-dfbetas"><span class="header-section-number">4.3.3</span> Influence on regression coefficients (DFBETAS)</h3>
 <ul>
 <li><p><span class="math inline">\(DFBETAS\)</span> measures the influence of the <span class="math inline">\(i^{th}\)</span> observation on the regression coefficient.</p></li>
 <li><p><span class="math inline">\(DFBETAS\)</span> of the <span class="math inline">\(i^{th}\)</span> observation on the <span class="math inline">\(k^{th}\)</span> regression coefficient is:</p></li>
@@ -2319,17 +2319,17 @@ Name: year, dtype: float64</code></pre>
 <p><strong>Do you see what makes this point influential?</strong></p>
 </section>
 </section>
-<section id="collinearity" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="collinearity"><span class="header-section-number">7.4</span> Collinearity</h2>
+<section id="collinearity" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="collinearity"><span class="header-section-number">4.4</span> Collinearity</h2>
 <p>Collinearity refers to the situation when two or more predictor variables have a high linear association. Linear association between a pair of variables can be measured by the correlation coefficient. Thus the correlation matrix can indicate some potential collinearity problems.</p>
-<section id="why-and-how-is-collinearity-a-problem" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="why-and-how-is-collinearity-a-problem"><span class="header-section-number">7.4.1</span> Why and how is collinearity a problem</h3>
+<section id="why-and-how-is-collinearity-a-problem" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="why-and-how-is-collinearity-a-problem"><span class="header-section-number">4.4.1</span> Why and how is collinearity a problem</h3>
 <p><em>(Source: page 100-101 of book)</em></p>
 <p>The presence of collinearity can pose problems in the regression context, since it can be difficult to separate out the individual effects of collinear variables on the response.</p>
 <p>Since collinearity reduces the accuracy of the estimates of the regression coefficients, it causes the standard error for <span class="math inline">\(\hat \beta_j\)</span> to grow. Recall that the t-statistic for each predictor is calculated by dividing <span class="math inline">\(\hat \beta_j\)</span> by its standard error. Consequently, collinearity results in a decline in the <span class="math inline">\(t\)</span>-statistic. As a result, <strong>in the presence of collinearity, we may fail to reject <span class="math inline">\(H_0: \beta_j = 0\)</span>. This means that the power of the hypothesis test—the probability of correctly detecting a non-zero coefficient—is reduced by collinearity.</strong></p>
 </section>
-<section id="how-to-measure-collinearitymulticollinearity" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="how-to-measure-collinearitymulticollinearity"><span class="header-section-number">7.4.2</span> How to measure collinearity/multicollinearity</h3>
+<section id="how-to-measure-collinearitymulticollinearity" class="level3" data-number="4.4.2">
+<h3 data-number="4.4.2" class="anchored" data-anchor-id="how-to-measure-collinearitymulticollinearity"><span class="header-section-number">4.4.2</span> How to measure collinearity/multicollinearity</h3>
 <p><em>(Source: page 102 of book)</em></p>
 <p>Unfortunately, not all collinearity problems can be detected by inspection of the correlation matrix: it is possible for collinearity to exist between three or more variables even if no pair of variables has a particularly high correlation. We call this situation multicollinearity. Instead of inspecting the correlation matrix, a better way to assess multicollinearity is to compute the variance inflation factor (VIF). The VIF is variance inflation factor the ratio of the variance of <span class="math inline">\(\hat \beta_j\)</span> when fitting the full model divided by the variance of <span class="math inline">\(\hat \beta_j\)</span> if fit on its own. The smallest possible value for VIF is 1, which indicates the complete absence of collinearity. Typically in practice there is a small amount of collinearity among the predictors. As a rule of thumb, a <strong>VIF value that exceeds 5 or 10 indicates a problematic amount of collinearity.</strong></p>
 <p>The estimated variance of the coefficient <span class="math inline">\(\beta_j\)</span>, of the <span class="math inline">\(j^{th}\)</span> predictor <span class="math inline">\(X_j\)</span>, can be expressed as:</p>
@@ -2471,8 +2471,8 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 <p><strong>Q1:</strong> Why is the VIF of the constant so high?</p>
 <p><strong>Q2:</strong> Why do we need to include the constant while finding the VIF?</p>
 </section>
-<section id="manual-computation-of-vif" class="level3" data-number="7.4.3">
-<h3 data-number="7.4.3" class="anchored" data-anchor-id="manual-computation-of-vif"><span class="header-section-number">7.4.3</span> Manual computation of VIF</h3>
+<section id="manual-computation-of-vif" class="level3" data-number="4.4.3">
+<h3 data-number="4.4.3" class="anchored" data-anchor-id="manual-computation-of-vif"><span class="header-section-number">4.4.3</span> Manual computation of VIF</h3>
 <div id="2b6523a8" class="cell" data-execution_count="52">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Manually computing the VIF for year</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>ols_object <span class="op">=</span> smf.ols(formula <span class="op">=</span> <span class="st">'price~mpg'</span>, data <span class="op">=</span> train)</span>
@@ -3233,8 +3233,8 @@ VIF(\hat \beta_j) = \frac{1}{1-R^2_{X_j|X_{-j}}}
 </div>
 <p>Note that the standard error of the coefficient of <em>year</em> has reduced from 73 to 48, without any large reduction in R-squared.</p>
 </section>
-<section id="when-can-we-overlook-multicollinearity" class="level3" data-number="7.4.4">
-<h3 data-number="7.4.4" class="anchored" data-anchor-id="when-can-we-overlook-multicollinearity"><span class="header-section-number">7.4.4</span> When can we overlook multicollinearity?</h3>
+<section id="when-can-we-overlook-multicollinearity" class="level3" data-number="4.4.4">
+<h3 data-number="4.4.4" class="anchored" data-anchor-id="when-can-we-overlook-multicollinearity"><span class="header-section-number">4.4.4</span> When can we overlook multicollinearity?</h3>
 <ul>
 <li><p>The severity of the problems increases with the degree of the multicollinearity. Therefore, if there is only moderate multicollinearity <em>(5 &lt; VIF &lt; 10)</em>, we may overlook it.</p></li>
 <li><p>Multicollinearity affects only the standard errors of the coefficients of collinear predictors. Therefore, if multicollinearity is not present for the predictors that we are particularly interested in, we may not need to resolve it.</p></li>
@@ -3665,13 +3665,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Crossvalidation.html" class="pagination-link" aria-label="Cross-validation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Cross-validation</span></span>
+      <a href="./Lec3_VariableTransformations_and_Interactions.html" class="pagination-link" aria-label="Extending Linear Regression: Categorical Predictors, Interaction Effects, and Transformations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Extending Linear Regression: Categorical Predictors, Interaction Effects, and Transformations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Assignment_1_wi25.html" class="pagination-link" aria-label="Assignment 1">
-        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./Lec7_logistic_regression.html" class="pagination-link" aria-label="Logistic regression">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic regression</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
