@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; Logistic regression – Data Science II with python (Class notes)</title>
+<title>7&nbsp; Logistic regression – Data Science II with python (Class notes)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Lec7_logistic_regression.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Lec7_logistic_regression.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic regression</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -201,26 +201,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./polynominal_features.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">PolynomialFeatures in Sklearn</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./potential_issue_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Beyond Fit (implementation): Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Lec5_Potential_issues.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Beyond Fit: Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Beyond Fit (statistical theory): Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Lec7_logistic_regression.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Lec9_RidgeRegression_Lasso.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Crossvalidation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cross-validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cross-validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -262,26 +274,26 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#theory-behind-logistic-regression" id="toc-theory-behind-logistic-regression" class="nav-link active" data-scroll-target="#theory-behind-logistic-regression"><span class="header-section-number">5.1</span> Theory Behind Logistic Regression</a>
+  <li><a href="#theory-behind-logistic-regression" id="toc-theory-behind-logistic-regression" class="nav-link active" data-scroll-target="#theory-behind-logistic-regression"><span class="header-section-number">7.1</span> Theory Behind Logistic Regression</a>
   <ul>
-  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"><span class="header-section-number">5.1.1</span> Description</a></li>
-  <li><a href="#learning-the-logistic-regression-model" id="toc-learning-the-logistic-regression-model" class="nav-link" data-scroll-target="#learning-the-logistic-regression-model"><span class="header-section-number">5.1.2</span> Learning the Logistic Regression Model</a></li>
-  <li><a href="#preparing-data-for-logistic-regression" id="toc-preparing-data-for-logistic-regression" class="nav-link" data-scroll-target="#preparing-data-for-logistic-regression"><span class="header-section-number">5.1.3</span> Preparing Data for Logistic Regression</a></li>
+  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"><span class="header-section-number">7.1.1</span> Description</a></li>
+  <li><a href="#learning-the-logistic-regression-model" id="toc-learning-the-logistic-regression-model" class="nav-link" data-scroll-target="#learning-the-logistic-regression-model"><span class="header-section-number">7.1.2</span> Learning the Logistic Regression Model</a></li>
+  <li><a href="#preparing-data-for-logistic-regression" id="toc-preparing-data-for-logistic-regression" class="nav-link" data-scroll-target="#preparing-data-for-logistic-regression"><span class="header-section-number">7.1.3</span> Preparing Data for Logistic Regression</a></li>
   </ul></li>
-  <li><a href="#logistic-regression-scikit-learn-vs-statsmodels" id="toc-logistic-regression-scikit-learn-vs-statsmodels" class="nav-link" data-scroll-target="#logistic-regression-scikit-learn-vs-statsmodels"><span class="header-section-number">5.2</span> Logistic Regression: Scikit-learn vs Statsmodels</a></li>
-  <li><a href="#training-a-logistic-regression-model" id="toc-training-a-logistic-regression-model" class="nav-link" data-scroll-target="#training-a-logistic-regression-model"><span class="header-section-number">5.3</span> Training a logistic regression model</a>
+  <li><a href="#logistic-regression-scikit-learn-vs-statsmodels" id="toc-logistic-regression-scikit-learn-vs-statsmodels" class="nav-link" data-scroll-target="#logistic-regression-scikit-learn-vs-statsmodels"><span class="header-section-number">7.2</span> Logistic Regression: Scikit-learn vs Statsmodels</a></li>
+  <li><a href="#training-a-logistic-regression-model" id="toc-training-a-logistic-regression-model" class="nav-link" data-scroll-target="#training-a-logistic-regression-model"><span class="header-section-number">7.3</span> Training a logistic regression model</a>
   <ul>
-  <li><a href="#examining-the-distribution-of-the-target-column" id="toc-examining-the-distribution-of-the-target-column" class="nav-link" data-scroll-target="#examining-the-distribution-of-the-target-column"><span class="header-section-number">5.3.1</span> Examining the Distribution of the Target Column</a></li>
-  <li><a href="#fitting-the-logistic-regression-model" id="toc-fitting-the-logistic-regression-model" class="nav-link" data-scroll-target="#fitting-the-logistic-regression-model"><span class="header-section-number">5.3.2</span> Fitting the logistic regression model</a></li>
+  <li><a href="#examining-the-distribution-of-the-target-column" id="toc-examining-the-distribution-of-the-target-column" class="nav-link" data-scroll-target="#examining-the-distribution-of-the-target-column"><span class="header-section-number">7.3.1</span> Examining the Distribution of the Target Column</a></li>
+  <li><a href="#fitting-the-logistic-regression-model" id="toc-fitting-the-logistic-regression-model" class="nav-link" data-scroll-target="#fitting-the-logistic-regression-model"><span class="header-section-number">7.3.2</span> Fitting the logistic regression model</a></li>
   </ul></li>
-  <li><a href="#confusion-matrix-and-classification-accuracy" id="toc-confusion-matrix-and-classification-accuracy" class="nav-link" data-scroll-target="#confusion-matrix-and-classification-accuracy"><span class="header-section-number">5.4</span> Confusion matrix and classification accuracy</a></li>
-  <li><a href="#variable-transformations-in-logistic-regression" id="toc-variable-transformations-in-logistic-regression" class="nav-link" data-scroll-target="#variable-transformations-in-logistic-regression"><span class="header-section-number">5.5</span> Variable transformations in logistic regression</a></li>
-  <li><a href="#performance-measurement" id="toc-performance-measurement" class="nav-link" data-scroll-target="#performance-measurement"><span class="header-section-number">5.6</span> Performance Measurement</a>
+  <li><a href="#confusion-matrix-and-classification-accuracy" id="toc-confusion-matrix-and-classification-accuracy" class="nav-link" data-scroll-target="#confusion-matrix-and-classification-accuracy"><span class="header-section-number">7.4</span> Confusion matrix and classification accuracy</a></li>
+  <li><a href="#variable-transformations-in-logistic-regression" id="toc-variable-transformations-in-logistic-regression" class="nav-link" data-scroll-target="#variable-transformations-in-logistic-regression"><span class="header-section-number">7.5</span> Variable transformations in logistic regression</a></li>
+  <li><a href="#performance-measurement" id="toc-performance-measurement" class="nav-link" data-scroll-target="#performance-measurement"><span class="header-section-number">7.6</span> Performance Measurement</a>
   <ul>
-  <li><a href="#precision-recall" id="toc-precision-recall" class="nav-link" data-scroll-target="#precision-recall"><span class="header-section-number">5.6.1</span> Precision-recall</a></li>
-  <li><a href="#the-receiver-operating-characteristics-roc-curve" id="toc-the-receiver-operating-characteristics-roc-curve" class="nav-link" data-scroll-target="#the-receiver-operating-characteristics-roc-curve"><span class="header-section-number">5.6.2</span> The Receiver Operating Characteristics (ROC) Curve</a></li>
+  <li><a href="#precision-recall" id="toc-precision-recall" class="nav-link" data-scroll-target="#precision-recall"><span class="header-section-number">7.6.1</span> Precision-recall</a></li>
+  <li><a href="#the-receiver-operating-characteristics-roc-curve" id="toc-the-receiver-operating-characteristics-roc-curve" class="nav-link" data-scroll-target="#the-receiver-operating-characteristics-roc-curve"><span class="header-section-number">7.6.2</span> The Receiver Operating Characteristics (ROC) Curve</a></li>
   </ul></li>
-  <li><a href="#sklearn" id="toc-sklearn" class="nav-link" data-scroll-target="#sklearn"><span class="header-section-number">5.7</span> sklearn</a></li>
+  <li><a href="#sklearn" id="toc-sklearn" class="nav-link" data-scroll-target="#sklearn"><span class="header-section-number">7.7</span> sklearn</a></li>
   </ul>
 </nav>
     </div>
@@ -290,7 +302,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic regression</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic regression</span></h1>
 </div>
 
 
@@ -309,11 +321,11 @@ window.Quarto = {
 
 <p><em>Read sections 4.1 - 4.3 of the book before using these notes.</em></p>
 <p><em>Note that in this course, lecture notes are not sufficient, you must read the book for better understanding. Lecture notes are just implementing the concepts of the book on a dataset, but not explaining the concepts elaborately.</em></p>
-<section id="theory-behind-logistic-regression" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="theory-behind-logistic-regression"><span class="header-section-number">5.1</span> Theory Behind Logistic Regression</h2>
+<section id="theory-behind-logistic-regression" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="theory-behind-logistic-regression"><span class="header-section-number">7.1</span> Theory Behind Logistic Regression</h2>
 <p>Logistic regression is the go-to linear classification algorithm for two-class problems. It is easy to implement, easy to understand and gets great results on a wide variety of problems, even when the expectations the method has for your data are violated.</p>
-<section id="description" class="level3" data-number="5.1.1">
-<h3 data-number="5.1.1" class="anchored" data-anchor-id="description"><span class="header-section-number">5.1.1</span> Description</h3>
+<section id="description" class="level3" data-number="7.1.1">
+<h3 data-number="7.1.1" class="anchored" data-anchor-id="description"><span class="header-section-number">7.1.1</span> Description</h3>
 <p>Logistic regression is named for the function used at the core of the method, the <a href="https://en.wikipedia.org/wiki/Logistic_function">logistic function</a>.</p>
 <p>The logistic function, also called the <strong><code>Sigmoid function</code></strong> was developed by statisticians to describe properties of population growth in ecology, rising quickly and maxing out at the carrying capacity of the environment. It’s an S-shaped curve that can take any real-valued number and map it into a value between 0 and 1, but never exactly at those limits.</p>
 <p><span class="math display">\[\frac{1}{1 + e^{-x}}\]</span></p>
@@ -356,8 +368,8 @@ window.Quarto = {
 <p><span class="math inline">\(\hat{\beta_1}\)</span> is the estimated coefficient for <span class="math inline">\(x_1\)</span></p>
 <p><span class="math inline">\(\hat{p}\)</span> is the predicted output with real value between 0 and 1. To convert this to binary output of 0 or 1, this would either need to be rounded to an integer value or a cutoff point be provided to specify the class segregation point.</p>
 </section>
-<section id="learning-the-logistic-regression-model" class="level3" data-number="5.1.2">
-<h3 data-number="5.1.2" class="anchored" data-anchor-id="learning-the-logistic-regression-model"><span class="header-section-number">5.1.2</span> Learning the Logistic Regression Model</h3>
+<section id="learning-the-logistic-regression-model" class="level3" data-number="7.1.2">
+<h3 data-number="7.1.2" class="anchored" data-anchor-id="learning-the-logistic-regression-model"><span class="header-section-number">7.1.2</span> Learning the Logistic Regression Model</h3>
 <p>The coefficients (Beta values b) of the logistic regression algorithm must be estimated from your training data. This is done using <a href="https://en.wikipedia.org/wiki/Maximum_likelihood_estimation">maximum-likelihood estimation</a>.</p>
 <p>Maximum-likelihood estimation is a common learning algorithm used by a variety of machine learning algorithms, although it does make assumptions about the distribution of your data (more on this when we talk about preparing your data).</p>
 <p>The best coefficients should result in a model that would predict a value very close to 1 (e.g.&nbsp;male) for the default class and a value very close to 0 (e.g.&nbsp;female) for the other class. The intuition for maximum-likelihood for logistic regression is that a search procedure seeks values for the coefficients (Beta values) that maximize the likelihood of the observed data. In other words, in MLE, we estimate the parameter values (Beta values) which are the most likely to produce that data at hand.</p>
@@ -365,8 +377,8 @@ window.Quarto = {
 <p>We are not going to go into the math of maximum likelihood. It is enough to say that a minimization algorithm is used to optimize the best values for the coefficients for your training data. This is often implemented in practice using efficient numerical optimization algorithm (like the Quasi-newton method).</p>
 <p>When you are learning logistic, you can implement it yourself from scratch using the much simpler gradient descent algorithm.</p>
 </section>
-<section id="preparing-data-for-logistic-regression" class="level3" data-number="5.1.3">
-<h3 data-number="5.1.3" class="anchored" data-anchor-id="preparing-data-for-logistic-regression"><span class="header-section-number">5.1.3</span> Preparing Data for Logistic Regression</h3>
+<section id="preparing-data-for-logistic-regression" class="level3" data-number="7.1.3">
+<h3 data-number="7.1.3" class="anchored" data-anchor-id="preparing-data-for-logistic-regression"><span class="header-section-number">7.1.3</span> Preparing Data for Logistic Regression</h3>
 <p>The assumptions made by logistic regression about the distribution and relationships in your data are much the same as the assumptions made in linear regression.</p>
 <p>Much study has gone into defining these assumptions and precise probabilistic and statistical language is used. My advice is to use these as guidelines or rules of thumb and experiment with different data preparation schemes.</p>
 <p>Ultimately in predictive modeling machine learning projects you are laser focused on making accurate predictions rather than interpreting the results. As such, you can break some assumptions as long as the model is robust and performs well.</p>
@@ -379,14 +391,14 @@ window.Quarto = {
 </ul>
 </section>
 </section>
-<section id="logistic-regression-scikit-learn-vs-statsmodels" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="logistic-regression-scikit-learn-vs-statsmodels"><span class="header-section-number">5.2</span> Logistic Regression: Scikit-learn vs Statsmodels</h2>
+<section id="logistic-regression-scikit-learn-vs-statsmodels" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="logistic-regression-scikit-learn-vs-statsmodels"><span class="header-section-number">7.2</span> Logistic Regression: Scikit-learn vs Statsmodels</h2>
 <p>Python gives us two ways to do logistic regression. Statsmodels offers modeling from the perspective of statistics. Scikit-learn offers some of the same models from the perspective of machine learning.</p>
 <p>So we need to understand the difference between statistics and machine learning! Statistics makes mathematically valid inferences about a population based on sample data. Statistics answers the question, “What is the evidence that X is related to Y?” Machine learning has the goal of optimizing predictive accuracy rather than inference. Machine learning answers the question, “Given X, what prediction should we make for Y?”</p>
 <p>Let us see the use of <code>statsmodels</code> for logistic regression. We’ll see scikit-learn later in the course, when we learn methods that focus on prediction.</p>
 </section>
-<section id="training-a-logistic-regression-model" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="training-a-logistic-regression-model"><span class="header-section-number">5.3</span> Training a logistic regression model</h2>
+<section id="training-a-logistic-regression-model" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="training-a-logistic-regression-model"><span class="header-section-number">7.3</span> Training a logistic regression model</h2>
 <p>Read the data on social network ads. The data shows if the person purchased a product when targeted with an ad on social media. Fit a logistic regression model to predict if a user will purchase the product based on their characteristics such as age, gender and estimated salary.</p>
 <div id="4810be5f" class="cell" data-execution_count="131">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Social_Network_Ads_train.csv'</span>) <span class="co">#Develop the model on train data</span></span>
@@ -456,8 +468,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="examining-the-distribution-of-the-target-column" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="examining-the-distribution-of-the-target-column"><span class="header-section-number">5.3.1</span> Examining the Distribution of the Target Column</h3>
+<section id="examining-the-distribution-of-the-target-column" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="examining-the-distribution-of-the-target-column"><span class="header-section-number">7.3.1</span> Examining the Distribution of the Target Column</h3>
 <p>Make sure our target is not severely imbalanced.</p>
 <div id="514d2b0e" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>train.Purchased.value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -496,8 +508,8 @@ Name: Purchased, dtype: int64</code></pre>
 <li><p>The linear regression model does not seem to fit the data well.</p></li>
 </ol>
 </section>
-<section id="fitting-the-logistic-regression-model" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="fitting-the-logistic-regression-model"><span class="header-section-number">5.3.2</span> Fitting the logistic regression model</h3>
+<section id="fitting-the-logistic-regression-model" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="fitting-the-logistic-regression-model"><span class="header-section-number">7.3.2</span> Fitting the logistic regression model</h3>
 <p>Now, let us fit a logistic regression model to predict probability of purchase based on <code>Age</code>.</p>
 <div id="f506114c" class="cell" data-execution_count="96">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x <span class="op">=</span> <span class="st">'Age'</span>, y <span class="op">=</span> <span class="st">'Purchased'</span>, data <span class="op">=</span> train, color <span class="op">=</span> <span class="st">'orange'</span>) <span class="co">#Visualizing data</span></span>
@@ -701,8 +713,8 @@ Name: Purchased, dtype: int64</code></pre>
 <p>No, assuming a significance level of <span class="math inline">\(\alpha = 5\%\)</span>, <code>Gender</code> is not associated with probability of default, as the <span class="math inline">\(p\)</span>-value for <code>Male</code> is greater than 0.05.</p>
 </section>
 </section>
-<section id="confusion-matrix-and-classification-accuracy" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="confusion-matrix-and-classification-accuracy"><span class="header-section-number">5.4</span> Confusion matrix and classification accuracy</h2>
+<section id="confusion-matrix-and-classification-accuracy" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="confusion-matrix-and-classification-accuracy"><span class="header-section-number">7.4</span> Confusion matrix and classification accuracy</h2>
 <p>A confusion matrix is a summary of prediction results on a classification problem. The number of correct and incorrect predictions are summarized with count values and broken down by each class.</p>
 <div id="8a055597" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Function to compute confusion matrix and prediction accuracy on training data</span></span>
@@ -1052,8 +1064,8 @@ Name: Purchased, dtype: int64</code></pre>
 <p><strong>Is the odds ratio for a unit increase in a predictor <span class="math inline">\(X_j\)</span>, a constant (assuming that the rest of the predictors are held constant)?</strong></p>
 <p>Yes, the odds ratio in this case will <span class="math inline">\(e^{\beta_j}\)</span></p>
 </section>
-<section id="variable-transformations-in-logistic-regression" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="variable-transformations-in-logistic-regression"><span class="header-section-number">5.5</span> Variable transformations in logistic regression</h2>
+<section id="variable-transformations-in-logistic-regression" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="variable-transformations-in-logistic-regression"><span class="header-section-number">7.5</span> Variable transformations in logistic regression</h2>
 <p>Read the dataset <em>diabetes.csv</em> that contains if a person has diabetes (<code>Outcome = 1</code>) based on health parameters such as BMI, blood pressure, age etc. Develop a model to predict the probability of a person having diabetes based on their age.</p>
 <div id="ba249f10" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/diabetes.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -2039,11 +2051,11 @@ If the number of bins are too less, the trend may not be captured accurately. If
 </ol>
 <p>Optimizing the number of bins for each predictor may be a time-consuming exercises. You may do it for your course project. However, we will not do it here in the class notes.</p>
 </section>
-<section id="performance-measurement" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="performance-measurement"><span class="header-section-number">5.6</span> Performance Measurement</h2>
+<section id="performance-measurement" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="performance-measurement"><span class="header-section-number">7.6</span> Performance Measurement</h2>
 <p>We have already seen the confusion matrix, and classification accuracy. Now, let us see some other useful performance metrics that can be computed from the confusion matrix. The metrics below are computed for the confusion matrix immediately above this section <em>(or the confusion matrix on test data corresponding to the model <code>logit_model_diabetes</code>)</em>.</p>
-<section id="precision-recall" class="level3" data-number="5.6.1">
-<h3 data-number="5.6.1" class="anchored" data-anchor-id="precision-recall"><span class="header-section-number">5.6.1</span> Precision-recall</h3>
+<section id="precision-recall" class="level3" data-number="7.6.1">
+<h3 data-number="7.6.1" class="anchored" data-anchor-id="precision-recall"><span class="header-section-number">7.6.1</span> Precision-recall</h3>
 <p><strong>Precision</strong> measures the accuracy of positive predictions. Also called the <code>precision</code> of the classifier</p>
 <p><span class="math display">\[\textrm{precision} = \frac{\textrm{True Positives}}{\textrm{True Positives} + \textrm{False Positives}}\]</span></p>
 <p>==&gt; <code>70.13%</code></p>
@@ -2077,8 +2089,8 @@ If the number of bins are too less, the trend may not be captured accurately. If
 <p><strong>Q:</strong> How are the values of the <code>thresholds</code> chosen to make the precision-recall curve?</p>
 <p><strong>Hint:</strong> Look at the documentation for <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_curve.html"><code>precision_recall_curve</code></a>.</p>
 </section>
-<section id="the-receiver-operating-characteristics-roc-curve" class="level3" data-number="5.6.2">
-<h3 data-number="5.6.2" class="anchored" data-anchor-id="the-receiver-operating-characteristics-roc-curve"><span class="header-section-number">5.6.2</span> The Receiver Operating Characteristics (ROC) Curve</h3>
+<section id="the-receiver-operating-characteristics-roc-curve" class="level3" data-number="7.6.2">
+<h3 data-number="7.6.2" class="anchored" data-anchor-id="the-receiver-operating-characteristics-roc-curve"><span class="header-section-number">7.6.2</span> The Receiver Operating Characteristics (ROC) Curve</h3>
 <p>A <strong>ROC(Receiver Operator Characteristic Curve)</strong> is a plot of sensitivity (True Positive Rate) on the y axis against (1−specificity) (False Positive Rate) on the x axis for varying values of the threshold t. The 45° diagonal line connecting (0,0) to (1,1) is the ROC curve corresponding to random chance. The ROC curve for the gold standard is the line connecting (0,0) to (0,1) and (0,1) to (1,1).</p>
 <div id="2ae84ca7" class="cell" data-execution_count="169">
 <div class="cell-output cell-output-display" data-execution_count="169">
@@ -2184,8 +2196,8 @@ ROC-AUC = 90.1%</code></pre>
 </div>
 </section>
 </section>
-<section id="sklearn" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="sklearn"><span class="header-section-number">5.7</span> sklearn</h2>
+<section id="sklearn" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="sklearn"><span class="header-section-number">7.7</span> sklearn</h2>
 <p>The <code>LogisticRegression()</code> function from the <code>linear_model</code> module of the <code>sklearn</code> library is used for fitting a logistic regression model. Note that the function as a default regularization parameter value set as <code>C = 1</code>. We’ll understand the purpose of regularization later in the course.</p>
 <div id="b46d992d" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>train <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Social_Network_Ads_train.csv'</span>) <span class="co">#Develop the model on train data</span></span>
@@ -2640,13 +2652,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Lec5_Potential_issues.html" class="pagination-link" aria-label="Beyond Fit: Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Beyond Fit: Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span>
+      <a href="./Lec5_Potential_issues.html" class="pagination-link" aria-label="Beyond Fit (statistical theory): Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Beyond Fit (statistical theory): Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Lec9_RidgeRegression_Lasso.html" class="pagination-link" aria-label="Ridge regression and Lasso">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

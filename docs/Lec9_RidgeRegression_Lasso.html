@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Ridge regression and Lasso – Data Science II with python (Class notes)</title>
+<title>8&nbsp; Ridge regression and Lasso – Data Science II with python (Class notes)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Lec9_RidgeRegression_Lasso.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Lec9_RidgeRegression_Lasso.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -201,26 +201,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./polynominal_features.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">PolynomialFeatures in Sklearn</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./potential_issue_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Beyond Fit (implementation): Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Lec5_Potential_issues.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Beyond Fit: Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Beyond Fit (statistical theory): Identifying Outliers, High Leverage, Multicollinearity, and Residual Patterns</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Lec7_logistic_regression.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Lec9_RidgeRegression_Lasso.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Crossvalidation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cross-validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cross-validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -262,23 +274,23 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link active" data-scroll-target="#ridge-regression"><span class="header-section-number">6.1</span> Ridge regression</a>
+  <li><a href="#ridge-regression" id="toc-ridge-regression" class="nav-link active" data-scroll-target="#ridge-regression"><span class="header-section-number">8.1</span> Ridge regression</a>
   <ul>
-  <li><a href="#standardizing-the-predictors" id="toc-standardizing-the-predictors" class="nav-link" data-scroll-target="#standardizing-the-predictors"><span class="header-section-number">6.1.1</span> Standardizing the predictors</a></li>
-  <li><a href="#optimizing-the-tuning-parameter-λ" id="toc-optimizing-the-tuning-parameter-λ" class="nav-link" data-scroll-target="#optimizing-the-tuning-parameter-λ"><span class="header-section-number">6.1.2</span> Optimizing the tuning parameter <code>λ</code></a></li>
-  <li><a href="#rmse-on-test-data" id="toc-rmse-on-test-data" class="nav-link" data-scroll-target="#rmse-on-test-data"><span class="header-section-number">6.1.3</span> RMSE on test data</a></li>
-  <li><a href="#model-coefficients-r-squared" id="toc-model-coefficients-r-squared" class="nav-link" data-scroll-target="#model-coefficients-r-squared"><span class="header-section-number">6.1.4</span> Model coefficients &amp; <span class="math inline">\(R\)</span>-squared</a></li>
+  <li><a href="#standardizing-the-predictors" id="toc-standardizing-the-predictors" class="nav-link" data-scroll-target="#standardizing-the-predictors"><span class="header-section-number">8.1.1</span> Standardizing the predictors</a></li>
+  <li><a href="#optimizing-the-tuning-parameter-λ" id="toc-optimizing-the-tuning-parameter-λ" class="nav-link" data-scroll-target="#optimizing-the-tuning-parameter-λ"><span class="header-section-number">8.1.2</span> Optimizing the tuning parameter <code>λ</code></a></li>
+  <li><a href="#rmse-on-test-data" id="toc-rmse-on-test-data" class="nav-link" data-scroll-target="#rmse-on-test-data"><span class="header-section-number">8.1.3</span> RMSE on test data</a></li>
+  <li><a href="#model-coefficients-r-squared" id="toc-model-coefficients-r-squared" class="nav-link" data-scroll-target="#model-coefficients-r-squared"><span class="header-section-number">8.1.4</span> Model coefficients &amp; <span class="math inline">\(R\)</span>-squared</a></li>
   </ul></li>
-  <li><a href="#lasso" id="toc-lasso" class="nav-link" data-scroll-target="#lasso"><span class="header-section-number">6.2</span> Lasso</a>
+  <li><a href="#lasso" id="toc-lasso" class="nav-link" data-scroll-target="#lasso"><span class="header-section-number">8.2</span> Lasso</a>
   <ul>
-  <li><a href="#standardizing-the-predictors-1" id="toc-standardizing-the-predictors-1" class="nav-link" data-scroll-target="#standardizing-the-predictors-1"><span class="header-section-number">6.2.1</span> Standardizing the predictors</a></li>
-  <li><a href="#optimizing-the-tuning-parameter-λ-1" id="toc-optimizing-the-tuning-parameter-λ-1" class="nav-link" data-scroll-target="#optimizing-the-tuning-parameter-λ-1"><span class="header-section-number">6.2.2</span> Optimizing the tuning parameter <code>λ</code></a></li>
-  <li><a href="#rmse-on-test-data-1" id="toc-rmse-on-test-data-1" class="nav-link" data-scroll-target="#rmse-on-test-data-1"><span class="header-section-number">6.2.3</span> RMSE on test data</a></li>
-  <li><a href="#model-coefficients-r-squared-1" id="toc-model-coefficients-r-squared-1" class="nav-link" data-scroll-target="#model-coefficients-r-squared-1"><span class="header-section-number">6.2.4</span> Model coefficients &amp; <span class="math inline">\(R\)</span>-squared</a></li>
+  <li><a href="#standardizing-the-predictors-1" id="toc-standardizing-the-predictors-1" class="nav-link" data-scroll-target="#standardizing-the-predictors-1"><span class="header-section-number">8.2.1</span> Standardizing the predictors</a></li>
+  <li><a href="#optimizing-the-tuning-parameter-λ-1" id="toc-optimizing-the-tuning-parameter-λ-1" class="nav-link" data-scroll-target="#optimizing-the-tuning-parameter-λ-1"><span class="header-section-number">8.2.2</span> Optimizing the tuning parameter <code>λ</code></a></li>
+  <li><a href="#rmse-on-test-data-1" id="toc-rmse-on-test-data-1" class="nav-link" data-scroll-target="#rmse-on-test-data-1"><span class="header-section-number">8.2.3</span> RMSE on test data</a></li>
+  <li><a href="#model-coefficients-r-squared-1" id="toc-model-coefficients-r-squared-1" class="nav-link" data-scroll-target="#model-coefficients-r-squared-1"><span class="header-section-number">8.2.4</span> Model coefficients &amp; <span class="math inline">\(R\)</span>-squared</a></li>
   </ul></li>
-  <li><a href="#lassoridge-classification" id="toc-lassoridge-classification" class="nav-link" data-scroll-target="#lassoridge-classification"><span class="header-section-number">6.3</span> Lasso/Ridge Classification</a>
+  <li><a href="#lassoridge-classification" id="toc-lassoridge-classification" class="nav-link" data-scroll-target="#lassoridge-classification"><span class="header-section-number">8.3</span> Lasso/Ridge Classification</a>
   <ul>
-  <li><a href="#cross-validation-to-find-optimal-c" id="toc-cross-validation-to-find-optimal-c" class="nav-link" data-scroll-target="#cross-validation-to-find-optimal-c"><span class="header-section-number">6.3.1</span> Cross-validation to find optimal <code>C</code></a></li>
+  <li><a href="#cross-validation-to-find-optimal-c" id="toc-cross-validation-to-find-optimal-c" class="nav-link" data-scroll-target="#cross-validation-to-find-optimal-c"><span class="header-section-number">8.3.1</span> Cross-validation to find optimal <code>C</code></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -288,7 +300,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ridge regression and Lasso</span></h1>
 </div>
 
 
@@ -399,15 +411,15 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<section id="ridge-regression" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="ridge-regression"><span class="header-section-number">6.1</span> Ridge regression</h2>
+<section id="ridge-regression" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="ridge-regression"><span class="header-section-number">8.1</span> Ridge regression</h2>
 <p>Let us develop a ridge regression model to predict house price based on the five house features.</p>
 <div id="1597f122" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Taking the log transform of house_price as house prices have a right-skewed distribution</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.log(train.house_price)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="standardizing-the-predictors" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="standardizing-the-predictors"><span class="header-section-number">6.1.1</span> Standardizing the predictors</h3>
+<section id="standardizing-the-predictors" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="standardizing-the-predictors"><span class="header-section-number">8.1.1</span> Standardizing the predictors</h3>
 <div id="fca5dcf9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Standardizing predictors so that each of them have zero mean and unit variance</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -425,8 +437,8 @@ window.Quarto = {
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>Xstd <span class="op">=</span> scaler.transform(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="optimizing-the-tuning-parameter-λ" class="level3" data-number="6.1.2">
-<h3 data-number="6.1.2" class="anchored" data-anchor-id="optimizing-the-tuning-parameter-λ"><span class="header-section-number">6.1.2</span> Optimizing the tuning parameter <code>λ</code></h3>
+<section id="optimizing-the-tuning-parameter-λ" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="optimizing-the-tuning-parameter-λ"><span class="header-section-number">8.1.2</span> Optimizing the tuning parameter <code>λ</code></h3>
 <div id="1160b21c" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The tuning parameter lambda is referred as alpha in sklearn</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -511,8 +523,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="rmse-on-test-data" class="level3" data-number="6.1.3">
-<h3 data-number="6.1.3" class="anchored" data-anchor-id="rmse-on-test-data"><span class="header-section-number">6.1.3</span> RMSE on test data</h3>
+<section id="rmse-on-test-data" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="rmse-on-test-data"><span class="header-section-number">8.1.3</span> RMSE on test data</h3>
 <div id="879ba225" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Test dataset</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Xtest <span class="op">=</span> test.iloc[:,<span class="dv">1</span>:<span class="dv">6</span>]</span>
@@ -535,8 +547,8 @@ window.Quarto = {
 </div>
 <p>Note that the RMSE is similar to the one obtained using least squares regression on all the five predictors. This is because the coefficients were required to shrink very slightly for the best ridge regression fit. This may happen when we have a low number of predictors, where most of them are significant. Ridge regression is likely to perform better than least squares in case of a large number of predictors, where an OLS model will be prone to overfitting.</p>
 </section>
-<section id="model-coefficients-r-squared" class="level3" data-number="6.1.4">
-<h3 data-number="6.1.4" class="anchored" data-anchor-id="model-coefficients-r-squared"><span class="header-section-number">6.1.4</span> Model coefficients &amp; <span class="math inline">\(R\)</span>-squared</h3>
+<section id="model-coefficients-r-squared" class="level3" data-number="8.1.4">
+<h3 data-number="8.1.4" class="anchored" data-anchor-id="model-coefficients-r-squared"><span class="header-section-number">8.1.4</span> Model coefficients &amp; <span class="math inline">\(R\)</span>-squared</h3>
 <div id="69c11a71" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Checking the coefficients of the ridge regression model</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>ridge.coef_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -561,15 +573,15 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="lasso" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="lasso"><span class="header-section-number">6.2</span> Lasso</h2>
+<section id="lasso" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="lasso"><span class="header-section-number">8.2</span> Lasso</h2>
 <p>Let us develop a lasso model to predict house price based on the five house features.</p>
-<section id="standardizing-the-predictors-1" class="level3" data-number="6.2.1">
-<h3 data-number="6.2.1" class="anchored" data-anchor-id="standardizing-the-predictors-1"><span class="header-section-number">6.2.1</span> Standardizing the predictors</h3>
+<section id="standardizing-the-predictors-1" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="standardizing-the-predictors-1"><span class="header-section-number">8.2.1</span> Standardizing the predictors</h3>
 <p>We have already standardized the predictors in the previous section. The standardized predictors are the NumPy array object <code>Xstd</code>.</p>
 </section>
-<section id="optimizing-the-tuning-parameter-λ-1" class="level3" data-number="6.2.2">
-<h3 data-number="6.2.2" class="anchored" data-anchor-id="optimizing-the-tuning-parameter-λ-1"><span class="header-section-number">6.2.2</span> Optimizing the tuning parameter <code>λ</code></h3>
+<section id="optimizing-the-tuning-parameter-λ-1" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="optimizing-the-tuning-parameter-λ-1"><span class="header-section-number">8.2.2</span> Optimizing the tuning parameter <code>λ</code></h3>
 <div id="5285292f" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a range of values of the tuning parameter to visualize the lasso coefficients</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">#for different values of the tuning parameter</span></span>
@@ -654,8 +666,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="rmse-on-test-data-1" class="level3" data-number="6.2.3">
-<h3 data-number="6.2.3" class="anchored" data-anchor-id="rmse-on-test-data-1"><span class="header-section-number">6.2.3</span> RMSE on test data</h3>
+<section id="rmse-on-test-data-1" class="level3" data-number="8.2.3">
+<h3 data-number="8.2.3" class="anchored" data-anchor-id="rmse-on-test-data-1"><span class="header-section-number">8.2.3</span> RMSE on test data</h3>
 <div id="bbdcd03b" class="cell" data-execution_count="51">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using the developed lasso model to predict on test data</span></span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>lasso <span class="op">=</span> Lasso(alpha <span class="op">=</span> lassocv.alpha_)</span>
@@ -670,8 +682,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="model-coefficients-r-squared-1" class="level3" data-number="6.2.4">
-<h3 data-number="6.2.4" class="anchored" data-anchor-id="model-coefficients-r-squared-1"><span class="header-section-number">6.2.4</span> Model coefficients &amp; <span class="math inline">\(R\)</span>-squared</h3>
+<section id="model-coefficients-r-squared-1" class="level3" data-number="8.2.4">
+<h3 data-number="8.2.4" class="anchored" data-anchor-id="model-coefficients-r-squared-1"><span class="header-section-number">8.2.4</span> Model coefficients &amp; <span class="math inline">\(R\)</span>-squared</h3>
 <div id="9e280614" class="cell" data-execution_count="53">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Checking the coefficients of the lasso model</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>lasso.coef_</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -696,8 +708,8 @@ window.Quarto = {
 </div>
 </section>
 </section>
-<section id="lassoridge-classification" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="lassoridge-classification"><span class="header-section-number">6.3</span> Lasso/Ridge Classification</h2>
+<section id="lassoridge-classification" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="lassoridge-classification"><span class="header-section-number">8.3</span> Lasso/Ridge Classification</h2>
 <p>The Ridge and Lasso penalties are added from inside the same LogisticRegression object, they don’t have their own objects like they do in regression.</p>
 <div id="7d399139" class="cell" data-execution_count="57">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data</span></span>
@@ -741,8 +753,8 @@ window.Quarto = {
 <pre><code>88.0</code></pre>
 </div>
 </div>
-<section id="cross-validation-to-find-optimal-c" class="level3" data-number="6.3.1">
-<h3 data-number="6.3.1" class="anchored" data-anchor-id="cross-validation-to-find-optimal-c"><span class="header-section-number">6.3.1</span> Cross-validation to find optimal <code>C</code></h3>
+<section id="cross-validation-to-find-optimal-c" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="cross-validation-to-find-optimal-c"><span class="header-section-number">8.3.1</span> Cross-validation to find optimal <code>C</code></h3>
 <div id="2a255cb1" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a list of possible C values</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>Cs <span class="op">=</span> np.logspace(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
@@ -1196,12 +1208,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./Lec7_logistic_regression.html" class="pagination-link" aria-label="Logistic regression">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Logistic regression</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Logistic regression</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Crossvalidation.html" class="pagination-link" aria-label="Cross-validation">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Cross-validation</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Cross-validation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
