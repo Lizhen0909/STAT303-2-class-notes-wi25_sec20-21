@@ -22,7 +22,8 @@ book:
     - polynominal_features.ipynb
     - potential_issue_3.ipynb
     - Lec5_Potential_issues.ipynb
-    - Lec7_logistic_regression.ipynb
+    - Logistic Regression.ipynb
+    - Logistic Regression - Decision Boundary and Feature Engineering (Nonlinear Features).ipynb
     - Lec9_RidgeRegression_Lasso.ipynb
     - Crossvalidation.ipynb
     
