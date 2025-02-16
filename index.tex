@@ -8384,6 +8384,540 @@ points)}\label{prediction-with-sklearn-20-points}
   \textbf{(3 points)}
 \end{enumerate}
 
+\chapter{Assignment 3}\label{assignment-3}
+
+\section*{Instructions}\label{instructions-3}
+\addcontentsline{toc}{section}{Instructions}
+
+\markright{Instructions}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  You may talk to a friend, discuss the questions and potential
+  directions for solving them. However, you need to write your own
+  solutions and code separately, and not as a group activity.
+\item
+  Write your code in the \emph{Code} cells and your answer in the
+  \emph{Markdown} cells of the Jupyter notebook. Ensure that the
+  solution is written neatly enough to understand and grade.
+\item
+  Use
+  \href{https://quarto.org/docs/output-formats/html-basics.html}{Quarto}
+  to print the \emph{.ipynb} file as HTML. You will need to open the
+  command prompt, navigate to the directory containing the file, and use
+  the command: \texttt{quarto\ render\ filename.ipynb\ -\/-to\ html}.
+  Submit the HTML file.
+\item
+  \textbf{Five points are properly formatting the assignment}. The
+  breakdown is as follows:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Must be an HTML file rendered using Quarto \textbf{(1 point)}.
+    \emph{If you have a Quarto issue, you must mention the issue \&
+    quote the error you get when rendering using Quarto in the comments
+    section of Canvas, and submit the ipynb file.}
+  \item
+    No name can be written on the assignment, nor can there be any
+    indicator of the student's identity---e.g.~printouts of the working
+    directory should not be included in the final submission. \textbf{(1
+    point)}
+  \item
+    There aren't excessively long outputs of extraneous information
+    (e.g.~no printouts of entire data frames without good reason, there
+    aren't long printouts of which iteration a loop is on, there aren't
+    long sections of commented-out code, etc.) \textbf{(1 point)}
+  \item
+    Final answers to each question are written in the Markdown cells.
+    \textbf{(1 point)}
+  \item
+    There is no piece of unnecessary / redundant code, and no
+    unnecessary / redundant text. \textbf{(1 point)}
+  \end{itemize}
+\end{enumerate}
+
+\section*{Data description}\label{data-description}
+\addcontentsline{toc}{section}{Data description}
+
+\markright{Data description}
+
+The data is related with direct marketing campaigns of a Portuguese
+banking institution. The marketing campaigns were based on phone calls,
+where bank clients were called to subscribe for a term deposit.
+
+There is one train data - \emph{train.csv}, which you will use to
+develop a model. There are two test datasets - \emph{test1.csv} and
+\emph{test2.csv}, which you will use to test your model. Each
+observation is a phone call and each column is a variable about the
+client or the phone call. Each dataset has the following attributes
+about the clients called in the marketing campaign:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \texttt{age}: Age of the client
+\item
+  \texttt{education}: Education level of the client
+\item
+  \texttt{day}: Day of the month the call is made
+\item
+  \texttt{month}: Month of the call
+\item
+  \texttt{y}: did the client subscribe to a term deposit?
+\item
+  \texttt{duration}: Call duration, in seconds. This attribute highly
+  affects the output target (e.g., if duration=0 then y=`no'). Yet, the
+  \texttt{duration} is not known before a call is performed. Also, after
+  the end of the call \texttt{y} is obviously known. Thus, this input
+  should only be included for inference purposes and should be discarded
+  if the intention is to have a realistic predictive model.
+\end{enumerate}
+
+(Source:
+\href{https://archive.ics.uci.edu/ml/datasets/bank+marketing}{UCI Data
+Archive}. Please use the given datasets for the assignment, not the raw
+data from the source. It is just for reference.)
+
+\section*{Instructions / suggestions for answering
+questions}\label{instructions-suggestions-for-answering-questions}
+\addcontentsline{toc}{section}{Instructions / suggestions for answering
+questions}
+
+\markright{Instructions / suggestions for answering questions}
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\item
+  \textbf{Instruction:} Use \emph{train.csv} for all questions, unless
+  otherwise stated.
+\item
+  \textbf{Suggestion 1:} You may use the functions in the class notes
+  for printing the confusion matrix and the overall classification
+  accuracy based on test / train data.
+\item
+  \textbf{Suggestion 2:}: If you make variable transformations, you will
+  need to do it for all the three datasets. Your code will be a bit
+  concise if you make a function containing all the transformations, and
+  then call it for the training and the two test datasets. You can put
+  this function in the beginning of the code and keep adding
+  transformations to it as you proceed with the assignment. You may need
+  transformations in questions (1) and (13).
+\end{enumerate}
+
+\section{1)}\label{section}
+
+Read the datasets. Make an appropriate visualization to visualize how
+the proportion of clients subscribing to a term deposit change with
+increasing call duration.
+
+\emph{(4 points)}
+
+\textbf{Hints}:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Bin \texttt{duration} to create \texttt{duration\_binned}. Group the
+  data to find the fraction of clients responding positively to the
+  marketing campaign for each bin in \texttt{duration\_binned}. Make a
+  lineplot of percentage of clients subscribing to a term deposit vs
+  \texttt{duration\_binned}, where the bins in \texttt{duration\_binned}
+  are arranged in increasing order of duration.
+\item
+  You may choose an appropriate number of bins \& type of binning that
+  helps you visualize well.
+\item
+  You may also think of other ways of visualization. You don't need to
+  stick with this one.
+\end{enumerate}
+
+\section{\texorpdfstring{2) Predictor
+\texttt{duration}}{2) Predictor duration}}\label{predictor-duration}
+
+Based on the plot in (1), comment whether \texttt{duration} seems to be
+a useful variable to predict if the client will subscribe to a term
+deposit.
+
+\emph{(1 point)}
+
+\section{\texorpdfstring{3) Model based on
+\texttt{duration}}{3) Model based on duration}}\label{model-based-on-duration}
+
+Develop a logistic regression model to predict if the client subscribed
+to a term deposit based on call \texttt{duration}. Use the model to make
+a lineplot showing the probability of the client subscribing to a term
+deposit based on call \texttt{duration}.
+
+\emph{(3 points)}
+
+\section*{Note}\label{note}
+\addcontentsline{toc}{section}{Note}
+
+\markright{Note}
+
+Answer questions 4 to 11 based on the regression model developed in (3).
+
+\section{4) Model significance}\label{model-significance}
+
+Is the regression model in statistically significant? Justify your
+answer.
+
+\emph{(1 point for code, 1 point for answer)}
+
+\section{5) Subscription probability in 5
+minutes}\label{subscription-probability-in-5-minutes}
+
+What is the probability that the client subscribes to a term deposit
+with a 5-minute marketing call? Note that the call \texttt{duration} in
+data is given in \emph{seconds}.
+
+\emph{(2 points)}
+
+\section{6) Call duration for
+subscription}\label{call-duration-for-subscription}
+
+What is the minimum call duration (in minutes) for which a client has a
+95\% or higher chance of subscribing to a term deposit?
+
+\emph{(3 points)}
+
+\section{7) Maximum call duration}\label{maximum-call-duration}
+
+What is the maximum call duration (in minutes) in which a client refused
+to subscribe to a term deposit? What was the probability of the client
+subscribing to the term deposit in that call?
+
+\emph{(3 points)}
+
+\section{8) Percent increase in odds}\label{percent-increase-in-odds}
+
+What is the percentage increase in the odds of a client subscribing to a
+term deposit when the call \texttt{duration} increases by a minute?
+
+\emph{(3 points)}
+
+\section{9) Doubling the subscription
+odds}\label{doubling-the-subscription-odds}
+
+How much must the call \texttt{duration} increase (in minutes) so that
+it doubles the odds of the client subscribing to a term deposit.
+
+\emph{(3 points)}
+
+\section{10) Classification accuracy}\label{classification-accuracy}
+
+What is minimum overall classification accuracy of the model among the
+classification accuracies on \emph{train.csv}, \emph{test1.csv} and
+\emph{test2.csv}? Consider a threshold of 30\% when classifying
+observations.
+
+\emph{(2 + 1 + 1 points)}
+
+\section{11) Recall}\label{recall}
+
+What is the minimum \emph{Recall} of the model among the \emph{Recall}
+performance on \emph{train.csv}, \emph{test1.csv} and \emph{test2.csv}?
+Consider a decision threshold probability of 30\% when classifying
+observations.
+
+Here, \emph{Recall} is the proportion of clients predicted to subscribe
+to a term deposit among those who actually subscribed.
+
+\emph{(3 points)}
+
+\section{\texorpdfstring{12) Subscription probability based on
+\texttt{age} and
+\texttt{education}}{12) Subscription probability based on age and education}}\label{subscription-probability-based-on-age-and-education}
+
+Develop a logistic regression model to predict the probability of a
+client subscribing to a term deposit based on \texttt{age},
+\texttt{education} and the two-factor interaction between \texttt{age}
+and \texttt{education}. Based on the model, answer:
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  People with which type of \texttt{education} \emph{(primary /
+  secondary / tertiary / unknown)} have the highest percentage increase
+  in odds of subscribing to a term deposit with a unit increase in
+  \texttt{age}? Justify your answer.
+\item
+  What is the percentage increase in odds of a person subscribing to a
+  term deposit for a unit increase in \texttt{age}, if the person has
+  \emph{tertiary} \texttt{education}.
+\item
+  What is the percentage increase in odds of a person subscribing to a
+  term deposit for a unit increase in \texttt{age}, if the person has
+  \emph{primary} \texttt{education}.
+\end{enumerate}
+
+\emph{(1 point for developing the model, 3 points for (a), 3 points for
+(b), 3 points for (c))}
+
+\section{13) Model development}\label{model-development}
+
+Develop a logistic regression model \emph{(using train.csv)} to predict
+the probability of a client subscribing to a term deposit based on
+\texttt{age}, \texttt{education}, \texttt{day} and \texttt{month}. The
+model must have:
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  Minimum overall classification accuracy of 75\% among the
+  classification accuracies on \emph{train.csv}, \emph{test1.csv} and
+  \emph{test2.csv}.
+\item
+  Minimum recall of 50\% among the recall performance on
+  \emph{train.csv}, \emph{test1.csv} and \emph{test2.csv}.
+\end{enumerate}
+
+For all the three datasets - \emph{train.csv}, \emph{test1.csv} and
+\emph{test2.csv}, print the:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Model summary (only for \emph{train.csv}),
+\item
+  Confusion matrices,
+\item
+  Overall classification accuracies, and
+\item
+  Recall
+\end{enumerate}
+
+Note that:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  You cannot use \texttt{duration} as a predictor because its value is
+  determined after the marketing call ends. However, after the call
+  ends, we already know whether the client responded positively or
+  negatively. That is why we have used \texttt{duration} only for
+  inference in the previous questions. It helped us understand the
+  effect of the length of the call on marketing success.
+\item
+  It is possible to develop the model satisfying constrains (a) and (b)
+  with just appropriate transformation(s) of the predictor(s). However,
+  you may consider interactions if you wish. Justify the
+  transformations, if any, with visualizations.
+\item
+  You are free to choose any value of the decision threshold probability
+  for classifying observations. However, you must use the same threshold
+  on all the three datasets.
+\end{enumerate}
+
+\emph{(10 points)}
+
+\section{14) ROC-AUC}\label{roc-auc}
+
+Report the probability that the model will predict a higher probability
+of response for a customer who signs up for the term deposit as compared
+to the customer who does not sign up, i.e., the ROC-AUC of the developed
+model in (13).
+
+\emph{Hint:} Use the functions \texttt{roc\_curve}, and \texttt{auc}
+from the \texttt{sklearn.metrics} module
+
+\emph{(3 points)}
+
+\section{15) Net-profit}\label{net-profit}
+
+Suppose that the model developed in (13) is used to predict the clients
+in \emph{test1.csv} and \emph{test2.csv} who will respond positively to
+the campaign. Only those clients who are predicted to respond positively
+are called during the marketing campaign. Assume that:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  A profit of \textbackslash\$100 is associated with a client who
+  responds positively to the campaign,
+\item
+  A loss of \textbackslash\$10 is associated with a client who responds
+  negatively to the campaign
+\end{enumerate}
+
+What is the net profit from the campaign? Use the confusion matrices
+printed in (13).
+
+\emph{(4 points)}
+
+\section{16) Decision threshold
+probability}\label{decision-threshold-probability}
+
+Based on the profit and loss associated with client responses specified
+in (15), and the model developed in (13), find the decision threshold
+probability of classification, such that the net profit is maximized.
+Use \emph{train.csv}
+
+Proceed as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  You would have obtained FPR and TPR for all potential decision
+  threshold probabilities in (14).
+\item
+  Formulate an expression quantifying the net profit per client, in
+  terms of FPR, TPR, and the overall response rate, i.e., proportion of
+  people actually subscribing to the term deposit.
+\item
+  Find the decision threshold probability that maximizes the expression
+  in (2).
+\end{enumerate}
+
+\emph{(5 points)}
+
+\section{17) Net profit based on new decision threshold
+probability}\label{net-profit-based-on-new-decision-threshold-probability}
+
+Using the new decision threshold probability obtained in (16), answer
+(15), i.e., what is the net-profit associated with the clients in
+\emph{test1.csv} and \emph{test2.csv} if a marketing campaign is
+performed. Again, only those clients who are predicted to respond
+positively, based on the new decision threshold probability, are called
+during the marketing campaign
+
+Also, print the confusion matrices for predictions on \emph{test1.csv}
+and \emph{test2.csv} with the new threshold probability.
+
+\emph{(4 points)}
+
+\section{18) Model preference}\label{model-preference}
+
+Was the classification accuracy of the model in (13) higher than that of
+the model in (17)? If yes, then should you prefer the model in (13) for
+the marketing campaign? Why or why not?
+
+\emph{Note: The model in (17) is the same as in (13), except with a
+different decision threshold probability}
+
+\emph{(3 points)}
+
+\section{19) ROC curve}\label{roc-curve}
+
+Plot the ROC curve for the model developed in (13). Mark the point on
+the curve corresponding to the decision threshold probability identified
+in (16).
+
+\emph{Note that the ROC curve is independent of the decision threshold
+probability used by the model for prediction}
+
+\emph{(3 points)}
+
+\section{20) Profit with TPR / FPR}\label{profit-with-tpr-fpr}
+
+Make a scatterplot of TPR vs FPR, and color the points based on net
+profit per client.
+
+You can use the following code to make the plot if you have the relevant
+metrics in \texttt{tpr}, \texttt{fpr}, and \texttt{net\_profit}
+
+\emph{(1 point)}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\ImportTok{import}\NormalTok{ seaborn }\ImportTok{as}\NormalTok{ sns}
+\NormalTok{sns.}\BuiltInTok{set}\NormalTok{(font\_scale}\OperatorTok{=}\FloatTok{1.5}\NormalTok{)}
+\NormalTok{plt.rcParams[}\StringTok{"figure.figsize"}\NormalTok{] }\OperatorTok{=}\NormalTok{ (}\DecValTok{9}\NormalTok{,}\DecValTok{6}\NormalTok{)}
+\NormalTok{plt.rcParams[}\StringTok{"figure.autolayout"}\NormalTok{] }\OperatorTok{=} \VariableTok{True}
+\NormalTok{f, ax }\OperatorTok{=}\NormalTok{ plt.subplots()}
+\NormalTok{points }\OperatorTok{=}\NormalTok{ ax.scatter(fpr, tpr, c }\OperatorTok{=}\NormalTok{ net\_profit, s}\OperatorTok{=}\DecValTok{50}\NormalTok{, cmap}\OperatorTok{=}\StringTok{"Blues"}\NormalTok{)}
+\NormalTok{f.colorbar(points, label }\OperatorTok{=} \StringTok{"Net profit ($) }\CharTok{\textbackslash{}n}\StringTok{(per client)"}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"False positive rate"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"True positive rate"}\NormalTok{)}
+\NormalTok{plt.show()}
+\end{Highlighting}
+\end{Shaded}
+
+\section{21) Precision-recall}\label{precision-recall-1}
+
+Compare the precision and recall of the models in (13) and (17) on
+\emph{train.csv}.
+
+\emph{Note: The model in (17) is the same as in (13), except with a
+different decision threshold probability}
+
+\emph{(4 points)}
+
+\section{22) Precision-recall: important
+metric}\label{precision-recall-important-metric}
+
+Based on the above comparison, which metric among precision and recall
+turns out to be more important for maximizing the net profit in the
+marketing campaign?
+
+\emph{(1 point)}
+
+\section{23) Precision-recall curve}\label{precision-recall-curve}
+
+Plot the precision-recall curve vs decision threshold probability for
+the model developed in (13). Mark the points on the curve corresponding
+to the decision threshold probability identified in (16).
+
+\emph{(3 points)}
+
+\section{24) Precision-recall vs
+FPR-TPR}\label{precision-recall-vs-fpr-tpr}
+
+Instead of using the FPR and TPR metrics to find the optimum decision
+threshold probability in (16), use the precision-recall metrics to find
+the same.
+
+\emph{(5 points)}
+
+\section{25) Sklearn}\label{sklearn}
+
+Using train.csv and \textbf{only sklearn, pandas, and numpy}, train a
+Logistic Regression model. You need the following steps:
+
+\begin{itemize}
+\tightlist
+\item
+  The response is still y.
+\item
+  Predictors are education, month, day and age.
+\item
+  Numerical predictors need to be transformed to \textbf{all} their
+  second-order polynomial versions.
+\item
+  Categorical predictors need to be one-hot-encoded. They should not
+  interact with the numerical predictors.
+\item
+  Afterwards, the all the predictors needs to be standard scaled.
+\end{itemize}
+
+Print the accuracy and recall for both training and test data using a
+threshold of 0.11. Use \textbf{test1.csv} as the test dataset.
+\textbf{Remember that the test dataset needs to go through the exact
+same transformation as the training dataset.}
+
+\textbf{Hints}:
+
+\begin{itemize}
+\tightlist
+\item
+  Do not scale categorical features: One-hot encoded dummy variables are
+  already on the same scale (0 or 1). Scaling them is unnecessary and
+  may distort their meaning.
+\item
+  Scale numerical features: This includes both original numerical
+  features and any polynomial features generated from them.
+\item
+  Use a structured approach: A production-ready way to handle these
+  transformations is by using ColumnTransformer within a Pipeline,
+  ensuring that preprocessing steps are applied consistently. However,
+  using a pipeline is optional.
+\end{itemize}
+
+\emph{(8 points)}
+
 \chapter{Datasets, assignment and project
 files}\label{datasets-assignment-and-project-files}
 
