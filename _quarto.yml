@@ -23,7 +23,8 @@ book:
     - polynominal_features.ipynb
     - potential_issue_3.ipynb
     - Lec5_Potential_issues.ipynb
-    - logistic_regression_lecture.ipynb
+    - logistic_regression_introduction.ipynb
+    - logistic_regression_metric.ipynb
     - Logistic Regression - Decision Boundary and Feature Engineering (Nonlinear Features).ipynb
     - cross_validation.ipynb
     - Regularization in Python.ipynb
