@@ -521,7 +521,11 @@ First few rows:</code></pre>
 <section id="imputing-missing-values" class="level3" data-number="9.3.1">
 <h3 data-number="9.3.1" class="anchored" data-anchor-id="imputing-missing-values"><span class="header-section-number">9.3.1</span> Imputing missing values</h3>
 <p>Like linear regression, logistic regression does not tolerate missing values</p>
-<p>We’ll focus on: - <strong>Target variable:</strong> <code>survived</code> (0 = died, 1 = survived) - <strong>Predictors:</strong> <code>age</code>, <code>fare</code>, <code>sex</code>, <code>pclass</code></p>
+<p>We’ll focus on:</p>
+<ul>
+<li><strong>Target variable:</strong> <code>survived</code> (0 = died, 1 = survived)</li>
+<li><strong>Predictors:</strong> <code>age</code>, <code>fare</code>, <code>sex</code>, <code>pclass</code></li>
+</ul>
 <p>Let’s check for missing values in these columns</p>
 <div id="cell-6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values in our columns of interest</span></span>
@@ -645,7 +649,12 @@ STRATIFIED SPLIT (with stratify):
 <li><strong>Production-ready</strong>: Easier to deploy and maintain</li>
 <li><strong>Reproducibility</strong>: All steps are encapsulated in one pipeline</li>
 </ol>
-<p><strong>Key components:</strong> - <code>ColumnTransformer</code>: Applies different transformations to different columns - <code>OneHotEncoder</code>: Converts categorical variables to dummy variables - <code>Pipeline</code>: Chains preprocessing and model fitting together</p>
+<p><strong>Key components:</strong></p>
+<ul>
+<li><code>ColumnTransformer</code>: Applies different transformations to different columns</li>
+<li><code>OneHotEncoder</code>: Converts categorical variables to dummy variables</li>
+<li><code>Pipeline</code>: Chains preprocessing and model fitting together</li>
+</ul>
 <p>Let’s implement the same logistic regression model using a pipeline (with regularization to match statsmodels):</p>
 <div id="cell-17" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import required components for pipeline</span></span>
@@ -840,9 +849,21 @@ Breakdown:
 </section>
 <section id="precision-recall-and-f1-score" class="level3" data-number="9.6.2">
 <h3 data-number="9.6.2" class="anchored" data-anchor-id="precision-recall-and-f1-score"><span class="header-section-number">9.6.2</span> Precision, Recall, and F1 Score</h3>
-<p><strong>Precision</strong> = <span class="math inline">\(\frac{TP}{TP + FP}\)</span> = “Of all predicted survivors, how many actually survived?” - Focuses on the quality of positive predictions - High precision = few false alarms</p>
-<p><strong>Recall (Sensitivity)</strong> = <span class="math inline">\(\frac{TP}{TP + FN}\)</span> = “Of all actual survivors, how many did we correctly identify?” - Focuses on finding all positive cases - High recall = few missed cases</p>
-<p><strong>F1 Score</strong> = <span class="math inline">\(2 \times \frac{Precision \times Recall}{Precision + Recall}\)</span> = Harmonic mean of precision and recall - Balances precision and recall - Useful when you need a single metric</p>
+<p><strong>Precision</strong> = <span class="math inline">\(\frac{TP}{TP + FP}\)</span> = “Of all predicted survivors, how many actually survived?”</p>
+<ul>
+<li>Focuses on the quality of positive predictions</li>
+<li>High precision = few false alarms</li>
+</ul>
+<p><strong>Recall (Sensitivity)</strong> = <span class="math inline">\(\frac{TP}{TP + FN}\)</span> = “Of all actual survivors, how many did we correctly identify?”</p>
+<ul>
+<li>Focuses on finding all positive cases</li>
+<li>High recall = few missed cases</li>
+</ul>
+<p><strong>F1 Score</strong> = <span class="math inline">\(2 \times \frac{Precision \times Recall}{Precision + Recall}\)</span> = Harmonic mean of precision and recall</p>
+<ul>
+<li>Balances precision and recall</li>
+<li>Useful when you need a single metric</li>
+</ul>
 <div id="cell-23" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics from sklearn</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> f1_score</span>
@@ -896,7 +917,11 @@ F1 Score  = 2 * (P * R) / (P + R) = 0.7153
 </section>
 <section id="threshold-effects-precision-recall-tradeoff" class="level3" data-number="9.6.3">
 <h3 data-number="9.6.3" class="anchored" data-anchor-id="threshold-effects-precision-recall-tradeoff"><span class="header-section-number">9.6.3</span> Threshold Effects: Precision-Recall Tradeoff</h3>
-<p>By default, sklearn uses a <strong>threshold of 0.5</strong> to classify predictions: - If probability ≥ 0.5 → Predict 1 (Survived) - If probability &lt; 0.5 → Predict 0 (Died)</p>
+<p>By default, sklearn uses a <strong>threshold of 0.5</strong> to classify predictions:</p>
+<ul>
+<li>If probability ≥ 0.5 → Predict 1 (Survived)</li>
+<li>If probability &lt; 0.5 → Predict 0 (Died)</li>
+</ul>
 <p><strong>What happens when we change the threshold?</strong></p>
 <ul>
 <li><strong>Higher threshold (e.g., 0.7)</strong>: More conservative predictions
@@ -1009,8 +1034,17 @@ Key Observations:
 </section>
 <section id="roc-curve-and-auc-score" class="level3" data-number="9.6.4">
 <h3 data-number="9.6.4" class="anchored" data-anchor-id="roc-curve-and-auc-score"><span class="header-section-number">9.6.4</span> ROC Curve and AUC Score</h3>
-<p><strong>ROC (Receiver Operating Characteristic) Curve</strong> plots: - <strong>X-axis</strong>: False Positive Rate (FPR) = <span class="math inline">\(\frac{FP}{FP + TN}\)</span> = “Of all actual negatives, how many did we incorrectly predict as positive?” - <strong>Y-axis</strong>: True Positive Rate (TPR) = Recall = <span class="math inline">\(\frac{TP}{TP + FN}\)</span></p>
-<p><strong>AUC (Area Under Curve)</strong>: Measures the overall ability of the model to discriminate between classes - AUC = 1.0: Perfect classifier - AUC = 0.5: Random classifier (no better than flipping a coin) - AUC &gt; 0.8: Generally considered good</p>
+<p><strong>ROC (Receiver Operating Characteristic) Curve</strong> plots:</p>
+<ul>
+<li><strong>X-axis</strong>: False Positive Rate (FPR) = <span class="math inline">\(\frac{FP}{FP + TN}\)</span> = “Of all actual negatives, how many did we incorrectly predict as positive?”</li>
+<li><strong>Y-axis</strong>: True Positive Rate (TPR) = Recall = <span class="math inline">\(\frac{TP}{TP + FN}\)</span></li>
+</ul>
+<p><strong>AUC (Area Under Curve)</strong>: Measures the overall ability of the model to discriminate between classes</p>
+<ul>
+<li>AUC = 1.0: Perfect classifier</li>
+<li>AUC = 0.5: Random classifier (no better than flipping a coin)</li>
+<li>AUC &gt; 0.8: Generally considered good</li>
+</ul>
 <p>The ROC curve is <strong>threshold-independent</strong> - it shows model performance across all possible thresholds.</p>
 <div id="cell-28" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate ROC curve and AUC</span></span>
@@ -1108,8 +1142,19 @@ Key Points:
 </tr>
 </tbody>
 </table>
-<p><strong>For imbalanced datasets:</strong> - Don’t rely solely on accuracy - Consider precision, recall, and F1 score - Use ROC-AUC for model comparison - Choose your threshold based on the cost of different error types</p>
-<p><strong>Next steps:</strong> - Experiment with different thresholds based on your use case - Try different models and compare their ROC-AUC scores - Consider techniques like class weighting or resampling for severe imbalance</p>
+<p><strong>For imbalanced datasets:</strong></p>
+<ul>
+<li>Don’t rely solely on accuracy</li>
+<li>Consider precision, recall, and F1 score</li>
+<li>Use ROC-AUC for model comparison</li>
+<li>Choose your threshold based on the cost of different error types</li>
+</ul>
+<p><strong>Next steps:</strong></p>
+<ul>
+<li>Experiment with different thresholds based on your use case</li>
+<li>Try different models and compare their ROC-AUC scores</li>
+<li>Consider techniques like class weighting or resampling for severe imbalance</li>
+</ul>
 
 
 </section>

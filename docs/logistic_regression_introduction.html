@@ -493,7 +493,11 @@ First few rows:</code></pre>
 <section id="imputing-missing-values" class="level3" data-number="8.3.1">
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="imputing-missing-values"><span class="header-section-number">8.3.1</span> Imputing missing values</h3>
 <p>Like linear regression, logistic regression does not tolerate missing values</p>
-<p>We’ll focus on: - <strong>Target variable:</strong> <code>survived</code> (0 = died, 1 = survived) - <strong>Predictors:</strong> <code>age</code>, <code>fare</code>, <code>sex</code>, <code>pclass</code></p>
+<p>We’ll focus on:</p>
+<ul>
+<li><strong>Target variable:</strong> <code>survived</code> (0 = died, 1 = survived)</li>
+<li><strong>Predictors:</strong> <code>age</code>, <code>fare</code>, <code>sex</code>, <code>pclass</code></li>
+</ul>
 <p>Let’s check for missing values in these columns</p>
 <div id="cell-6" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values in our columns of interest</span></span>
@@ -551,9 +555,9 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="train-test-splitting" class="level3" data-number="8.3.3">
 <h3 data-number="8.3.3" class="anchored" data-anchor-id="train-test-splitting"><span class="header-section-number">8.3.3</span> Train-Test Splitting</h3>
-<div id="cell-14" class="cell" data-execution_count="8">
+<div id="cell-14" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split into train and test sets</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>train_df, test_df <span class="op">=</span> train_test_split(titanic, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>titanic[<span class="st">'survived'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>train_df, test_df <span class="op">=</span> train_test_split(titanic, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
@@ -609,19 +613,17 @@ pclass            -1.2734      0.163     -7.804      0.000      -1.593      -0.9
 <li><strong>C(sex)[T.male] (negative, p&lt;0.001):</strong> Being male significantly decreased survival odds.</li>
 <li><strong>pclass (negative, p=0.077):</strong> Lower passenger class is associated with lower survival odds, but it is not significant at the 0.05 level.</li>
 </ol>
-<p><strong>P-values (P&gt;|z|):</strong> - Values &lt; 0.05 indicate statistical significance at the 5% level. - Here, <strong>sex</strong> and <strong>age</strong> are significant; <strong>fare</strong> and <strong>pclass</strong> are not (at 0.05).</p>
+<p><strong>P-values (P&gt;|z|):</strong></p>
+<ul>
+<li>Values &lt; 0.05 indicate statistical significance at the 5% level.</li>
+<li>Here, <strong>sex</strong> and <strong>age</strong> are significant; <strong>fare</strong> and <strong>pclass</strong> are not (at 0.05).</li>
+</ul>
 </section>
 <section id="prediction-from-statsmodels" class="level3" data-number="8.4.2">
 <h3 data-number="8.4.2" class="anchored" data-anchor-id="prediction-from-statsmodels"><span class="header-section-number">8.4.2</span> Prediction from Statsmodels</h3>
 <p>Now that we’ve fitted our logistic regression model, let’s generate predictions.</p>
 <p>In <code>statsmodels</code>, the <code>.predict()</code> method returns <strong>predicted probabilities</strong> for the positive class (survived = 1). These are continuous values between 0 and 1, representing the model’s estimated probability that each observation belongs to the positive class.</p>
-<p><strong>Key points:</strong></p>
-<ul>
-<li>Output values range from 0 to 1</li>
-<li>Values closer to 1 indicate higher probability of survival</li>
-<li>Values closer to 0 indicate higher probability of death</li>
-<li>Unlike sklearn, statsmodels does not have a built-in method to directly return class labels (0/1)—we’ll need to apply a threshold manually if we want binary predictions</li>
-</ul>
+<p>Unlike sklearn, statsmodels does not have a built-in method to directly return class labels (0/1)—we’ll need to apply a threshold manually if we want binary predictions.</p>
 <div id="cell-19" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get predictions from statsmodels</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>train_probs_sm <span class="op">=</span> statsmodels_logit.predict(train_df)</span>
@@ -700,8 +702,16 @@ Index    Probability  Prediction   Actual
 <h2 data-number="8.5" class="anchored" data-anchor-id="implementation-2-scikit-learn-integration"><span class="header-section-number">8.5</span> Implementation 2: Scikit-learn Integration</h2>
 <p>While <code>statsmodels</code> is excellent for <strong>statistical inference</strong> (p-values, confidence intervals), <code>sklearn</code> is optimized for <strong>prediction and machine learning workflows</strong>.</p>
 <p>To use <code>sklearn.linear_model.LogisticRegression</code>, we have two approaches:</p>
-<p><strong>Approach 1: Manual Dummy Variable Creation</strong> 1. Manually create dummy variables using <code>pd.get_dummies()</code> (sklearn doesn’t have formula notation) 2. Prepare feature matrix X and target vector y</p>
-<p><strong>Approach 2: Pipeline with ColumnTransformer</strong> - Use sklearn’s preprocessing pipeline to handle categorical encoding automatically - More scalable for production workflows</p>
+<p><strong>Approach 1: Manual Dummy Variable Creation</strong></p>
+<ol type="1">
+<li>Manually create dummy variables using <code>pd.get_dummies()</code> (sklearn doesn’t have formula notation)</li>
+<li>Prepare feature matrix X and target vector y</li>
+</ol>
+<p><strong>Approach 2: Pipeline with <code>ColumnTransformer</code></strong></p>
+<ul>
+<li>Use sklearn’s preprocessing pipeline to handle categorical encoding automatically</li>
+<li>More scalable for production workflows</li>
+</ul>
 <p>We’ll start with the manual approach first, then demonstrate the pipeline method at the end.</p>
 <div id="cell-23" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for sklearn using the same predictors as statsmodels</span></span>
@@ -761,22 +771,7 @@ Intercept: 4.8699</code></pre>
 <section id="understanding-.predict-vs-.predict_proba" class="level3" data-number="8.5.1">
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="understanding-.predict-vs-.predict_proba"><span class="header-section-number">8.5.1</span> Understanding <code>.predict()</code> vs <code>.predict_proba()</code></h3>
 <p>Scikit-learn’s logistic regression offers two prediction methods:</p>
-<ol type="1">
-<li><strong><code>.predict_proba()</code></strong>: Returns probability estimates</li>
-<li><ul>
-<li>Output: Array with shape (n_samples, 2)</li>
-<li>Column 0: Probability of class 0 (died)</li>
-<li>Column 1: Probability of class 1 (survived)</li>
-<li>Values are continuous between 0 and 1</li>
-</ul></li>
-<li><strong><code>.predict()</code></strong>: Returns class labels</li>
-<li><ul>
-<li>Output: Array with shape (n_samples,)</li>
-<li>Values: 0 or 1 (binary classification)</li>
-<li>Uses default threshold of 0.5 (if prob ≥ 0.5, predict 1)</li>
-</ul></li>
-</ol>
-<p><strong>Key difference:</strong> <code>.predict_proba()</code> gives you the raw probabilities, while <code>.predict()</code> gives you the final classification decision.</p>
+<p><code>.predict_proba()</code> gives you the raw probabilities, while <code>.predict()</code> gives you the final classification decision using default threshold of 0.5 (if prob ≥ 0.5, predict 1).</p>
 <div id="cell-27" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get probability predictions</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>test_probs_sklearn <span class="op">=</span> sklearn_logit.predict_proba(X_test)</span>
@@ -850,17 +845,31 @@ Index | Probability | Prediction | Interpretation
     9 |      0.2063 |          0 | Died</code></pre>
 </div>
 </div>
-<p><strong>Observation:</strong> Notice how <code>.predict()</code> converts probabilities to 0/1 using the 0.5 threshold: - Probability ≥ 0.5 → Prediction = 1 (Survived) - Probability &lt; 0.5 → Prediction = 0 (Died)</p>
+<p><strong>Observation:</strong> Notice how <code>.predict()</code> converts probabilities to 0/1 using the 0.5 threshold:</p>
+<ul>
+<li>Probability ≥ 0.5 → Prediction = 1 (Survived)</li>
+<li>Probability &lt; 0.5 → Prediction = 0 (Died)</li>
+</ul>
 </section>
 <section id="turning-off-the-default-regularization" class="level3" data-number="8.5.2">
 <h3 data-number="8.5.2" class="anchored" data-anchor-id="turning-off-the-default-regularization"><span class="header-section-number">8.5.2</span> Turning off the default regularization</h3>
 <p><strong>Important difference between statsmodels and sklearn:</strong></p>
-<p>By default, sklearn’s <code>LogisticRegression</code> applies <strong>L2 regularization</strong> (ridge penalty) with <code>C=1.0</code>. This means: - The model penalizes large coefficients to prevent overfitting - Coefficients will be different from statsmodels (which uses no regularization by default)</p>
-<p><strong>Understanding the <code>C</code> parameter:</strong> - <code>C</code> is the <strong>inverse of regularization strength</strong> (higher C = less regularization) - Default: <code>C=1.0</code> applies moderate regularization - To turn off regularization: Set <code>C=np.inf</code> (infinite C = no penalty)</p>
+<p>By default, sklearn’s <code>LogisticRegression</code> applies <strong>L2 regularization</strong> (ridge penalty) with <code>C=1.0</code>. This means:</p>
 <ul>
-<li>Note: We’ll cover regularization and tuning C in detail in a later lectureLet’s refit the model without regularization and compare the coefficients:</li>
+<li>The model penalizes large coefficients to prevent overfitting</li>
+<li>Coefficients will be different from statsmodels (which uses no regularization by default)</li>
 </ul>
-<p>To match statsmodels’ behavior and get coefficients that are directly comparable, we need to:- Set <code>C=np.inf</code> to turn off regularization completely</p>
+<p><strong>Understanding the <code>C</code> parameter:</strong></p>
+<ul>
+<li><p><code>C</code> is the <strong>inverse of regularization strength</strong> (higher C = less regularization)</p></li>
+<li><p>Default: <code>C=1.0</code> applies moderate regularization</p></li>
+<li><p>To turn off regularization: Set <code>C=np.inf</code> (infinite C = no penalty)</p></li>
+<li><p>Note: We’ll cover regularization and tuning C in detail in a later lectureLet’s refit the model without regularization and compare the coefficients:</p></li>
+</ul>
+<p>To match statsmodels’ behavior and get coefficients that are directly comparable, we need to:</p>
+<ul>
+<li>Set <code>C=np.inf</code> to turn off regularization completely</li>
+</ul>
 <div id="cell-31" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression WITHOUT regularization (C=np.inf)</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sklearn_logit_no_reg <span class="op">=</span> LogisticRegression(C<span class="op">=</span>np.inf, random_state<span class="op">=</span><span class="dv">42</span>)</span>
@@ -1225,8 +1234,18 @@ INTERPRETATION:
 </div>
 </div>
 <p><strong>When do these differences matter?</strong></p>
-<p>In most practical applications, these tiny differences are <strong>negligible</strong>: - Predictions will be virtually identical - Model performance metrics will be the same - Interpretation of coefficients remains consistent</p>
-<p><strong>Key takeaway:</strong> - When comparing results across tools, use <code>C=np.inf</code> in sklearn to match statsmodels - Both implementations are correct and reliable - Choose the tool based on your workflow needs (statsmodels for inference, sklearn for ML pipelines)</p>
+<p>In most practical applications, these tiny differences are <strong>negligible</strong>:</p>
+<ul>
+<li>Predictions will be virtually identical</li>
+<li>Model performance metrics will be the same</li>
+<li>Interpretation of coefficients remains consistent</li>
+</ul>
+<p><strong>Key takeaway:</strong></p>
+<ul>
+<li>When comparing results across tools, use <code>C=np.inf</code> in sklearn to match statsmodels</li>
+<li>Both implementations are correct and reliable</li>
+<li>Choose the tool based on your workflow needs (statsmodels for inference, sklearn for ML pipelines)</li>
+</ul>
 
 
 </section>

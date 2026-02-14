@@ -884,25 +884,84 @@ Degree 6 Polynomial:
 </section>
 <section id="analysis-finding-the-right-balance" class="level3" data-number="10.1.4">
 <h3 data-number="10.1.4" class="anchored" data-anchor-id="analysis-finding-the-right-balance"><span class="header-section-number">10.1.4</span> Analysis: Finding the Right Balance</h3>
-<p><strong>Degree 2 Polynomial (6 features)</strong>: - ✅ <strong>Good fit</strong>: Creates a smooth circular boundary that captures the general pattern - ✅ <strong>Good generalization</strong>: The boundary is not overly complex - ✅ <strong>Interpretable</strong>: Simple polynomial terms like <span class="math inline">\(x_1^2 + x_2^2\)</span> represent circles</p>
-<p><strong>Degree 3 Polynomial (10 features)</strong>: - ✅ <strong>Better fit</strong>: Captures more nuances in the data - ✅ <strong>Still reasonable</strong>: Adds some flexibility without excessive complexity - ⚠️ <strong>Slight increase in complexity</strong>: Boundary becomes slightly more irregular</p>
-<p><strong>Degree 4 Polynomial (15 features)</strong>: - ⚠️ <strong>Starting to overfit</strong>: Boundary begins to follow training data too closely - ⚠️ <strong>Increased complexity</strong>: More parameters to learn - ⚠️ <strong>Diminishing returns</strong>: Accuracy gains become smaller</p>
-<p><strong>Degree 5 Polynomial (21 features)</strong>: - ⚠️ <strong>Overfitting evident</strong>: Boundary shows noticeable irregularities - ⚠️ <strong>High complexity</strong>: Many parameters relative to data size - ❌ <strong>Poor generalization potential</strong>: Likely to fail on new data</p>
-<p><strong>Degree 6 Polynomial (28 features)</strong>: - ❌ <strong>Severe overfitting</strong>: Tries to perfectly classify every training point - ❌ <strong>Too complex</strong>: Creates very wiggly, irregular boundaries - ❌ <strong>Poor generalization</strong>: Will likely fail on new data - ❌ <strong>Uninterpretable</strong>: 28 features with high-order interactions</p>
-<p><strong>Key Lesson</strong>: As polynomial degree increases, we see a progression from underfitting → good fit → overfitting. The optimal degree (typically 2-3 for this data) balances model complexity with generalization. <strong>Too many features cause overfitting</strong> - the model memorizes training data rather than learning the underlying pattern.</p>
+<p><strong>Degree 2 Polynomial (6 features)</strong>:</p>
+<ul>
+<li>✅ <strong>Good fit</strong>: Creates a smooth circular boundary that captures the general pattern</li>
+<li>✅ <strong>Good generalization</strong>: The boundary is not overly complex</li>
+<li>✅ <strong>Interpretable</strong>: Simple polynomial terms like <span class="math inline">\(x_1^2 + x_2^2\)</span> represent circles</li>
+</ul>
+<p><strong>Degree 3 Polynomial (10 features)</strong>:</p>
+<ul>
+<li>✅ <strong>Better fit</strong>: Captures more nuances in the data</li>
+<li>✅ <strong>Still reasonable</strong>: Adds some flexibility without excessive complexity</li>
+<li>⚠️ <strong>Slight increase in complexity</strong>: Boundary becomes slightly more irregular</li>
+</ul>
+<p><strong>Degree 4 Polynomial (15 features)</strong>:</p>
+<ul>
+<li>⚠️ <strong>Starting to overfit</strong>: Boundary begins to follow training data too closely</li>
+<li>⚠️ <strong>Increased complexity</strong>: More parameters to learn</li>
+<li>⚠️ <strong>Diminishing returns</strong>: Accuracy gains become smaller</li>
+</ul>
+<p><strong>Degree 5 Polynomial (21 features)</strong>:</p>
+<ul>
+<li>⚠️ <strong>Overfitting evident</strong>: Boundary shows noticeable irregularities</li>
+<li>⚠️ <strong>High complexity</strong>: Many parameters relative to data size</li>
+<li>❌ <strong>Poor generalization potential</strong>: Likely to fail on new data</li>
+</ul>
+<p><strong>Degree 6 Polynomial (28 features)</strong>:</p>
+<ul>
+<li>❌ <strong>Severe overfitting</strong>: Tries to perfectly classify every training point</li>
+<li>❌ <strong>Too complex</strong>: Creates very wiggly, irregular boundaries</li>
+<li>❌ <strong>Poor generalization</strong>: Will likely fail on new data</li>
+<li>❌ <strong>Uninterpretable</strong>: 28 features with high-order interactions</li>
+</ul>
+<p><strong>Key Lesson</strong>: As polynomial degree increases, we see a progression from underfitting → good fit → overfitting. The optimal degree (typically 2-3 for this data) balances model complexity with generalization.</p>
+<p><strong>Too many features cause overfitting</strong></p>
+<ul>
+<li>the model memorizes training data rather than learning the underlying pattern.</li>
+</ul>
 </section>
 <section id="summary-polynomial-feature-transformation" class="level3" data-number="10.1.5">
 <h3 data-number="10.1.5" class="anchored" data-anchor-id="summary-polynomial-feature-transformation"><span class="header-section-number">10.1.5</span> Summary: Polynomial Feature Transformation</h3>
-<p>We’ve seen how <strong>polynomial feature transformation</strong> enables logistic regression to learn nonlinear decision boundaries: Polynomial features work well for capturing geometric nonlinear patterns (circles, ellipses, curves), but they come with tradeoffs: - ✅ <strong>Pros</strong>: Captures complex boundaries, mathematically elegant - ⚠️ <strong>Cons</strong>: Feature explosion (grows rapidly with degree), overfitting risk, computational cost</p>
+<p>We’ve seen how <strong>polynomial feature transformation</strong> enables logistic regression to learn nonlinear decision boundaries: Polynomial features work well for capturing geometric nonlinear patterns (circles, ellipses, curves), but they come with tradeoffs:</p>
+<ul>
+<li>✅ <strong>Pros</strong>: Captures complex boundaries, mathematically elegant</li>
+<li>⚠️ <strong>Cons</strong>: Feature explosion (grows rapidly with degree), overfitting risk, computational cost</li>
+</ul>
 </section>
 <section id="beyond-polynomial-transformations" class="level3" data-number="10.1.6">
 <h3 data-number="10.1.6" class="anchored" data-anchor-id="beyond-polynomial-transformations"><span class="header-section-number">10.1.6</span> Beyond Polynomial Transformations</h3>
 <p>While polynomial features are powerful for capturing certain types of nonlinear relationships, they are <strong>not the only tool</strong> for feature engineering in classification problems. Other transformation techniques can be equally or more effective depending on the data characteristics:</p>
-<p><strong>1. Log Transformation</strong> - <strong>Purpose</strong>: Handles skewed distributions, reduces impact of outliers - <strong>When to use</strong>: Features with exponential growth patterns or heavy right skew - <strong>Example</strong>: Transforming fare prices, income, or counts</p>
-<p><strong>2. Binning Continuous Variables</strong> - <strong>Purpose</strong>: Converts continuous features into categorical groups - <strong>When to use</strong>: Non-smooth relationships, domain-based groupings (age groups, price ranges) - <strong>Benefit</strong>: Captures threshold effects and categorical patterns</p>
-<p><strong>3. Interaction Terms</strong> - <strong>Purpose</strong>: Captures combined effects of multiple features - <strong>When to use</strong>: When one feature’s impact depends on another (e.g., age effect varies by passenger class)</p>
-<p><strong>4. Manually Creating New Features</strong> - <strong>Purpose</strong>: Derive meaningful features by combining or transforming existing ones - <strong>When to use</strong>: Domain knowledge suggests useful feature combinations - <strong>Example</strong>: Creating <code>family_size</code> by adding <code>siblings/spouses</code> + <code>parents/children</code> counts - <strong>Benefit</strong>: Can capture domain-specific patterns more effectively than automatic transformations</p>
-<p>In the following sections, we’ll demonstrate these transformations using a real-world dataset where <strong>polynomial features alone may not be the best choice</strong>. The Titanic dataset provides an excellent case study because: - Survival patterns involve <strong>categorical groupings</strong> (e.g., children vs.&nbsp;adults) - Features like fare are <strong>heavily skewed</strong> - Effects are <strong>context-dependent</strong> (e.g., gender’s impact varies by class)</p>
+<p><strong>1. Log Transformation</strong></p>
+<ul>
+<li><strong>Purpose</strong>: Handles skewed distributions, reduces impact of outliers</li>
+<li><strong>When to use</strong>: Features with exponential growth patterns or heavy right skew</li>
+<li><strong>Example</strong>: Transforming fare prices, income, or counts</li>
+</ul>
+<p><strong>2. Binning Continuous Variables</strong></p>
+<ul>
+<li><strong>Purpose</strong>: Converts continuous features into categorical groups</li>
+<li><strong>When to use</strong>: Non-smooth relationships, domain-based groupings (age groups, price ranges)</li>
+<li><strong>Benefit</strong>: Captures threshold effects and categorical patterns</li>
+</ul>
+<p><strong>3. Interaction Terms</strong></p>
+<ul>
+<li><strong>Purpose</strong>: Captures combined effects of multiple features</li>
+<li><strong>When to use</strong>: When one feature’s impact depends on another (e.g., age effect varies by passenger class)</li>
+</ul>
+<p><strong>4. Manually Creating New Features</strong></p>
+<ul>
+<li><strong>Purpose</strong>: Derive meaningful features by combining or transforming existing ones</li>
+<li><strong>When to use</strong>: Domain knowledge suggests useful feature combinations</li>
+<li><strong>Example</strong>: Creating <code>family_size</code> by adding <code>siblings/spouses</code> + <code>parents/children</code> counts</li>
+<li><strong>Benefit</strong>: Can capture domain-specific patterns more effectively than automatic transformations</li>
+</ul>
+<p>In the following sections, we’ll demonstrate these transformations using a real-world dataset where <strong>polynomial features alone may not be the best choice</strong>. The Titanic dataset provides an excellent case study because:</p>
+<ul>
+<li>Survival patterns involve <strong>categorical groupings</strong> (e.g., children vs.&nbsp;adults)</li>
+<li>Features like fare are <strong>heavily skewed</strong></li>
+<li>Effects are <strong>context-dependent</strong> (e.g., gender’s impact varies by class)</li>
+</ul>
 <p>Let’s explore how these alternative transformations can be more effective than polynomials for real-world classification problems.</p>
 </section>
 </section>
@@ -968,7 +1027,13 @@ Degree 6 Polynomial:
 </section>
 <section id="the-real-lesson" class="level3" data-number="10.2.4">
 <h3 data-number="10.2.4" class="anchored" data-anchor-id="the-real-lesson"><span class="header-section-number">10.2.4</span> The Real Lesson</h3>
-<p>This example will demonstrate: - <strong>Feature engineering is trial-and-error</strong> - not every logical idea improves performance - <strong>Testing is essential</strong> - domain knowledge suggests features, but data decides if they help - <strong>Sometimes the baseline is hard to beat</strong> - raw features may already capture the patterns well - <strong>Be willing to discard features</strong> - if engineered features don’t help, stick with the simpler model</p>
+<p>This example will demonstrate:</p>
+<ul>
+<li><strong>Feature engineering is trial-and-error</strong> - not every logical idea improves performance</li>
+<li><strong>Testing is essential</strong> - domain knowledge suggests features, but data decides if they help</li>
+<li><strong>Sometimes the baseline is hard to beat</strong> - raw features may already capture the patterns well</li>
+<li><strong>Be willing to discard features</strong> - if engineered features don’t help, stick with the simpler model</li>
+</ul>
 <p>Let’s see what actually happens!</p>
 </section>
 <section id="load-and-explore-the-titanic-dataset" class="level3" data-number="10.2.5">
@@ -1171,7 +1236,13 @@ First few rows:</code></pre>
 </div>
 </div>
 </div>
-<p><strong>Key Observations from Exploration:</strong> * Women had much higher survival rates than men (74.20% vs 18.89%) * First class passengers had higher survival rates (62.96%) than third class (24.24%) * Children appear to have higher survival rates (visible in age distribution) * Fare prices are heavily right-skewed (most passengers paid low fares)</p>
+<p><strong>Key Observations from Exploration:</strong></p>
+<ul>
+<li>Women had much higher survival rates than men (74.20% vs 18.89%)</li>
+<li>First class passengers had higher survival rates (62.96%) than third class (24.24%)</li>
+<li>Children appear to have higher survival rates (visible in age distribution)</li>
+<li>Fare prices are heavily right-skewed (most passengers paid low fares)</li>
+</ul>
 </section>
 <section id="data-preprocessing-and-traintest-split" class="level3" data-number="10.2.6">
 <h3 data-number="10.2.6" class="anchored" data-anchor-id="data-preprocessing-and-traintest-split"><span class="header-section-number">10.2.6</span> Data Preprocessing and Train/Test Split</h3>
@@ -1318,7 +1389,12 @@ Interpretation:
 <p>Now we’ll <strong>incrementally test</strong> different types of engineered features, one at a time, to see if they actually improve model performance. This is <strong>real-world feature engineering</strong> - we propose features based on domain knowledge, then let the data tell us if they help.</p>
 <p><strong>Starting point</strong>: 6 raw features → <code>['pclass', 'sex', 'age', 'sibsp', 'parch', 'fare']</code></p>
 <p><strong>Critical mindset</strong>: Each step we’ll ask: “Does this engineered feature actually help, or should we discard it?”</p>
-<p>We’ll test: 1. <strong>Combined features</strong> (family_size) - Does total family size matter more than separate counts? 2. <strong>Interaction terms</strong> (sex × pclass) - Does gender’s effect truly vary by class? 3. <strong>Binned features</strong> (age_group, fare_group) - Do categorical bins beat continuous values?</p>
+<p>We’ll test:</p>
+<ol type="1">
+<li><strong>Combined features</strong> (family_size) - Does total family size matter more than separate counts?</li>
+<li><strong>Interaction terms</strong> (sex × pclass) - Does gender’s effect truly vary by class?</li>
+<li><strong>Binned features</strong> (age_group, fare_group) - Do categorical bins beat continuous values?</li>
+</ol>
 <p>Let’s find out what actually works!</p>
 <section id="step-1-add-combined-feature-family_size" class="level4" data-number="10.2.8.1">
 <h4 data-number="10.2.8.1" class="anchored" data-anchor-id="step-1-add-combined-feature-family_size"><span class="header-section-number">10.2.8.1</span> Step 1: Add Combined Feature (family_size)</h4>
@@ -1429,7 +1505,11 @@ Interpretation:
 <section id="step-3-add-binned-features-age_group-fare_group" class="level3" data-number="10.2.10">
 <h3 data-number="10.2.10" class="anchored" data-anchor-id="step-3-add-binned-features-age_group-fare_group"><span class="header-section-number">10.2.10</span> Step 3: Add Binned Features (age_group, fare_group)</h3>
 <p><strong>Feature Engineering Technique</strong>: Converting continuous variables into categorical bins</p>
-<p><strong>Why</strong>: - <strong>Age</strong>: Children (&lt; 12) had distinctly higher survival rates - a threshold effect that’s better captured by categories than smooth curves - <strong>Fare</strong>: Heavily right-skewed with outliers. Grouping into price ranges (low/medium/high/premium) can be more robust than raw values</p>
+<p><strong>Why</strong>:</p>
+<ul>
+<li><strong>Age</strong>: Children (&lt; 12) had distinctly higher survival rates - a threshold effect that’s better captured by categories than smooth curves</li>
+<li><strong>Fare</strong>: Heavily right-skewed with outliers. Grouping into price ranges (low/medium/high/premium) can be more robust than raw values</li>
+</ul>
 <p><strong>New features</strong>: <code>age_group</code> (5 categories), <code>fare_group</code> (4 categories)</p>
 <div id="a5c34883" class="cell" data-execution_count="144">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First, let's visualize why binning makes sense for age</span></span>
@@ -1696,7 +1776,12 @@ TOTAL IMPROVEMENT FROM BASELINE:
 <p>One technique to prevent overfitting (especially when using many features) is <strong>regularization</strong>. The idea is to penalize the algorithm when it tries to overfit by adding a regularization term to the cost function.</p>
 <p>The New Cost function with regularization is specified as:</p>
 <p><span class="math display">\[J(w) = \frac{1}{m} \sum_{i=1}^m[-y_i \log(h_w (z_i)) - (1 - y_i) \log(1-h_w (z_i))] + \frac{\lambda}{2m} \sum_{j=1}^n[w_j^2]\]</span></p>
-<p>where: - <span class="math inline">\(\lambda\)</span> = regularization factor (controls how much to penalize large weights) - <span class="math inline">\(n\)</span> = number of features - <strong>Note</strong>: The regularization term does NOT include the intercept term <span class="math inline">\(w_0\)</span></p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(\lambda\)</span> = regularization factor (controls how much to penalize large weights)</li>
+<li><span class="math inline">\(n\)</span> = number of features</li>
+<li><strong>Note</strong>: The regularization term does NOT include the intercept term <span class="math inline">\(w_0\)</span></li>
+</ul>
 <p>Regularization will be covered in the next section!</p>
 
 
