@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.40">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>8&nbsp; Introduction to Logistic Regression – Data Science II with python (Class notes)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./logistic_regression_metrics.html" rel="next">
+<link href="./Lec5_Potential_issues.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-8da5b4427184b79ecddefad3d342027e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./logistic_regression_introduction.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Logistic Regression</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="https://statistics.northwestern.edu/" class="sidebar-logo-link">
+      <img src="./NU_Stat_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data Science II with python (Class notes)</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">index.html</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec1_SimpleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Simple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec2_MultipleLinearRegression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Multiple Linear Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec3_VariableTransformations_and_Interactions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Extending LR: Interactions and Qualitative Features</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./polynominal_features.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Extending LR: Feature Transformations</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./potential_issue_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Beyond Fit (implementation)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Lec5_Potential_issues.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Beyond Fit (statistical theory)</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./logistic_regression_introduction.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Logistic Regression</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./logistic_regression_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Logistic Regression Evaluation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Logistic_feature_engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Logistic Regression: Feature Engineering</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cross_validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cross-Validation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Regularization in Python.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Feature Selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Selection</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Assignment_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Assignment 1: Statistical Learning and Simple Linear Regression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Assignment_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Assignment 2: MLR</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives"><span class="header-section-number">8.1</span> Learning Objectives</a></li>
+  <li><a href="#import-libraries-and-load-data" id="toc-import-libraries-and-load-data" class="nav-link" data-scroll-target="#import-libraries-and-load-data"><span class="header-section-number">8.2</span> Import Libraries and Load Data</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><span class="header-section-number">8.3</span> Data Preparation</a>
+  <ul>
+  <li><a href="#imputing-missing-values" id="toc-imputing-missing-values" class="nav-link" data-scroll-target="#imputing-missing-values"><span class="header-section-number">8.3.1</span> Imputing missing values</a></li>
+  <li><a href="#check-target-distribution" id="toc-check-target-distribution" class="nav-link" data-scroll-target="#check-target-distribution"><span class="header-section-number">8.3.2</span> Check Target Distribution</a></li>
+  <li><a href="#train-test-splitting" id="toc-train-test-splitting" class="nav-link" data-scroll-target="#train-test-splitting"><span class="header-section-number">8.3.3</span> Train-Test Splitting</a></li>
+  </ul></li>
+  <li><a href="#implementation-1-statsmodels-with-formula-api" id="toc-implementation-1-statsmodels-with-formula-api" class="nav-link" data-scroll-target="#implementation-1-statsmodels-with-formula-api"><span class="header-section-number">8.4</span> Implementation 1: Statsmodels with Formula API</a>
+  <ul>
+  <li><a href="#interpreting-the-coefficients" id="toc-interpreting-the-coefficients" class="nav-link" data-scroll-target="#interpreting-the-coefficients"><span class="header-section-number">8.4.1</span> Interpreting the Coefficients</a></li>
+  <li><a href="#prediction-from-statsmodels" id="toc-prediction-from-statsmodels" class="nav-link" data-scroll-target="#prediction-from-statsmodels"><span class="header-section-number">8.4.2</span> Prediction from Statsmodels</a></li>
+  </ul></li>
+  <li><a href="#implementation-2-scikit-learn-integration" id="toc-implementation-2-scikit-learn-integration" class="nav-link" data-scroll-target="#implementation-2-scikit-learn-integration"><span class="header-section-number">8.5</span> Implementation 2: Scikit-learn Integration</a>
+  <ul>
+  <li><a href="#understanding-.predict-vs-.predict_proba" id="toc-understanding-.predict-vs-.predict_proba" class="nav-link" data-scroll-target="#understanding-.predict-vs-.predict_proba"><span class="header-section-number">8.5.1</span> Understanding <code>.predict()</code> vs <code>.predict_proba()</code></a></li>
+  <li><a href="#turning-off-the-default-regularization" id="toc-turning-off-the-default-regularization" class="nav-link" data-scroll-target="#turning-off-the-default-regularization"><span class="header-section-number">8.5.2</span> Turning off the default regularization</a></li>
+  <li><a href="#pipeline-implementation" id="toc-pipeline-implementation" class="nav-link" data-scroll-target="#pipeline-implementation"><span class="header-section-number">8.5.3</span> Pipeline Implementation</a></li>
+  </ul></li>
+  <li><a href="#statsmodels-vs-sklearn-result-comparison" id="toc-statsmodels-vs-sklearn-result-comparison" class="nav-link" data-scroll-target="#statsmodels-vs-sklearn-result-comparison"><span class="header-section-number">8.6</span> Statsmodels vs Sklearn Result Comparison</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Logistic Regression</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="learning-objectives" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">8.1</span> Learning Objectives</h2>
+<ul>
+<li>Understand how to prepare data for logistic regression (handling missing values, stratified splitting)</li>
+<li>Learn to use <code>statsmodels</code> with formula notation and <code>C()</code> for categorical variables</li>
+<li>Interpret logistic regression coefficients and p-values generated from <code>statsmodels</code></li>
+<li>Master sklearn’s implementation with manual dummy variable creation</li>
+<li>Understand the difference between <code>.predict()</code> and <code>.predict_proba()</code> in sklearn</li>
+<li>Learn about regularization in logistic regression and the <code>C</code> parameter</li>
+<li>Compare coefficients with and without regularization</li>
+<li>Compare implementation differences between statsmodels and sklearn</li>
+</ul>
+</section>
+<section id="import-libraries-and-load-data" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="import-libraries-and-load-data"><span class="header-section-number">8.2</span> Import Libraries and Load Data</h2>
+<div id="cell-3" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># For statsmodels implementation</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># For sklearn implementation</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix, accuracy_score, precision_score, recall_score</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Set display options</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>pd.set_option(<span class="st">'display.max_columns'</span>, <span class="va">None</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'seaborn-v0_8-darkgrid'</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Libraries imported successfully!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Libraries imported successfully!</code></pre>
+</div>
+</div>
+<div id="cell-4" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the Titanic dataset</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>titanic <span class="op">=</span> sns.load_dataset(<span class="st">'titanic'</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dataset shape: </span><span class="sc">{</span>titanic<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">First few rows:"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>titanic.head()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dataset shape: (891, 15)
+
+First few rows:</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">survived</th>
+<th data-quarto-table-cell-role="th">pclass</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">sibsp</th>
+<th data-quarto-table-cell-role="th">parch</th>
+<th data-quarto-table-cell-role="th">fare</th>
+<th data-quarto-table-cell-role="th">embarked</th>
+<th data-quarto-table-cell-role="th">class</th>
+<th data-quarto-table-cell-role="th">who</th>
+<th data-quarto-table-cell-role="th">adult_male</th>
+<th data-quarto-table-cell-role="th">deck</th>
+<th data-quarto-table-cell-role="th">embark_town</th>
+<th data-quarto-table-cell-role="th">alive</th>
+<th data-quarto-table-cell-role="th">alone</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>0</td>
+<td>3</td>
+<td>male</td>
+<td>22.0</td>
+<td>1</td>
+<td>0</td>
+<td>7.2500</td>
+<td>S</td>
+<td>Third</td>
+<td>man</td>
+<td>True</td>
+<td>NaN</td>
+<td>Southampton</td>
+<td>no</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>1</td>
+<td>female</td>
+<td>38.0</td>
+<td>1</td>
+<td>0</td>
+<td>71.2833</td>
+<td>C</td>
+<td>First</td>
+<td>woman</td>
+<td>False</td>
+<td>C</td>
+<td>Cherbourg</td>
+<td>yes</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1</td>
+<td>3</td>
+<td>female</td>
+<td>26.0</td>
+<td>0</td>
+<td>0</td>
+<td>7.9250</td>
+<td>S</td>
+<td>Third</td>
+<td>woman</td>
+<td>False</td>
+<td>NaN</td>
+<td>Southampton</td>
+<td>yes</td>
+<td>True</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1</td>
+<td>1</td>
+<td>female</td>
+<td>35.0</td>
+<td>1</td>
+<td>0</td>
+<td>53.1000</td>
+<td>S</td>
+<td>First</td>
+<td>woman</td>
+<td>False</td>
+<td>C</td>
+<td>Southampton</td>
+<td>yes</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>0</td>
+<td>3</td>
+<td>male</td>
+<td>35.0</td>
+<td>0</td>
+<td>0</td>
+<td>8.0500</td>
+<td>S</td>
+<td>Third</td>
+<td>man</td>
+<td>True</td>
+<td>NaN</td>
+<td>Southampton</td>
+<td>no</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="data-preparation" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="data-preparation"><span class="header-section-number">8.3</span> Data Preparation</h2>
+<section id="imputing-missing-values" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="imputing-missing-values"><span class="header-section-number">8.3.1</span> Imputing missing values</h3>
+<p>Like linear regression, logistic regression does not tolerate missing values</p>
+<p>We’ll focus on: - <strong>Target variable:</strong> <code>survived</code> (0 = died, 1 = survived) - <strong>Predictors:</strong> <code>age</code>, <code>fare</code>, <code>sex</code>, <code>pclass</code></p>
+<p>Let’s check for missing values in these columns</p>
+<div id="cell-6" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values in our columns of interest</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>columns_of_interest <span class="op">=</span> [<span class="st">'survived'</span>, <span class="st">'age'</span>, <span class="st">'fare'</span>, <span class="st">'sex'</span>, <span class="st">'pclass'</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Missing values in columns of interest:"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(titanic[columns_of_interest].isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Missing values in columns of interest:
+survived      0
+age         177
+fare          0
+sex           0
+pclass        0
+dtype: int64</code></pre>
+</div>
+</div>
+<p>There are 177 missing values in Age, which is a key predictor. Dropping all rows with missing values would result in a substantial loss of useful information. A simple and reasonable approach is group-wise median imputation: fill in missing ages using the median Age within each combination of <code>Sex</code> and <code>Pclass</code>.</p>
+<div id="cell-8" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># impute median age for each combination of sex and pclass</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>titanic[<span class="st">'age'</span>] <span class="op">=</span> titanic.groupby([<span class="st">'sex'</span>, <span class="st">'pclass'</span>])[<span class="st">'age'</span>].transform(<span class="kw">lambda</span> x: x.fillna(x.median()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s check again</p>
+<div id="cell-10" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>columns_of_interest <span class="op">=</span> [<span class="st">'survived'</span>, <span class="st">'age'</span>, <span class="st">'fare'</span>, <span class="st">'sex'</span>, <span class="st">'pclass'</span>]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Missing values in columns of interest:"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(titanic[columns_of_interest].isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Missing values in columns of interest:
+survived    0
+age         0
+fare        0
+sex         0
+pclass      0
+dtype: int64</code></pre>
+</div>
+</div>
+</section>
+<section id="check-target-distribution" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="check-target-distribution"><span class="header-section-number">8.3.2</span> Check Target Distribution</h3>
+<p>Let’s examine the distribution of the target variable to determine whether the dataset is balanced.</p>
+<div id="cell-12" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick exploratory analysis</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Target variable distribution:"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(titanic[<span class="st">'survived'</span>].value_counts())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Target variable distribution:
+survived
+0    549
+1    342
+Name: count, dtype: int64</code></pre>
+</div>
+</div>
+<p>The dataset shows moderate class imbalance (about 62% non-survived vs 38% survived). While not extreme, this imbalance suggests we should look beyond accuracy and also consider metrics such as precision, recall, and ROC-AUC.</p>
+<p>For such dataset, we need to do <strong>stratified splitting</strong> to make sure the proportion of classes is preserved in both train and test sets.</p>
+</section>
+<section id="train-test-splitting" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="train-test-splitting"><span class="header-section-number">8.3.3</span> Train-Test Splitting</h3>
+<div id="cell-14" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split into train and test sets</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>train_df, test_df <span class="op">=</span> train_test_split(titanic, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>, stratify<span class="op">=</span>titanic[<span class="st">'survived'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="implementation-1-statsmodels-with-formula-api" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="implementation-1-statsmodels-with-formula-api"><span class="header-section-number">8.4</span> Implementation 1: Statsmodels with Formula API</h2>
+<p>When using <code>statsmodels.formula.api</code>, we use the <strong><code>C()</code> notation</strong> to indicate categorical variables:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'survived ~ age + fare + C(sex) + C(pclass)'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>What does <code>C()</code> do?</strong></p>
+<ul>
+<li>Automatically <strong>dummy-codes</strong> categorical variables</li>
+<li>Creates reference categories (first category alphabetically by default)</li>
+<li>For <code>sex</code>: female is reference, male gets a coefficient</li>
+<li>For <code>pclass</code>: First is reference, Second and Third get coefficients</li>
+</ul>
+<p>This is much cleaner than manually creating dummy variables!</p>
+<div id="cell-16" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression using statsmodels</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'survived ~ age + fare + C(sex) + pclass'</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>statsmodels_logit <span class="op">=</span> smf.logit(formula<span class="op">=</span>formula, data<span class="op">=</span>train_df).fit()</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the summary</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(statsmodels_logit.summary())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimization terminated successfully.
+         Current function value: 0.442700
+         Iterations 6
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:               survived   No. Observations:                  712
+Model:                          Logit   Df Residuals:                      707
+Method:                           MLE   Df Model:                            4
+Date:                Sat, 14 Feb 2026   Pseudo R-squ.:                  0.3350
+Time:                        06:34:26   Log-Likelihood:                -315.20
+converged:                       True   LL-Null:                       -473.99
+Covariance Type:            nonrobust   LLR p-value:                 1.749e-67
+==================================================================================
+                     coef    std err          z      P&gt;|z|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept          5.1033      0.612      8.343      0.000       3.904       6.302
+C(sex)[T.male]    -2.6032      0.212    -12.280      0.000      -3.019      -2.188
+age               -0.0400      0.009     -4.630      0.000      -0.057      -0.023
+fare               0.0007      0.002      0.265      0.791      -0.004       0.006
+pclass            -1.2734      0.163     -7.804      0.000      -1.593      -0.954
+==================================================================================</code></pre>
+</div>
+</div>
+<section id="interpreting-the-coefficients" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="interpreting-the-coefficients"><span class="header-section-number">8.4.1</span> Interpreting the Coefficients</h3>
+<p><strong>Key points to discuss (from the printed output):</strong></p>
+<ol type="1">
+<li><strong>Age coefficient (negative, p=0.009):</strong> Older passengers had lower survival odds.</li>
+<li><strong>Fare coefficient (near 0, p=0.648):</strong> Fare is not a statistically significant predictor here.</li>
+<li><strong>C(sex)[T.male] (negative, p&lt;0.001):</strong> Being male significantly decreased survival odds.</li>
+<li><strong>pclass (negative, p=0.077):</strong> Lower passenger class is associated with lower survival odds, but it is not significant at the 0.05 level.</li>
+</ol>
+<p><strong>P-values (P&gt;|z|):</strong> - Values &lt; 0.05 indicate statistical significance at the 5% level. - Here, <strong>sex</strong> and <strong>age</strong> are significant; <strong>fare</strong> and <strong>pclass</strong> are not (at 0.05).</p>
+</section>
+<section id="prediction-from-statsmodels" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="prediction-from-statsmodels"><span class="header-section-number">8.4.2</span> Prediction from Statsmodels</h3>
+<p>Now that we’ve fitted our logistic regression model, let’s generate predictions.</p>
+<p>In <code>statsmodels</code>, the <code>.predict()</code> method returns <strong>predicted probabilities</strong> for the positive class (survived = 1). These are continuous values between 0 and 1, representing the model’s estimated probability that each observation belongs to the positive class.</p>
+<p><strong>Key points:</strong></p>
+<ul>
+<li>Output values range from 0 to 1</li>
+<li>Values closer to 1 indicate higher probability of survival</li>
+<li>Values closer to 0 indicate higher probability of death</li>
+<li>Unlike sklearn, statsmodels does not have a built-in method to directly return class labels (0/1)—we’ll need to apply a threshold manually if we want binary predictions</li>
+</ul>
+<div id="cell-19" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get predictions from statsmodels</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>train_probs_sm <span class="op">=</span> statsmodels_logit.predict(train_df)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>test_probs_sm <span class="op">=</span> statsmodels_logit.predict(test_df)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sample of predicted probabilities (statsmodels):"</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>test_probs_sm.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sample of predicted probabilities (statsmodels):</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>565    0.094223
+160    0.044466
+553    0.100257
+860    0.049784
+241    0.606897
+559    0.464106
+387    0.755221
+536    0.364969
+698    0.341170
+99     0.199713
+dtype: float64</code></pre>
+</div>
+</div>
+<p><strong>Why this design?</strong></p>
+<p>Statsmodels is more focused on:</p>
+<ul>
+<li>Statistical inference</li>
+<li>Coefficient interpretation</li>
+<li>Standard errors / p-values</li>
+</ul>
+<p>It leaves classification decisions (thresholding, ROC analysis, etc.) to the user.</p>
+<div id="cell-21" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply threshold to convert probabilities to class predictions</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>threshold <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>train_pred_sm <span class="op">=</span> (train_probs_sm <span class="op">&gt;=</span> threshold).astype(<span class="bu">int</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>test_pred_sm <span class="op">=</span> (test_probs_sm <span class="op">&gt;=</span> threshold).astype(<span class="bu">int</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate accuracy</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>train_accuracy_sm <span class="op">=</span> accuracy_score(train_df[<span class="st">'survived'</span>], train_pred_sm)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>test_accuracy_sm <span class="op">=</span> accuracy_score(test_df[<span class="st">'survived'</span>], test_pred_sm)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Statsmodels Logistic Regression (threshold = </span><span class="sc">{</span>threshold<span class="sc">}</span><span class="ss">):"</span>)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Training Accuracy:   </span><span class="sc">{</span>train_accuracy_sm<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>train_accuracy_sm<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Test Accuracy:       </span><span class="sc">{</span>test_accuracy_sm<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>test_accuracy_sm<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Show some example predictions</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Sample predictions (first 10 test observations):"</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Index'</span><span class="sc">:&lt;8}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Probability'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Prediction'</span><span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Actual'</span><span class="sc">:&lt;8}</span><span class="ss">"</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">45</span>)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">:&lt;8}</span><span class="ss"> </span><span class="sc">{</span>test_probs_sm<span class="sc">.</span>iloc[i]<span class="sc">:&lt;12.4f}</span><span class="ss"> </span><span class="sc">{</span>test_pred_sm<span class="sc">.</span>iloc[i]<span class="sc">:&lt;12}</span><span class="ss"> </span><span class="sc">{</span>test_df[<span class="st">'survived'</span>]<span class="sc">.</span>iloc[i]<span class="sc">:&lt;8}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Statsmodels Logistic Regression (threshold = 0.5):
+  Training Accuracy:   0.7992 (79.92%)
+  Test Accuracy:       0.7821 (78.21%)
+
+Sample predictions (first 10 test observations):
+Index    Probability  Prediction   Actual  
+---------------------------------------------
+0        0.0942       0            0       
+1        0.0445       0            0       
+2        0.1003       0            1       
+3        0.0498       0            0       
+4        0.6069       1            1       
+5        0.4641       0            1       
+6        0.7552       1            1       
+7        0.3650       0            0       
+8        0.3412       0            0       
+9        0.1997       0            0       </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="implementation-2-scikit-learn-integration" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="implementation-2-scikit-learn-integration"><span class="header-section-number">8.5</span> Implementation 2: Scikit-learn Integration</h2>
+<p>While <code>statsmodels</code> is excellent for <strong>statistical inference</strong> (p-values, confidence intervals), <code>sklearn</code> is optimized for <strong>prediction and machine learning workflows</strong>.</p>
+<p>To use <code>sklearn.linear_model.LogisticRegression</code>, we have two approaches:</p>
+<p><strong>Approach 1: Manual Dummy Variable Creation</strong> 1. Manually create dummy variables using <code>pd.get_dummies()</code> (sklearn doesn’t have formula notation) 2. Prepare feature matrix X and target vector y</p>
+<p><strong>Approach 2: Pipeline with ColumnTransformer</strong> - Use sklearn’s preprocessing pipeline to handle categorical encoding automatically - More scalable for production workflows</p>
+<p>We’ll start with the manual approach first, then demonstrate the pipeline method at the end.</p>
+<div id="cell-23" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data for sklearn using the same predictors as statsmodels</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>predictors <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'fare'</span>, <span class="st">'sex'</span>, <span class="st">'pclass'</span>]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> pd.get_dummies(train_df[predictors], columns<span class="op">=</span>[<span class="st">'sex'</span> ], drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> pd.get_dummies(test_df[predictors], columns<span class="op">=</span>[<span class="st">'sex'</span> ], drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> X_test.reindex(columns<span class="op">=</span>X_train.columns, fill_value<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train_df[<span class="st">'survived'</span>]</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test_df[<span class="st">'survived'</span>]</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Encoded training data:"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>X_train.head()</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Column names: </span><span class="sc">{</span><span class="bu">list</span>(X_train.columns)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Encoded training data:
+
+Column names: ['age', 'fare', 'pclass', 'sex_male']</code></pre>
+</div>
+</div>
+<div id="cell-24" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Feature/target shapes</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"X_train shape: </span><span class="sc">{</span>X_train<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"y_train shape: </span><span class="sc">{</span>y_train<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Feature names: </span><span class="sc">{</span><span class="bu">list</span>(X_train.columns)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>X_train shape: (712, 4)
+y_train shape: (712,)
+
+Feature names: ['age', 'fare', 'pclass', 'sex_male']</code></pre>
+</div>
+</div>
+<div id="cell-25" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression using sklearn</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sklearn_logit <span class="op">=</span> LogisticRegression(random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>sklearn_logit.fit(X_train, y_train)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sklearn Logistic Regression model fitted successfully!"</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Coefficients:"</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> feature, coef <span class="kw">in</span> <span class="bu">zip</span>(X_train.columns, sklearn_logit.coef_[<span class="dv">0</span>]):</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>feature<span class="sc">:20s}</span><span class="ss">: </span><span class="sc">{</span>coef<span class="sc">:8.4f}</span><span class="ss">"</span>)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Intercept: </span><span class="sc">{</span>sklearn_logit<span class="sc">.</span>intercept_[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sklearn Logistic Regression model fitted successfully!
+
+Coefficients:
+  age                 :  -0.0389
+  fare                :   0.0010
+  pclass              :  -1.2189
+  sex_male            :  -2.4830
+
+Intercept: 4.8699</code></pre>
+</div>
+</div>
+<section id="understanding-.predict-vs-.predict_proba" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="understanding-.predict-vs-.predict_proba"><span class="header-section-number">8.5.1</span> Understanding <code>.predict()</code> vs <code>.predict_proba()</code></h3>
+<p>Scikit-learn’s logistic regression offers two prediction methods:</p>
+<ol type="1">
+<li><strong><code>.predict_proba()</code></strong>: Returns probability estimates</li>
+<li><ul>
+<li>Output: Array with shape (n_samples, 2)</li>
+<li>Column 0: Probability of class 0 (died)</li>
+<li>Column 1: Probability of class 1 (survived)</li>
+<li>Values are continuous between 0 and 1</li>
+</ul></li>
+<li><strong><code>.predict()</code></strong>: Returns class labels</li>
+<li><ul>
+<li>Output: Array with shape (n_samples,)</li>
+<li>Values: 0 or 1 (binary classification)</li>
+<li>Uses default threshold of 0.5 (if prob ≥ 0.5, predict 1)</li>
+</ul></li>
+</ol>
+<p><strong>Key difference:</strong> <code>.predict_proba()</code> gives you the raw probabilities, while <code>.predict()</code> gives you the final classification decision.</p>
+<div id="cell-27" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get probability predictions</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>test_probs_sklearn <span class="op">=</span> sklearn_logit.predict_proba(X_test)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of predict_proba output:"</span>, test_probs_sklearn.shape)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">First 10 probability predictions:"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Index | P(Died) | P(Survived)"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">35</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">:5d}</span><span class="ss"> | </span><span class="sc">{</span>test_probs_sklearn[i, <span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">  | </span><span class="sc">{</span>test_probs_sklearn[i, <span class="dv">1</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract probabilities of survival (class 1)</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>test_probs_survival <span class="op">=</span> test_probs_sklearn[:, <span class="dv">1</span>]</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Probabilities of survival (class 1): </span><span class="sc">{</span>test_probs_survival[:<span class="dv">5</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shape of predict_proba output: (179, 2)
+
+First 10 probability predictions:
+Index | P(Died) | P(Survived)
+-----------------------------------
+    0 | 0.8983  | 0.1017
+    1 | 0.9510  | 0.0490
+    2 | 0.8927  | 0.1073
+    3 | 0.9454  | 0.0546
+    4 | 0.4031  | 0.5969
+    5 | 0.5424  | 0.4576
+    6 | 0.2603  | 0.7397
+    7 | 0.6355  | 0.3645
+    8 | 0.6512  | 0.3488
+    9 | 0.7937  | 0.2063
+
+Probabilities of survival (class 1): [0.10166063 0.0490081  0.10730699 0.0546384  0.59687177]</code></pre>
+</div>
+</div>
+<div id="cell-28" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get class predictions (using default 0.5 threshold)</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>test_pred_default <span class="op">=</span> sklearn_logit.predict(X_test)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Shape of predict output:"</span>, test_pred_default.shape)</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">First 10 class predictions:"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test_pred_default[:<span class="dv">10</span>])</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare with probabilities</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Comparison of probabilities and predictions:"</span>)</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Index | Probability | Prediction | Interpretation"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">60</span>)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    prob <span class="op">=</span> test_probs_survival[i]</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> test_pred_default[i]</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    interpretation <span class="op">=</span> <span class="st">"Survived"</span> <span class="cf">if</span> pred <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">"Died"</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>i<span class="sc">:5d}</span><span class="ss"> | </span><span class="sc">{</span>prob<span class="sc">:11.4f}</span><span class="ss"> | </span><span class="sc">{</span>pred<span class="sc">:10d}</span><span class="ss"> | </span><span class="sc">{</span>interpretation<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Shape of predict output: (179,)
+
+First 10 class predictions:
+[0 0 0 0 1 0 1 0 0 0]
+
+Comparison of probabilities and predictions:
+Index | Probability | Prediction | Interpretation
+------------------------------------------------------------
+    0 |      0.1017 |          0 | Died
+    1 |      0.0490 |          0 | Died
+    2 |      0.1073 |          0 | Died
+    3 |      0.0546 |          0 | Died
+    4 |      0.5969 |          1 | Survived
+    5 |      0.4576 |          0 | Died
+    6 |      0.7397 |          1 | Survived
+    7 |      0.3645 |          0 | Died
+    8 |      0.3488 |          0 | Died
+    9 |      0.2063 |          0 | Died</code></pre>
+</div>
+</div>
+<p><strong>Observation:</strong> Notice how <code>.predict()</code> converts probabilities to 0/1 using the 0.5 threshold: - Probability ≥ 0.5 → Prediction = 1 (Survived) - Probability &lt; 0.5 → Prediction = 0 (Died)</p>
+</section>
+<section id="turning-off-the-default-regularization" class="level3" data-number="8.5.2">
+<h3 data-number="8.5.2" class="anchored" data-anchor-id="turning-off-the-default-regularization"><span class="header-section-number">8.5.2</span> Turning off the default regularization</h3>
+<p><strong>Important difference between statsmodels and sklearn:</strong></p>
+<p>By default, sklearn’s <code>LogisticRegression</code> applies <strong>L2 regularization</strong> (ridge penalty) with <code>C=1.0</code>. This means: - The model penalizes large coefficients to prevent overfitting - Coefficients will be different from statsmodels (which uses no regularization by default)</p>
+<p><strong>Understanding the <code>C</code> parameter:</strong> - <code>C</code> is the <strong>inverse of regularization strength</strong> (higher C = less regularization) - Default: <code>C=1.0</code> applies moderate regularization - To turn off regularization: Set <code>C=np.inf</code> (infinite C = no penalty)</p>
+<ul>
+<li>Note: We’ll cover regularization and tuning C in detail in a later lectureLet’s refit the model without regularization and compare the coefficients:</li>
+</ul>
+<p>To match statsmodels’ behavior and get coefficients that are directly comparable, we need to:- Set <code>C=np.inf</code> to turn off regularization completely</p>
+<div id="cell-31" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression WITHOUT regularization (C=np.inf)</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sklearn_logit_no_reg <span class="op">=</span> LogisticRegression(C<span class="op">=</span>np.inf, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>sklearn_logit_no_reg.fit(X_train, y_train)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Sklearn Logistic Regression (NO regularization, C=np.inf):"</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Coefficients:"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> feature, coef <span class="kw">in</span> <span class="bu">zip</span>(X_train.columns, sklearn_logit_no_reg.coef_[<span class="dv">0</span>]):</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>feature<span class="sc">:20s}</span><span class="ss">: </span><span class="sc">{</span>coef<span class="sc">:8.4f}</span><span class="ss">"</span>)</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Intercept: </span><span class="sc">{</span>sklearn_logit_no_reg<span class="sc">.</span>intercept_[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sklearn Logistic Regression (NO regularization, C=np.inf):
+
+Coefficients:
+  age                 :  -0.0400
+  fare                :   0.0007
+  pclass              :  -1.2733
+  sex_male            :  -2.6032
+
+Intercept: 5.1031</code></pre>
+</div>
+</div>
+<div id="cell-32" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">60</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"COMPARISON: With vs Without Regularization"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">60</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Feature'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'With Reg (C=1.0)'</span><span class="sc">:&lt;18}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'No Reg (C=np.inf)'</span><span class="sc">:&lt;18}</span><span class="ss">"</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">60</span>)</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, feature <span class="kw">in</span> <span class="bu">enumerate</span>(X_train.columns):</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    coef_with <span class="op">=</span> sklearn_logit.coef_[<span class="dv">0</span>][i]</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    coef_without <span class="op">=</span> sklearn_logit_no_reg.coef_[<span class="dv">0</span>][i]</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>feature<span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>coef_with<span class="sc">:17.4f}</span><span class="ss"> </span><span class="sc">{</span>coef_without<span class="sc">:17.4f}</span><span class="ss">"</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'Intercept'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>sklearn_logit<span class="sc">.</span>intercept_[<span class="dv">0</span>]<span class="sc">:17.4f}</span><span class="ss"> </span><span class="sc">{</span>sklearn_logit_no_reg<span class="sc">.</span>intercept_[<span class="dv">0</span>]<span class="sc">:17.4f}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+============================================================
+COMPARISON: With vs Without Regularization
+============================================================
+Feature              With Reg (C=1.0)   No Reg (C=np.inf) 
+------------------------------------------------------------
+age                            -0.0389           -0.0400
+fare                            0.0010            0.0007
+pclass                         -1.2189           -1.2733
+sex_male                       -2.4830           -2.6032
+
+Intercept                       4.8699            5.1031</code></pre>
+</div>
+</div>
+<p><strong>Key Observations:</strong></p>
+<ol type="1">
+<li><strong>With regularization (default <code>C=1.0</code>)</strong>: Coefficients are slightly shrunk toward zero</li>
+<li><strong>Without regularization (<code>C=np.inf</code>)</strong>: Coefficients match statsmodels more closely</li>
+</ol>
+<p><strong>When to use which approach:</strong></p>
+<ul>
+<li><strong>Use regularization (smaller C values)</strong>:
+<ul>
+<li>When you have many features or potential overfitting</li>
+<li>For production models where generalization is key</li>
+<li>Default sklearn behavior (<code>C=1.0</code>) is good for most machine learning workflows</li>
+</ul></li>
+<li><strong>Turn off regularization (<code>C=np.inf</code>)</strong>:
+<ul>
+<li>When you want to match statistical software like statsmodels or R</li>
+<li>For small datasets with few predictors</li>
+<li>When interpretability and hypothesis testing are priorities</li>
+<li>When comparing results across different tools</li>
+</ul></li>
+</ul>
+<p><strong>Note:</strong> We’ll explore how to choose optimal C values using cross-validation in the regularization lecture.</p>
+<div id="cell-34" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># the training and test accuracy for the model with and without regularization</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>train_pred_no_reg <span class="op">=</span> sklearn_logit_no_reg.predict(X_train)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>test_pred_no_reg <span class="op">=</span> sklearn_logit_no_reg.predict(X_test)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>train_accuracy_no_reg <span class="op">=</span> accuracy_score(y_train, train_pred_no_reg)</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>test_accuracy_no_reg <span class="op">=</span> accuracy_score(y_test, test_pred_no_reg)</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>train_pred_with_reg <span class="op">=</span> sklearn_logit.predict(X_train)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>test_pred_with_reg <span class="op">=</span> sklearn_logit.predict(X_test)</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>train_accuracy_with_reg <span class="op">=</span> accuracy_score(y_train, train_pred_with_reg)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>test_accuracy_with_reg <span class="op">=</span> accuracy_score(y_test, test_pred_with_reg)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Sklearn Logistic Regression WITHOUT regularization (C=np.inf):"</span>)</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Training Accuracy:   </span><span class="sc">{</span>train_accuracy_no_reg<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>train_accuracy_no_reg<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Test Accuracy:       </span><span class="sc">{</span>test_accuracy_no_reg<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>test_accuracy_no_reg<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Sklearn Logistic Regression WITH regularization:"</span>)</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Training Accuracy:   </span><span class="sc">{</span>train_accuracy_with_reg<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>train_accuracy_with_reg<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Test Accuracy:       </span><span class="sc">{</span>test_accuracy_with_reg<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>test_accuracy_with_reg<span class="sc">:.2%}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Sklearn Logistic Regression WITHOUT regularization (C=np.inf):
+  Training Accuracy:   0.7992 (79.92%)
+  Test Accuracy:       0.7821 (78.21%)
+
+Sklearn Logistic Regression WITH regularization:
+  Training Accuracy:   0.8006 (80.06%)
+  Test Accuracy:       0.7821 (78.21%)</code></pre>
+</div>
+</div>
+</section>
+<section id="pipeline-implementation" class="level3" data-number="8.5.3">
+<h3 data-number="8.5.3" class="anchored" data-anchor-id="pipeline-implementation"><span class="header-section-number">8.5.3</span> Pipeline Implementation</h3>
+<p><strong>Why use Pipelines?</strong></p>
+<p>So far, we’ve manually created dummy variables using <code>pd.get_dummies()</code>. While this works, sklearn’s <strong>Pipeline</strong> approach offers several advantages:</p>
+<ol type="1">
+<li><strong>Automated preprocessing</strong>: Handles categorical encoding automatically</li>
+<li><strong>Prevents data leakage</strong>: Ensures transformations are fit only on training data</li>
+<li><strong>Cleaner code</strong>: Combines preprocessing and modeling in one object</li>
+<li><strong>Production-ready</strong>: Easier to deploy and maintain</li>
+<li><strong>Reproducibility</strong>: All steps are encapsulated in one pipeline</li>
+</ol>
+<p><strong>Key components:</strong> - <code>ColumnTransformer</code>: Applies different transformations to different columns - <code>OneHotEncoder</code>: Converts categorical variables to dummy variables - <code>Pipeline</code>: Chains preprocessing and model fitting together</p>
+<p>Let’s implement the same logistic regression model using a pipeline (without regularization to match statsmodels):</p>
+<div id="cell-36" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import required components for pipeline</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.compose <span class="im">import</span> ColumnTransformer</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define which columns are categorical and which are numeric</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>categorical_features <span class="op">=</span> [<span class="st">'sex'</span>]</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>numeric_features <span class="op">=</span> [<span class="st">'age'</span>, <span class="st">'fare'</span>, <span class="st">'pclass'</span>]</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the column transformer</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a><span class="co"># OneHotEncoder with drop='first' mimics the drop_first=True in pd.get_dummies</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>preprocessor <span class="op">=</span> ColumnTransformer(</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>    transformers<span class="op">=</span>[</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'num'</span>, <span class="st">'passthrough'</span>, numeric_features),  <span class="co"># Keep numeric features as-is</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'cat'</span>, OneHotEncoder(drop<span class="op">=</span><span class="st">'first'</span>), categorical_features)  <span class="co"># Encode categorical</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>    ])</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the pipeline: preprocessing + logistic regression</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>pipeline_model <span class="op">=</span> Pipeline(steps<span class="op">=</span>[</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'preprocessor'</span>, preprocessor),</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>    (<span class="st">'classifier'</span>, LogisticRegression(C<span class="op">=</span>np.inf, random_state<span class="op">=</span><span class="dv">42</span>))</span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the pipeline on training data</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: We pass the original dataframe with categorical variables</span></span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>X_train_raw <span class="op">=</span> train_df[[<span class="st">'age'</span>, <span class="st">'fare'</span>, <span class="st">'sex'</span>, <span class="st">'pclass'</span>]]</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>X_test_raw <span class="op">=</span> test_df[[<span class="st">'age'</span>, <span class="st">'fare'</span>, <span class="st">'sex'</span>, <span class="st">'pclass'</span>]]</span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>pipeline_model.fit(X_train_raw, y_train)</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Pipeline model fitted successfully!"</span>)</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Pipeline structure:"</span>)</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pipeline_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pipeline model fitted successfully!
+
+Pipeline structure:
+Pipeline(steps=[('preprocessor',
+                 ColumnTransformer(transformers=[('num', 'passthrough',
+                                                  ['age', 'fare', 'pclass']),
+                                                 ('cat',
+                                                  OneHotEncoder(drop='first'),
+                                                  ['sex'])])),
+                ('classifier', LogisticRegression(C=inf, random_state=42))])</code></pre>
+</div>
+</div>
+<div id="cell-37" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the trained logistic regression model from the pipeline</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>pipeline_logit <span class="op">=</span> pipeline_model.named_steps[<span class="st">'classifier'</span>]</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get feature names after transformation</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>feature_names <span class="op">=</span> numeric_features <span class="op">+</span> [<span class="st">'sex_male'</span>]  <span class="co"># OneHotEncoder creates sex_male (drops sex_female)</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Pipeline Logistic Regression Coefficients (C=np.inf):"</span>)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Coefficients:"</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> feature, coef <span class="kw">in</span> <span class="bu">zip</span>(feature_names, pipeline_logit.coef_[<span class="dv">0</span>]):</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  </span><span class="sc">{</span>feature<span class="sc">:20s}</span><span class="ss">: </span><span class="sc">{</span>coef<span class="sc">:8.4f}</span><span class="ss">"</span>)</span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Intercept: </span><span class="sc">{</span>pipeline_logit<span class="sc">.</span>intercept_[<span class="dv">0</span>]<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions</span></span>
+<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>pipeline_train_pred <span class="op">=</span> pipeline_model.predict(X_train_raw)</span>
+<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>pipeline_test_pred <span class="op">=</span> pipeline_model.predict(X_test_raw)</span>
+<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-17"><a href="#cb39-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate accuracy</span></span>
+<span id="cb39-18"><a href="#cb39-18" aria-hidden="true" tabindex="-1"></a>pipeline_train_accuracy <span class="op">=</span> accuracy_score(y_train, pipeline_train_pred)</span>
+<span id="cb39-19"><a href="#cb39-19" aria-hidden="true" tabindex="-1"></a>pipeline_test_accuracy <span class="op">=</span> accuracy_score(y_test, pipeline_test_pred)</span>
+<span id="cb39-20"><a href="#cb39-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-21"><a href="#cb39-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Pipeline Model Performance:"</span>)</span>
+<span id="cb39-22"><a href="#cb39-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Training Accuracy:   </span><span class="sc">{</span>pipeline_train_accuracy<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>pipeline_train_accuracy<span class="sc">:.2%}</span><span class="ss">)"</span>)</span>
+<span id="cb39-23"><a href="#cb39-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"  Test Accuracy:       </span><span class="sc">{</span>pipeline_test_accuracy<span class="sc">:.4f}</span><span class="ss"> (</span><span class="sc">{</span>pipeline_test_accuracy<span class="sc">:.2%}</span><span class="ss">)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Pipeline Logistic Regression Coefficients (C=np.inf):
+
+Coefficients:
+  age                 :  -0.0400
+  fare                :   0.0007
+  pclass              :  -1.2733
+  sex_male            :  -2.6032
+
+Intercept: 5.1031
+
+Pipeline Model Performance:
+  Training Accuracy:   0.7992 (79.92%)
+  Test Accuracy:       0.7821 (78.21%)</code></pre>
+</div>
+</div>
+<div id="cell-38" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verify that pipeline and manual approach give identical results</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"COMPARISON: Pipeline vs Manual Approach (both with C=np.inf)"</span>)</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'Feature'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Manual Approach'</span><span class="sc">:&lt;18}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Pipeline Approach'</span><span class="sc">:&lt;18}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Match?'</span><span class="sc">:&lt;8}</span><span class="ss">"</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare intercept</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>manual_intercept <span class="op">=</span> sklearn_logit_no_reg.intercept_[<span class="dv">0</span>]</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>pipeline_intercept <span class="op">=</span> pipeline_logit.intercept_[<span class="dv">0</span>]</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>match <span class="op">=</span> <span class="st">"✓"</span> <span class="cf">if</span> np.isclose(manual_intercept, pipeline_intercept) <span class="cf">else</span> <span class="st">"✗"</span></span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Intercept'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>manual_intercept<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>pipeline_intercept<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>match<span class="sc">:&lt;8}</span><span class="ss">"</span>)</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare coefficients</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, feature <span class="kw">in</span> <span class="bu">enumerate</span>(feature_names):</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    manual_coef <span class="op">=</span> sklearn_logit_no_reg.coef_[<span class="dv">0</span>][i]</span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    pipeline_coef <span class="op">=</span> pipeline_logit.coef_[<span class="dv">0</span>][i]</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    match <span class="op">=</span> <span class="st">"✓"</span> <span class="cf">if</span> np.isclose(manual_coef, pipeline_coef) <span class="cf">else</span> <span class="st">"✗"</span></span>
+<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>feature<span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>manual_coef<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>pipeline_coef<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>match<span class="sc">:&lt;8}</span><span class="ss">"</span>)</span>
+<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RESULT: Both approaches produce IDENTICAL coefficients!"</span>)</span>
+<span id="cb41-23"><a href="#cb41-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+COMPARISON: Pipeline vs Manual Approach (both with C=np.inf)
+======================================================================
+
+Feature              Manual Approach    Pipeline Approach  Match?  
+----------------------------------------------------------------------
+Intercept                     5.103138          5.103138 ✓       
+age                          -0.039957         -0.039957 ✓       
+fare                          0.000660          0.000660 ✓       
+pclass                       -1.273318         -1.273318 ✓       
+sex_male                     -2.603232         -2.603232 ✓       
+
+======================================================================
+RESULT: Both approaches produce IDENTICAL coefficients!
+======================================================================</code></pre>
+</div>
+</div>
+<p><strong>Key Advantages of Pipeline Approach:</strong></p>
+<ol type="1">
+<li><strong>Identical Results</strong>: Pipeline produces the exact same coefficients and predictions as the manual approach</li>
+<li><strong>Cleaner Code</strong>: All preprocessing and modeling in one object</li>
+<li><strong>No Data Leakage</strong>: The pipeline ensures that:
+<ul>
+<li>OneHotEncoder is fit only on training data</li>
+<li>Categories seen only in test data are handled correctly</li>
+</ul></li>
+<li><strong>Production Ready</strong>: Can be easily saved and loaded for deployment</li>
+<li><strong>Works with Cross-Validation</strong>: Seamlessly integrates with GridSearchCV and other sklearn tools</li>
+</ol>
+<p><strong>When to use each approach:</strong></p>
+<ul>
+<li><strong>Manual <code>pd.get_dummies()</code></strong>:
+<ul>
+<li>Quick exploratory analysis</li>
+<li>When you need fine control over encoding</li>
+<li>Simple, one-off models</li>
+</ul></li>
+<li><strong>Pipeline with ColumnTransformer</strong>:
+<ul>
+<li>Production environments</li>
+<li>When using cross-validation or hyperparameter tuning</li>
+<li>Multiple preprocessing steps</li>
+<li>When you need to ensure reproducibility and prevent data leakage</li>
+</ul></li>
+</ul>
+<p><strong>In the next 2 weeks, you will learn</strong></p>
+<ul>
+<li>Use pipelines with cross-validation to tune hyperparameters (like <code>C</code>)</li>
+<li>Extend pipelines with additional preprocessing (scaling, imputation, feature engineering)</li>
+<li>Save trained pipelines for deployment using <code>joblib</code> or <code>pickle</code></li>
+</ul>
+</section>
+</section>
+<section id="statsmodels-vs-sklearn-result-comparison" class="level2" data-number="8.6">
+<h2 data-number="8.6" class="anchored" data-anchor-id="statsmodels-vs-sklearn-result-comparison"><span class="header-section-number">8.6</span> Statsmodels vs Sklearn Result Comparison</h2>
+<p><strong>Why might coefficients differ?</strong></p>
+<p>Unlike linear regression which has a closed-form solution (matrix operations), logistic regression requires <strong>iterative optimization algorithms</strong> to find the best coefficients. Both statsmodels and sklearn use iterative methods, but:</p>
+<ul>
+<li><strong>Statsmodels</strong> uses: Newton-Raphson/IRLS (Iteratively Reweighted Least Squares)</li>
+<li><strong>Sklearn</strong> uses: LBFGS, liblinear, SAG, or SAGA (depending on settings)</li>
+</ul>
+<p>Even with <code>C=np.inf</code> (no regularization), we might see <strong>slight differences</strong> due to: 1. Different optimization algorithms 2. Different convergence criteria 3. Different tolerance thresholds 4. Numerical precision differences</p>
+<p>However, when both converge properly, the coefficients should be <strong>very close</strong> (differences typically in the 3rd-4th decimal place or smaller).</p>
+<p>Let’s compare the coefficients from statsmodels and sklearn (without regularization):</p>
+<div id="cell-41" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract coefficients from statsmodels</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: statsmodels coefficients are in a different order due to formula notation</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>statsmodels_coefs <span class="op">=</span> statsmodels_logit.params</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"COEFFICIENT COMPARISON: Statsmodels vs Sklearn (C=np.inf)"</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="st">'Variable'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Statsmodels'</span><span class="sc">:&lt;18}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Sklearn (C=np.inf)'</span><span class="sc">:&lt;18}</span><span class="ss"> </span><span class="sc">{</span><span class="st">'Difference'</span><span class="sc">:&lt;12}</span><span class="ss">"</span>)</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare intercept</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>sklearn_intercept <span class="op">=</span> sklearn_logit_no_reg.intercept_[<span class="dv">0</span>]</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>statsmodels_intercept <span class="op">=</span> statsmodels_coefs[<span class="st">'Intercept'</span>]</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>diff_intercept <span class="op">=</span> <span class="bu">abs</span>(sklearn_intercept <span class="op">-</span> statsmodels_intercept)</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'Intercept'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>statsmodels_intercept<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>sklearn_intercept<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>diff_intercept<span class="sc">:11.6f}</span><span class="ss">"</span>)</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare age coefficient</span></span>
+<span id="cb43-18"><a href="#cb43-18" aria-hidden="true" tabindex="-1"></a>sklearn_age <span class="op">=</span> sklearn_logit_no_reg.coef_[<span class="dv">0</span>][<span class="bu">list</span>(X_train.columns).index(<span class="st">'age'</span>)]</span>
+<span id="cb43-19"><a href="#cb43-19" aria-hidden="true" tabindex="-1"></a>statsmodels_age <span class="op">=</span> statsmodels_coefs[<span class="st">'age'</span>]</span>
+<span id="cb43-20"><a href="#cb43-20" aria-hidden="true" tabindex="-1"></a>diff_age <span class="op">=</span> <span class="bu">abs</span>(sklearn_age <span class="op">-</span> statsmodels_age)</span>
+<span id="cb43-21"><a href="#cb43-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'age'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>statsmodels_age<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>sklearn_age<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>diff_age<span class="sc">:11.6f}</span><span class="ss">"</span>)</span>
+<span id="cb43-22"><a href="#cb43-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-23"><a href="#cb43-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare fare coefficient</span></span>
+<span id="cb43-24"><a href="#cb43-24" aria-hidden="true" tabindex="-1"></a>sklearn_fare <span class="op">=</span> sklearn_logit_no_reg.coef_[<span class="dv">0</span>][<span class="bu">list</span>(X_train.columns).index(<span class="st">'fare'</span>)]</span>
+<span id="cb43-25"><a href="#cb43-25" aria-hidden="true" tabindex="-1"></a>statsmodels_fare <span class="op">=</span> statsmodels_coefs[<span class="st">'fare'</span>]</span>
+<span id="cb43-26"><a href="#cb43-26" aria-hidden="true" tabindex="-1"></a>diff_fare <span class="op">=</span> <span class="bu">abs</span>(sklearn_fare <span class="op">-</span> statsmodels_fare)</span>
+<span id="cb43-27"><a href="#cb43-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'fare'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>statsmodels_fare<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>sklearn_fare<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>diff_fare<span class="sc">:11.6f}</span><span class="ss">"</span>)</span>
+<span id="cb43-28"><a href="#cb43-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-29"><a href="#cb43-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare sex coefficient (male)</span></span>
+<span id="cb43-30"><a href="#cb43-30" aria-hidden="true" tabindex="-1"></a>sklearn_sex_male <span class="op">=</span> sklearn_logit_no_reg.coef_[<span class="dv">0</span>][<span class="bu">list</span>(X_train.columns).index(<span class="st">'sex_male'</span>)]</span>
+<span id="cb43-31"><a href="#cb43-31" aria-hidden="true" tabindex="-1"></a>statsmodels_sex_male <span class="op">=</span> statsmodels_coefs[<span class="st">'C(sex)[T.male]'</span>]</span>
+<span id="cb43-32"><a href="#cb43-32" aria-hidden="true" tabindex="-1"></a>diff_sex <span class="op">=</span> <span class="bu">abs</span>(sklearn_sex_male <span class="op">-</span> statsmodels_sex_male)</span>
+<span id="cb43-33"><a href="#cb43-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'sex_male'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>statsmodels_sex_male<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>sklearn_sex_male<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>diff_sex<span class="sc">:11.6f}</span><span class="ss">"</span>)</span>
+<span id="cb43-34"><a href="#cb43-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-35"><a href="#cb43-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare pclass coefficient</span></span>
+<span id="cb43-36"><a href="#cb43-36" aria-hidden="true" tabindex="-1"></a>sklearn_pclass <span class="op">=</span> sklearn_logit_no_reg.coef_[<span class="dv">0</span>][<span class="bu">list</span>(X_train.columns).index(<span class="st">'pclass'</span>)]</span>
+<span id="cb43-37"><a href="#cb43-37" aria-hidden="true" tabindex="-1"></a>statsmodels_pclass <span class="op">=</span> statsmodels_coefs[<span class="st">'pclass'</span>]</span>
+<span id="cb43-38"><a href="#cb43-38" aria-hidden="true" tabindex="-1"></a>diff_pclass <span class="op">=</span> <span class="bu">abs</span>(sklearn_pclass <span class="op">-</span> statsmodels_pclass)</span>
+<span id="cb43-39"><a href="#cb43-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="st">'pclass'</span><span class="sc">:&lt;20}</span><span class="ss"> </span><span class="sc">{</span>statsmodels_pclass<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>sklearn_pclass<span class="sc">:17.6f}</span><span class="ss"> </span><span class="sc">{</span>diff_pclass<span class="sc">:11.6f}</span><span class="ss">"</span>)</span>
+<span id="cb43-40"><a href="#cb43-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-41"><a href="#cb43-41" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb43-42"><a href="#cb43-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"INTERPRETATION:"</span>)</span>
+<span id="cb43-43"><a href="#cb43-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span>
+<span id="cb43-44"><a href="#cb43-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Coefficients are very close (differences &lt; 0.001 typically)"</span>)</span>
+<span id="cb43-45"><a href="#cb43-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Both models have converged to essentially the same solution"</span>)</span>
+<span id="cb43-46"><a href="#cb43-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ Minor differences are due to numerical optimization details"</span>)</span>
+<span id="cb43-47"><a href="#cb43-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"✓ For practical purposes, both implementations give equivalent results"</span>)</span>
+<span id="cb43-48"><a href="#cb43-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span><span class="op">*</span><span class="dv">70</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>======================================================================
+COEFFICIENT COMPARISON: Statsmodels vs Sklearn (C=np.inf)
+======================================================================
+
+Variable             Statsmodels        Sklearn (C=np.inf) Difference  
+----------------------------------------------------------------------
+Intercept                     5.103261          5.103138    0.000123
+age                          -0.039956         -0.039957    0.000001
+fare                          0.000659          0.000660    0.000001
+sex_male                     -2.603225         -2.603232    0.000007
+pclass                       -1.273379         -1.273318    0.000062
+
+======================================================================
+INTERPRETATION:
+======================================================================
+✓ Coefficients are very close (differences &lt; 0.001 typically)
+✓ Both models have converged to essentially the same solution
+✓ Minor differences are due to numerical optimization details
+✓ For practical purposes, both implementations give equivalent results
+======================================================================</code></pre>
+</div>
+</div>
+<p><strong>When do these differences matter?</strong></p>
+<p>In most practical applications, these tiny differences are <strong>negligible</strong>: - Predictions will be virtually identical - Model performance metrics will be the same - Interpretation of coefficients remains consistent</p>
+<p><strong>Key takeaway:</strong> - When comparing results across tools, use <code>C=np.inf</code> in sklearn to match statsmodels - Both implementations are correct and reliable - Choose the tool based on your workflow needs (statsmodels for inference, sklearn for ML pipelines)</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Lec5_Potential_issues.html" class="pagination-link" aria-label="Beyond Fit (statistical theory)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Beyond Fit (statistical theory)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./logistic_regression_metrics.html" class="pagination-link" aria-label="Logistic Regression Evaluation">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Logistic Regression Evaluation</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

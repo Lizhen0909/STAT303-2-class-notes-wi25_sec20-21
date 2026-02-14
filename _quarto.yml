@@ -24,8 +24,8 @@ book:
     - potential_issue_3.ipynb
     - Lec5_Potential_issues.ipynb
     - logistic_regression_introduction.ipynb
-    - logistic_regression_metric.ipynb
-    - Logistic Regression - Decision Boundary and Feature Engineering (Nonlinear Features).ipynb
+    - logistic_regression_metrics.ipynb
+    - Logistic_feature_engineering.ipynb
     - cross_validation.ipynb
     - Regularization in Python.ipynb
     - Feature Selection.ipynb

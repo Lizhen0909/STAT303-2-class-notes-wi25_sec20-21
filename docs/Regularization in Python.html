@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>11&nbsp; Regularization – Data Science II with python (Class notes)</title>
+<title>12&nbsp; Regularization – Data Science II with python (Class notes)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Regularization in Python.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Regularization</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Regularization in Python.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -220,32 +220,38 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./logistic_regression_lecture.html" class="sidebar-item-text sidebar-link">
+  <a href="./logistic_regression_introduction.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Introduction to Logistic Regression</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Logistic Regression - Decision Boundary and Feature Engineering (Nonlinear Features).html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Logistic regression: Others</span></span></a>
+  <a href="./logistic_regression_metrics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Logistic Regression Evaluation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Logistic_feature_engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Logistic Regression: Feature Engineering</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cross_validation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Cross-Validation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cross-Validation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Regularization in Python.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Feature Selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Feature Selection</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Selection</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -287,55 +293,55 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-do-we-need-regularization" id="toc-why-do-we-need-regularization" class="nav-link active" data-scroll-target="#why-do-we-need-regularization"><span class="header-section-number">11.1</span> Why do we need regularization?</a>
+  <li><a href="#why-do-we-need-regularization" id="toc-why-do-we-need-regularization" class="nav-link active" data-scroll-target="#why-do-we-need-regularization"><span class="header-section-number">12.1</span> Why do we need regularization?</a>
   <ul>
-  <li><a href="#the-challenge-of-overfitting-and-underfitting" id="toc-the-challenge-of-overfitting-and-underfitting" class="nav-link" data-scroll-target="#the-challenge-of-overfitting-and-underfitting"><span class="header-section-number">11.1.1</span> The Challenge of Overfitting and Underfitting</a></li>
-  <li><a href="#understanding-the-bias-variance-tradeoff" id="toc-understanding-the-bias-variance-tradeoff" class="nav-link" data-scroll-target="#understanding-the-bias-variance-tradeoff"><span class="header-section-number">11.1.2</span> Understanding the Bias-Variance Tradeoff</a></li>
-  <li><a href="#visualizing-overfitting-vs.-underfitting" id="toc-visualizing-overfitting-vs.-underfitting" class="nav-link" data-scroll-target="#visualizing-overfitting-vs.-underfitting"><span class="header-section-number">11.1.3</span> Visualizing Overfitting vs.&nbsp;Underfitting</a></li>
+  <li><a href="#the-challenge-of-overfitting-and-underfitting" id="toc-the-challenge-of-overfitting-and-underfitting" class="nav-link" data-scroll-target="#the-challenge-of-overfitting-and-underfitting"><span class="header-section-number">12.1.1</span> The Challenge of Overfitting and Underfitting</a></li>
+  <li><a href="#understanding-the-bias-variance-tradeoff" id="toc-understanding-the-bias-variance-tradeoff" class="nav-link" data-scroll-target="#understanding-the-bias-variance-tradeoff"><span class="header-section-number">12.1.2</span> Understanding the Bias-Variance Tradeoff</a></li>
+  <li><a href="#visualizing-overfitting-vs.-underfitting" id="toc-visualizing-overfitting-vs.-underfitting" class="nav-link" data-scroll-target="#visualizing-overfitting-vs.-underfitting"><span class="header-section-number">12.1.3</span> Visualizing Overfitting vs.&nbsp;Underfitting</a></li>
   </ul></li>
-  <li><a href="#simulating-data-for-an-overfitting-linear-model" id="toc-simulating-data-for-an-overfitting-linear-model" class="nav-link" data-scroll-target="#simulating-data-for-an-overfitting-linear-model"><span class="header-section-number">11.2</span> Simulating Data for an Overfitting Linear Model</a>
+  <li><a href="#simulating-data-for-an-overfitting-linear-model" id="toc-simulating-data-for-an-overfitting-linear-model" class="nav-link" data-scroll-target="#simulating-data-for-an-overfitting-linear-model"><span class="header-section-number">12.2</span> Simulating Data for an Overfitting Linear Model</a>
   <ul>
-  <li><a href="#generating-the-data" id="toc-generating-the-data" class="nav-link" data-scroll-target="#generating-the-data"><span class="header-section-number">11.2.1</span> Generating the data</a></li>
-  <li><a href="#splitting-the-data" id="toc-splitting-the-data" class="nav-link" data-scroll-target="#splitting-the-data"><span class="header-section-number">11.2.2</span> Splitting the Data</a></li>
-  <li><a href="#splitting-the-target-and-features" id="toc-splitting-the-target-and-features" class="nav-link" data-scroll-target="#splitting-the-target-and-features"><span class="header-section-number">11.2.3</span> Splitting the target and features</a></li>
-  <li><a href="#building-models" id="toc-building-models" class="nav-link" data-scroll-target="#building-models"><span class="header-section-number">11.2.4</span> Building Models</a>
+  <li><a href="#generating-the-data" id="toc-generating-the-data" class="nav-link" data-scroll-target="#generating-the-data"><span class="header-section-number">12.2.1</span> Generating the data</a></li>
+  <li><a href="#splitting-the-data" id="toc-splitting-the-data" class="nav-link" data-scroll-target="#splitting-the-data"><span class="header-section-number">12.2.2</span> Splitting the Data</a></li>
+  <li><a href="#splitting-the-target-and-features" id="toc-splitting-the-target-and-features" class="nav-link" data-scroll-target="#splitting-the-target-and-features"><span class="header-section-number">12.2.3</span> Splitting the target and features</a></li>
+  <li><a href="#building-models" id="toc-building-models" class="nav-link" data-scroll-target="#building-models"><span class="header-section-number">12.2.4</span> Building Models</a>
   <ul class="collapse">
-  <li><a href="#building-a-linear-model-with-only-1-predictor-x" id="toc-building-a-linear-model-with-only-1-predictor-x" class="nav-link" data-scroll-target="#building-a-linear-model-with-only-1-predictor-x"><span class="header-section-number">11.2.4.1</span> Building a linear model with only 1 predictor <code>x</code></a></li>
-  <li><a href="#building-a-linear-regression-model-with-three-features-x-x_2-x_3" id="toc-building-a-linear-regression-model-with-three-features-x-x_2-x_3" class="nav-link" data-scroll-target="#building-a-linear-regression-model-with-three-features-x-x_2-x_3"><span class="header-section-number">11.2.4.2</span> Building a linear regression model with three features <code>x, x_2, x_3</code></a></li>
+  <li><a href="#building-a-linear-model-with-only-1-predictor-x" id="toc-building-a-linear-model-with-only-1-predictor-x" class="nav-link" data-scroll-target="#building-a-linear-model-with-only-1-predictor-x"><span class="header-section-number">12.2.4.1</span> Building a linear model with only 1 predictor <code>x</code></a></li>
+  <li><a href="#building-a-linear-regression-model-with-three-features-x-x_2-x_3" id="toc-building-a-linear-regression-model-with-three-features-x-x_2-x_3" class="nav-link" data-scroll-target="#building-a-linear-regression-model-with-three-features-x-x_2-x_3"><span class="header-section-number">12.2.4.2</span> Building a linear regression model with three features <code>x, x_2, x_3</code></a></li>
   </ul></li>
-  <li><a href="#overfitting-indicated-by-training-and-test-mrss-trends" id="toc-overfitting-indicated-by-training-and-test-mrss-trends" class="nav-link" data-scroll-target="#overfitting-indicated-by-training-and-test-mrss-trends"><span class="header-section-number">11.2.5</span> Overfitting Indicated by Training and Test MRSS Trends</a></li>
+  <li><a href="#overfitting-indicated-by-training-and-test-mrss-trends" id="toc-overfitting-indicated-by-training-and-test-mrss-trends" class="nav-link" data-scroll-target="#overfitting-indicated-by-training-and-test-mrss-trends"><span class="header-section-number">12.2.5</span> Overfitting Indicated by Training and Test MRSS Trends</a></li>
   </ul></li>
-  <li><a href="#regularization-combating-overfitting" id="toc-regularization-combating-overfitting" class="nav-link" data-scroll-target="#regularization-combating-overfitting"><span class="header-section-number">11.3</span> Regularization: Combating Overfitting</a>
+  <li><a href="#regularization-combating-overfitting" id="toc-regularization-combating-overfitting" class="nav-link" data-scroll-target="#regularization-combating-overfitting"><span class="header-section-number">12.3</span> Regularization: Combating Overfitting</a>
   <ul>
-  <li><a href="#regularized-loss-function" id="toc-regularized-loss-function" class="nav-link" data-scroll-target="#regularized-loss-function"><span class="header-section-number">11.3.1</span> Regularized Loss Function</a></li>
-  <li><a href="#regularization-does-not-penalize-the-intercept" id="toc-regularization-does-not-penalize-the-intercept" class="nav-link" data-scroll-target="#regularization-does-not-penalize-the-intercept"><span class="header-section-number">11.3.2</span> Regularization Does Not Penalize the Intercept</a></li>
-  <li><a href="#types-of-regularization" id="toc-types-of-regularization" class="nav-link" data-scroll-target="#types-of-regularization"><span class="header-section-number">11.3.3</span> Types of Regularization</a></li>
-  <li><a href="#why-is-feature-scaling-required-in-regularization" id="toc-why-is-feature-scaling-required-in-regularization" class="nav-link" data-scroll-target="#why-is-feature-scaling-required-in-regularization"><span class="header-section-number">11.3.4</span> Why Is Feature Scaling Required in Regularization?</a>
+  <li><a href="#regularized-loss-function" id="toc-regularized-loss-function" class="nav-link" data-scroll-target="#regularized-loss-function"><span class="header-section-number">12.3.1</span> Regularized Loss Function</a></li>
+  <li><a href="#regularization-does-not-penalize-the-intercept" id="toc-regularization-does-not-penalize-the-intercept" class="nav-link" data-scroll-target="#regularization-does-not-penalize-the-intercept"><span class="header-section-number">12.3.2</span> Regularization Does Not Penalize the Intercept</a></li>
+  <li><a href="#types-of-regularization" id="toc-types-of-regularization" class="nav-link" data-scroll-target="#types-of-regularization"><span class="header-section-number">12.3.3</span> Types of Regularization</a></li>
+  <li><a href="#why-is-feature-scaling-required-in-regularization" id="toc-why-is-feature-scaling-required-in-regularization" class="nav-link" data-scroll-target="#why-is-feature-scaling-required-in-regularization"><span class="header-section-number">12.3.4</span> Why Is Feature Scaling Required in Regularization?</a>
   <ul class="collapse">
-  <li><a href="#the-effect-of-feature-magnitudes-on-regularization" id="toc-the-effect-of-feature-magnitudes-on-regularization" class="nav-link" data-scroll-target="#the-effect-of-feature-magnitudes-on-regularization"><span class="header-section-number">11.3.4.1</span> The Effect of Feature Magnitudes on Regularization</a></li>
-  <li><a href="#example-the-need-for-feature-scaling" id="toc-example-the-need-for-feature-scaling" class="nav-link" data-scroll-target="#example-the-need-for-feature-scaling"><span class="header-section-number">11.3.4.2</span> Example: The Need for Feature Scaling</a></li>
-  <li><a href="#how-to-scale-features-for-regularization" id="toc-how-to-scale-features-for-regularization" class="nav-link" data-scroll-target="#how-to-scale-features-for-regularization"><span class="header-section-number">11.3.4.3</span> How to Scale Features for Regularization</a></li>
+  <li><a href="#the-effect-of-feature-magnitudes-on-regularization" id="toc-the-effect-of-feature-magnitudes-on-regularization" class="nav-link" data-scroll-target="#the-effect-of-feature-magnitudes-on-regularization"><span class="header-section-number">12.3.4.1</span> The Effect of Feature Magnitudes on Regularization</a></li>
+  <li><a href="#example-the-need-for-feature-scaling" id="toc-example-the-need-for-feature-scaling" class="nav-link" data-scroll-target="#example-the-need-for-feature-scaling"><span class="header-section-number">12.3.4.2</span> Example: The Need for Feature Scaling</a></li>
+  <li><a href="#how-to-scale-features-for-regularization" id="toc-how-to-scale-features-for-regularization" class="nav-link" data-scroll-target="#how-to-scale-features-for-regularization"><span class="header-section-number">12.3.4.3</span> How to Scale Features for Regularization</a></li>
   </ul></li>
-  <li><a href="#ridge-regression-l2-regularization" id="toc-ridge-regression-l2-regularization" class="nav-link" data-scroll-target="#ridge-regression-l2-regularization"><span class="header-section-number">11.3.5</span> Ridge Regression: L2 Regularization</a>
+  <li><a href="#ridge-regression-l2-regularization" id="toc-ridge-regression-l2-regularization" class="nav-link" data-scroll-target="#ridge-regression-l2-regularization"><span class="header-section-number">12.3.5</span> Ridge Regression: L2 Regularization</a>
   <ul class="collapse">
-  <li><a href="#ridge-regression-loss-function" id="toc-ridge-regression-loss-function" class="nav-link" data-scroll-target="#ridge-regression-loss-function"><span class="header-section-number">11.3.5.1</span> Ridge Regression Loss Function</a></li>
+  <li><a href="#ridge-regression-loss-function" id="toc-ridge-regression-loss-function" class="nav-link" data-scroll-target="#ridge-regression-loss-function"><span class="header-section-number">12.3.5.1</span> Ridge Regression Loss Function</a></li>
   </ul></li>
-  <li><a href="#lasso-regression-l1-regularization" id="toc-lasso-regression-l1-regularization" class="nav-link" data-scroll-target="#lasso-regression-l1-regularization"><span class="header-section-number">11.3.6</span> Lasso Regression: L1 Regularization</a>
+  <li><a href="#lasso-regression-l1-regularization" id="toc-lasso-regression-l1-regularization" class="nav-link" data-scroll-target="#lasso-regression-l1-regularization"><span class="header-section-number">12.3.6</span> Lasso Regression: L1 Regularization</a>
   <ul class="collapse">
-  <li><a href="#lasso-regression-loss-function" id="toc-lasso-regression-loss-function" class="nav-link" data-scroll-target="#lasso-regression-loss-function"><span class="header-section-number">11.3.6.1</span> Lasso Regression Loss Function</a></li>
+  <li><a href="#lasso-regression-loss-function" id="toc-lasso-regression-loss-function" class="nav-link" data-scroll-target="#lasso-regression-loss-function"><span class="header-section-number">12.3.6.1</span> Lasso Regression Loss Function</a></li>
   </ul></li>
-  <li><a href="#elastic-net-regression-combining-l1-and-l2-regularization" id="toc-elastic-net-regression-combining-l1-and-l2-regularization" class="nav-link" data-scroll-target="#elastic-net-regression-combining-l1-and-l2-regularization"><span class="header-section-number">11.3.7</span> Elastic Net Regression: Combining L1 and L2 Regularization</a>
+  <li><a href="#elastic-net-regression-combining-l1-and-l2-regularization" id="toc-elastic-net-regression-combining-l1-and-l2-regularization" class="nav-link" data-scroll-target="#elastic-net-regression-combining-l1-and-l2-regularization"><span class="header-section-number">12.3.7</span> Elastic Net Regression: Combining L1 and L2 Regularization</a>
   <ul class="collapse">
-  <li><a href="#mathematical-formulation" id="toc-mathematical-formulation" class="nav-link" data-scroll-target="#mathematical-formulation"><span class="header-section-number">11.3.7.1</span> Mathematical Formulation*</a></li>
-  <li><a href="#elastic-net-special-cases" id="toc-elastic-net-special-cases" class="nav-link" data-scroll-target="#elastic-net-special-cases"><span class="header-section-number">11.3.7.2</span> Elastic Net Special Cases</a></li>
+  <li><a href="#mathematical-formulation" id="toc-mathematical-formulation" class="nav-link" data-scroll-target="#mathematical-formulation"><span class="header-section-number">12.3.7.1</span> Mathematical Formulation*</a></li>
+  <li><a href="#elastic-net-special-cases" id="toc-elastic-net-special-cases" class="nav-link" data-scroll-target="#elastic-net-special-cases"><span class="header-section-number">12.3.7.2</span> Elastic Net Special Cases</a></li>
   </ul></li>
-  <li><a href="#ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" id="toc-ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" class="nav-link" data-scroll-target="#ridgecv-lassocv-and-elasticnetcv-in-scikit-learn"><span class="header-section-number">11.3.8</span> <code>RidgeCV</code>, <code>LassoCV</code>, and <code>ElasticNetCV</code> in Scikit-Learn</a>
+  <li><a href="#ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" id="toc-ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" class="nav-link" data-scroll-target="#ridgecv-lassocv-and-elasticnetcv-in-scikit-learn"><span class="header-section-number">12.3.8</span> <code>RidgeCV</code>, <code>LassoCV</code>, and <code>ElasticNetCV</code> in Scikit-Learn</a>
   <ul class="collapse">
-  <li><a href="#overview-of-ridgecv-lassocv-and-elasticnetcv" id="toc-overview-of-ridgecv-lassocv-and-elasticnetcv" class="nav-link" data-scroll-target="#overview-of-ridgecv-lassocv-and-elasticnetcv"><span class="header-section-number">11.3.8.1</span> Overview of RidgeCV, LassoCV, and ElasticNetCV**</a></li>
-  <li><a href="#how-to-use-ridgecv-lassocv-andelasticnetcv" id="toc-how-to-use-ridgecv-lassocv-andelasticnetcv" class="nav-link" data-scroll-target="#how-to-use-ridgecv-lassocv-andelasticnetcv"><span class="header-section-number">11.3.8.2</span> How to Use <code>RidgeCV</code>, <code>LassoCV</code>, and<code>ElasticNetCV</code></a></li>
+  <li><a href="#overview-of-ridgecv-lassocv-and-elasticnetcv" id="toc-overview-of-ridgecv-lassocv-and-elasticnetcv" class="nav-link" data-scroll-target="#overview-of-ridgecv-lassocv-and-elasticnetcv"><span class="header-section-number">12.3.8.1</span> Overview of RidgeCV, LassoCV, and ElasticNetCV**</a></li>
+  <li><a href="#how-to-use-ridgecv-lassocv-andelasticnetcv" id="toc-how-to-use-ridgecv-lassocv-andelasticnetcv" class="nav-link" data-scroll-target="#how-to-use-ridgecv-lassocv-andelasticnetcv"><span class="header-section-number">12.3.8.2</span> How to Use <code>RidgeCV</code>, <code>LassoCV</code>, and<code>ElasticNetCV</code></a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">11.4</span> Reference</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">12.4</span> Reference</a></li>
   </ul>
 </nav>
     </div>
@@ -344,7 +350,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Regularization</span></h1>
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></h1>
 </div>
 
 
@@ -380,10 +386,10 @@ window.Quarto = {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.pylab <span class="im">import</span> rcParams</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> <span class="dv">5</span>, <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="why-do-we-need-regularization" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="why-do-we-need-regularization"><span class="header-section-number">11.1</span> Why do we need regularization?</h2>
-<section id="the-challenge-of-overfitting-and-underfitting" class="level3" data-number="11.1.1">
-<h3 data-number="11.1.1" class="anchored" data-anchor-id="the-challenge-of-overfitting-and-underfitting"><span class="header-section-number">11.1.1</span> The Challenge of Overfitting and Underfitting</h3>
+<section id="why-do-we-need-regularization" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="why-do-we-need-regularization"><span class="header-section-number">12.1</span> Why do we need regularization?</h2>
+<section id="the-challenge-of-overfitting-and-underfitting" class="level3" data-number="12.1.1">
+<h3 data-number="12.1.1" class="anchored" data-anchor-id="the-challenge-of-overfitting-and-underfitting"><span class="header-section-number">12.1.1</span> The Challenge of Overfitting and Underfitting</h3>
 <p>When building machine learning models, we aim to find patterns in data that generalize well to unseen samples. However, models can suffer from two key issues:</p>
 <ul>
 <li><strong>Underfitting</strong>: The model is too simple to capture the underlying pattern in the data.</li>
@@ -391,8 +397,8 @@ window.Quarto = {
 </ul>
 <p><strong>Regularization</strong> is a technique used to address overfitting by penalizing overly complex models.</p>
 </section>
-<section id="understanding-the-bias-variance-tradeoff" class="level3" data-number="11.1.2">
-<h3 data-number="11.1.2" class="anchored" data-anchor-id="understanding-the-bias-variance-tradeoff"><span class="header-section-number">11.1.2</span> Understanding the Bias-Variance Tradeoff</h3>
+<section id="understanding-the-bias-variance-tradeoff" class="level3" data-number="12.1.2">
+<h3 data-number="12.1.2" class="anchored" data-anchor-id="understanding-the-bias-variance-tradeoff"><span class="header-section-number">12.1.2</span> Understanding the Bias-Variance Tradeoff</h3>
 <p>A well-performing model balances two competing sources of error:</p>
 <ul>
 <li><strong>Bias</strong>: Error due to overly simplistic assumptions (e.g., underfitting).</li>
@@ -401,8 +407,8 @@ window.Quarto = {
 <p>A <strong>high-bias</strong> model (e.g., a simple linear regression) may not capture the underlying trend, while a <strong>high-variance</strong> model (e.g., a deep neural network with many parameters) may memorize noise instead of learning meaningful patterns.</p>
 <p>Regularization helps <strong>reduce variance</strong> while maintaining an appropriate level of model complexity.</p>
 </section>
-<section id="visualizing-overfitting-vs.-underfitting" class="level3" data-number="11.1.3">
-<h3 data-number="11.1.3" class="anchored" data-anchor-id="visualizing-overfitting-vs.-underfitting"><span class="header-section-number">11.1.3</span> Visualizing Overfitting vs.&nbsp;Underfitting</h3>
+<section id="visualizing-overfitting-vs.-underfitting" class="level3" data-number="12.1.3">
+<h3 data-number="12.1.3" class="anchored" data-anchor-id="visualizing-overfitting-vs.-underfitting"><span class="header-section-number">12.1.3</span> Visualizing Overfitting vs.&nbsp;Underfitting</h3>
 <p>To better understand this concept, consider three different models:</p>
 <ol type="1">
 <li><strong>Underfitting (High Bias)</strong>: The model is too simple and fails to capture important trends.</li>
@@ -415,10 +421,10 @@ window.Quarto = {
 <p>Regularization helps control <strong>variance</strong> by penalizing large coefficients, leading to a model that generalizes better.</p>
 </section>
 </section>
-<section id="simulating-data-for-an-overfitting-linear-model" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="simulating-data-for-an-overfitting-linear-model"><span class="header-section-number">11.2</span> Simulating Data for an Overfitting Linear Model</h2>
-<section id="generating-the-data" class="level3" data-number="11.2.1">
-<h3 data-number="11.2.1" class="anchored" data-anchor-id="generating-the-data"><span class="header-section-number">11.2.1</span> Generating the data</h3>
+<section id="simulating-data-for-an-overfitting-linear-model" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="simulating-data-for-an-overfitting-linear-model"><span class="header-section-number">12.2</span> Simulating Data for an Overfitting Linear Model</h2>
+<section id="generating-the-data" class="level3" data-number="12.2.1">
+<h3 data-number="12.2.1" class="anchored" data-anchor-id="generating-the-data"><span class="header-section-number">12.2.1</span> Generating the data</h3>
 <div id="543995e5" class="cell" data-scrolled="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Define input array with angles from 60deg to 300deg converted to radians</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([i<span class="op">*</span>np.pi<span class="op">/</span><span class="dv">180</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">360</span>)])</span>
@@ -622,8 +628,8 @@ window.Quarto = {
 <li><strong>Expands the Dataset</strong>: Each polynomial-transformed feature is stored</li>
 </ul>
 </section>
-<section id="splitting-the-data" class="level3" data-number="11.2.2">
-<h3 data-number="11.2.2" class="anchored" data-anchor-id="splitting-the-data"><span class="header-section-number">11.2.2</span> Splitting the Data</h3>
+<section id="splitting-the-data" class="level3" data-number="12.2.2">
+<h3 data-number="12.2.2" class="anchored" data-anchor-id="splitting-the-data"><span class="header-section-number">12.2.2</span> Splitting the Data</h3>
 <p>Next, we will split the data into <strong>training and testing sets</strong>. As we’ve learned, models tend to <strong>overfit</strong> when trained on a small dataset.</p>
 <p>To intentionally create an <strong>overfitting scenario</strong>, we will: - Use <strong>only 10% of the data for training</strong>. - Reserve <strong>90% of the data for testing</strong>.</p>
 <p>This is <strong>not a typical train-test split</strong> but is deliberately done to <strong>demonstrate overfitting</strong>, where the model performs well on the training data but generalizes poorly to unseen data.</p>
@@ -640,8 +646,8 @@ Number of observations in the test data: 324</code></pre>
 </div>
 </div>
 </section>
-<section id="splitting-the-target-and-features" class="level3" data-number="11.2.3">
-<h3 data-number="11.2.3" class="anchored" data-anchor-id="splitting-the-target-and-features"><span class="header-section-number">11.2.3</span> Splitting the target and features</h3>
+<section id="splitting-the-target-and-features" class="level3" data-number="12.2.3">
+<h3 data-number="12.2.3" class="anchored" data-anchor-id="splitting-the-target-and-features"><span class="header-section-number">12.2.3</span> Splitting the target and features</h3>
 <div id="5609a194" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train.drop(<span class="st">'y'</span>, axis<span class="op">=</span><span class="dv">1</span>).values</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train.y.values</span>
@@ -649,10 +655,10 @@ Number of observations in the test data: 324</code></pre>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test.y.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="building-models" class="level3" data-number="11.2.4">
-<h3 data-number="11.2.4" class="anchored" data-anchor-id="building-models"><span class="header-section-number">11.2.4</span> Building Models</h3>
-<section id="building-a-linear-model-with-only-1-predictor-x" class="level4" data-number="11.2.4.1">
-<h4 data-number="11.2.4.1" class="anchored" data-anchor-id="building-a-linear-model-with-only-1-predictor-x"><span class="header-section-number">11.2.4.1</span> Building a linear model with only 1 predictor <code>x</code></h4>
+<section id="building-models" class="level3" data-number="12.2.4">
+<h3 data-number="12.2.4" class="anchored" data-anchor-id="building-models"><span class="header-section-number">12.2.4</span> Building Models</h3>
+<section id="building-a-linear-model-with-only-1-predictor-x" class="level4" data-number="12.2.4.1">
+<h4 data-number="12.2.4.1" class="anchored" data-anchor-id="building-a-linear-model-with-only-1-predictor-x"><span class="header-section-number">12.2.4.1</span> Building a linear model with only 1 predictor <code>x</code></h4>
 <div id="ee82edee" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear regression with one feature</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>independent_variable_train <span class="op">=</span> X_train[:, <span class="dv">0</span>:<span class="dv">1</span>]</span>
@@ -684,8 +690,8 @@ Testing Error 0.22151086120574928</code></pre>
 </div>
 </div>
 </section>
-<section id="building-a-linear-regression-model-with-three-features-x-x_2-x_3" class="level4" data-number="11.2.4.2">
-<h4 data-number="11.2.4.2" class="anchored" data-anchor-id="building-a-linear-regression-model-with-three-features-x-x_2-x_3"><span class="header-section-number">11.2.4.2</span> Building a linear regression model with three features <code>x, x_2, x_3</code></h4>
+<section id="building-a-linear-regression-model-with-three-features-x-x_2-x_3" class="level4" data-number="12.2.4.2">
+<h4 data-number="12.2.4.2" class="anchored" data-anchor-id="building-a-linear-regression-model-with-three-features-x-x_2-x_3"><span class="header-section-number">12.2.4.2</span> Building a linear regression model with three features <code>x, x_2, x_3</code></h4>
 <div id="5f5cf4a5" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>independent_variable_train <span class="op">=</span> X_train[:, <span class="dv">0</span>:<span class="dv">3</span>]</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>independent_variable_train[:<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1173,8 +1179,8 @@ Testing Error 0.028159311299747036</code></pre>
 </div>
 </section>
 </section>
-<section id="overfitting-indicated-by-training-and-test-mrss-trends" class="level3" data-number="11.2.5">
-<h3 data-number="11.2.5" class="anchored" data-anchor-id="overfitting-indicated-by-training-and-test-mrss-trends"><span class="header-section-number">11.2.5</span> Overfitting Indicated by Training and Test MRSS Trends</h3>
+<section id="overfitting-indicated-by-training-and-test-mrss-trends" class="level3" data-number="12.2.5">
+<h3 data-number="12.2.5" class="anchored" data-anchor-id="overfitting-indicated-by-training-and-test-mrss-trends"><span class="header-section-number">12.2.5</span> Overfitting Indicated by Training and Test MRSS Trends</h3>
 <p>As observed in the plot:<br>
 - The <strong>Training Mean Residual Sum of Squares (MRSS)</strong> consistently decreases as the number of features increases.<br>
 - However, after a certain point, the <strong>Test MRSS starts to rise</strong>, indicating that the model is no longer generalizing well to unseen data.</p>
@@ -1183,20 +1189,20 @@ Testing Error 0.028159311299747036</code></pre>
 <p>Next, let’s mitigate the overfitting issue using regularization</p>
 </section>
 </section>
-<section id="regularization-combating-overfitting" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="regularization-combating-overfitting"><span class="header-section-number">11.3</span> Regularization: Combating Overfitting</h2>
+<section id="regularization-combating-overfitting" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="regularization-combating-overfitting"><span class="header-section-number">12.3</span> Regularization: Combating Overfitting</h2>
 <p>Regularization is a technique that <strong>modifies the loss function</strong> by adding a penalty term to control model complexity.<br>
 This helps <strong>prevent overfitting</strong> by discouraging large coefficients in the model.</p>
-<section id="regularized-loss-function" class="level3" data-number="11.3.1">
-<h3 data-number="11.3.1" class="anchored" data-anchor-id="regularized-loss-function"><span class="header-section-number">11.3.1</span> Regularized Loss Function</h3>
+<section id="regularized-loss-function" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="regularized-loss-function"><span class="header-section-number">12.3.1</span> Regularized Loss Function</h3>
 <p>The regularized loss function is given by:</p>
 <p><span class="math inline">\(L_{reg}(\beta) = L(\beta) + \alpha R(\beta)\)</span></p>
 <p>where: - <span class="math inline">\(L(\beta)\)</span> is the original loss function (e.g., Mean Squared Error in linear regression).<br>
 - <span class="math inline">\(R(\beta)\)</span> is the <strong>regularization term</strong>, which penalizes large coefficients.<br>
 - <span class="math inline">\(\alpha\)</span> is a <strong>hyperparameter</strong> that controls the strength of regularization.</p>
 </section>
-<section id="regularization-does-not-penalize-the-intercept" class="level3" data-number="11.3.2">
-<h3 data-number="11.3.2" class="anchored" data-anchor-id="regularization-does-not-penalize-the-intercept"><span class="header-section-number">11.3.2</span> Regularization Does Not Penalize the Intercept</h3>
+<section id="regularization-does-not-penalize-the-intercept" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="regularization-does-not-penalize-the-intercept"><span class="header-section-number">12.3.2</span> Regularization Does Not Penalize the Intercept</h3>
 <ul>
 <li>The <strong>intercept (bias term)</strong> captures the <strong>baseline mean</strong> of the target variable.<br>
 </li>
@@ -1205,8 +1211,8 @@ This helps <strong>prevent overfitting</strong> by discouraging large coefficien
 <li>Thus, regularization <strong>only applies to feature coefficients</strong>, not the intercept.</li>
 </ul>
 </section>
-<section id="types-of-regularization" class="level3" data-number="11.3.3">
-<h3 data-number="11.3.3" class="anchored" data-anchor-id="types-of-regularization"><span class="header-section-number">11.3.3</span> Types of Regularization</h3>
+<section id="types-of-regularization" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="types-of-regularization"><span class="header-section-number">12.3.3</span> Types of Regularization</h3>
 <ol type="1">
 <li><strong>L1 Regularization (Lasso Regression)</strong>: Encourages sparsity by driving some coefficients to zero.<br>
 </li>
@@ -1216,10 +1222,10 @@ This helps <strong>prevent overfitting</strong> by discouraging large coefficien
 </ol>
 <p>By applying <strong>regularization</strong>, we obtain models that balance <strong>bias-variance tradeoff</strong>, leading to <strong>better generalization</strong>.</p>
 </section>
-<section id="why-is-feature-scaling-required-in-regularization" class="level3" data-number="11.3.4">
-<h3 data-number="11.3.4" class="anchored" data-anchor-id="why-is-feature-scaling-required-in-regularization"><span class="header-section-number">11.3.4</span> Why Is Feature Scaling Required in Regularization?</h3>
-<section id="the-effect-of-feature-magnitudes-on-regularization" class="level4" data-number="11.3.4.1">
-<h4 data-number="11.3.4.1" class="anchored" data-anchor-id="the-effect-of-feature-magnitudes-on-regularization"><span class="header-section-number">11.3.4.1</span> The Effect of Feature Magnitudes on Regularization</h4>
+<section id="why-is-feature-scaling-required-in-regularization" class="level3" data-number="12.3.4">
+<h3 data-number="12.3.4" class="anchored" data-anchor-id="why-is-feature-scaling-required-in-regularization"><span class="header-section-number">12.3.4</span> Why Is Feature Scaling Required in Regularization?</h3>
+<section id="the-effect-of-feature-magnitudes-on-regularization" class="level4" data-number="12.3.4.1">
+<h4 data-number="12.3.4.1" class="anchored" data-anchor-id="the-effect-of-feature-magnitudes-on-regularization"><span class="header-section-number">12.3.4.1</span> The Effect of Feature Magnitudes on Regularization</h4>
 <p>Regularization techniques such as <strong>Lasso (L1)</strong>, <strong>Ridge (L2)</strong>, and <strong>Elastic Net</strong> apply penalties to the model’s coefficients. However, when features have vastly different scales, <strong>regularization disproportionately affects certain features</strong>, leading to:</p>
 <ul>
 <li><strong>Uneven shrinkage</strong> of coefficients, causing instability in the model.</li>
@@ -1227,8 +1233,8 @@ This helps <strong>prevent overfitting</strong> by discouraging large coefficien
 <li><strong>Suboptimal performance</strong>, since regularization penalizes large coefficients more, even if they belong to more informative features.</li>
 </ul>
 </section>
-<section id="example-the-need-for-feature-scaling" class="level4" data-number="11.3.4.2">
-<h4 data-number="11.3.4.2" class="anchored" data-anchor-id="example-the-need-for-feature-scaling"><span class="header-section-number">11.3.4.2</span> Example: The Need for Feature Scaling</h4>
+<section id="example-the-need-for-feature-scaling" class="level4" data-number="12.3.4.2">
+<h4 data-number="12.3.4.2" class="anchored" data-anchor-id="example-the-need-for-feature-scaling"><span class="header-section-number">12.3.4.2</span> Example: The Need for Feature Scaling</h4>
 <p>Imagine a dataset with two features:</p>
 <ul>
 <li><strong>Feature 1</strong>: Number of bedrooms (range: 1-5).<br>
@@ -1237,17 +1243,17 @@ This helps <strong>prevent overfitting</strong> by discouraging large coefficien
 </ul>
 <p>Since house area has much larger values, the model assigns smaller coefficients to compensate, making regularization unfairly <strong>biased toward smaller-scale features</strong>.</p>
 </section>
-<section id="how-to-scale-features-for-regularization" class="level4" data-number="11.3.4.3">
-<h4 data-number="11.3.4.3" class="anchored" data-anchor-id="how-to-scale-features-for-regularization"><span class="header-section-number">11.3.4.3</span> How to Scale Features for Regularization</h4>
+<section id="how-to-scale-features-for-regularization" class="level4" data-number="12.3.4.3">
+<h4 data-number="12.3.4.3" class="anchored" data-anchor-id="how-to-scale-features-for-regularization"><span class="header-section-number">12.3.4.3</span> How to Scale Features for Regularization</h4>
 <p>To ensure fair treatment of all features, apply <strong>feature scaling</strong> before training a regularized model:</p>
-<section id="standardization-recommended" class="level5" data-number="11.3.4.3.1">
-<h5 data-number="11.3.4.3.1" class="anchored" data-anchor-id="standardization-recommended"><span class="header-section-number">11.3.4.3.1</span> Standardization (Recommended)</h5>
+<section id="standardization-recommended" class="level5" data-number="12.3.4.3.1">
+<h5 data-number="12.3.4.3.1" class="anchored" data-anchor-id="standardization-recommended"><span class="header-section-number">12.3.4.3.1</span> Standardization (Recommended)</h5>
 <p><span class="math display">\[
 x_{\text{scaled}} = \frac{x - \mu}{\sigma}
 \]</span> - Centers the data around <strong>zero</strong> with unit variance. - Used in <strong>Lasso, Ridge, and Elastic Net</strong>.</p>
 </section>
-<section id="min-max-scaling" class="level5" data-number="11.3.4.3.2">
-<h5 data-number="11.3.4.3.2" class="anchored" data-anchor-id="min-max-scaling"><span class="header-section-number">11.3.4.3.2</span> Min-Max Scaling</h5>
+<section id="min-max-scaling" class="level5" data-number="12.3.4.3.2">
+<h5 data-number="12.3.4.3.2" class="anchored" data-anchor-id="min-max-scaling"><span class="header-section-number">12.3.4.3.2</span> Min-Max Scaling</h5>
 <p><span class="math display">\[
 x_{\text{scaled}} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
 \]</span> - Scales features to a fixed <strong>[0, 1]</strong> range. - Common for <strong>neural networks</strong> but less effective for regularization.</p>
@@ -1392,11 +1398,11 @@ x_{\text{scaled}} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
 </section>
 </section>
 </section>
-<section id="ridge-regression-l2-regularization" class="level3" data-number="11.3.5">
-<h3 data-number="11.3.5" class="anchored" data-anchor-id="ridge-regression-l2-regularization"><span class="header-section-number">11.3.5</span> Ridge Regression: L2 Regularization</h3>
+<section id="ridge-regression-l2-regularization" class="level3" data-number="12.3.5">
+<h3 data-number="12.3.5" class="anchored" data-anchor-id="ridge-regression-l2-regularization"><span class="header-section-number">12.3.5</span> Ridge Regression: L2 Regularization</h3>
 <p>Ridge regression is a type of <strong>linear regression</strong> that incorporates <strong>L2 regularization</strong> to prevent overfitting by <strong>penalizing large coefficients</strong>.</p>
-<section id="ridge-regression-loss-function" class="level4" data-number="11.3.5.1">
-<h4 data-number="11.3.5.1" class="anchored" data-anchor-id="ridge-regression-loss-function"><span class="header-section-number">11.3.5.1</span> Ridge Regression Loss Function</h4>
+<section id="ridge-regression-loss-function" class="level4" data-number="12.3.5.1">
+<h4 data-number="12.3.5.1" class="anchored" data-anchor-id="ridge-regression-loss-function"><span class="header-section-number">12.3.5.1</span> Ridge Regression Loss Function</h4>
 <p>The regularized loss function for Ridge regression is given by:</p>
 <p><span class="math display">\[
 L_{\text{Ridge}}(\beta) = \frac{1}{n} \sum_{i=1}^{n} |y_i - \beta^\top x_i|^2 + \alpha \sum_{j=1}^{J} \beta_j^2
@@ -1788,14 +1794,14 @@ dtype: int32</code></pre>
 <p>As we can observe, as <span class="math inline">\(𝜆\)</span> increases beyond a certain value, both the training MRSS and test MRSS begin to rise, indicating that the model starts underfitting.</p>
 </section>
 </section>
-<section id="lasso-regression-l1-regularization" class="level3" data-number="11.3.6">
-<h3 data-number="11.3.6" class="anchored" data-anchor-id="lasso-regression-l1-regularization"><span class="header-section-number">11.3.6</span> Lasso Regression: L1 Regularization</h3>
+<section id="lasso-regression-l1-regularization" class="level3" data-number="12.3.6">
+<h3 data-number="12.3.6" class="anchored" data-anchor-id="lasso-regression-l1-regularization"><span class="header-section-number">12.3.6</span> Lasso Regression: L1 Regularization</h3>
 <p>LASSO stands for <strong>Least Absolute Shrinkage and Selection Operator</strong>. There are two key aspects in this name:<br>
 - <strong><q>Absolute</q></strong> refers to the use of the absolute values of the coefficients in the penalty term.<br>
 - <strong><q>Selection</q></strong> highlights LASSO’s ability to shrink some coefficients to exactly zero, effectively performing <strong>feature selection</strong>.</p>
 <p>Lasso regression performs <strong>L1 regularization</strong>, which helps prevent overfitting by penalizing large coefficients and enforcing sparsity in the model.</p>
-<section id="lasso-regression-loss-function" class="level4" data-number="11.3.6.1">
-<h4 data-number="11.3.6.1" class="anchored" data-anchor-id="lasso-regression-loss-function"><span class="header-section-number">11.3.6.1</span> Lasso Regression Loss Function</h4>
+<section id="lasso-regression-loss-function" class="level4" data-number="12.3.6.1">
+<h4 data-number="12.3.6.1" class="anchored" data-anchor-id="lasso-regression-loss-function"><span class="header-section-number">12.3.6.1</span> Lasso Regression Loss Function</h4>
 <p>In standard <strong>linear regression</strong>, the loss function is the <strong>Mean Squared Error (MSE)</strong>:</p>
 <p><span class="math display">\[L_{\text{MSE}}(\beta) = \frac{1}{n} \sum_{i=1}^{n} (y_i - \beta^\top x_i)^2\]</span></p>
 <p>LASSO modifies this by adding an <strong>L1 regularization</strong> penalty, leading to the following <strong>regularized loss function</strong>:</p>
@@ -2186,10 +2192,10 @@ dtype: int32</code></pre>
 <p><strong>Effect of alpha in Lasso Regression</strong> - <strong>Small alpha (close to 0):</strong> The penalty is minimal, and Lasso behaves like ordinary linear regression. - <strong>Moderate alpha:</strong> Some coefficients shrink, and some become exactly zero, performing feature selection. - <strong>Large alpha:</strong> Many coefficients become zero, leading to a very simple model (potentially underfitting).</p>
 </section>
 </section>
-<section id="elastic-net-regression-combining-l1-and-l2-regularization" class="level3" data-number="11.3.7">
-<h3 data-number="11.3.7" class="anchored" data-anchor-id="elastic-net-regression-combining-l1-and-l2-regularization"><span class="header-section-number">11.3.7</span> Elastic Net Regression: Combining L1 and L2 Regularization</h3>
-<section id="mathematical-formulation" class="level4" data-number="11.3.7.1">
-<h4 data-number="11.3.7.1" class="anchored" data-anchor-id="mathematical-formulation"><span class="header-section-number">11.3.7.1</span> Mathematical Formulation*</h4>
+<section id="elastic-net-regression-combining-l1-and-l2-regularization" class="level3" data-number="12.3.7">
+<h3 data-number="12.3.7" class="anchored" data-anchor-id="elastic-net-regression-combining-l1-and-l2-regularization"><span class="header-section-number">12.3.7</span> Elastic Net Regression: Combining L1 and L2 Regularization</h3>
+<section id="mathematical-formulation" class="level4" data-number="12.3.7.1">
+<h4 data-number="12.3.7.1" class="anchored" data-anchor-id="mathematical-formulation"><span class="header-section-number">12.3.7.1</span> Mathematical Formulation*</h4>
 <p>Elastic Net regression combines both <strong>L1 (Lasso) and L2 (Ridge) penalties</strong>, balancing feature selection and coefficient shrinkage. The <strong>regularized loss function</strong> for Elastic Net is given by:</p>
 <p><span class="math display">\[
 L_{\text{ElasticNet}}(\beta) = \frac{1}{2n} \sum_{i=1}^{n} (y_i - \beta^\top x_i)^2 + \alpha \left( (1 - \rho) \frac{1}{2} \sum_{j=1}^{p} \beta_j^2 + \rho \sum_{j=1}^{p} |\beta_j| \right)
@@ -2205,8 +2211,8 @@ L_{\text{ElasticNet}}(\beta) = \frac{1}{2n} \sum_{i=1}^{n} (y_i - \beta^\top x_i
 <li><span class="math inline">\(\sum_{j=1}^{p} \beta_j^2\)</span> is the <strong>L2 norm</strong>, ensuring coefficient stability.</li>
 </ul>
 </section>
-<section id="elastic-net-special-cases" class="level4" data-number="11.3.7.2">
-<h4 data-number="11.3.7.2" class="anchored" data-anchor-id="elastic-net-special-cases"><span class="header-section-number">11.3.7.2</span> Elastic Net Special Cases</h4>
+<section id="elastic-net-special-cases" class="level4" data-number="12.3.7.2">
+<h4 data-number="12.3.7.2" class="anchored" data-anchor-id="elastic-net-special-cases"><span class="header-section-number">12.3.7.2</span> Elastic Net Special Cases</h4>
 <ul>
 <li>When <strong>l1_ratio = 0</strong>, Elastic Net behaves like <strong>Ridge Regression (L2 regularization)</strong>.</li>
 <li>When <strong>l1_ratio = 1</strong>, Elastic Net behaves like <strong>Lasso Regression (L1 regularization)</strong>.</li>
@@ -2617,11 +2623,11 @@ The mixing parameter between L1 and L2 penalties:</p>
 </ul>
 </section>
 </section>
-<section id="ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" class="level3" data-number="11.3.8">
-<h3 data-number="11.3.8" class="anchored" data-anchor-id="ridgecv-lassocv-and-elasticnetcv-in-scikit-learn"><span class="header-section-number">11.3.8</span> <code>RidgeCV</code>, <code>LassoCV</code>, and <code>ElasticNetCV</code> in Scikit-Learn</h3>
+<section id="ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" class="level3" data-number="12.3.8">
+<h3 data-number="12.3.8" class="anchored" data-anchor-id="ridgecv-lassocv-and-elasticnetcv-in-scikit-learn"><span class="header-section-number">12.3.8</span> <code>RidgeCV</code>, <code>LassoCV</code>, and <code>ElasticNetCV</code> in Scikit-Learn</h3>
 <p>In Scikit-Learn, <code>RidgeCV</code>, <code>LassoCV</code>, and <code>ElasticNetCV</code> are cross-validation (CV) versions of <strong>Ridge</strong>, <strong>Lasso</strong>, and <strong>Elastic Net</strong> regression models, respectively. These versions <strong>automatically select the best regularization strength</strong> (<code>alpha</code>) by performing internal cross-validation.</p>
-<section id="overview-of-ridgecv-lassocv-and-elasticnetcv" class="level4" data-number="11.3.8.1">
-<h4 data-number="11.3.8.1" class="anchored" data-anchor-id="overview-of-ridgecv-lassocv-and-elasticnetcv"><span class="header-section-number">11.3.8.1</span> Overview of RidgeCV, LassoCV, and ElasticNetCV**</h4>
+<section id="overview-of-ridgecv-lassocv-and-elasticnetcv" class="level4" data-number="12.3.8.1">
+<h4 data-number="12.3.8.1" class="anchored" data-anchor-id="overview-of-ridgecv-lassocv-and-elasticnetcv"><span class="header-section-number">12.3.8.1</span> Overview of RidgeCV, LassoCV, and ElasticNetCV**</h4>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 10%">
@@ -2659,8 +2665,8 @@ The mixing parameter between L1 and L2 penalties:</p>
 </tbody>
 </table>
 </section>
-<section id="how-to-use-ridgecv-lassocv-andelasticnetcv" class="level4" data-number="11.3.8.2">
-<h4 data-number="11.3.8.2" class="anchored" data-anchor-id="how-to-use-ridgecv-lassocv-andelasticnetcv"><span class="header-section-number">11.3.8.2</span> How to Use <code>RidgeCV</code>, <code>LassoCV</code>, and<code>ElasticNetCV</code></h4>
+<section id="how-to-use-ridgecv-lassocv-andelasticnetcv" class="level4" data-number="12.3.8.2">
+<h4 data-number="12.3.8.2" class="anchored" data-anchor-id="how-to-use-ridgecv-lassocv-andelasticnetcv"><span class="header-section-number">12.3.8.2</span> How to Use <code>RidgeCV</code>, <code>LassoCV</code>, and<code>ElasticNetCV</code></h4>
 <p>Each model automatically selects the optimal <code>alpha</code> value through internal cross-validation without using a loop through the <code>alpha</code> values</p>
 <div id="3aa93cc6" class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV</span>
@@ -2693,8 +2699,8 @@ The mixing parameter between L1 and L2 penalties:</p>
 </section>
 </section>
 </section>
-<section id="reference" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="reference"><span class="header-section-number">11.4</span> Reference</h2>
+<section id="reference" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="reference"><span class="header-section-number">12.4</span> Reference</h2>
 <p>https://www.linkedin.com/pulse/tutorial-ridge-lasso-regression-subhajit-mondal/?trk=read_related_article-card_title</p>
 
 
@@ -3121,12 +3127,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./cross_validation.html" class="pagination-link" aria-label="Cross-Validation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Cross-Validation</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cross-Validation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./Feature Selection.html" class="pagination-link" aria-label="Feature Selection">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Feature Selection</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Selection</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
