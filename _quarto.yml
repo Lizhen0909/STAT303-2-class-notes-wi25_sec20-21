@@ -35,7 +35,7 @@ book:
   appendices: 
     - Assignment_1.ipynb
     - Assignment_2.ipynb
-    #- Assignment 3.ipynb
+    - Assignment 3.ipynb
     #- Assignment_4.ipynb
     #- Assignment5.ipynb
     - Datasets.ipynb

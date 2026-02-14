@@ -20,7 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-q { quotes: "“" "”" "‘" "’"; }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
@@ -277,8 +276,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Assignment 3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Assignment 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
   </div>
 </li>
       </ul>
@@ -858,7 +863,7 @@ Name: count, dtype: int64</code></pre>
 <ol type="1">
 <li><strong>Remove</strong> the rare category (what we’ll do here)</li>
 <li><strong>Combine</strong> with the most similar category</li>
-<li><strong>Create</strong> a <q>Rare</q> category grouping multiple small categories</li>
+<li><strong>Create</strong> a “Rare” category grouping multiple small categories</li>
 </ol>
 <div id="2c450135" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the rare 'Other' category</span></span>
@@ -1042,7 +1047,7 @@ Name: count, dtype: int64</code></pre>
 <ol type="1">
 <li><strong>Reference Category (Baseline):</strong> The category that’s omitted to avoid perfect multicollinearity
 <ul>
-<li>Here: <q>Automatic</q> (chosen alphabetically by default)</li>
+<li>Here: “Automatic” (chosen alphabetically by default)</li>
 <li>All other coefficients are interpreted <strong>relative to this baseline</strong></li>
 </ul></li>
 <li><strong>Coefficient Interpretation:</strong>

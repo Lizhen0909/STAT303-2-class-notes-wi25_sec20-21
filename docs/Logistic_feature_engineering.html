@@ -20,7 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-q { quotes: "“" "”" "‘" "’"; }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
@@ -277,8 +276,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Assignment 3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Assignment 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
   </div>
 </li>
       </ul>
@@ -1312,7 +1317,7 @@ Interpretation:
 <h3 data-number="10.2.8" class="anchored" data-anchor-id="testing-feature-engineering-hypotheses"><span class="header-section-number">10.2.8</span> Testing Feature Engineering Hypotheses</h3>
 <p>Now we’ll <strong>incrementally test</strong> different types of engineered features, one at a time, to see if they actually improve model performance. This is <strong>real-world feature engineering</strong> - we propose features based on domain knowledge, then let the data tell us if they help.</p>
 <p><strong>Starting point</strong>: 6 raw features → <code>['pclass', 'sex', 'age', 'sibsp', 'parch', 'fare']</code></p>
-<p><strong>Critical mindset</strong>: Each step we’ll ask: <q>Does this engineered feature actually help, or should we discard it?</q></p>
+<p><strong>Critical mindset</strong>: Each step we’ll ask: “Does this engineered feature actually help, or should we discard it?”</p>
 <p>We’ll test: 1. <strong>Combined features</strong> (family_size) - Does total family size matter more than separate counts? 2. <strong>Interaction terms</strong> (sex × pclass) - Does gender’s effect truly vary by class? 3. <strong>Binned features</strong> (age_group, fare_group) - Do categorical bins beat continuous values?</p>
 <p>Let’s find out what actually works!</p>
 <section id="step-1-add-combined-feature-family_size" class="level4" data-number="10.2.8.1">
@@ -1371,7 +1376,7 @@ Interpretation:
 <section id="step-2-add-interaction-term-sex-pclass" class="level3" data-number="10.2.9">
 <h3 data-number="10.2.9" class="anchored" data-anchor-id="step-2-add-interaction-term-sex-pclass"><span class="header-section-number">10.2.9</span> Step 2: Add Interaction Term (sex × pclass)</h3>
 <p><strong>Feature Engineering Technique</strong>: Creating interaction terms to capture context-dependent effects</p>
-<p><strong>Why</strong>: The <q>women and children first</q> policy wasn’t uniform across all classes. First-class women had much higher survival rates than third-class women. The effect of gender <strong>depends on</strong> passenger class.</p>
+<p><strong>Why</strong>: The “women and children first” policy wasn’t uniform across all classes. First-class women had much higher survival rates than third-class women. The effect of gender <strong>depends on</strong> passenger class.</p>
 <p><strong>New feature</strong>: <code>sex_pclass = sex × pclass</code></p>
 <div id="141168a8" class="cell" data-execution_count="143">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Add interaction term (sex × pclass)</span></span>

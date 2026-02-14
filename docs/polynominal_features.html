@@ -20,7 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-q { quotes: "“" "”" "‘" "’"; }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
@@ -277,8 +276,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Assignment 3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Assignment 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
   </div>
 </li>
       </ul>
@@ -373,7 +378,7 @@ window.Quarto = {
 <h2 data-number="5.2" class="anchored" data-anchor-id="feature-transformations-in-statsmodels"><span class="header-section-number">5.2</span> Feature transformations in statsmodels</h2>
 <section id="why-feature-transformations-matter" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="why-feature-transformations-matter"><span class="header-section-number">5.2.1</span> Why feature transformations matter</h3>
-<p>A linear regression model is <strong>linear in its coefficients</strong>, not necessarily linear in the original variables. That means we can extend a <q>linear</q> model to capture many real-world patterns by transforming or expanding the predictors.</p>
+<p>A linear regression model is <strong>linear in its coefficients</strong>, not necessarily linear in the original variables. That means we can extend a “linear” model to capture many real-world patterns by transforming or expanding the predictors.</p>
 <p>Feature transformations are important because they let us:</p>
 <ul>
 <li><strong>Capture nonlinearity while staying in the linear-model framework</strong>: adding terms like <span class="math inline">\(mileage^2\)</span> or <span class="math inline">\(mileage^3\)</span> can model curved relationships without switching to a completely different model class.</li>
@@ -1623,7 +1628,7 @@ Pipeline (degree=2) RMSE (price): $8,479.10</code></pre>
 </section>
 <section id="key-takeaway" class="level3" data-number="5.3.8">
 <h3 data-number="5.3.8" class="anchored" data-anchor-id="key-takeaway"><span class="header-section-number">5.3.8</span> Key takeaway:</h3>
-<p>In <code>scikit-learn</code>, the built-in <code>PolynomialFeatures</code> transformer is somewhat <q>all or nothing</q>: by default, it generates <strong>all</strong> polynomial terms (including interactions) up to a certain degree. You can toggle:</p>
+<p>In <code>scikit-learn</code>, the built-in <code>PolynomialFeatures</code> transformer is somewhat “all or nothing”: by default, it generates <strong>all</strong> polynomial terms (including interactions) up to a certain degree. You can toggle:</p>
 <ul>
 <li><code>interaction_only=True</code> to generate only cross-terms</li>
 <li><code>include_bias=False</code> to exclude the constant (bias) term,</li>

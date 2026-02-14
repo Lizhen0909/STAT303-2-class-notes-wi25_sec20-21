@@ -20,7 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-q { quotes: "“" "”" "‘" "’"; }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
@@ -277,8 +276,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Assignment 3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Assignment 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
   </div>
 </li>
       </ul>
@@ -1797,8 +1802,8 @@ dtype: int32</code></pre>
 <section id="lasso-regression-l1-regularization" class="level3" data-number="12.3.6">
 <h3 data-number="12.3.6" class="anchored" data-anchor-id="lasso-regression-l1-regularization"><span class="header-section-number">12.3.6</span> Lasso Regression: L1 Regularization</h3>
 <p>LASSO stands for <strong>Least Absolute Shrinkage and Selection Operator</strong>. There are two key aspects in this name:<br>
-- <strong><q>Absolute</q></strong> refers to the use of the absolute values of the coefficients in the penalty term.<br>
-- <strong><q>Selection</q></strong> highlights LASSO’s ability to shrink some coefficients to exactly zero, effectively performing <strong>feature selection</strong>.</p>
+- <strong>“Absolute”</strong> refers to the use of the absolute values of the coefficients in the penalty term.<br>
+- <strong>“Selection”</strong> highlights LASSO’s ability to shrink some coefficients to exactly zero, effectively performing <strong>feature selection</strong>.</p>
 <p>Lasso regression performs <strong>L1 regularization</strong>, which helps prevent overfitting by penalizing large coefficients and enforcing sparsity in the model.</p>
 <section id="lasso-regression-loss-function" class="level4" data-number="12.3.6.1">
 <h4 data-number="12.3.6.1" class="anchored" data-anchor-id="lasso-regression-loss-function"><span class="header-section-number">12.3.6.1</span> Lasso Regression Loss Function</h4>

@@ -20,7 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-q { quotes: "“" "”" "‘" "’"; }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { line-height: 1.25; }
@@ -277,8 +276,14 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Assignment 3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Assignment 3</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
   </div>
 </li>
       </ul>
@@ -835,8 +840,8 @@ Breakdown:
 </section>
 <section id="precision-recall-and-f1-score" class="level3" data-number="9.6.2">
 <h3 data-number="9.6.2" class="anchored" data-anchor-id="precision-recall-and-f1-score"><span class="header-section-number">9.6.2</span> Precision, Recall, and F1 Score</h3>
-<p><strong>Precision</strong> = <span class="math inline">\(\frac{TP}{TP + FP}\)</span> = <q>Of all predicted survivors, how many actually survived?</q> - Focuses on the quality of positive predictions - High precision = few false alarms</p>
-<p><strong>Recall (Sensitivity)</strong> = <span class="math inline">\(\frac{TP}{TP + FN}\)</span> = <q>Of all actual survivors, how many did we correctly identify?</q> - Focuses on finding all positive cases - High recall = few missed cases</p>
+<p><strong>Precision</strong> = <span class="math inline">\(\frac{TP}{TP + FP}\)</span> = “Of all predicted survivors, how many actually survived?” - Focuses on the quality of positive predictions - High precision = few false alarms</p>
+<p><strong>Recall (Sensitivity)</strong> = <span class="math inline">\(\frac{TP}{TP + FN}\)</span> = “Of all actual survivors, how many did we correctly identify?” - Focuses on finding all positive cases - High recall = few missed cases</p>
 <p><strong>F1 Score</strong> = <span class="math inline">\(2 \times \frac{Precision \times Recall}{Precision + Recall}\)</span> = Harmonic mean of precision and recall - Balances precision and recall - Useful when you need a single metric</p>
 <div id="cell-23" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate metrics from sklearn</span></span>
@@ -1004,7 +1009,7 @@ Key Observations:
 </section>
 <section id="roc-curve-and-auc-score" class="level3" data-number="9.6.4">
 <h3 data-number="9.6.4" class="anchored" data-anchor-id="roc-curve-and-auc-score"><span class="header-section-number">9.6.4</span> ROC Curve and AUC Score</h3>
-<p><strong>ROC (Receiver Operating Characteristic) Curve</strong> plots: - <strong>X-axis</strong>: False Positive Rate (FPR) = <span class="math inline">\(\frac{FP}{FP + TN}\)</span> = <q>Of all actual negatives, how many did we incorrectly predict as positive?</q> - <strong>Y-axis</strong>: True Positive Rate (TPR) = Recall = <span class="math inline">\(\frac{TP}{TP + FN}\)</span></p>
+<p><strong>ROC (Receiver Operating Characteristic) Curve</strong> plots: - <strong>X-axis</strong>: False Positive Rate (FPR) = <span class="math inline">\(\frac{FP}{FP + TN}\)</span> = “Of all actual negatives, how many did we incorrectly predict as positive?” - <strong>Y-axis</strong>: True Positive Rate (TPR) = Recall = <span class="math inline">\(\frac{TP}{TP + FN}\)</span></p>
 <p><strong>AUC (Area Under Curve)</strong>: Measures the overall ability of the model to discriminate between classes - AUC = 1.0: Perfect classifier - AUC = 0.5: Random classifier (no better than flipping a coin) - AUC &gt; 0.8: Generally considered good</p>
 <p>The ROC curve is <strong>threshold-independent</strong> - it shows model performance across all possible thresholds.</p>
 <div id="cell-28" class="cell" data-execution_count="27">
