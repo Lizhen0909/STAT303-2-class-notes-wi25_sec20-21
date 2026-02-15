@@ -26,8 +26,10 @@ book:
     - logistic_regression_introduction.ipynb
     - logistic_regression_metrics.ipynb
     - Logistic_feature_engineering.ipynb
+    - Regularization.ipynb
     - cross_validation.ipynb
-    - Regularization in Python.ipynb
+    - cross_validation_gridsearch.ipynb
+    - cross_validation_regularization.ipynb
     - Feature Selection.ipynb
   
     

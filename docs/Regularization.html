@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>12&nbsp; Regularization – Data Science II with python (Class notes)</title>
+<title>11&nbsp; Regularization – Data Science II with python (Class notes)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./Feature Selection.html" rel="next">
-<link href="./cross_validation.html" rel="prev">
+<link href="./cross_validation.html" rel="next">
+<link href="./Logistic_feature_engineering.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Regularization in Python.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Regularization.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Regularization</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -237,20 +237,32 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./cross_validation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cross-Validation</span></span></a>
+  <a href="./Regularization.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Regularization in Python.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  <a href="./cross_validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Cross-Validation Fundamentals</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cross_validation_gridsearch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning with GridSearchCV</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cross_validation_regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cross-Validation for Regularization: RidgeCV, LassoCV, and ElasticNetCV</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Feature Selection.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Selection</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Feature Selection</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -304,55 +316,60 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#why-do-we-need-regularization" id="toc-why-do-we-need-regularization" class="nav-link active" data-scroll-target="#why-do-we-need-regularization"><span class="header-section-number">12.1</span> Why do we need regularization?</a>
+  <li><a href="#why-do-we-need-regularization" id="toc-why-do-we-need-regularization" class="nav-link active" data-scroll-target="#why-do-we-need-regularization"><span class="header-section-number">11.1</span> Why do we need regularization?</a>
   <ul>
-  <li><a href="#the-challenge-of-overfitting-and-underfitting" id="toc-the-challenge-of-overfitting-and-underfitting" class="nav-link" data-scroll-target="#the-challenge-of-overfitting-and-underfitting"><span class="header-section-number">12.1.1</span> The Challenge of Overfitting and Underfitting</a></li>
-  <li><a href="#understanding-the-bias-variance-tradeoff" id="toc-understanding-the-bias-variance-tradeoff" class="nav-link" data-scroll-target="#understanding-the-bias-variance-tradeoff"><span class="header-section-number">12.1.2</span> Understanding the Bias-Variance Tradeoff</a></li>
-  <li><a href="#visualizing-overfitting-vs.-underfitting" id="toc-visualizing-overfitting-vs.-underfitting" class="nav-link" data-scroll-target="#visualizing-overfitting-vs.-underfitting"><span class="header-section-number">12.1.3</span> Visualizing Overfitting vs.&nbsp;Underfitting</a></li>
+  <li><a href="#the-challenge-of-overfitting-and-underfitting" id="toc-the-challenge-of-overfitting-and-underfitting" class="nav-link" data-scroll-target="#the-challenge-of-overfitting-and-underfitting"><span class="header-section-number">11.1.1</span> The Challenge of Overfitting and Underfitting</a></li>
+  <li><a href="#understanding-the-bias-variance-tradeoff" id="toc-understanding-the-bias-variance-tradeoff" class="nav-link" data-scroll-target="#understanding-the-bias-variance-tradeoff"><span class="header-section-number">11.1.2</span> Understanding the Bias-Variance Tradeoff</a></li>
+  <li><a href="#visualizing-overfitting-vs.-underfitting" id="toc-visualizing-overfitting-vs.-underfitting" class="nav-link" data-scroll-target="#visualizing-overfitting-vs.-underfitting"><span class="header-section-number">11.1.3</span> Visualizing Overfitting vs.&nbsp;Underfitting</a></li>
   </ul></li>
-  <li><a href="#simulating-data-for-an-overfitting-linear-model" id="toc-simulating-data-for-an-overfitting-linear-model" class="nav-link" data-scroll-target="#simulating-data-for-an-overfitting-linear-model"><span class="header-section-number">12.2</span> Simulating Data for an Overfitting Linear Model</a>
+  <li><a href="#simulating-data-for-an-overfitting-linear-model" id="toc-simulating-data-for-an-overfitting-linear-model" class="nav-link" data-scroll-target="#simulating-data-for-an-overfitting-linear-model"><span class="header-section-number">11.2</span> Simulating Data for an Overfitting Linear Model</a>
   <ul>
-  <li><a href="#generating-the-data" id="toc-generating-the-data" class="nav-link" data-scroll-target="#generating-the-data"><span class="header-section-number">12.2.1</span> Generating the data</a></li>
-  <li><a href="#splitting-the-data" id="toc-splitting-the-data" class="nav-link" data-scroll-target="#splitting-the-data"><span class="header-section-number">12.2.2</span> Splitting the Data</a></li>
-  <li><a href="#splitting-the-target-and-features" id="toc-splitting-the-target-and-features" class="nav-link" data-scroll-target="#splitting-the-target-and-features"><span class="header-section-number">12.2.3</span> Splitting the target and features</a></li>
-  <li><a href="#building-models" id="toc-building-models" class="nav-link" data-scroll-target="#building-models"><span class="header-section-number">12.2.4</span> Building Models</a>
+  <li><a href="#generating-the-data" id="toc-generating-the-data" class="nav-link" data-scroll-target="#generating-the-data"><span class="header-section-number">11.2.1</span> Generating the data</a></li>
+  <li><a href="#splitting-the-data" id="toc-splitting-the-data" class="nav-link" data-scroll-target="#splitting-the-data"><span class="header-section-number">11.2.2</span> Splitting the Data</a></li>
+  <li><a href="#splitting-the-target-and-features" id="toc-splitting-the-target-and-features" class="nav-link" data-scroll-target="#splitting-the-target-and-features"><span class="header-section-number">11.2.3</span> Splitting the target and features</a></li>
+  <li><a href="#building-models" id="toc-building-models" class="nav-link" data-scroll-target="#building-models"><span class="header-section-number">11.2.4</span> Building Models</a>
   <ul class="collapse">
-  <li><a href="#building-a-linear-model-with-only-1-predictor-x" id="toc-building-a-linear-model-with-only-1-predictor-x" class="nav-link" data-scroll-target="#building-a-linear-model-with-only-1-predictor-x"><span class="header-section-number">12.2.4.1</span> Building a linear model with only 1 predictor <code>x</code></a></li>
-  <li><a href="#building-a-linear-regression-model-with-three-features-x-x_2-x_3" id="toc-building-a-linear-regression-model-with-three-features-x-x_2-x_3" class="nav-link" data-scroll-target="#building-a-linear-regression-model-with-three-features-x-x_2-x_3"><span class="header-section-number">12.2.4.2</span> Building a linear regression model with three features <code>x, x_2, x_3</code></a></li>
+  <li><a href="#building-a-linear-model-with-only-1-predictor-x" id="toc-building-a-linear-model-with-only-1-predictor-x" class="nav-link" data-scroll-target="#building-a-linear-model-with-only-1-predictor-x"><span class="header-section-number">11.2.4.1</span> Building a linear model with only 1 predictor <code>x</code></a></li>
+  <li><a href="#building-a-linear-regression-model-with-three-features-x-x_2-x_3" id="toc-building-a-linear-regression-model-with-three-features-x-x_2-x_3" class="nav-link" data-scroll-target="#building-a-linear-regression-model-with-three-features-x-x_2-x_3"><span class="header-section-number">11.2.4.2</span> Building a linear regression model with three features <code>x, x_2, x_3</code></a></li>
   </ul></li>
-  <li><a href="#overfitting-indicated-by-training-and-test-mrss-trends" id="toc-overfitting-indicated-by-training-and-test-mrss-trends" class="nav-link" data-scroll-target="#overfitting-indicated-by-training-and-test-mrss-trends"><span class="header-section-number">12.2.5</span> Overfitting Indicated by Training and Test MRSS Trends</a></li>
+  <li><a href="#overfitting-indicated-by-training-and-test-mse-trends" id="toc-overfitting-indicated-by-training-and-test-mse-trends" class="nav-link" data-scroll-target="#overfitting-indicated-by-training-and-test-mse-trends"><span class="header-section-number">11.2.5</span> Overfitting Indicated by Training and Test MSE Trends</a></li>
   </ul></li>
-  <li><a href="#regularization-combating-overfitting" id="toc-regularization-combating-overfitting" class="nav-link" data-scroll-target="#regularization-combating-overfitting"><span class="header-section-number">12.3</span> Regularization: Combating Overfitting</a>
+  <li><a href="#regularization-combating-overfitting" id="toc-regularization-combating-overfitting" class="nav-link" data-scroll-target="#regularization-combating-overfitting"><span class="header-section-number">11.3</span> Regularization: Combating Overfitting</a>
   <ul>
-  <li><a href="#regularized-loss-function" id="toc-regularized-loss-function" class="nav-link" data-scroll-target="#regularized-loss-function"><span class="header-section-number">12.3.1</span> Regularized Loss Function</a></li>
-  <li><a href="#regularization-does-not-penalize-the-intercept" id="toc-regularization-does-not-penalize-the-intercept" class="nav-link" data-scroll-target="#regularization-does-not-penalize-the-intercept"><span class="header-section-number">12.3.2</span> Regularization Does Not Penalize the Intercept</a></li>
-  <li><a href="#types-of-regularization" id="toc-types-of-regularization" class="nav-link" data-scroll-target="#types-of-regularization"><span class="header-section-number">12.3.3</span> Types of Regularization</a></li>
-  <li><a href="#why-is-feature-scaling-required-in-regularization" id="toc-why-is-feature-scaling-required-in-regularization" class="nav-link" data-scroll-target="#why-is-feature-scaling-required-in-regularization"><span class="header-section-number">12.3.4</span> Why Is Feature Scaling Required in Regularization?</a>
+  <li><a href="#regularized-loss-function" id="toc-regularized-loss-function" class="nav-link" data-scroll-target="#regularized-loss-function"><span class="header-section-number">11.3.1</span> Regularized Loss Function</a></li>
+  <li><a href="#regularization-does-not-penalize-the-intercept" id="toc-regularization-does-not-penalize-the-intercept" class="nav-link" data-scroll-target="#regularization-does-not-penalize-the-intercept"><span class="header-section-number">11.3.2</span> Regularization Does Not Penalize the Intercept</a></li>
+  <li><a href="#types-of-regularization" id="toc-types-of-regularization" class="nav-link" data-scroll-target="#types-of-regularization"><span class="header-section-number">11.3.3</span> Types of Regularization</a></li>
+  <li><a href="#understanding-the-impact-of-regularization-strength" id="toc-understanding-the-impact-of-regularization-strength" class="nav-link" data-scroll-target="#understanding-the-impact-of-regularization-strength"><span class="header-section-number">11.3.4</span> Understanding the Impact of Regularization Strength</a></li>
+  <li><a href="#why-is-feature-scaling-required-in-regularization" id="toc-why-is-feature-scaling-required-in-regularization" class="nav-link" data-scroll-target="#why-is-feature-scaling-required-in-regularization"><span class="header-section-number">11.3.5</span> Why Is Feature Scaling Required in Regularization?</a>
   <ul class="collapse">
-  <li><a href="#the-effect-of-feature-magnitudes-on-regularization" id="toc-the-effect-of-feature-magnitudes-on-regularization" class="nav-link" data-scroll-target="#the-effect-of-feature-magnitudes-on-regularization"><span class="header-section-number">12.3.4.1</span> The Effect of Feature Magnitudes on Regularization</a></li>
-  <li><a href="#example-the-need-for-feature-scaling" id="toc-example-the-need-for-feature-scaling" class="nav-link" data-scroll-target="#example-the-need-for-feature-scaling"><span class="header-section-number">12.3.4.2</span> Example: The Need for Feature Scaling</a></li>
-  <li><a href="#how-to-scale-features-for-regularization" id="toc-how-to-scale-features-for-regularization" class="nav-link" data-scroll-target="#how-to-scale-features-for-regularization"><span class="header-section-number">12.3.4.3</span> How to Scale Features for Regularization</a></li>
+  <li><a href="#the-effect-of-feature-magnitudes-on-regularization" id="toc-the-effect-of-feature-magnitudes-on-regularization" class="nav-link" data-scroll-target="#the-effect-of-feature-magnitudes-on-regularization"><span class="header-section-number">11.3.5.1</span> The Effect of Feature Magnitudes on Regularization</a></li>
+  <li><a href="#example-the-need-for-feature-scaling" id="toc-example-the-need-for-feature-scaling" class="nav-link" data-scroll-target="#example-the-need-for-feature-scaling"><span class="header-section-number">11.3.5.2</span> Example: The Need for Feature Scaling</a></li>
+  <li><a href="#how-to-scale-features-for-regularization" id="toc-how-to-scale-features-for-regularization" class="nav-link" data-scroll-target="#how-to-scale-features-for-regularization"><span class="header-section-number">11.3.5.3</span> How to Scale Features for Regularization</a></li>
   </ul></li>
-  <li><a href="#ridge-regression-l2-regularization" id="toc-ridge-regression-l2-regularization" class="nav-link" data-scroll-target="#ridge-regression-l2-regularization"><span class="header-section-number">12.3.5</span> Ridge Regression: L2 Regularization</a>
+  <li><a href="#ridge-regression-l2-regularization" id="toc-ridge-regression-l2-regularization" class="nav-link" data-scroll-target="#ridge-regression-l2-regularization"><span class="header-section-number">11.3.6</span> Ridge Regression: L2 Regularization</a>
   <ul class="collapse">
-  <li><a href="#ridge-regression-loss-function" id="toc-ridge-regression-loss-function" class="nav-link" data-scroll-target="#ridge-regression-loss-function"><span class="header-section-number">12.3.5.1</span> Ridge Regression Loss Function</a></li>
+  <li><a href="#ridge-regression-loss-function" id="toc-ridge-regression-loss-function" class="nav-link" data-scroll-target="#ridge-regression-loss-function"><span class="header-section-number">11.3.6.1</span> Ridge Regression Loss Function</a></li>
   </ul></li>
-  <li><a href="#lasso-regression-l1-regularization" id="toc-lasso-regression-l1-regularization" class="nav-link" data-scroll-target="#lasso-regression-l1-regularization"><span class="header-section-number">12.3.6</span> Lasso Regression: L1 Regularization</a>
+  <li><a href="#key-insights-ridge-regression-and-overfitting" id="toc-key-insights-ridge-regression-and-overfitting" class="nav-link" data-scroll-target="#key-insights-ridge-regression-and-overfitting"><span class="header-section-number">11.3.7</span> Key Insights: Ridge Regression and Overfitting</a></li>
+  <li><a href="#understanding-the-training-vs-test-error-pattern" id="toc-understanding-the-training-vs-test-error-pattern" class="nav-link" data-scroll-target="#understanding-the-training-vs-test-error-pattern"><span class="header-section-number">11.3.8</span> Understanding the Training vs Test Error Pattern</a></li>
+  <li><a href="#lasso-regression-l1-regularization" id="toc-lasso-regression-l1-regularization" class="nav-link" data-scroll-target="#lasso-regression-l1-regularization"><span class="header-section-number">11.3.9</span> Lasso Regression: L1 Regularization</a>
   <ul class="collapse">
-  <li><a href="#lasso-regression-loss-function" id="toc-lasso-regression-loss-function" class="nav-link" data-scroll-target="#lasso-regression-loss-function"><span class="header-section-number">12.3.6.1</span> Lasso Regression Loss Function</a></li>
+  <li><a href="#lasso-regression-loss-function" id="toc-lasso-regression-loss-function" class="nav-link" data-scroll-target="#lasso-regression-loss-function"><span class="header-section-number">11.3.9.1</span> Lasso Regression Loss Function</a></li>
   </ul></li>
-  <li><a href="#elastic-net-regression-combining-l1-and-l2-regularization" id="toc-elastic-net-regression-combining-l1-and-l2-regularization" class="nav-link" data-scroll-target="#elastic-net-regression-combining-l1-and-l2-regularization"><span class="header-section-number">12.3.7</span> Elastic Net Regression: Combining L1 and L2 Regularization</a>
+  <li><a href="#visualizing-lasso-coefficient-shrinkage" id="toc-visualizing-lasso-coefficient-shrinkage" class="nav-link" data-scroll-target="#visualizing-lasso-coefficient-shrinkage"><span class="header-section-number">11.3.10</span> Visualizing Lasso Coefficient Shrinkage</a></li>
+  <li><a href="#key-insight-lassos-automatic-feature-selection" id="toc-key-insight-lassos-automatic-feature-selection" class="nav-link" data-scroll-target="#key-insight-lassos-automatic-feature-selection"><span class="header-section-number">11.3.11</span> Key Insight: Lasso’s Automatic Feature Selection</a></li>
+  <li><a href="#impact-of-alpha-on-overfitting-in-lasso-regression" id="toc-impact-of-alpha-on-overfitting-in-lasso-regression" class="nav-link" data-scroll-target="#impact-of-alpha-on-overfitting-in-lasso-regression"><span class="header-section-number">11.3.12</span> Impact of <span class="math inline">\(\alpha\)</span> on Overfitting in Lasso Regression</a></li>
+  <li><a href="#elastic-net-regression-combining-l1-and-l2-regularization" id="toc-elastic-net-regression-combining-l1-and-l2-regularization" class="nav-link" data-scroll-target="#elastic-net-regression-combining-l1-and-l2-regularization"><span class="header-section-number">11.3.13</span> Elastic Net Regression: Combining L1 and L2 Regularization</a>
   <ul class="collapse">
-  <li><a href="#mathematical-formulation" id="toc-mathematical-formulation" class="nav-link" data-scroll-target="#mathematical-formulation"><span class="header-section-number">12.3.7.1</span> Mathematical Formulation*</a></li>
-  <li><a href="#elastic-net-special-cases" id="toc-elastic-net-special-cases" class="nav-link" data-scroll-target="#elastic-net-special-cases"><span class="header-section-number">12.3.7.2</span> Elastic Net Special Cases</a></li>
+  <li><a href="#mathematical-formulation" id="toc-mathematical-formulation" class="nav-link" data-scroll-target="#mathematical-formulation"><span class="header-section-number">11.3.13.1</span> Mathematical Formulation*</a></li>
+  <li><a href="#elastic-net-special-cases" id="toc-elastic-net-special-cases" class="nav-link" data-scroll-target="#elastic-net-special-cases"><span class="header-section-number">11.3.13.2</span> Elastic Net Special Cases</a></li>
   </ul></li>
-  <li><a href="#ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" id="toc-ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" class="nav-link" data-scroll-target="#ridgecv-lassocv-and-elasticnetcv-in-scikit-learn"><span class="header-section-number">12.3.8</span> <code>RidgeCV</code>, <code>LassoCV</code>, and <code>ElasticNetCV</code> in Scikit-Learn</a>
-  <ul class="collapse">
-  <li><a href="#overview-of-ridgecv-lassocv-and-elasticnetcv" id="toc-overview-of-ridgecv-lassocv-and-elasticnetcv" class="nav-link" data-scroll-target="#overview-of-ridgecv-lassocv-and-elasticnetcv"><span class="header-section-number">12.3.8.1</span> Overview of RidgeCV, LassoCV, and ElasticNetCV**</a></li>
-  <li><a href="#how-to-use-ridgecv-lassocv-andelasticnetcv" id="toc-how-to-use-ridgecv-lassocv-andelasticnetcv" class="nav-link" data-scroll-target="#how-to-use-ridgecv-lassocv-andelasticnetcv"><span class="header-section-number">12.3.8.2</span> How to Use <code>RidgeCV</code>, <code>LassoCV</code>, and<code>ElasticNetCV</code></a></li>
+  <li><a href="#visualizing-elasticnet-coefficient-shrinkage" id="toc-visualizing-elasticnet-coefficient-shrinkage" class="nav-link" data-scroll-target="#visualizing-elasticnet-coefficient-shrinkage"><span class="header-section-number">11.3.14</span> Visualizing ElasticNet Coefficient Shrinkage</a></li>
+  <li><a href="#elasticnet-feature-selection-behavior" id="toc-elasticnet-feature-selection-behavior" class="nav-link" data-scroll-target="#elasticnet-feature-selection-behavior"><span class="header-section-number">11.3.15</span> ElasticNet Feature Selection Behavior</a></li>
+  <li><a href="#impact-of-alpha-on-elasticnet-performance" id="toc-impact-of-alpha-on-elasticnet-performance" class="nav-link" data-scroll-target="#impact-of-alpha-on-elasticnet-performance"><span class="header-section-number">11.3.16</span> Impact of <span class="math inline">\(\alpha\)</span> on ElasticNet Performance</a></li>
+  <li><a href="#elasticnet-parameters-summary" id="toc-elasticnet-parameters-summary" class="nav-link" data-scroll-target="#elasticnet-parameters-summary"><span class="header-section-number">11.3.17</span> ElasticNet Parameters Summary</a></li>
   </ul></li>
-  </ul></li>
-  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">12.4</span> Reference</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">11.4</span> Reference</a></li>
   </ul>
 </nav>
     </div>
@@ -361,7 +378,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Regularization</span></h1>
 </div>
 
 
@@ -397,10 +414,10 @@ window.Quarto = {
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.pylab <span class="im">import</span> rcParams</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> <span class="dv">5</span>, <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="why-do-we-need-regularization" class="level2" data-number="12.1">
-<h2 data-number="12.1" class="anchored" data-anchor-id="why-do-we-need-regularization"><span class="header-section-number">12.1</span> Why do we need regularization?</h2>
-<section id="the-challenge-of-overfitting-and-underfitting" class="level3" data-number="12.1.1">
-<h3 data-number="12.1.1" class="anchored" data-anchor-id="the-challenge-of-overfitting-and-underfitting"><span class="header-section-number">12.1.1</span> The Challenge of Overfitting and Underfitting</h3>
+<section id="why-do-we-need-regularization" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="why-do-we-need-regularization"><span class="header-section-number">11.1</span> Why do we need regularization?</h2>
+<section id="the-challenge-of-overfitting-and-underfitting" class="level3" data-number="11.1.1">
+<h3 data-number="11.1.1" class="anchored" data-anchor-id="the-challenge-of-overfitting-and-underfitting"><span class="header-section-number">11.1.1</span> The Challenge of Overfitting and Underfitting</h3>
 <p>When building machine learning models, we aim to find patterns in data that generalize well to unseen samples. However, models can suffer from two key issues:</p>
 <ul>
 <li><strong>Underfitting</strong>: The model is too simple to capture the underlying pattern in the data.</li>
@@ -408,8 +425,8 @@ window.Quarto = {
 </ul>
 <p><strong>Regularization</strong> is a technique used to address overfitting by penalizing overly complex models.</p>
 </section>
-<section id="understanding-the-bias-variance-tradeoff" class="level3" data-number="12.1.2">
-<h3 data-number="12.1.2" class="anchored" data-anchor-id="understanding-the-bias-variance-tradeoff"><span class="header-section-number">12.1.2</span> Understanding the Bias-Variance Tradeoff</h3>
+<section id="understanding-the-bias-variance-tradeoff" class="level3" data-number="11.1.2">
+<h3 data-number="11.1.2" class="anchored" data-anchor-id="understanding-the-bias-variance-tradeoff"><span class="header-section-number">11.1.2</span> Understanding the Bias-Variance Tradeoff</h3>
 <p>A well-performing model balances two competing sources of error:</p>
 <ul>
 <li><strong>Bias</strong>: Error due to overly simplistic assumptions (e.g., underfitting).</li>
@@ -418,8 +435,8 @@ window.Quarto = {
 <p>A <strong>high-bias</strong> model (e.g., a simple linear regression) may not capture the underlying trend, while a <strong>high-variance</strong> model (e.g., a deep neural network with many parameters) may memorize noise instead of learning meaningful patterns.</p>
 <p>Regularization helps <strong>reduce variance</strong> while maintaining an appropriate level of model complexity.</p>
 </section>
-<section id="visualizing-overfitting-vs.-underfitting" class="level3" data-number="12.1.3">
-<h3 data-number="12.1.3" class="anchored" data-anchor-id="visualizing-overfitting-vs.-underfitting"><span class="header-section-number">12.1.3</span> Visualizing Overfitting vs.&nbsp;Underfitting</h3>
+<section id="visualizing-overfitting-vs.-underfitting" class="level3" data-number="11.1.3">
+<h3 data-number="11.1.3" class="anchored" data-anchor-id="visualizing-overfitting-vs.-underfitting"><span class="header-section-number">11.1.3</span> Visualizing Overfitting vs.&nbsp;Underfitting</h3>
 <p>To better understand this concept, consider three different models:</p>
 <ol type="1">
 <li><strong>Underfitting (High Bias)</strong>: The model is too simple and fails to capture important trends.</li>
@@ -432,10 +449,10 @@ window.Quarto = {
 <p>Regularization helps control <strong>variance</strong> by penalizing large coefficients, leading to a model that generalizes better.</p>
 </section>
 </section>
-<section id="simulating-data-for-an-overfitting-linear-model" class="level2" data-number="12.2">
-<h2 data-number="12.2" class="anchored" data-anchor-id="simulating-data-for-an-overfitting-linear-model"><span class="header-section-number">12.2</span> Simulating Data for an Overfitting Linear Model</h2>
-<section id="generating-the-data" class="level3" data-number="12.2.1">
-<h3 data-number="12.2.1" class="anchored" data-anchor-id="generating-the-data"><span class="header-section-number">12.2.1</span> Generating the data</h3>
+<section id="simulating-data-for-an-overfitting-linear-model" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="simulating-data-for-an-overfitting-linear-model"><span class="header-section-number">11.2</span> Simulating Data for an Overfitting Linear Model</h2>
+<section id="generating-the-data" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="generating-the-data"><span class="header-section-number">11.2.1</span> Generating the data</h3>
 <div id="543995e5" class="cell" data-scrolled="true" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Define input array with angles from 60deg to 300deg converted to radians</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([i<span class="op">*</span>np.pi<span class="op">/</span><span class="dv">180</span> <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">360</span>)])</span>
@@ -446,7 +463,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -639,10 +656,14 @@ window.Quarto = {
 <li><strong>Expands the Dataset</strong>: Each polynomial-transformed feature is stored</li>
 </ul>
 </section>
-<section id="splitting-the-data" class="level3" data-number="12.2.2">
-<h3 data-number="12.2.2" class="anchored" data-anchor-id="splitting-the-data"><span class="header-section-number">12.2.2</span> Splitting the Data</h3>
+<section id="splitting-the-data" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="splitting-the-data"><span class="header-section-number">11.2.2</span> Splitting the Data</h3>
 <p>Next, we will split the data into <strong>training and testing sets</strong>. As we’ve learned, models tend to <strong>overfit</strong> when trained on a small dataset.</p>
-<p>To intentionally create an <strong>overfitting scenario</strong>, we will: - Use <strong>only 10% of the data for training</strong>. - Reserve <strong>90% of the data for testing</strong>.</p>
+<p>To intentionally create an <strong>overfitting scenario</strong>, we will:</p>
+<ul>
+<li>Use <strong>only 10% of the data for training</strong>.</li>
+<li>Reserve <strong>90% of the data for testing</strong>.</li>
+</ul>
 <p>This is <strong>not a typical train-test split</strong> but is deliberately done to <strong>demonstrate overfitting</strong>, where the model performs well on the training data but generalizes poorly to unseen data.</p>
 <div id="973ba7da" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
@@ -657,8 +678,8 @@ Number of observations in the test data: 324</code></pre>
 </div>
 </div>
 </section>
-<section id="splitting-the-target-and-features" class="level3" data-number="12.2.3">
-<h3 data-number="12.2.3" class="anchored" data-anchor-id="splitting-the-target-and-features"><span class="header-section-number">12.2.3</span> Splitting the target and features</h3>
+<section id="splitting-the-target-and-features" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="splitting-the-target-and-features"><span class="header-section-number">11.2.3</span> Splitting the target and features</h3>
 <div id="5609a194" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> train.drop(<span class="st">'y'</span>, axis<span class="op">=</span><span class="dv">1</span>).values</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>y_train <span class="op">=</span> train.y.values</span>
@@ -666,10 +687,10 @@ Number of observations in the test data: 324</code></pre>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>y_test <span class="op">=</span> test.y.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="building-models" class="level3" data-number="12.2.4">
-<h3 data-number="12.2.4" class="anchored" data-anchor-id="building-models"><span class="header-section-number">12.2.4</span> Building Models</h3>
-<section id="building-a-linear-model-with-only-1-predictor-x" class="level4" data-number="12.2.4.1">
-<h4 data-number="12.2.4.1" class="anchored" data-anchor-id="building-a-linear-model-with-only-1-predictor-x"><span class="header-section-number">12.2.4.1</span> Building a linear model with only 1 predictor <code>x</code></h4>
+<section id="building-models" class="level3" data-number="11.2.4">
+<h3 data-number="11.2.4" class="anchored" data-anchor-id="building-models"><span class="header-section-number">11.2.4</span> Building Models</h3>
+<section id="building-a-linear-model-with-only-1-predictor-x" class="level4" data-number="11.2.4.1">
+<h4 data-number="11.2.4.1" class="anchored" data-anchor-id="building-a-linear-model-with-only-1-predictor-x"><span class="header-section-number">11.2.4.1</span> Building a linear model with only 1 predictor <code>x</code></h4>
 <div id="ee82edee" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Linear regression with one feature</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>independent_variable_train <span class="op">=</span> X_train[:, <span class="dv">0</span>:<span class="dv">1</span>]</span>
@@ -695,14 +716,14 @@ Testing Error 0.22151086120574928</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="building-a-linear-regression-model-with-three-features-x-x_2-x_3" class="level4" data-number="12.2.4.2">
-<h4 data-number="12.2.4.2" class="anchored" data-anchor-id="building-a-linear-regression-model-with-three-features-x-x_2-x_3"><span class="header-section-number">12.2.4.2</span> Building a linear regression model with three features <code>x, x_2, x_3</code></h4>
+<section id="building-a-linear-regression-model-with-three-features-x-x_2-x_3" class="level4" data-number="11.2.4.2">
+<h4 data-number="11.2.4.2" class="anchored" data-anchor-id="building-a-linear-regression-model-with-three-features-x-x_2-x_3"><span class="header-section-number">11.2.4.2</span> Building a linear regression model with three features <code>x, x_2, x_3</code></h4>
 <div id="5f5cf4a5" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>independent_variable_train <span class="op">=</span> X_train[:, <span class="dv">0</span>:<span class="dv">3</span>]</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>independent_variable_train[:<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -743,7 +764,7 @@ Testing Error 0.028159311299747036</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-13-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-13-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -769,11 +790,11 @@ Testing Error 0.028159311299747036</code></pre>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>        plt.title(<span class="st">'Number of Predictors: </span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>features)</span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">#return the result in pre-defined format</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    rss_train <span class="op">=</span> <span class="bu">sum</span>((train_y_pred <span class="op">-</span> train_y)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>train_x.shape[<span class="dv">0</span>]</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> [rss_train]</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    mse_train <span class="op">=</span> mean_squared_error(train_y, train_y_pred)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> [mse_train]</span>
 <span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    rss_test <span class="op">=</span> <span class="bu">sum</span>((test_y_pred <span class="op">-</span> test_y)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>test_x.shape[<span class="dv">0</span>]</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    ret.extend([rss_test])</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    mse_test <span class="op">=</span> mean_squared_error(test_y, test_y_pred)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    ret.extend([mse_test])</span>
 <span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    ret.extend([linreg.intercept_])</span>
 <span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    ret.extend(linreg.coef_)</span>
@@ -782,7 +803,7 @@ Testing Error 0.028159311299747036</code></pre>
 </div>
 <div id="149a7127" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize a dataframe to store the results:</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [<span class="st">'mrss_train'</span>, <span class="st">'mrss_test'</span>, <span class="st">'intercept'</span>] <span class="op">+</span> [<span class="st">'coef_VaR_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [<span class="st">'mse_train'</span>, <span class="st">'mse_test'</span>, <span class="st">'intercept'</span>] <span class="op">+</span> [<span class="st">'coef_VaR_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> [<span class="st">'Number_of_variable_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>coef_matrix_simple <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>ind, columns<span class="op">=</span>col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -804,20 +825,27 @@ Testing Error 0.028159311299747036</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p><strong>Key Takeaways:</strong></p>
-<p>As we increase the number of features (higher-degree polynomial terms), we observe the following:<br>
-- The model becomes <strong>more flexible</strong>, capturing intricate patterns in the training data.<br>
-- The curve becomes <strong>increasingly wavy and complex</strong>, adapting too closely to the data points.<br>
-- This results in <strong>overfitting</strong>, where the model performs well on the training set but fails to generalize to unseen data.</p>
+<p>As we increase the number of features (higher-degree polynomial terms), we observe the following:</p>
+<ul>
+<li>The model becomes <strong>more flexible</strong>, capturing intricate patterns in the training data.<br>
+</li>
+<li>The curve becomes <strong>increasingly wavy and complex</strong>, adapting too closely to the data points.<br>
+</li>
+<li>This results in <strong>overfitting</strong>, where the model performs well on the training set but fails to generalize to unseen data.</li>
+</ul>
 <p>Overfitting occurs because the model learns <strong>noise</strong> instead of the true underlying pattern, leading to poor performance on new data.</p>
-<p>To better understand this phenomenon, let’s:<br>
-- <strong>Evaluate model performance</strong> on both the training and test sets.<br>
-- <strong>Output the model coefficients</strong> to analyze how feature coefficients changes with increasing complexity.</p>
+<p>To better understand this phenomenon, let’s:</p>
+<ul>
+<li><strong>Evaluate model performance</strong> on both the training and test sets.<br>
+</li>
+<li><strong>Output the model coefficients</strong> to analyze how feature coefficients changes with increasing complexity.</li>
+</ul>
 <div id="3e5cedb7" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the display format to be scientific for ease of analysis</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:,.2g}</span><span class="st">'</span>.<span class="bu">format</span></span>
@@ -830,8 +858,8 @@ Testing Error 0.028159311299747036</code></pre>
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mrss_train</th>
-<th data-quarto-table-cell-role="th">mrss_test</th>
+<th data-quarto-table-cell-role="th">mse_train</th>
+<th data-quarto-table-cell-role="th">mse_test</th>
 <th data-quarto-table-cell-role="th">intercept</th>
 <th data-quarto-table-cell-role="th">coef_VaR_1</th>
 <th data-quarto-table-cell-role="th">coef_VaR_2</th>
@@ -1174,46 +1202,54 @@ Testing Error 0.028159311299747036</code></pre>
 </div>
 <p>Let’s plot the training error versus the test error below and identify the overfitting</p>
 <div id="f27d49b6" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_simple[[<span class="st">'mrss_train'</span>, <span class="st">'mrss_test'</span>]].plot()</span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_simple[[<span class="st">'mse_train'</span>, <span class="st">'mse_test'</span>]].plot()</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> plt.gca()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Features'</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'MRSS'</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'MSE'</span>)</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>plt.setp(ax.get_xticklabels(), rotation<span class="op">=</span><span class="dv">30</span>, horizontalalignment<span class="op">=</span><span class="st">'right'</span>)</span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">'train'</span>, <span class="st">'test'</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
 </section>
-<section id="overfitting-indicated-by-training-and-test-mrss-trends" class="level3" data-number="12.2.5">
-<h3 data-number="12.2.5" class="anchored" data-anchor-id="overfitting-indicated-by-training-and-test-mrss-trends"><span class="header-section-number">12.2.5</span> Overfitting Indicated by Training and Test MRSS Trends</h3>
-<p>As observed in the plot:<br>
-- The <strong>Training Mean Residual Sum of Squares (MRSS)</strong> consistently decreases as the number of features increases.<br>
-- However, after a certain point, the <strong>Test MRSS starts to rise</strong>, indicating that the model is no longer generalizing well to unseen data.</p>
+<section id="overfitting-indicated-by-training-and-test-mse-trends" class="level3" data-number="11.2.5">
+<h3 data-number="11.2.5" class="anchored" data-anchor-id="overfitting-indicated-by-training-and-test-mse-trends"><span class="header-section-number">11.2.5</span> Overfitting Indicated by Training and Test MSE Trends</h3>
+<p>As observed in the plot:</p>
+<ul>
+<li>The <strong>Training Mean Squared Error (MSE)</strong> consistently decreases as the number of features increases.<br>
+</li>
+<li>However, after a certain point, the <strong>Test MSE starts to rise</strong>, indicating that the model is no longer generalizing well to unseen data.</li>
+</ul>
 <p>This trend suggests that while adding more features helps the model fit the <strong>training data</strong> better, it also causes the model to <strong>memorize noise</strong>, leading to poor performance on the test set.</p>
 <p>This is a classic sign of <strong>overfitting</strong>, where the model captures excessive complexity in the data rather than the true underlying pattern.</p>
 <p>Next, let’s mitigate the overfitting issue using regularization</p>
 </section>
 </section>
-<section id="regularization-combating-overfitting" class="level2" data-number="12.3">
-<h2 data-number="12.3" class="anchored" data-anchor-id="regularization-combating-overfitting"><span class="header-section-number">12.3</span> Regularization: Combating Overfitting</h2>
+<section id="regularization-combating-overfitting" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="regularization-combating-overfitting"><span class="header-section-number">11.3</span> Regularization: Combating Overfitting</h2>
 <p>Regularization is a technique that <strong>modifies the loss function</strong> by adding a penalty term to control model complexity.<br>
 This helps <strong>prevent overfitting</strong> by discouraging large coefficients in the model.</p>
-<section id="regularized-loss-function" class="level3" data-number="12.3.1">
-<h3 data-number="12.3.1" class="anchored" data-anchor-id="regularized-loss-function"><span class="header-section-number">12.3.1</span> Regularized Loss Function</h3>
+<section id="regularized-loss-function" class="level3" data-number="11.3.1">
+<h3 data-number="11.3.1" class="anchored" data-anchor-id="regularized-loss-function"><span class="header-section-number">11.3.1</span> Regularized Loss Function</h3>
 <p>The regularized loss function is given by:</p>
 <p><span class="math inline">\(L_{reg}(\beta) = L(\beta) + \alpha R(\beta)\)</span></p>
-<p>where: - <span class="math inline">\(L(\beta)\)</span> is the original loss function (e.g., Mean Squared Error in linear regression).<br>
-- <span class="math inline">\(R(\beta)\)</span> is the <strong>regularization term</strong>, which penalizes large coefficients.<br>
-- <span class="math inline">\(\alpha\)</span> is a <strong>hyperparameter</strong> that controls the strength of regularization.</p>
+<p>where:</p>
+<ul>
+<li><span class="math inline">\(L(\beta)\)</span> is the original loss function (e.g., Mean Squared Error in linear regression).<br>
+</li>
+<li><span class="math inline">\(R(\beta)\)</span> is the <strong>regularization term</strong>, which penalizes large coefficients.<br>
+</li>
+<li><span class="math inline">\(\alpha\)</span> is a <strong>hyperparameter</strong> that controls the strength of regularization.</li>
+</ul>
 </section>
-<section id="regularization-does-not-penalize-the-intercept" class="level3" data-number="12.3.2">
-<h3 data-number="12.3.2" class="anchored" data-anchor-id="regularization-does-not-penalize-the-intercept"><span class="header-section-number">12.3.2</span> Regularization Does Not Penalize the Intercept</h3>
+<section id="regularization-does-not-penalize-the-intercept" class="level3" data-number="11.3.2">
+<h3 data-number="11.3.2" class="anchored" data-anchor-id="regularization-does-not-penalize-the-intercept"><span class="header-section-number">11.3.2</span> Regularization Does Not Penalize the Intercept</h3>
 <ul>
 <li>The <strong>intercept (bias term)</strong> captures the <strong>baseline mean</strong> of the target variable.<br>
 </li>
@@ -1222,8 +1258,8 @@ This helps <strong>prevent overfitting</strong> by discouraging large coefficien
 <li>Thus, regularization <strong>only applies to feature coefficients</strong>, not the intercept.</li>
 </ul>
 </section>
-<section id="types-of-regularization" class="level3" data-number="12.3.3">
-<h3 data-number="12.3.3" class="anchored" data-anchor-id="types-of-regularization"><span class="header-section-number">12.3.3</span> Types of Regularization</h3>
+<section id="types-of-regularization" class="level3" data-number="11.3.3">
+<h3 data-number="11.3.3" class="anchored" data-anchor-id="types-of-regularization"><span class="header-section-number">11.3.3</span> Types of Regularization</h3>
 <ol type="1">
 <li><strong>L1 Regularization (Lasso Regression)</strong>: Encourages sparsity by driving some coefficients to zero.<br>
 </li>
@@ -1233,10 +1269,20 @@ This helps <strong>prevent overfitting</strong> by discouraging large coefficien
 </ol>
 <p>By applying <strong>regularization</strong>, we obtain models that balance <strong>bias-variance tradeoff</strong>, leading to <strong>better generalization</strong>.</p>
 </section>
-<section id="why-is-feature-scaling-required-in-regularization" class="level3" data-number="12.3.4">
-<h3 data-number="12.3.4" class="anchored" data-anchor-id="why-is-feature-scaling-required-in-regularization"><span class="header-section-number">12.3.4</span> Why Is Feature Scaling Required in Regularization?</h3>
-<section id="the-effect-of-feature-magnitudes-on-regularization" class="level4" data-number="12.3.4.1">
-<h4 data-number="12.3.4.1" class="anchored" data-anchor-id="the-effect-of-feature-magnitudes-on-regularization"><span class="header-section-number">12.3.4.1</span> The Effect of Feature Magnitudes on Regularization</h4>
+<section id="understanding-the-impact-of-regularization-strength" class="level3" data-number="11.3.4">
+<h3 data-number="11.3.4" class="anchored" data-anchor-id="understanding-the-impact-of-regularization-strength"><span class="header-section-number">11.3.4</span> Understanding the Impact of Regularization Strength</h3>
+<p>In this chapter, we will explore how the regularization parameter <span class="math inline">\(\alpha\)</span> affects model complexity and overfitting:</p>
+<ul>
+<li><strong>Small <span class="math inline">\(\alpha\)</span></strong>: Weak regularization, model may still overfit</li>
+<li><strong>Moderate <span class="math inline">\(\alpha\)</span></strong>: Balanced complexity, good generalization</li>
+<li><strong>Large <span class="math inline">\(\alpha\)</span></strong>: Strong regularization, model may underfit</li>
+</ul>
+<p>While we will experiment with different <span class="math inline">\(\alpha\)</span> values to understand their impact, we will <strong>not cover how to systematically select the optimal <span class="math inline">\(\alpha\)</span></strong>. That topic will be addressed in the <strong>next chapter on Cross-Validation</strong>, where you’ll learn rigorous methods for hyperparameter tuning.</p>
+</section>
+<section id="why-is-feature-scaling-required-in-regularization" class="level3" data-number="11.3.5">
+<h3 data-number="11.3.5" class="anchored" data-anchor-id="why-is-feature-scaling-required-in-regularization"><span class="header-section-number">11.3.5</span> Why Is Feature Scaling Required in Regularization?</h3>
+<section id="the-effect-of-feature-magnitudes-on-regularization" class="level4" data-number="11.3.5.1">
+<h4 data-number="11.3.5.1" class="anchored" data-anchor-id="the-effect-of-feature-magnitudes-on-regularization"><span class="header-section-number">11.3.5.1</span> The Effect of Feature Magnitudes on Regularization</h4>
 <p>Regularization techniques such as <strong>Lasso (L1)</strong>, <strong>Ridge (L2)</strong>, and <strong>Elastic Net</strong> apply penalties to the model’s coefficients. However, when features have vastly different scales, <strong>regularization disproportionately affects certain features</strong>, leading to:</p>
 <ul>
 <li><strong>Uneven shrinkage</strong> of coefficients, causing instability in the model.</li>
@@ -1244,8 +1290,8 @@ This helps <strong>prevent overfitting</strong> by discouraging large coefficien
 <li><strong>Suboptimal performance</strong>, since regularization penalizes large coefficients more, even if they belong to more informative features.</li>
 </ul>
 </section>
-<section id="example-the-need-for-feature-scaling" class="level4" data-number="12.3.4.2">
-<h4 data-number="12.3.4.2" class="anchored" data-anchor-id="example-the-need-for-feature-scaling"><span class="header-section-number">12.3.4.2</span> Example: The Need for Feature Scaling</h4>
+<section id="example-the-need-for-feature-scaling" class="level4" data-number="11.3.5.2">
+<h4 data-number="11.3.5.2" class="anchored" data-anchor-id="example-the-need-for-feature-scaling"><span class="header-section-number">11.3.5.2</span> Example: The Need for Feature Scaling</h4>
 <p>Imagine a dataset with two features:</p>
 <ul>
 <li><strong>Feature 1</strong>: Number of bedrooms (range: 1-5).<br>
@@ -1254,20 +1300,28 @@ This helps <strong>prevent overfitting</strong> by discouraging large coefficien
 </ul>
 <p>Since house area has much larger values, the model assigns smaller coefficients to compensate, making regularization unfairly <strong>biased toward smaller-scale features</strong>.</p>
 </section>
-<section id="how-to-scale-features-for-regularization" class="level4" data-number="12.3.4.3">
-<h4 data-number="12.3.4.3" class="anchored" data-anchor-id="how-to-scale-features-for-regularization"><span class="header-section-number">12.3.4.3</span> How to Scale Features for Regularization</h4>
+<section id="how-to-scale-features-for-regularization" class="level4" data-number="11.3.5.3">
+<h4 data-number="11.3.5.3" class="anchored" data-anchor-id="how-to-scale-features-for-regularization"><span class="header-section-number">11.3.5.3</span> How to Scale Features for Regularization</h4>
 <p>To ensure fair treatment of all features, apply <strong>feature scaling</strong> before training a regularized model:</p>
-<section id="standardization-recommended" class="level5" data-number="12.3.4.3.1">
-<h5 data-number="12.3.4.3.1" class="anchored" data-anchor-id="standardization-recommended"><span class="header-section-number">12.3.4.3.1</span> Standardization (Recommended)</h5>
+<section id="standardization-recommended" class="level5" data-number="11.3.5.3.1">
+<h5 data-number="11.3.5.3.1" class="anchored" data-anchor-id="standardization-recommended"><span class="header-section-number">11.3.5.3.1</span> Standardization (Recommended)</h5>
 <p><span class="math display">\[
 x_{\text{scaled}} = \frac{x - \mu}{\sigma}
-\]</span> - Centers the data around <strong>zero</strong> with unit variance. - Used in <strong>Lasso, Ridge, and Elastic Net</strong>.</p>
+\]</span></p>
+<ul>
+<li>Centers the data around <strong>zero</strong> with unit variance.</li>
+<li>Used in <strong>Lasso, Ridge, and Elastic Net</strong>.</li>
+</ul>
 </section>
-<section id="min-max-scaling" class="level5" data-number="12.3.4.3.2">
-<h5 data-number="12.3.4.3.2" class="anchored" data-anchor-id="min-max-scaling"><span class="header-section-number">12.3.4.3.2</span> Min-Max Scaling</h5>
+<section id="min-max-scaling" class="level5" data-number="11.3.5.3.2">
+<h5 data-number="11.3.5.3.2" class="anchored" data-anchor-id="min-max-scaling"><span class="header-section-number">11.3.5.3.2</span> Min-Max Scaling</h5>
 <p><span class="math display">\[
 x_{\text{scaled}} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
-\]</span> - Scales features to a fixed <strong>[0, 1]</strong> range. - Common for <strong>neural networks</strong> but less effective for regularization.</p>
+\]</span></p>
+<ul>
+<li>Scales features to a fixed <strong>[0, 1]</strong> range.</li>
+<li>Common for <strong>neural networks</strong> but less effective for regularization.</li>
+</ul>
 <p>Let’s use <code>StandardScaler</code> to scale the features</p>
 <div id="7cc71193" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
@@ -1409,11 +1463,11 @@ x_{\text{scaled}} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}
 </section>
 </section>
 </section>
-<section id="ridge-regression-l2-regularization" class="level3" data-number="12.3.5">
-<h3 data-number="12.3.5" class="anchored" data-anchor-id="ridge-regression-l2-regularization"><span class="header-section-number">12.3.5</span> Ridge Regression: L2 Regularization</h3>
+<section id="ridge-regression-l2-regularization" class="level3" data-number="11.3.6">
+<h3 data-number="11.3.6" class="anchored" data-anchor-id="ridge-regression-l2-regularization"><span class="header-section-number">11.3.6</span> Ridge Regression: L2 Regularization</h3>
 <p>Ridge regression is a type of <strong>linear regression</strong> that incorporates <strong>L2 regularization</strong> to prevent overfitting by <strong>penalizing large coefficients</strong>.</p>
-<section id="ridge-regression-loss-function" class="level4" data-number="12.3.5.1">
-<h4 data-number="12.3.5.1" class="anchored" data-anchor-id="ridge-regression-loss-function"><span class="header-section-number">12.3.5.1</span> Ridge Regression Loss Function</h4>
+<section id="ridge-regression-loss-function" class="level4" data-number="11.3.6.1">
+<h4 data-number="11.3.6.1" class="anchored" data-anchor-id="ridge-regression-loss-function"><span class="header-section-number">11.3.6.1</span> Ridge Regression Loss Function</h4>
 <p>The regularized loss function for Ridge regression is given by:</p>
 <p><span class="math display">\[
 L_{\text{Ridge}}(\beta) = \frac{1}{n} \sum_{i=1}^{n} |y_i - \beta^\top x_i|^2 + \alpha \sum_{j=1}^{J} \beta_j^2
@@ -1433,7 +1487,8 @@ L_{\text{Ridge}}(\beta) = \frac{1}{n} \sum_{i=1}^{n} |y_i - \beta^\top x_i|^2 + 
 \]</span></p>
 <p>is the <strong>squared L2 norm</strong> of the coefficient vector <span class="math inline">\(\beta\)</span>.<br>
 Minimizing this norm ensures that the model coefficients remain <strong>small and stable</strong>, reducing sensitivity to variations in the data.</p>
-<p>Let’s build a Ridge Regression model using scikit-learn, The <code>alpha</code> parameter controls the strength of the regularization:</p>
+<p>Let’s build a Ridge Regression model using scikit-learn. The <code>alpha</code> parameter controls the strength of the regularization.</p>
+<p><strong>Note</strong>: In this section, we’ll experiment with different values of <span class="math inline">\(\alpha\)</span> to understand their <strong>impact on overfitting</strong>. This is for educational purposes to visualize how regularization strength affects model behavior. The systematic approach to selecting optimal <span class="math inline">\(\alpha\)</span> values will be covered in the next chapter on cross-validation.</p>
 <div id="6a7d3b67" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co"># defining a function which will fit ridge regression model, plot the results, and return the coefficients</span></span>
@@ -1455,22 +1510,22 @@ Minimizing this norm ensures that the model coefficients remain <strong>small an
 <span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        plt.title(<span class="st">'Plot for alpha: </span><span class="sc">%.3g</span><span class="st">'</span><span class="op">%</span>alpha)</span>
 <span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>    <span class="co">#return the result in pre-defined format</span></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    mrss_train <span class="op">=</span> <span class="bu">sum</span>((train_y_pred <span class="op">-</span> train_y)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>train_x.shape[<span class="dv">0</span>]</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> [mrss_train]</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>    mse_train <span class="op">=</span> mean_squared_error(train_y, train_y_pred)</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> [mse_train]</span>
 <span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    mrss_test <span class="op">=</span> <span class="bu">sum</span>((test_y_pred <span class="op">-</span> test_y)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>test_x.shape[<span class="dv">0</span>]</span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    ret.extend([mrss_test])</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    mse_test <span class="op">=</span> mean_squared_error(test_y, test_y_pred)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    ret.extend([mse_test])</span>
 <span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>    ret.extend([ridgereg.intercept_])</span>
 <span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>    ret.extend(ridgereg.coef_)</span>
 <span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ret</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Let’s experiment with different values of alpha in Ridge Regression and observe how it affects the model’s coefficients and performance.</p>
+<p>Let’s experiment with different values of alpha in Ridge Regression and observe how it affects the model’s coefficients and performance. We’re using a range of <span class="math inline">\(\alpha\)</span> values from very small (nearly no regularization) to large (strong regularization) to visualize the impact on overfitting.</p>
 <div id="d0b837d7" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize a dataframe to store the coefficient:</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>alpha_ridge <span class="op">=</span> [<span class="fl">1e-15</span>, <span class="fl">1e-10</span>, <span class="fl">1e-8</span>, <span class="fl">1e-4</span>, <span class="fl">1e-3</span>,<span class="fl">1e-2</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>]</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [<span class="st">'mrss_train'</span>, <span class="st">'mrss_test'</span>, <span class="st">'intercept'</span>] <span class="op">+</span> [<span class="st">'coef_VaR_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [<span class="st">'mse_train'</span>, <span class="st">'mse_test'</span>, <span class="st">'intercept'</span>] <span class="op">+</span> [<span class="st">'coef_VaR_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> [<span class="st">'alpha_</span><span class="sc">%.2g</span><span class="st">'</span><span class="op">%</span>alpha_ridge[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>)]</span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>coef_matrix_ridge <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>ind, columns<span class="op">=</span>col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -1486,12 +1541,18 @@ Minimizing this norm ensures that the model coefficients remain <strong>small an
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>As we can observe, when increasing alpha, the model becomes simpler, with coefficients shrinking more aggressively due to stronger regularization. This reduces the risk of overfitting but may lead to underfitting if alpha is set too high.</p>
+<p>As we can observe, when increasing alpha, the model becomes simpler, with coefficients shrinking more aggressively due to stronger regularization.</p>
+<p><strong>Key Observations:</strong></p>
+<ul>
+<li><strong>Low <span class="math inline">\(\alpha\)</span> values (e.g., <span class="math inline">\(1e^{-15}\)</span>, <span class="math inline">\(1e^{-10}\)</span>)</strong>: The plots show complex, wavy curves similar to unregularized regression—indicating <strong>overfitting</strong>.</li>
+<li><strong>Moderate <span class="math inline">\(\alpha\)</span> values (e.g., <span class="math inline">\(1e^{-4}\)</span>, <span class="math inline">\(1e^{-3}\)</span>)</strong>: The curves become smoother and more generalizable—indicating <strong>better balance</strong>.</li>
+<li><strong>High <span class="math inline">\(\alpha\)</span> values (e.g., <span class="math inline">\(5\)</span>, <span class="math inline">\(10\)</span>)</strong>: The curves become overly simplified—indicating potential <strong>underfitting</strong>.</li>
+</ul>
 <p>Next, let’s output the training error versus the test error and examine how the feature coefficients change with different alpha values.</p>
 <div id="6436651a" class="cell" data-scrolled="true" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set the display format to be scientific for ease of analysis</span></span>
@@ -1505,8 +1566,8 @@ Minimizing this norm ensures that the model coefficients remain <strong>small an
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mrss_train</th>
-<th data-quarto-table-cell-role="th">mrss_test</th>
+<th data-quarto-table-cell-role="th">mse_train</th>
+<th data-quarto-table-cell-role="th">mse_test</th>
 <th data-quarto-table-cell-role="th">intercept</th>
 <th data-quarto-table-cell-role="th">coef_VaR_1</th>
 <th data-quarto-table-cell-role="th">coef_VaR_2</th>
@@ -1765,12 +1826,22 @@ Minimizing this norm ensures that the model coefficients remain <strong>small an
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>As we can see, as <span class="math inline">\(\alpha\)</span> increases, the coefficients become smaller and approach zero. Now, let’s examine the number of zero coefficients.</p>
+</section>
+</section>
+<section id="key-insights-ridge-regression-and-overfitting" class="level3" data-number="11.3.7">
+<h3 data-number="11.3.7" class="anchored" data-anchor-id="key-insights-ridge-regression-and-overfitting"><span class="header-section-number">11.3.7</span> Key Insights: Ridge Regression and Overfitting</h3>
+<p>As we can see from the coefficient plot, as <span class="math inline">\(\alpha\)</span> increases, the coefficients shrink toward zero but <strong>never become exactly zero</strong>. This is a fundamental property of L2 regularization.</p>
+<p><strong>Impact on Model Behavior:</strong></p>
+<ul>
+<li><strong>Small <span class="math inline">\(\alpha\)</span></strong>: Coefficients remain large, model captures noise → <strong>overfitting</strong></li>
+<li><strong>Intermediate <span class="math inline">\(\alpha\)</span></strong>: Coefficients are moderately sized, model captures signal → <strong>good fit</strong></li>
+<li><strong>Large <span class="math inline">\(\alpha\)</span></strong>: Coefficients shrink too much, model misses signal → <strong>underfitting</strong></li>
+</ul>
 <div id="69db01d3" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_ridge.<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">sum</span>(x.values<span class="op">==</span><span class="dv">0</span>),axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
@@ -1787,32 +1858,39 @@ alpha_20        0
 dtype: int32</code></pre>
 </div>
 </div>
-<p>Let’s plot how the test error and training error change as we increase <span class="math inline">\(\alpha\)</span></p>
+<p>As expected with Ridge regression (L2 regularization), <strong>no coefficients become exactly zero</strong>, regardless of <span class="math inline">\(\alpha\)</span>. Ridge shrinks coefficients but retains all features in the model. This is in contrast to Lasso regression, which we’ll explore next.</p>
+<p>Let’s plot how the training error and test error change as we vary <span class="math inline">\(\alpha\)</span> to visualize the regularization strength’s impact on overfitting.</p>
 <div id="448bd4c2" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_ridge[[<span class="st">'mrss_train'</span>, <span class="st">'mrss_test'</span>]].plot()</span>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_ridge[[<span class="st">'mse_train'</span>, <span class="st">'mse_test'</span>]].plot()</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Features'</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'MRSS'</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'MSE'</span>)</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">'train'</span>, <span class="st">'test'</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>As we can observe, as <span class="math inline">\(𝜆\)</span> increases beyond a certain value, both the training MRSS and test MRSS begin to rise, indicating that the model starts underfitting.</p>
 </section>
+<section id="understanding-the-training-vs-test-error-pattern" class="level3" data-number="11.3.8">
+<h3 data-number="11.3.8" class="anchored" data-anchor-id="understanding-the-training-vs-test-error-pattern"><span class="header-section-number">11.3.8</span> Understanding the Training vs Test Error Pattern</h3>
+<p>As we can observe from the plot, as <span class="math inline">\(\alpha\)</span> increases beyond a certain value, both the training MSE and test MSE begin to rise, indicating that the model starts underfitting.</p>
+<p><strong>The Sweet Spot</strong>: Notice that there’s a <strong>range of <span class="math inline">\(\alpha\)</span> values</strong> where test error is minimized, representing the best balance between bias and variance. However, identifying this optimal value requires systematic evaluation methods like <strong>cross-validation</strong>, which we’ll learn in the next chapter.</p>
 </section>
-<section id="lasso-regression-l1-regularization" class="level3" data-number="12.3.6">
-<h3 data-number="12.3.6" class="anchored" data-anchor-id="lasso-regression-l1-regularization"><span class="header-section-number">12.3.6</span> Lasso Regression: L1 Regularization</h3>
-<p>LASSO stands for <strong>Least Absolute Shrinkage and Selection Operator</strong>. There are two key aspects in this name:<br>
-- <strong>“Absolute”</strong> refers to the use of the absolute values of the coefficients in the penalty term.<br>
-- <strong>“Selection”</strong> highlights LASSO’s ability to shrink some coefficients to exactly zero, effectively performing <strong>feature selection</strong>.</p>
+<section id="lasso-regression-l1-regularization" class="level3" data-number="11.3.9">
+<h3 data-number="11.3.9" class="anchored" data-anchor-id="lasso-regression-l1-regularization"><span class="header-section-number">11.3.9</span> Lasso Regression: L1 Regularization</h3>
+<p>LASSO stands for <strong>Least Absolute Shrinkage and Selection Operator</strong>. There are two key aspects in this name:</p>
+<ul>
+<li><strong>“Absolute”</strong> refers to the use of the absolute values of the coefficients in the penalty term.<br>
+</li>
+<li><strong>“Selection”</strong> highlights LASSO’s ability to shrink some coefficients to exactly zero, effectively performing <strong>feature selection</strong>.</li>
+</ul>
 <p>Lasso regression performs <strong>L1 regularization</strong>, which helps prevent overfitting by penalizing large coefficients and enforcing sparsity in the model.</p>
-<section id="lasso-regression-loss-function" class="level4" data-number="12.3.6.1">
-<h4 data-number="12.3.6.1" class="anchored" data-anchor-id="lasso-regression-loss-function"><span class="header-section-number">12.3.6.1</span> Lasso Regression Loss Function</h4>
+<section id="lasso-regression-loss-function" class="level4" data-number="11.3.9.1">
+<h4 data-number="11.3.9.1" class="anchored" data-anchor-id="lasso-regression-loss-function"><span class="header-section-number">11.3.9.1</span> Lasso Regression Loss Function</h4>
 <p>In standard <strong>linear regression</strong>, the loss function is the <strong>Mean Squared Error (MSE)</strong>:</p>
 <p><span class="math display">\[L_{\text{MSE}}(\beta) = \frac{1}{n} \sum_{i=1}^{n} (y_i - \beta^\top x_i)^2\]</span></p>
 <p>LASSO modifies this by adding an <strong>L1 regularization</strong> penalty, leading to the following <strong>regularized loss function</strong>:</p>
@@ -1831,12 +1909,12 @@ dtype: int32</code></pre>
 \]</span></p>
 <p>is the <strong>L1 norm</strong> of the coefficient vector ( <span class="math inline">\(\beta\)</span> ).<br>
 Minimizing this norm encourages <strong>sparsity</strong>, meaning some coefficients become exactly zero, leading to an automatically selected subset of features.</p>
-<p>Next, let’s build a Lasso Regression model. Similar to Ridge regression, we will explore a range of values for the regularization parameter alpha.</p>
+<p>Next, let’s build a Lasso Regression model. Similar to Ridge regression, we will explore a range of values for the regularization parameter alpha to understand how L1 regularization impacts overfitting differently than L2 regularization.</p>
 <div id="c94f3881" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>alpha_lasso <span class="op">=</span> [<span class="fl">1e-15</span>, <span class="fl">1e-10</span>, <span class="fl">1e-8</span>, <span class="fl">1e-5</span>,<span class="fl">1e-4</span>, <span class="fl">1e-3</span>,<span class="fl">1e-2</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="bf8ea40a" class="cell" data-execution_count="51">
+<div id="bf8ea40a" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Defining a function which will fit lasso regression model, plot the results, and return the coefficient</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lasso_regression(train_x, train_y, test_x, test_y, alpha, models_to_plot<span class="op">=</span>{}):</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    </span>
@@ -1844,7 +1922,7 @@ Minimizing this norm encourages <strong>sparsity</strong>, meaning some coeffici
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> alpha <span class="op">==</span> <span class="dv">0</span>:</span>
 <span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>        lassoreg <span class="op">=</span> LinearRegression()    </span>
 <span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        lassoreg <span class="op">=</span> Lasso(alpha<span class="op">=</span>alpha, max_iter<span class="op">=</span><span class="dv">200000000</span>, tol<span class="op">=</span><span class="fl">0.01</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>        lassoreg <span class="op">=</span> Lasso(alpha<span class="op">=</span>alpha, max_iter<span class="op">=</span><span class="dv">10000</span>, tol<span class="op">=</span><span class="fl">0.0001</span>)</span>
 <span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    lassoreg.fit(train_x, train_y)</span>
 <span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>    train_y_pred <span class="op">=</span> lassoreg.predict(train_x)</span>
 <span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    test_y_pred <span class="op">=</span> lassoreg.predict(test_x)</span>
@@ -1861,44 +1939,65 @@ Minimizing this norm encourages <strong>sparsity</strong>, meaning some coeffici
 <span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>        plt.title(<span class="st">'Plot for alpha: </span><span class="sc">%.3g</span><span class="st">'</span><span class="op">%</span>alpha)</span>
 <span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#return the result in pre-defined format</span></span>
-<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>    mrss_train <span class="op">=</span> <span class="bu">sum</span>((train_y_pred <span class="op">-</span> train_y)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>train_x.shape[<span class="dv">0</span>]</span>
-<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> [mrss_train]</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>    mse_train <span class="op">=</span> mean_squared_error(train_y, train_y_pred)</span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> [mse_train]</span>
 <span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>    mrss_test <span class="op">=</span> <span class="bu">sum</span>((test_y_pred <span class="op">-</span> test_y)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>test_x.shape[<span class="dv">0</span>]</span>
-<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>    ret.extend([mrss_test])</span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>    mse_test <span class="op">=</span> mean_squared_error(test_y, test_y_pred)</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>    ret.extend([mse_test])</span>
 <span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>    ret.extend([lassoreg.intercept_])</span>
 <span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>    ret.extend(lassoreg.coef_)</span>
 <span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ret</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="92164f26" class="cell" data-execution_count="52">
+<div id="92164f26" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize a dataframe to store the coefficient:</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [<span class="st">'mrss_train'</span>, <span class="st">'mrss_test'</span>, <span class="st">'intercept'</span>] <span class="op">+</span> [<span class="st">'coef_VaR_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [<span class="st">'mse_train'</span>, <span class="st">'mse_test'</span>, <span class="st">'intercept'</span>] <span class="op">+</span> [<span class="st">'coef_VaR_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> [<span class="st">'alpha_</span><span class="sc">%.2g</span><span class="st">'</span><span class="op">%</span>alpha_lasso[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>)]</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>coef_matrix_lasso <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>ind, columns<span class="op">=</span>col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="591bbc29" class="cell" data-execution_count="53">
+<div id="591bbc29" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the number of features for which a plot is required:</span></span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>models_to_plot <span class="op">=</span> {<span class="fl">1e-10</span>:<span class="dv">231</span>, <span class="fl">1e-5</span>:<span class="dv">232</span>,<span class="fl">1e-4</span>:<span class="dv">233</span>, <span class="fl">1e-3</span>:<span class="dv">234</span>, <span class="fl">1e-2</span>:<span class="dv">235</span>, <span class="fl">0.1</span>:<span class="dv">236</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="85361c39" class="cell" data-execution_count="54">
+<div id="85361c39" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>models_to_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div class="cell-output cell-output-display" data-execution_count="32">
 <pre><code>{1e-10: 231, 1e-05: 232, 0.0001: 233, 0.001: 234, 0.01: 235, 0.1: 236}</code></pre>
 </div>
 </div>
-<div id="6d9ae207" class="cell">
+<div id="6d9ae207" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Iterate over the 10 alpha values:</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    coef_matrix_lasso.iloc[i,] <span class="op">=</span> lasso_regression(X_train_std, train_y, X_test_std, test_y, alpha_lasso[i], models_to_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\_coordinate_descent.py:695: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 3.502e-01, tolerance: 1.779e-03
+  model = cd_fast.enet_coordinate_descent(
+c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\_coordinate_descent.py:695: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 3.502e-01, tolerance: 1.779e-03
+  model = cd_fast.enet_coordinate_descent(
+c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\_coordinate_descent.py:695: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 3.501e-01, tolerance: 1.779e-03
+  model = cd_fast.enet_coordinate_descent(
+c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\_coordinate_descent.py:695: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 1.873e-01, tolerance: 1.779e-03
+  model = cd_fast.enet_coordinate_descent(
+c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\_coordinate_descent.py:695: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 2.621e-02, tolerance: 1.779e-03
+  model = cd_fast.enet_coordinate_descent(
+c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\_coordinate_descent.py:695: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 5.159e-03, tolerance: 1.779e-03
+  model = cd_fast.enet_coordinate_descent(</code></pre>
 </div>
-<div id="75f59df9" class="cell" data-scrolled="true" data-execution_count="52">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set the display format to be scientific for ease of analysis</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:,.2g}</span><span class="st">'</span>.<span class="bu">format</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>coef_matrix_lasso</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="52">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Regularization_files/figure-html/cell-34-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="75f59df9" class="cell" data-scrolled="true" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set the display format to be scientific for ease of analysis</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:,.2g}</span><span class="st">'</span>.<span class="bu">format</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>coef_matrix_lasso</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
 <div>
 
 
@@ -1906,8 +2005,8 @@ Minimizing this norm encourages <strong>sparsity</strong>, meaning some coeffici
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mrss_train</th>
-<th data-quarto-table-cell-role="th">mrss_test</th>
+<th data-quarto-table-cell-role="th">mse_train</th>
+<th data-quarto-table-cell-role="th">mse_test</th>
 <th data-quarto-table-cell-role="th">intercept</th>
 <th data-quarto-table-cell-role="th">coef_VaR_1</th>
 <th data-quarto-table-cell-role="th">coef_VaR_2</th>
@@ -1930,86 +2029,86 @@ Minimizing this norm encourages <strong>sparsity</strong>, meaning some coeffici
 <tr class="odd">
 <td data-quarto-table-cell-role="th">alpha_1e-15</td>
 <td>0.019</td>
-<td>0.024</td>
+<td>0.025</td>
 <td>-0.072</td>
-<td>2.8</td>
-<td>-6.9</td>
-<td>0.83</td>
-<td>1.5</td>
-<td>1.6</td>
-<td>1</td>
-<td>0.34</td>
+<td>2.9</td>
+<td>-7.3</td>
+<td>1.2</td>
+<td>1.9</td>
+<td>1.4</td>
+<td>0.74</td>
+<td>0.12</td>
+<td>-0.29</td>
+<td>-0.48</td>
+<td>-0.5</td>
+<td>-0.4</td>
 <td>-0.23</td>
-<td>-0.57</td>
-<td>-0.66</td>
-<td>-0.57</td>
-<td>-0.35</td>
-<td>-0.058</td>
-<td>0.27</td>
-<td>0.6</td>
+<td>-0.019</td>
+<td>0.21</td>
+<td>0.42</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">alpha_1e-10</td>
 <td>0.019</td>
-<td>0.024</td>
+<td>0.025</td>
 <td>-0.072</td>
-<td>2.8</td>
-<td>-6.9</td>
-<td>0.83</td>
-<td>1.5</td>
-<td>1.6</td>
-<td>1</td>
-<td>0.34</td>
+<td>2.9</td>
+<td>-7.3</td>
+<td>1.2</td>
+<td>1.9</td>
+<td>1.4</td>
+<td>0.74</td>
+<td>0.12</td>
+<td>-0.29</td>
+<td>-0.48</td>
+<td>-0.5</td>
+<td>-0.4</td>
 <td>-0.23</td>
-<td>-0.57</td>
-<td>-0.66</td>
-<td>-0.57</td>
-<td>-0.35</td>
-<td>-0.058</td>
-<td>0.27</td>
-<td>0.6</td>
+<td>-0.019</td>
+<td>0.21</td>
+<td>0.42</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">alpha_1e-08</td>
 <td>0.019</td>
-<td>0.024</td>
+<td>0.025</td>
 <td>-0.072</td>
-<td>2.8</td>
-<td>-6.9</td>
-<td>0.83</td>
-<td>1.5</td>
-<td>1.6</td>
-<td>1</td>
-<td>0.34</td>
+<td>2.9</td>
+<td>-7.3</td>
+<td>1.2</td>
+<td>1.9</td>
+<td>1.4</td>
+<td>0.74</td>
+<td>0.12</td>
+<td>-0.29</td>
+<td>-0.48</td>
+<td>-0.5</td>
+<td>-0.4</td>
 <td>-0.23</td>
-<td>-0.57</td>
-<td>-0.66</td>
-<td>-0.57</td>
-<td>-0.35</td>
-<td>-0.058</td>
-<td>0.27</td>
-<td>0.6</td>
+<td>-0.019</td>
+<td>0.2</td>
+<td>0.42</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">alpha_1e-05</td>
 <td>0.019</td>
-<td>0.024</td>
+<td>0.025</td>
 <td>-0.072</td>
 <td>2.8</td>
-<td>-6.8</td>
-<td>0.73</td>
-<td>1.7</td>
-<td>1.6</td>
-<td>0.93</td>
-<td>0.21</td>
-<td>0</td>
-<td>-0.6</td>
-<td>-0.68</td>
-<td>-0.55</td>
-<td>-0.3</td>
+<td>-7.2</td>
+<td>1.2</td>
+<td>1.9</td>
+<td>1.4</td>
+<td>0.68</td>
+<td>0.068</td>
+<td>-0.16</td>
+<td>-0.5</td>
+<td>-0.51</td>
+<td>-0.39</td>
+<td>-0.21</td>
 <td>-0</td>
-<td>0.023</td>
-<td>0.71</td>
+<td>0.097</td>
+<td>0.47</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">alpha_0.0001</td>
@@ -2017,29 +2116,29 @@ Minimizing this norm encourages <strong>sparsity</strong>, meaning some coeffici
 <td>0.024</td>
 <td>-0.072</td>
 <td>2.7</td>
-<td>-6.5</td>
-<td>0</td>
-<td>2.8</td>
-<td>1.4</td>
-<td>0</td>
+<td>-6.8</td>
+<td>0.62</td>
+<td>2.5</td>
+<td>1.3</td>
+<td>0.18</td>
 <td>0</td>
 <td>-0</td>
-<td>-0</td>
-<td>-0.68</td>
-<td>-0.43</td>
+<td>-0.2</td>
+<td>-0.57</td>
+<td>-0.31</td>
 <td>-0</td>
 <td>-0</td>
 <td>0</td>
-<td>0.35</td>
+<td>0.29</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">alpha_0.001</td>
 <td>0.024</td>
-<td>0.026</td>
+<td>0.027</td>
 <td>-0.072</td>
 <td>2</td>
 <td>-4.5</td>
-<td>-0</td>
+<td>0</td>
 <td>0</td>
 <td>2.6</td>
 <td>0</td>
@@ -2049,8 +2148,8 @@ Minimizing this norm encourages <strong>sparsity</strong>, meaning some coeffici
 <td>-0</td>
 <td>-0</td>
 <td>-0</td>
-<td>-0.37</td>
-<td>-0</td>
+<td>-0.25</td>
+<td>-0.11</td>
 <td>-0</td>
 </tr>
 <tr class="odd">
@@ -2143,42 +2242,47 @@ Minimizing this norm encourages <strong>sparsity</strong>, meaning some coeffici
 </div>
 </div>
 </div>
-<div id="82bfbeb9" class="cell" data-execution_count="53">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_lasso_reg_coeff(train_x):</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    alphas <span class="op">=</span> np.logspace(<span class="dv">1</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">200</span>)</span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    coefs <span class="op">=</span> []</span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#X_train_std, train_y</span></span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> a <span class="kw">in</span> alphas:        </span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>        laso <span class="op">=</span> Lasso(alpha<span class="op">=</span>a, max_iter <span class="op">=</span> <span class="dv">100000</span>)</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>        laso.fit(train_x, train_y)</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>        coefs.append(laso.coef_)</span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Visualizing the shrinkage in ridge regression coefficients with increasing values of the tuning parameter lambda</span></span>
-<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'xlabel'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
-<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'ylabel'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
-<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(alphas, coefs)</span>
-<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    plt.xscale(<span class="st">'log'</span>)</span>
-<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="vs">r'$\alpha$'</span>)</span>
-<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Standardized coefficient'</span>)</span>
-<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a>    plt.legend(train_x.columns )<span class="op">;</span>    </span>
-<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>plot_lasso_reg_coeff(X_train_std.iloc[:,:<span class="dv">5</span>])</span>
-<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"test1.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="visualizing-lasso-coefficient-shrinkage" class="level3" data-number="11.3.10">
+<h3 data-number="11.3.10" class="anchored" data-anchor-id="visualizing-lasso-coefficient-shrinkage"><span class="header-section-number">11.3.10</span> Visualizing Lasso Coefficient Shrinkage</h3>
+<p>Let’s plot how the coefficients change as we vary <span class="math inline">\(\alpha\)</span>. Notice how Lasso, unlike Ridge, can drive coefficients to <strong>exactly zero</strong>, performing automatic feature selection.</p>
+<div id="82bfbeb9" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_lasso_reg_coeff(train_x):</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    alphas <span class="op">=</span> np.logspace(<span class="dv">1</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">200</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    coefs <span class="op">=</span> []</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#X_train_std, train_y</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> a <span class="kw">in</span> alphas:        </span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        laso <span class="op">=</span> Lasso(alpha<span class="op">=</span>a, max_iter <span class="op">=</span> <span class="dv">100000</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        laso.fit(train_x, train_y)</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>        coefs.append(laso.coef_)</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Visualizing the shrinkage in ridge regression coefficients with increasing values of the tuning parameter lambda</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'xlabel'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'ylabel'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(alphas, coefs)</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    plt.xscale(<span class="st">'log'</span>)</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="vs">r'$\alpha$'</span>)</span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Standardized coefficient'</span>)</span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    plt.legend(train_x.columns )<span class="op">;</span>    </span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>plot_lasso_reg_coeff(X_train_std.iloc[:,:<span class="dv">5</span>])</span>
+<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"test1.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-36-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-36-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="17976656" class="cell" data-execution_count="54">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_lasso.<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">sum</span>(x.values<span class="op">==</span><span class="dv">0</span>),axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div id="17976656" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_lasso.<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">sum</span>(x.values<span class="op">==</span><span class="dv">0</span>),axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
 <pre><code>alpha_1e-15      0
 alpha_1e-10      0
 alpha_1e-08      0
-alpha_1e-05      2
-alpha_0.0001     8
-alpha_0.001     11
+alpha_1e-05      1
+alpha_0.0001     5
+alpha_0.001     10
 alpha_0.01      12
 alpha_0.1       12
 alpha_1         15
@@ -2186,27 +2290,52 @@ alpha_5         15
 dtype: int32</code></pre>
 </div>
 </div>
-<div id="f6b5a6f5" class="cell" data-execution_count="55">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_lasso[[<span class="st">'mrss_train'</span>, <span class="st">'mrss_test'</span>]].plot()</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Features'</span>)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'MRSS'</span>)</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">'train'</span>, <span class="st">'test'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="key-insight-lassos-automatic-feature-selection" class="level3" data-number="11.3.11">
+<h3 data-number="11.3.11" class="anchored" data-anchor-id="key-insight-lassos-automatic-feature-selection"><span class="header-section-number">11.3.11</span> Key Insight: Lasso’s Automatic Feature Selection</h3>
+<p>Unlike Ridge regression, <strong>Lasso drives coefficients to exactly zero</strong> as <span class="math inline">\(\alpha\)</span> increases. The table above shows the number of zero coefficients for each <span class="math inline">\(\alpha\)</span> value.</p>
+<p><strong>What This Means:</strong></p>
+<ul>
+<li><strong>Small <span class="math inline">\(\alpha\)</span></strong>: Few or no zero coefficients, model may overfit</li>
+<li><strong>Moderate <span class="math inline">\(\alpha\)</span></strong>: Some coefficients become zero, removing less important features</li>
+<li><strong>Large <span class="math inline">\(\alpha\)</span></strong>: Many coefficients become zero, model becomes very simple (may underfit)</li>
+</ul>
+<p>This <strong>automatic feature selection</strong> property makes Lasso particularly useful when we suspect that only a subset of features are truly important.</p>
+<p>Let’s visualize how test and training errors change with different <span class="math inline">\(\alpha\)</span> values:</p>
+<div id="f6b5a6f5" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_lasso[[<span class="st">'mse_train'</span>, <span class="st">'mse_test'</span>]].plot()</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Features'</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'MSE'</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">'train'</span>, <span class="st">'test'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-38-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-38-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>Effect of alpha in Lasso Regression</strong> - <strong>Small alpha (close to 0):</strong> The penalty is minimal, and Lasso behaves like ordinary linear regression. - <strong>Moderate alpha:</strong> Some coefficients shrink, and some become exactly zero, performing feature selection. - <strong>Large alpha:</strong> Many coefficients become zero, leading to a very simple model (potentially underfitting).</p>
 </section>
+<section id="impact-of-alpha-on-overfitting-in-lasso-regression" class="level3" data-number="11.3.12">
+<h3 data-number="11.3.12" class="anchored" data-anchor-id="impact-of-alpha-on-overfitting-in-lasso-regression"><span class="header-section-number">11.3.12</span> Impact of <span class="math inline">\(\alpha\)</span> on Overfitting in Lasso Regression</h3>
+<p>Looking at the training vs test error plot, we observe a similar pattern to Ridge regression:</p>
+<ul>
+<li><strong>Small <span class="math inline">\(\alpha\)</span></strong>: Training error is low, but test error is high → <strong>overfitting</strong></li>
+<li><strong>Optimal range</strong>: Both errors are reasonably low → <strong>good generalization</strong></li>
+<li><strong>Large <span class="math inline">\(\alpha\)</span></strong>: Both errors increase → <strong>underfitting</strong></li>
+</ul>
+<p><strong>Effect of alpha in Lasso Regression Summary:</strong></p>
+<ul>
+<li><strong>Small alpha (close to 0):</strong> The penalty is minimal, and Lasso behaves like ordinary linear regression.</li>
+<li><strong>Moderate alpha:</strong> Some coefficients shrink, and some become exactly zero, performing feature selection.</li>
+<li><strong>Large alpha:</strong> Many coefficients become zero, leading to a very simple model (potentially underfitting).</li>
+</ul>
 </section>
-<section id="elastic-net-regression-combining-l1-and-l2-regularization" class="level3" data-number="12.3.7">
-<h3 data-number="12.3.7" class="anchored" data-anchor-id="elastic-net-regression-combining-l1-and-l2-regularization"><span class="header-section-number">12.3.7</span> Elastic Net Regression: Combining L1 and L2 Regularization</h3>
-<section id="mathematical-formulation" class="level4" data-number="12.3.7.1">
-<h4 data-number="12.3.7.1" class="anchored" data-anchor-id="mathematical-formulation"><span class="header-section-number">12.3.7.1</span> Mathematical Formulation*</h4>
+<section id="elastic-net-regression-combining-l1-and-l2-regularization" class="level3" data-number="11.3.13">
+<h3 data-number="11.3.13" class="anchored" data-anchor-id="elastic-net-regression-combining-l1-and-l2-regularization"><span class="header-section-number">11.3.13</span> Elastic Net Regression: Combining L1 and L2 Regularization</h3>
+<section id="mathematical-formulation" class="level4" data-number="11.3.13.1">
+<h4 data-number="11.3.13.1" class="anchored" data-anchor-id="mathematical-formulation"><span class="header-section-number">11.3.13.1</span> Mathematical Formulation*</h4>
 <p>Elastic Net regression combines both <strong>L1 (Lasso) and L2 (Ridge) penalties</strong>, balancing feature selection and coefficient shrinkage. The <strong>regularized loss function</strong> for Elastic Net is given by:</p>
 <p><span class="math display">\[
 L_{\text{ElasticNet}}(\beta) = \frac{1}{2n} \sum_{i=1}^{n} (y_i - \beta^\top x_i)^2 + \alpha \left( (1 - \rho) \frac{1}{2} \sum_{j=1}^{p} \beta_j^2 + \rho \sum_{j=1}^{p} |\beta_j| \right)
@@ -2222,76 +2351,77 @@ L_{\text{ElasticNet}}(\beta) = \frac{1}{2n} \sum_{i=1}^{n} (y_i - \beta^\top x_i
 <li><span class="math inline">\(\sum_{j=1}^{p} \beta_j^2\)</span> is the <strong>L2 norm</strong>, ensuring coefficient stability.</li>
 </ul>
 </section>
-<section id="elastic-net-special-cases" class="level4" data-number="12.3.7.2">
-<h4 data-number="12.3.7.2" class="anchored" data-anchor-id="elastic-net-special-cases"><span class="header-section-number">12.3.7.2</span> Elastic Net Special Cases</h4>
+<section id="elastic-net-special-cases" class="level4" data-number="11.3.13.2">
+<h4 data-number="11.3.13.2" class="anchored" data-anchor-id="elastic-net-special-cases"><span class="header-section-number">11.3.13.2</span> Elastic Net Special Cases</h4>
 <ul>
 <li>When <strong>l1_ratio = 0</strong>, Elastic Net behaves like <strong>Ridge Regression (L2 regularization)</strong>.</li>
 <li>When <strong>l1_ratio = 1</strong>, Elastic Net behaves like <strong>Lasso Regression (L1 regularization)</strong>.</li>
 <li>When <strong>0 &lt; l1_ratio &lt; 1</strong>, Elastic Net <strong>balances feature selection (L1) and coefficient shrinkage (L2)</strong>.</li>
 </ul>
-<p>Now, let’s implement an <strong>Elastic Net Regression model</strong> using <code>scikit-learn</code> and explore how different values of <code>alpha</code> and <code>l1_ratio</code> affect the model.</p>
-<div id="46801b39" class="cell" data-execution_count="56">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> ElasticNet</span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>alpha_lasso <span class="op">=</span> [<span class="fl">1e-15</span>, <span class="fl">1e-10</span>, <span class="fl">1e-8</span>, <span class="fl">1e-5</span>,<span class="fl">1e-4</span>, <span class="fl">1e-3</span>,<span class="fl">1e-2</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">5</span>]</span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>l1_ratio<span class="op">=</span><span class="fl">0.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now, let’s implement an <strong>Elastic Net Regression model</strong> using <code>scikit-learn</code> and explore how different values of <code>alpha</code> affect the model.</p>
+<p><strong>Note</strong>: For this demonstration, we’ll use <code>l1_ratio=0.5</code>, which gives equal weight to L1 and L2 penalties. In practice, both <code>alpha</code> and <code>l1_ratio</code> need to be tuned, which will be covered in the cross-validation chapter.</p>
+<div id="46801b39" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> ElasticNet</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>alpha_lasso <span class="op">=</span> [<span class="fl">1e-15</span>, <span class="fl">1e-10</span>, <span class="fl">1e-8</span>, <span class="fl">1e-5</span>,<span class="fl">1e-4</span>, <span class="fl">1e-3</span>,<span class="fl">1e-2</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">5</span>]</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>l1_ratio<span class="op">=</span><span class="fl">0.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="5b182b4a" class="cell" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Defining a function which will fit lasso regression model, plot the results, and return the coefficient</span></span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> elasticnet_regression(train_x, train_y, test_x, test_y, alpha, models_to_plot<span class="op">=</span>{}):</span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#fit the model</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> alpha <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> LinearRegression()    </span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> ElasticNet(alpha<span class="op">=</span>alpha, max_iter<span class="op">=</span><span class="dv">20000</span>, l1_ratio<span class="op">=</span>l1_ratio)</span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    model.fit(train_x, train_y)</span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    train_y_pred <span class="op">=</span> model.predict(train_x)</span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    test_y_pred <span class="op">=</span> model.predict(test_x)</span>
-<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">#check if a plot is to be made for the entered alpha</span></span>
-<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> alpha <span class="kw">in</span> models_to_plot:</span>
-<span id="cb45-17"><a href="#cb45-17" aria-hidden="true" tabindex="-1"></a>        plt.subplot(models_to_plot[alpha])</span>
-<span id="cb45-18"><a href="#cb45-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># plt_tight_layout()</span></span>
-<span id="cb45-19"><a href="#cb45-19" aria-hidden="true" tabindex="-1"></a>        plt.plot(<span class="op">*</span>sort_xy(train_x.values[:, <span class="dv">0</span>], train_y_pred))</span>
-<span id="cb45-20"><a href="#cb45-20" aria-hidden="true" tabindex="-1"></a>        plt.plot(train_x.values[:, <span class="dv">0</span>:<span class="dv">1</span>], train_y, <span class="st">'.'</span>)</span>
-<span id="cb45-21"><a href="#cb45-21" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb45-22"><a href="#cb45-22" aria-hidden="true" tabindex="-1"></a>        plt.title(<span class="st">'Plot for alpha: </span><span class="sc">%.3g</span><span class="st">'</span><span class="op">%</span>alpha)</span>
-<span id="cb45-23"><a href="#cb45-23" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb45-24"><a href="#cb45-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#return the result in pre-defined format</span></span>
-<span id="cb45-25"><a href="#cb45-25" aria-hidden="true" tabindex="-1"></a>    mrss_train <span class="op">=</span> <span class="bu">sum</span>((train_y_pred <span class="op">-</span> train_y)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>train_x.shape[<span class="dv">0</span>]</span>
-<span id="cb45-26"><a href="#cb45-26" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> [mrss_train]</span>
-<span id="cb45-27"><a href="#cb45-27" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-28"><a href="#cb45-28" aria-hidden="true" tabindex="-1"></a>    mrss_test <span class="op">=</span> <span class="bu">sum</span>((test_y_pred <span class="op">-</span> test_y)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span>test_x.shape[<span class="dv">0</span>]</span>
-<span id="cb45-29"><a href="#cb45-29" aria-hidden="true" tabindex="-1"></a>    ret.extend([mrss_test])</span>
-<span id="cb45-30"><a href="#cb45-30" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-31"><a href="#cb45-31" aria-hidden="true" tabindex="-1"></a>    ret.extend([model.intercept_])</span>
-<span id="cb45-32"><a href="#cb45-32" aria-hidden="true" tabindex="-1"></a>    ret.extend(model.coef_)</span>
-<span id="cb45-33"><a href="#cb45-33" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb45-34"><a href="#cb45-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ret</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5b182b4a" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Defining a function which will fit lasso regression model, plot the results, and return the coefficient</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> elasticnet_regression(train_x, train_y, test_x, test_y, alpha, models_to_plot<span class="op">=</span>{}):</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#fit the model</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> alpha <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> LinearRegression()    </span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> ElasticNet(alpha<span class="op">=</span>alpha, max_iter<span class="op">=</span><span class="dv">20000</span>, l1_ratio<span class="op">=</span>l1_ratio)</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    model.fit(train_x, train_y)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    train_y_pred <span class="op">=</span> model.predict(train_x)</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a>    test_y_pred <span class="op">=</span> model.predict(test_x)</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">#check if a plot is to be made for the entered alpha</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> alpha <span class="kw">in</span> models_to_plot:</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>        plt.subplot(models_to_plot[alpha])</span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># plt_tight_layout()</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>        plt.plot(<span class="op">*</span>sort_xy(train_x.values[:, <span class="dv">0</span>], train_y_pred))</span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>        plt.plot(train_x.values[:, <span class="dv">0</span>:<span class="dv">1</span>], train_y, <span class="st">'.'</span>)</span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>        plt.title(<span class="st">'Plot for alpha: </span><span class="sc">%.3g</span><span class="st">'</span><span class="op">%</span>alpha)</span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">#return the result in pre-defined format</span></span>
+<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a>    mse_train <span class="op">=</span> mean_squared_error(train_y, train_y_pred)</span>
+<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>    ret <span class="op">=</span> [mse_train]</span>
+<span id="cb46-27"><a href="#cb46-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb46-28"><a href="#cb46-28" aria-hidden="true" tabindex="-1"></a>    mse_test <span class="op">=</span> mean_squared_error(test_y, test_y_pred)</span>
+<span id="cb46-29"><a href="#cb46-29" aria-hidden="true" tabindex="-1"></a>    ret.extend([mse_test])</span>
+<span id="cb46-30"><a href="#cb46-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb46-31"><a href="#cb46-31" aria-hidden="true" tabindex="-1"></a>    ret.extend([model.intercept_])</span>
+<span id="cb46-32"><a href="#cb46-32" aria-hidden="true" tabindex="-1"></a>    ret.extend(model.coef_)</span>
+<span id="cb46-33"><a href="#cb46-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb46-34"><a href="#cb46-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ret</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f3877f85" class="cell" data-execution_count="58">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize a dataframe to store the coefficient:</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [<span class="st">'mrss_train'</span>, <span class="st">'mrss_test'</span>, <span class="st">'intercept'</span>] <span class="op">+</span> [<span class="st">'coef_VaR_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> [<span class="st">'alpha_</span><span class="sc">%.2g</span><span class="st">'</span><span class="op">%</span>alpha_lasso[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>)]</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>coef_matrix_elasticnet <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>ind, columns<span class="op">=</span>col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f3877f85" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#initialize a dataframe to store the coefficient:</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>col <span class="op">=</span> [<span class="st">'mse_train'</span>, <span class="st">'mse_test'</span>, <span class="st">'intercept'</span>] <span class="op">+</span> [<span class="st">'coef_VaR_</span><span class="sc">%d</span><span class="st">'</span><span class="op">%</span>i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">16</span>)]</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>ind <span class="op">=</span> [<span class="st">'alpha_</span><span class="sc">%.2g</span><span class="st">'</span><span class="op">%</span>alpha_lasso[i] <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">10</span>)]</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>coef_matrix_elasticnet <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>ind, columns<span class="op">=</span>col)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="80b9f245" class="cell" data-execution_count="59">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the number of features for which a plot is required:</span></span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>models_to_plot <span class="op">=</span> {<span class="fl">1e-10</span>:<span class="dv">231</span>, <span class="fl">1e-5</span>:<span class="dv">232</span>,<span class="fl">1e-4</span>:<span class="dv">233</span>, <span class="fl">1e-3</span>:<span class="dv">234</span>, <span class="fl">1e-2</span>:<span class="dv">235</span>, <span class="fl">0.1</span>:<span class="dv">236</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="80b9f245" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the number of features for which a plot is required:</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>models_to_plot <span class="op">=</span> {<span class="fl">1e-10</span>:<span class="dv">231</span>, <span class="fl">1e-5</span>:<span class="dv">232</span>,<span class="fl">1e-4</span>:<span class="dv">233</span>, <span class="fl">1e-3</span>:<span class="dv">234</span>, <span class="fl">1e-2</span>:<span class="dv">235</span>, <span class="fl">0.1</span>:<span class="dv">236</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="b77b4141" class="cell" data-execution_count="60">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>models_to_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="60">
+<div id="b77b4141" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>models_to_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="42">
 <pre><code>{1e-10: 231, 1e-05: 232, 0.0001: 233, 0.001: 234, 0.01: 235, 0.1: 236}</code></pre>
 </div>
 </div>
-<div id="9c01f29a" class="cell" data-execution_count="61">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Iterate over the 10 alpha values:</span></span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>    coef_matrix_elasticnet.iloc[i,] <span class="op">=</span> elasticnet_regression(X_train_std, train_y, X_test_std, test_y, alpha_lasso[i], models_to_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9c01f29a" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Iterate over the 10 alpha values:</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">8</span>))</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">10</span>):</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    coef_matrix_elasticnet.iloc[i,] <span class="op">=</span> elasticnet_regression(X_train_std, train_y, X_test_std, test_y, alpha_lasso[i], models_to_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\_coordinate_descent.py:695: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 3.489e-01, tolerance: 1.779e-03
   model = cd_fast.enet_coordinate_descent(
@@ -2307,16 +2437,16 @@ c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-44-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-44-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="92dc494a" class="cell" data-scrolled="true" data-execution_count="62">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set the display format to be scientific for ease of analysis</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:,.2g}</span><span class="st">'</span>.<span class="bu">format</span></span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>coef_matrix_elasticnet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="62">
+<div id="92dc494a" class="cell" data-scrolled="true" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Set the display format to be scientific for ease of analysis</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>pd.options.display.float_format <span class="op">=</span> <span class="st">'</span><span class="sc">{:,.2g}</span><span class="st">'</span>.<span class="bu">format</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>coef_matrix_elasticnet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="44">
 <div>
 
 
@@ -2324,8 +2454,8 @@ c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">mrss_train</th>
-<th data-quarto-table-cell-role="th">mrss_test</th>
+<th data-quarto-table-cell-role="th">mse_train</th>
+<th data-quarto-table-cell-role="th">mse_test</th>
 <th data-quarto-table-cell-role="th">intercept</th>
 <th data-quarto-table-cell-role="th">coef_VaR_1</th>
 <th data-quarto-table-cell-role="th">coef_VaR_2</th>
@@ -2561,36 +2691,41 @@ c:\Users\lsi8012\AppData\Local\anaconda3\Lib\site-packages\sklearn\linear_model\
 </div>
 </div>
 </div>
-<div id="2bc75e1b" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_elasticnet_reg_coeff(train_x):</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    alphas <span class="op">=</span> np.logspace(<span class="dv">1</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">200</span>)</span>
-<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>    coefs <span class="op">=</span> []</span>
-<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#X_train_std, train_y</span></span>
-<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> a <span class="kw">in</span> alphas:        </span>
-<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> ElasticNet(alpha<span class="op">=</span>a, max_iter<span class="op">=</span><span class="dv">20000</span>, l1_ratio<span class="op">=</span>l1_ratio)</span>
-<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>        model.fit(train_x, train_y)</span>
-<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>        coefs.append(model.coef_)</span>
-<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Visualizing the shrinkage in ridge regression coefficients with increasing values of the tuning parameter lambda</span></span>
-<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'xlabel'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
-<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'ylabel'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
-<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(alphas, coefs)</span>
-<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>    plt.xscale(<span class="st">'log'</span>)</span>
-<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="vs">r'$\alpha$'</span>)</span>
-<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Standardized coefficient'</span>)</span>
-<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>    plt.legend(train_x.columns )<span class="op">;</span>    </span>
-<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>plot_elasticnet_reg_coeff(X_train_std.iloc[:,:<span class="dv">5</span>])</span>
-<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"test2.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="visualizing-elasticnet-coefficient-shrinkage" class="level3" data-number="11.3.14">
+<h3 data-number="11.3.14" class="anchored" data-anchor-id="visualizing-elasticnet-coefficient-shrinkage"><span class="header-section-number">11.3.14</span> Visualizing ElasticNet Coefficient Shrinkage</h3>
+<p>Like Lasso, ElasticNet can drive some coefficients to zero, but the L2 component (from Ridge) helps stabilize the selection, making it less aggressive than pure Lasso.</p>
+<div id="2bc75e1b" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_elasticnet_reg_coeff(train_x):</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    alphas <span class="op">=</span> np.logspace(<span class="dv">1</span>,<span class="op">-</span><span class="dv">3</span>,<span class="dv">200</span>)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    coefs <span class="op">=</span> []</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">#X_train_std, train_y</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> a <span class="kw">in</span> alphas:        </span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>        model <span class="op">=</span> ElasticNet(alpha<span class="op">=</span>a, max_iter<span class="op">=</span><span class="dv">20000</span>, l1_ratio<span class="op">=</span>l1_ratio)</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>        model.fit(train_x, train_y)</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>        coefs.append(model.coef_)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Visualizing the shrinkage in ridge regression coefficients with increasing values of the tuning parameter lambda</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'xlabel'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'ylabel'</span>, fontsize<span class="op">=</span><span class="dv">18</span>)</span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(alphas, coefs)</span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>    plt.xscale(<span class="st">'log'</span>)</span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="vs">r'$\alpha$'</span>)</span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Standardized coefficient'</span>)</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>    plt.legend(train_x.columns )<span class="op">;</span>    </span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>plot_elasticnet_reg_coeff(X_train_std.iloc[:,:<span class="dv">5</span>])</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"test2.png"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-46-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-46-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="242d4dfa" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_elasticnet.<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">sum</span>(x.values<span class="op">==</span><span class="dv">0</span>),axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="64">
+<div id="242d4dfa" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_elasticnet.<span class="bu">apply</span>(<span class="kw">lambda</span> x: <span class="bu">sum</span>(x.values<span class="op">==</span><span class="dv">0</span>),axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="46">
 <pre><code>alpha_1e-15      0
 alpha_1e-10      0
 alpha_1e-08      0
@@ -2604,114 +2739,68 @@ alpha_5         15
 dtype: int32</code></pre>
 </div>
 </div>
-<div id="d3f597fd" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_elasticnet[[<span class="st">'mrss_train'</span>, <span class="st">'mrss_test'</span>]].plot()</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Features'</span>)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'MRSS'</span>)</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">'train'</span>, <span class="st">'test'</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="elasticnet-feature-selection-behavior" class="level3" data-number="11.3.15">
+<h3 data-number="11.3.15" class="anchored" data-anchor-id="elasticnet-feature-selection-behavior"><span class="header-section-number">11.3.15</span> ElasticNet Feature Selection Behavior</h3>
+<p>ElasticNet, with <code>l1_ratio=0.5</code>, shows <strong>intermediate behavior</strong> between Ridge and Lasso:</p>
+<ul>
+<li>Some coefficients become exactly zero (like Lasso)</li>
+<li>The selection is more stable than pure Lasso due to the L2 penalty (like Ridge)</li>
+</ul>
+<p>This makes ElasticNet particularly useful when:</p>
+<ul>
+<li>Features are correlated (L2 handles multicollinearity better than L1)</li>
+<li>You still want automatic feature selection (L1 drives some coefficients to zero)</li>
+</ul>
+<p>Let’s visualize the training and test errors:</p>
+<div id="d3f597fd" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>coef_matrix_elasticnet[[<span class="st">'mse_train'</span>, <span class="st">'mse_test'</span>]].plot()</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Features'</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'MSE'</span>)</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">'train'</span>, <span class="st">'test'</span>])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Regularization in Python_files/figure-html/cell-48-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="Regularization_files/figure-html/cell-48-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="impact-of-alpha-on-elasticnet-performance" class="level3" data-number="11.3.16">
+<h3 data-number="11.3.16" class="anchored" data-anchor-id="impact-of-alpha-on-elasticnet-performance"><span class="header-section-number">11.3.16</span> Impact of <span class="math inline">\(\alpha\)</span> on ElasticNet Performance</h3>
+<p>The training vs test error plot for ElasticNet shows similar patterns to Ridge and Lasso, demonstrating that <strong>regularization strength</strong> is crucial regardless of which type of regularization we use.</p>
+</section>
+<section id="elasticnet-parameters-summary" class="level3" data-number="11.3.17">
+<h3 data-number="11.3.17" class="anchored" data-anchor-id="elasticnet-parameters-summary"><span class="header-section-number">11.3.17</span> ElasticNet Parameters Summary</h3>
 <p>ElasticNet is controlled by these key parameters:</p>
 <ul>
-<li><p><strong>alpha</strong> (<code>float</code>, default=<code>1.0</code>):<br>
-The regularization strength multiplier. Higher values increase regularization.</p></li>
-<li><p><strong>l1_ratio</strong> (<code>float</code>, default=<code>0.5</code>):<br>
-The mixing parameter between L1 and L2 penalties:</p>
+<li><strong>alpha</strong> (<code>float</code>, default=<code>1.0</code>):<br>
+The regularization strength multiplier. Higher values increase regularization, similar to Ridge and Lasso.
 <ul>
-<li><code>l1_ratio = 0</code>: Pure Ridge regression<br>
-</li>
-<li><code>l1_ratio = 1</code>: Pure Lasso regression<br>
-</li>
+<li>Small <span class="math inline">\(\alpha\)</span>: Risk of overfitting</li>
+<li>Large <span class="math inline">\(\alpha\)</span>: Risk of underfitting</li>
+</ul></li>
+<li><strong>l1_ratio</strong> (<code>float</code>, default=<code>0.5</code>):<br>
+The mixing parameter between L1 and L2 penalties:
+<ul>
+<li><code>l1_ratio = 0</code>: Pure Ridge regression (only L2)</li>
+<li><code>l1_ratio = 1</code>: Pure Lasso regression (only L1)</li>
 <li><code>0 &lt; l1_ratio &lt; 1</code>: ElasticNet with mixed penalties</li>
 </ul></li>
 </ul>
+<p><strong>Choosing Between Regularization Methods:</strong></p>
+<ul>
+<li>Use <strong>Ridge</strong> when you want to keep all features but shrink their coefficients</li>
+<li>Use <strong>Lasso</strong> when you want automatic feature selection</li>
+<li>Use <strong>ElasticNet</strong> when you have correlated features and want feature selection</li>
+</ul>
+<p><strong>Next Steps</strong>: In the following chapter on <strong>Cross-Validation</strong>, you’ll learn systematic methods to select optimal values for these hyperparameters (<span class="math inline">\(\alpha\)</span> and <code>l1_ratio</code>) rather than manual experimentation.</p>
 </section>
 </section>
-<section id="ridgecv-lassocv-and-elasticnetcv-in-scikit-learn" class="level3" data-number="12.3.8">
-<h3 data-number="12.3.8" class="anchored" data-anchor-id="ridgecv-lassocv-and-elasticnetcv-in-scikit-learn"><span class="header-section-number">12.3.8</span> <code>RidgeCV</code>, <code>LassoCV</code>, and <code>ElasticNetCV</code> in Scikit-Learn</h3>
-<p>In Scikit-Learn, <code>RidgeCV</code>, <code>LassoCV</code>, and <code>ElasticNetCV</code> are cross-validation (CV) versions of <strong>Ridge</strong>, <strong>Lasso</strong>, and <strong>Elastic Net</strong> regression models, respectively. These versions <strong>automatically select the best regularization strength</strong> (<code>alpha</code>) by performing internal cross-validation.</p>
-<section id="overview-of-ridgecv-lassocv-and-elasticnetcv" class="level4" data-number="12.3.8.1">
-<h4 data-number="12.3.8.1" class="anchored" data-anchor-id="overview-of-ridgecv-lassocv-and-elasticnetcv"><span class="header-section-number">12.3.8.1</span> Overview of RidgeCV, LassoCV, and ElasticNetCV**</h4>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 10%">
-<col style="width: 21%">
-<col style="width: 52%">
-<col style="width: 15%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Model</th>
-<th>Regularization Type</th>
-<th>Purpose</th>
-<th>How Alpha is Chosen?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>RidgeCV</strong></td>
-<td>L2 (Ridge)</td>
-<td>Shrinks coefficients to handle overfitting, but keeps all features.</td>
-<td>Uses cross-validation to select the best <code>alpha</code>.</td>
-</tr>
-<tr class="even">
-<td><strong>LassoCV</strong></td>
-<td>L1 (Lasso)</td>
-<td>Shrinks coefficients, but also <strong>removes</strong> some features by setting coefficients to zero.</td>
-<td>Uses cross-validation to find the best <code>alpha</code>.</td>
-</tr>
-<tr class="odd">
-<td><strong>ElasticNetCV</strong></td>
-<td>L1 + L2 (Elastic Net)</td>
-<td>Balances Ridge and Lasso.</td>
-<td>Uses cross-validation to find the best <code>alpha</code> and <code>l1_ratio</code>.</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="how-to-use-ridgecv-lassocv-andelasticnetcv" class="level4" data-number="12.3.8.2">
-<h4 data-number="12.3.8.2" class="anchored" data-anchor-id="how-to-use-ridgecv-lassocv-andelasticnetcv"><span class="header-section-number">12.3.8.2</span> How to Use <code>RidgeCV</code>, <code>LassoCV</code>, and<code>ElasticNetCV</code></h4>
-<p>Each model automatically selects the optimal <code>alpha</code> value through internal cross-validation without using a loop through the <code>alpha</code> values</p>
-<div id="3aa93cc6" class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>alpha_lasso <span class="op">=</span> [<span class="fl">1e-15</span>, <span class="fl">1e-10</span>, <span class="fl">1e-8</span>, <span class="fl">1e-5</span>, <span class="fl">1e-4</span>, <span class="fl">1e-3</span>, <span class="fl">1e-2</span>, <span class="fl">0.1</span>, <span class="dv">1</span>, <span class="dv">5</span>]</span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize LassoCV with cross-validation</span></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>lasso_cv <span class="op">=</span> LassoCV(alphas<span class="op">=</span>alpha_lasso, cv<span class="op">=</span><span class="dv">5</span>, max_iter<span class="op">=</span><span class="dv">2000000</span>)</span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the model using training data</span></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>lasso_cv.fit(X_train_std, train_y)</span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions</span></span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>train_y_pred <span class="op">=</span> lasso_cv.predict(X_train_std)</span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>test_y_pred <span class="op">=</span> lasso_cv.predict(X_test_std)</span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the best alpha chosen by cross-validation</span></span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>best_alpha <span class="op">=</span> lasso_cv.alpha_</span>
-<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Best alpha selected by LassoCV: </span><span class="sc">{</span>best_alpha<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if a plot should be made for the selected alpha</span></span>
-<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> best_alpha <span class="kw">in</span> models_to_plot:</span>
-<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>    plt.subplot(models_to_plot[best_alpha])</span>
-<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>    plt.plot(<span class="op">*</span>sort_xy(train_x[:, <span class="dv">0</span>], train_y_pred))</span>
-<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>    plt.plot(train_x[:, <span class="dv">0</span>:<span class="dv">1</span>], train_y, <span class="st">'.'</span>, label<span class="op">=</span><span class="st">"Actual Data"</span>)</span>
-<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f'Plot for alpha: </span><span class="sc">{</span>best_alpha<span class="sc">:.3g}</span><span class="ss">'</span>)</span>
-<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>    plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-</section>
-</section>
-<section id="reference" class="level2" data-number="12.4">
-<h2 data-number="12.4" class="anchored" data-anchor-id="reference"><span class="header-section-number">12.4</span> Reference</h2>
+<section id="reference" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="reference"><span class="header-section-number">11.4</span> Reference</h2>
 <p>https://www.linkedin.com/pulse/tutorial-ridge-lasso-regression-subhajit-mondal/?trk=read_related_article-card_title</p>
 
 
@@ -3137,13 +3226,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./cross_validation.html" class="pagination-link" aria-label="Cross-Validation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cross-Validation</span></span>
+      <a href="./Logistic_feature_engineering.html" class="pagination-link" aria-label="Logistic Regression: Feature Engineering">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Logistic Regression: Feature Engineering</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./Feature Selection.html" class="pagination-link" aria-label="Feature Selection">
-        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Selection</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./cross_validation.html" class="pagination-link" aria-label="Cross-Validation Fundamentals">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Cross-Validation Fundamentals</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

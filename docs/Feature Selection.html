@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Feature Selection – Data Science II with python (Class notes)</title>
+<title>15&nbsp; Feature Selection – Data Science II with python (Class notes)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./pipeline.html" rel="next">
-<link href="./Regularization in Python.html" rel="prev">
+<link href="./cross_validation_regularization.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Feature Selection.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Selection</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Feature Selection.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Feature Selection</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -208,20 +208,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./cross_validation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Cross-Validation</span></span></a>
+  <a href="./Regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./Regularization in Python.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></span></a>
+  <a href="./cross_validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Cross-Validation Fundamentals</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cross_validation_gridsearch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning with GridSearchCV</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cross_validation_regularization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cross-Validation for Regularization: RidgeCV, LassoCV, and ElasticNetCV</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./Feature Selection.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Selection</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Feature Selection</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -275,26 +287,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#filter-methods-statistical-approaches" id="toc-filter-methods-statistical-approaches" class="nav-link active" data-scroll-target="#filter-methods-statistical-approaches"><span class="header-section-number">13.1</span> Filter Methods (Statistical approaches)</a>
+  <li><a href="#filter-methods-statistical-approaches" id="toc-filter-methods-statistical-approaches" class="nav-link active" data-scroll-target="#filter-methods-statistical-approaches"><span class="header-section-number">15.1</span> Filter Methods (Statistical approaches)</a>
   <ul>
-  <li><a href="#characteristics" id="toc-characteristics" class="nav-link" data-scroll-target="#characteristics"><span class="header-section-number">13.1.1</span> <strong>Characteristics:</strong></a></li>
-  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">13.1.2</span> Methods</a></li>
+  <li><a href="#characteristics" id="toc-characteristics" class="nav-link" data-scroll-target="#characteristics"><span class="header-section-number">15.1.1</span> <strong>Characteristics:</strong></a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods"><span class="header-section-number">15.1.2</span> Methods</a></li>
   </ul></li>
-  <li><a href="#wrapper-methods" id="toc-wrapper-methods" class="nav-link" data-scroll-target="#wrapper-methods"><span class="header-section-number">13.2</span> Wrapper Methods</a>
+  <li><a href="#wrapper-methods" id="toc-wrapper-methods" class="nav-link" data-scroll-target="#wrapper-methods"><span class="header-section-number">15.2</span> Wrapper Methods</a>
   <ul>
-  <li><a href="#characteristics-1" id="toc-characteristics-1" class="nav-link" data-scroll-target="#characteristics-1"><span class="header-section-number">13.2.1</span> Characteristics:</a></li>
-  <li><a href="#recursive-feature-elimination-rfe" id="toc-recursive-feature-elimination-rfe" class="nav-link" data-scroll-target="#recursive-feature-elimination-rfe"><span class="header-section-number">13.2.2</span> Recursive Feature Elimination (RFE)</a></li>
-  <li><a href="#recursive-feature-elimination-with-cross-validation-rfecv" id="toc-recursive-feature-elimination-with-cross-validation-rfecv" class="nav-link" data-scroll-target="#recursive-feature-elimination-with-cross-validation-rfecv"><span class="header-section-number">13.2.3</span> Recursive Feature Elimination with Cross-Validation (RFECV)</a></li>
-  <li><a href="#sequential-feature-selection" id="toc-sequential-feature-selection" class="nav-link" data-scroll-target="#sequential-feature-selection"><span class="header-section-number">13.2.4</span> Sequential Feature Selection</a></li>
+  <li><a href="#characteristics-1" id="toc-characteristics-1" class="nav-link" data-scroll-target="#characteristics-1"><span class="header-section-number">15.2.1</span> Characteristics:</a></li>
+  <li><a href="#recursive-feature-elimination-rfe" id="toc-recursive-feature-elimination-rfe" class="nav-link" data-scroll-target="#recursive-feature-elimination-rfe"><span class="header-section-number">15.2.2</span> Recursive Feature Elimination (RFE)</a></li>
+  <li><a href="#recursive-feature-elimination-with-cross-validation-rfecv" id="toc-recursive-feature-elimination-with-cross-validation-rfecv" class="nav-link" data-scroll-target="#recursive-feature-elimination-with-cross-validation-rfecv"><span class="header-section-number">15.2.3</span> Recursive Feature Elimination with Cross-Validation (RFECV)</a></li>
+  <li><a href="#sequential-feature-selection" id="toc-sequential-feature-selection" class="nav-link" data-scroll-target="#sequential-feature-selection"><span class="header-section-number">15.2.4</span> Sequential Feature Selection</a></li>
   </ul></li>
-  <li><a href="#embeded-methods" id="toc-embeded-methods" class="nav-link" data-scroll-target="#embeded-methods"><span class="header-section-number">13.3</span> Embeded methods</a>
+  <li><a href="#embeded-methods" id="toc-embeded-methods" class="nav-link" data-scroll-target="#embeded-methods"><span class="header-section-number">15.3</span> Embeded methods</a>
   <ul>
-  <li><a href="#characteristics-2" id="toc-characteristics-2" class="nav-link" data-scroll-target="#characteristics-2"><span class="header-section-number">13.3.1</span> Characteristics:</a></li>
+  <li><a href="#characteristics-2" id="toc-characteristics-2" class="nav-link" data-scroll-target="#characteristics-2"><span class="header-section-number">15.3.1</span> Characteristics:</a></li>
   </ul></li>
-  <li><a href="#comparison-of-feature-selection-methods" id="toc-comparison-of-feature-selection-methods" class="nav-link" data-scroll-target="#comparison-of-feature-selection-methods"><span class="header-section-number">13.4</span> Comparison of Feature Selection Methods</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">13.5</span> Conclusion</a>
+  <li><a href="#comparison-of-feature-selection-methods" id="toc-comparison-of-feature-selection-methods" class="nav-link" data-scroll-target="#comparison-of-feature-selection-methods"><span class="header-section-number">15.4</span> Comparison of Feature Selection Methods</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">15.5</span> Conclusion</a>
   <ul>
-  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">13.5.1</span> Reference:</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">15.5.1</span> Reference:</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -304,7 +316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Selection</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Feature Selection</span></h1>
 </div>
 
 
@@ -347,11 +359,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, r2_score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="filter-methods-statistical-approaches" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="filter-methods-statistical-approaches"><span class="header-section-number">13.1</span> Filter Methods (Statistical approaches)</h2>
+<section id="filter-methods-statistical-approaches" class="level2" data-number="15.1">
+<h2 data-number="15.1" class="anchored" data-anchor-id="filter-methods-statistical-approaches"><span class="header-section-number">15.1</span> Filter Methods (Statistical approaches)</h2>
 <p>Filter methods evaluate the relevance of features based on statistical measures before training a model. These methods rank features according to their correlation with the target variable and select the most relevant ones.</p>
-<section id="characteristics" class="level3" data-number="13.1.1">
-<h3 data-number="13.1.1" class="anchored" data-anchor-id="characteristics"><span class="header-section-number">13.1.1</span> <strong>Characteristics:</strong></h3>
+<section id="characteristics" class="level3" data-number="15.1.1">
+<h3 data-number="15.1.1" class="anchored" data-anchor-id="characteristics"><span class="header-section-number">15.1.1</span> <strong>Characteristics:</strong></h3>
 <ul>
 <li><strong>Independent of the model:</strong> Feature selection is performed before training the model.</li>
 <li><strong>Fast and computationally efficient:</strong> Since no model training is required, they are suitable for large datasets.</li>
@@ -371,8 +383,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="methods" class="level3" data-number="13.1.2">
-<h3 data-number="13.1.2" class="anchored" data-anchor-id="methods"><span class="header-section-number">13.1.2</span> Methods</h3>
+<section id="methods" class="level3" data-number="15.1.2">
+<h3 data-number="15.1.2" class="anchored" data-anchor-id="methods"><span class="header-section-number">15.1.2</span> Methods</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 13%">
@@ -598,11 +610,11 @@ Number of features reduced from 15 to 5</code></pre>
 </div>
 </section>
 </section>
-<section id="wrapper-methods" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="wrapper-methods"><span class="header-section-number">13.2</span> Wrapper Methods</h2>
+<section id="wrapper-methods" class="level2" data-number="15.2">
+<h2 data-number="15.2" class="anchored" data-anchor-id="wrapper-methods"><span class="header-section-number">15.2</span> Wrapper Methods</h2>
 <p>Wrapper methods evaluate subsets of features by actually training and testing a model on different feature combinations. These methods optimize feature selection based on model performance.</p>
-<section id="characteristics-1" class="level3" data-number="13.2.1">
-<h3 data-number="13.2.1" class="anchored" data-anchor-id="characteristics-1"><span class="header-section-number">13.2.1</span> Characteristics:</h3>
+<section id="characteristics-1" class="level3" data-number="15.2.1">
+<h3 data-number="15.2.1" class="anchored" data-anchor-id="characteristics-1"><span class="header-section-number">15.2.1</span> Characteristics:</h3>
 <ul>
 <li><strong>Model-dependent:</strong> They rely on training a model to assess feature usefulness.</li>
 <li><strong>Computationally expensive:</strong> Since multiple models need to be trained, they can be slow, especially for large datasets.</li>
@@ -621,8 +633,8 @@ Number of features reduced from 15 to 5</code></pre>
 </div>
 </div>
 </section>
-<section id="recursive-feature-elimination-rfe" class="level3" data-number="13.2.2">
-<h3 data-number="13.2.2" class="anchored" data-anchor-id="recursive-feature-elimination-rfe"><span class="header-section-number">13.2.2</span> Recursive Feature Elimination (RFE)</h3>
+<section id="recursive-feature-elimination-rfe" class="level3" data-number="15.2.2">
+<h3 data-number="15.2.2" class="anchored" data-anchor-id="recursive-feature-elimination-rfe"><span class="header-section-number">15.2.2</span> Recursive Feature Elimination (RFE)</h3>
 <p>This is how RFE works:</p>
 <ul>
 <li>Start with all features in the dataset.</li>
@@ -658,8 +670,8 @@ Number of features reduced from 15 to 5</code></pre>
 </div>
 </div>
 </section>
-<section id="recursive-feature-elimination-with-cross-validation-rfecv" class="level3" data-number="13.2.3">
-<h3 data-number="13.2.3" class="anchored" data-anchor-id="recursive-feature-elimination-with-cross-validation-rfecv"><span class="header-section-number">13.2.3</span> Recursive Feature Elimination with Cross-Validation (RFECV)</h3>
+<section id="recursive-feature-elimination-with-cross-validation-rfecv" class="level3" data-number="15.2.3">
+<h3 data-number="15.2.3" class="anchored" data-anchor-id="recursive-feature-elimination-with-cross-validation-rfecv"><span class="header-section-number">15.2.3</span> Recursive Feature Elimination with Cross-Validation (RFECV)</h3>
 <p>RFECV is an extension of Recursive Feature Elimination (RFE) that automatically selects the optimal number of features using cross-validation.</p>
 <div id="8cfd8dd0" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> RFECV</span>
@@ -726,8 +738,8 @@ Selected features using RFECV: ['mean radius', 'mean texture', 'mean perimeter',
 </div>
 </div>
 </section>
-<section id="sequential-feature-selection" class="level3" data-number="13.2.4">
-<h3 data-number="13.2.4" class="anchored" data-anchor-id="sequential-feature-selection"><span class="header-section-number">13.2.4</span> Sequential Feature Selection</h3>
+<section id="sequential-feature-selection" class="level3" data-number="15.2.4">
+<h3 data-number="15.2.4" class="anchored" data-anchor-id="sequential-feature-selection"><span class="header-section-number">15.2.4</span> Sequential Feature Selection</h3>
 <p>SFS iteratively selects the most relevant features by <strong>adding them one at a time (forward selection)</strong> or <strong>removing them one at a time (backward elimination)</strong> while evaluating model performance at each step.</p>
 <p>The selection strategy is controlled using: - <code>direction='forward'</code> for <strong>feature addition</strong> - <code>direction='backward'</code> for <strong>feature removal</strong></p>
 <div id="d7512f9d" class="cell" data-execution_count="21">
@@ -921,11 +933,11 @@ R2 Score: 0.9404</code></pre>
 </div>
 </section>
 </section>
-<section id="embeded-methods" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="embeded-methods"><span class="header-section-number">13.3</span> Embeded methods</h2>
+<section id="embeded-methods" class="level2" data-number="15.3">
+<h2 data-number="15.3" class="anchored" data-anchor-id="embeded-methods"><span class="header-section-number">15.3</span> Embeded methods</h2>
 <p>Embedded methods integrate feature selection directly into the model training process. These methods learn which features are important while building the model, offering a balance between filter and wrapper methods.</p>
-<section id="characteristics-2" class="level3" data-number="13.3.1">
-<h3 data-number="13.3.1" class="anchored" data-anchor-id="characteristics-2"><span class="header-section-number">13.3.1</span> Characteristics:</h3>
+<section id="characteristics-2" class="level3" data-number="15.3.1">
+<h3 data-number="15.3.1" class="anchored" data-anchor-id="characteristics-2"><span class="header-section-number">15.3.1</span> Characteristics:</h3>
 <ul>
 <li><strong>More efficient than wrapper methods:</strong> Feature selection is built into the model training, avoiding the need for multiple iterations.</li>
 <li><strong>Less prone to overfitting than wrapper methods:</strong> Regularization techniques help prevent overfitting.</li>
@@ -1016,8 +1028,8 @@ dtype: float64</code></pre>
 </div>
 </section>
 </section>
-<section id="comparison-of-feature-selection-methods" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="comparison-of-feature-selection-methods"><span class="header-section-number">13.4</span> Comparison of Feature Selection Methods</h2>
+<section id="comparison-of-feature-selection-methods" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="comparison-of-feature-selection-methods"><span class="header-section-number">15.4</span> Comparison of Feature Selection Methods</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 13%">
@@ -1060,16 +1072,16 @@ dtype: float64</code></pre>
 </tbody>
 </table>
 </section>
-<section id="conclusion" class="level2" data-number="13.5">
-<h2 data-number="13.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">13.5</span> Conclusion</h2>
+<section id="conclusion" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">15.5</span> Conclusion</h2>
 <ul>
 <li><strong>Use Filter methods</strong> when working with large datasets or when speed is a priority.</li>
 <li><strong>Use Wrapper methods</strong> when accuracy is more important and computational cost is not a major concern.</li>
 <li><strong>Use Embedded methods</strong> when leveraging models that inherently perform feature selection, such as Lasso regression or tree-based models.</li>
 </ul>
 <p>By understanding these techniques, you can make better decisions when selecting features for machine learning models. 🚀</p>
-<section id="reference" class="level3" data-number="13.5.1">
-<h3 data-number="13.5.1" class="anchored" data-anchor-id="reference"><span class="header-section-number">13.5.1</span> Reference:</h3>
+<section id="reference" class="level3" data-number="15.5.1">
+<h3 data-number="15.5.1" class="anchored" data-anchor-id="reference"><span class="header-section-number">15.5.1</span> Reference:</h3>
 <ul>
 <li><p>https://xavierbourretsicotte.github.io/subset_selection.html</p></li>
 <li><p>https://www.kaggle.com/code/prashant111/comprehensive-guide-on-feature-selection</p></li>
@@ -1500,8 +1512,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./Regularization in Python.html" class="pagination-link" aria-label="Regularization">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Regularization</span></span>
+      <a href="./cross_validation_regularization.html" class="pagination-link" aria-label="Cross-Validation for Regularization: RidgeCV, LassoCV, and ElasticNetCV">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Cross-Validation for Regularization: RidgeCV, LassoCV, and ElasticNetCV</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
