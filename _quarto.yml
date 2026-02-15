@@ -33,6 +33,7 @@ book:
     
    
   appendices: 
+    - pipeline.ipynb
     - Assignment_1.ipynb
     - Assignment_2.ipynb
     - Assignment_3.ipynb

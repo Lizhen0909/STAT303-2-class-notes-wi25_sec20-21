@@ -630,498 +630,619 @@
     ]
   },
   {
+    "objectID": "pipeline.html",
+    "href": "pipeline.html",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "",
+    "text": "A.1 What is a Pipeline?\nA Pipeline in scikit-learn is a tool that chains multiple data processing steps together into a single object. Think of it as an assembly line: data flows through preprocessing steps and finally through a machine learning model, all in one streamlined process.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#why-use-pipelines",
+    "href": "pipeline.html#why-use-pipelines",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.2 Why Use Pipelines?",
+    "text": "A.2 Why Use Pipelines?\nProblems with Manual Preprocessing: 1. Code Repetition: You must manually apply the same preprocessing steps to training, validation, and test data 2. Error-Prone: Easy to forget a step or apply transformations in the wrong order 3. Data Leakage Risk: Accidentally fitting transformers on test data leads to overly optimistic performance estimates 4. Messy Code: Lots of intermediate variables and scattered preprocessing logic 5. Difficult to Deploy: Must remember and recreate all preprocessing steps in production\nBenefits of Pipelines: 1. Cleaner Code: All preprocessing and modeling in one object 2. Prevents Data Leakage: Automatically fits transformers only on training data 3. Easier Cross-Validation: Works seamlessly with GridSearchCV and cross_val_score 4. Reproducible: The same transformation steps are guaranteed to be applied consistently 5. Deployment-Ready: Single pipeline object contains everything needed for predictions",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#learning-objectives",
+    "href": "pipeline.html#learning-objectives",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.3 Learning Objectives",
+    "text": "A.3 Learning Objectives\nIn this notebook, you will: 1. See the manual preprocessing approach and its problems 2. Learn how to build a pipeline step-by-step 3. Compare both approaches side-by-side 4. Use pipelines with cross-validation and hyperparameter tuning 5. Understand best practices for pipeline usage\n\n\nCode\nimport numpy as np\nimport pandas as pd\n\nfrom sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV\nfrom sklearn.pipeline import Pipeline\nfrom sklearn.compose import ColumnTransformer\nfrom sklearn.preprocessing import StandardScaler, OneHotEncoder\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.metrics import accuracy_score, classification_report, confusion_matrix\n\nimport warnings\nwarnings.filterwarnings('ignore')",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#step-1-load-and-explore-data",
+    "href": "pipeline.html#step-1-load-and-explore-data",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.4 Step 1: Load and Explore Data",
+    "text": "A.4 Step 1: Load and Explore Data\nWe’ll use a synthetic dataset simulating customer purchase behavior based on age, salary, and city.\n\n\nCode\n# Create a more realistic sample dataset\nnp.random.seed(42)\nn_samples = 200\n\n# Generate synthetic data\nage = np.random.randint(18, 65, n_samples)\nsalary = np.random.randint(30000, 150000, n_samples)\ncities = np.random.choice(['New York', 'Chicago', 'San Francisco', 'Boston', 'Seattle'], n_samples)\n\n# Create target variable based on features (with some noise)\n# Higher age and salary increase purchase probability\npurchase_prob = (age / 65) * 0.3 + (salary / 150000) * 0.5 + np.random.random(n_samples) * 0.2\npurchased = (purchase_prob &gt; 0.5).astype(int)\n\n# Create DataFrame\ndata = pd.DataFrame({\n    'age': age,\n    'salary': salary,\n    'city': cities,\n    'purchased': purchased\n})\n\nprint(\"Dataset shape:\", data.shape)\nprint(\"\\nFirst few rows:\")\nprint(data.head(10))\nprint(\"\\nData types:\")\nprint(data.dtypes)\nprint(\"\\nTarget distribution:\")\nprint(data['purchased'].value_counts())\n\n\nDataset shape: (200, 4)\n\nFirst few rows:\n   age  salary           city  purchased\n0   56   82733       New York          1\n1   46   95318         Boston          1\n2   32  139953        Seattle          1\n3   60  119474        Seattle          1\n4   25   53664       New York          0\n5   38   97172  San Francisco          1\n6   56  115616        Chicago          1\n7   36  123264       New York          1\n8   40  145386        Chicago          1\n9   28   56736        Chicago          0\n\nData types:\nage           int32\nsalary        int32\ncity         object\npurchased     int32\ndtype: object\n\nTarget distribution:\npurchased\n1    150\n0     50\nName: count, dtype: int64\n\n\n\nA.4.1 Split Data into Training and Test Sets\n\n\nCode\n# Separate features and target\nX = data.drop(columns=['purchased'])\ny = data['purchased']\n\n# Split data (80% train, 20% test)\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.2, random_state=42, stratify=y\n)\n\nprint(\"Training set size:\", X_train.shape)\nprint(\"Test set size:\", X_test.shape)\nprint(\"\\nFeature columns:\")\nprint(X_train.columns.tolist())\n\n\nTraining set size: (160, 3)\nTest set size: (40, 3)\n\nFeature columns:\n['age', 'salary', 'city']",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#step-2-method-1---manual-preprocessing-non-pipeline-approach",
+    "href": "pipeline.html#step-2-method-1---manual-preprocessing-non-pipeline-approach",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.5 Step 2: Method 1 - Manual Preprocessing (Non-Pipeline Approach)",
+    "text": "A.5 Step 2: Method 1 - Manual Preprocessing (Non-Pipeline Approach)\nLet’s first see how we traditionally handle preprocessing without pipelines. This will help us appreciate why pipelines are valuable.\n\nA.5.1 Manual Step 1: Identify Feature Types\n\n\nCode\n# Identify numeric and categorical features\nnumeric_features = ['age', 'salary']\ncategorical_features = ['city']\n\nprint(\"Numeric features:\", numeric_features)\nprint(\"Categorical features:\", categorical_features)\n\n\nNumeric features: ['age', 'salary']\nCategorical features: ['city']\n\n\n\n\nA.5.2 Manual Step 2: Create and Fit Transformers on Training Data\n\n\nCode\n# Create separate transformers for numeric and categorical features\nscaler = StandardScaler()\nencoder = OneHotEncoder(drop='first', sparse_output=False)\n\n# IMPORTANT: Fit transformers ONLY on training data to avoid data leakage\nscaler.fit(X_train[numeric_features])\nencoder.fit(X_train[categorical_features])\n\nprint(\"Scaler fitted on training data\")\nprint(\"Encoder fitted on training data\")\nprint(\"Encoder categories:\", encoder.categories_)\n\n\nScaler fitted on training data\nEncoder fitted on training data\nEncoder categories: [array(['Boston', 'Chicago', 'New York', 'San Francisco', 'Seattle'],\n      dtype=object)]\n\n\n\n\nA.5.3 Manual Step 3: Transform Training Data\n\n\nCode\n# Transform numeric features\nX_train_numeric_scaled = scaler.transform(X_train[numeric_features])\n\n# Transform categorical features\nX_train_categorical_encoded = encoder.transform(X_train[categorical_features])\n\n# Combine transformed features\nX_train_processed = np.hstack([X_train_numeric_scaled, X_train_categorical_encoded])\n\nprint(\"Training data shape after preprocessing:\", X_train_processed.shape)\nprint(\"Original features: 3 (age, salary, city)\")\nprint(\"Processed features:\", X_train_processed.shape[1], \"(2 numeric + encoded categorical)\")\n\n\nTraining data shape after preprocessing: (160, 6)\nOriginal features: 3 (age, salary, city)\nProcessed features: 6 (2 numeric + encoded categorical)\n\n\n\n\nA.5.4 Manual Step 4: Train the Model\n\n\nCode\n# Create and train logistic regression model\nmodel_manual = LogisticRegression(max_iter=1000, random_state=42)\nmodel_manual.fit(X_train_processed, y_train)\n\nprint(\"Model trained on manually preprocessed training data\")\n\n\nModel trained on manually preprocessed training data\n\n\n\n\nA.5.5 Manual Step 5: Transform Test Data and Predict\nCRITICAL: We must apply the SAME transformations (fitted on training data) to test data.\n\n\nCode\n# Transform test data using the SAME fitted transformers\nX_test_numeric_scaled = scaler.transform(X_test[numeric_features])\nX_test_categorical_encoded = encoder.transform(X_test[categorical_features])\n\n# Combine transformed test features\nX_test_processed = np.hstack([X_test_numeric_scaled, X_test_categorical_encoded])\n\n# Make predictions\ny_pred_manual = model_manual.predict(X_test_processed)\n\n# Evaluate\naccuracy_manual = accuracy_score(y_test, y_pred_manual)\nprint(\"Manual Method Test Accuracy:\", accuracy_manual)\nprint(\"\\nClassification Report:\")\nprint(classification_report(y_test, y_pred_manual))\n\n\nManual Method Test Accuracy: 0.8\n\nClassification Report:\n              precision    recall  f1-score   support\n\n           0       0.62      0.50      0.56        10\n           1       0.84      0.90      0.87        30\n\n    accuracy                           0.80        40\n   macro avg       0.73      0.70      0.71        40\nweighted avg       0.79      0.80      0.79        40\n\n\n\n\n\nA.5.6 Problems with Manual Preprocessing\nNotice what we had to do: 1. Multiple steps: Create transformers, fit them, transform training data, train model, transform test data separately 2. Multiple objects to track: scaler, encoder, model - all must be kept in sync 3. Repetitive code: Same transformation logic for training and test data 4. Error-prone: Easy to accidentally fit transformers on test data (data leakage) 5. Hard to deploy: Must save and load scaler, encoder, and model separately 6. Difficult cross-validation: Cannot easily use GridSearchCV or cross_val_score\nLet’s see how pipelines solve these problems.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#step-3-method-2---pipeline-approach",
+    "href": "pipeline.html#step-3-method-2---pipeline-approach",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.6 Step 3: Method 2 - Pipeline Approach",
+    "text": "A.6 Step 3: Method 2 - Pipeline Approach\nNow let’s solve the same problem using a pipeline. Notice how much cleaner and safer this is.\n\nA.6.1 Pipeline Step 1: Define ColumnTransformer\nColumnTransformer allows us to apply different transformations to different columns.\n\n\nCode\n# Define preprocessing for numeric and categorical features\npreprocessor = ColumnTransformer(\n    transformers=[\n        ('num', StandardScaler(), numeric_features),  # Scale numeric features\n        ('cat', OneHotEncoder(drop='first', sparse_output=False), categorical_features)  # Encode categorical\n    ],\n    remainder='drop'  # Drop any columns not specified\n)\n\nprint(\"Preprocessor defined:\")\nprint(\"- Numeric features will be scaled using StandardScaler\")\nprint(\"- Categorical features will be one-hot encoded\")\n\n\nPreprocessor defined:\n- Numeric features will be scaled using StandardScaler\n- Categorical features will be one-hot encoded\n\n\n\n\nA.6.2 Pipeline Step 2: Build the Complete Pipeline\nChain preprocessing and model into a single pipeline object.\n\n\nCode\n# Create pipeline: preprocessing -&gt; model\npipeline = Pipeline(steps=[\n    ('preprocessor', preprocessor),  # First: preprocessing\n    ('classifier', LogisticRegression(max_iter=1000, random_state=42))  # Second: model\n])\n\nprint(\"Pipeline created with steps:\")\nfor name, step in pipeline.steps:\n    print(f\"  - {name}: {step.__class__.__name__}\")\n\n\nPipeline created with steps:\n  - preprocessor: ColumnTransformer\n  - classifier: LogisticRegression\n\n\n\n\nA.6.3 Pipeline Step 3: Fit the Pipeline\nOne call to fit() handles everything: - Fits preprocessing transformers on training data - Transforms training data - Trains the model\n\n\nCode\n# Fit the entire pipeline on training data\npipeline.fit(X_train, y_train)\n\nprint(\"Pipeline fitted successfully!\")\nprint(\"Behind the scenes:\")\nprint(\"  1. StandardScaler fitted on training age and salary\")\nprint(\"  2. OneHotEncoder fitted on training city values\")\nprint(\"  3. Training data transformed\")\nprint(\"  4. LogisticRegression fitted on transformed training data\")\n\n\nPipeline fitted successfully!\nBehind the scenes:\n  1. StandardScaler fitted on training age and salary\n  2. OneHotEncoder fitted on training city values\n  3. Training data transformed\n  4. LogisticRegression fitted on transformed training data\n\n\n\n\nA.6.4 Pipeline Step 4: Make Predictions\nOne call to predict() handles everything: - Transforms test data using fitted transformers - Makes predictions using trained model\n\n\nCode\n# Predict on test data (preprocessing automatically applied)\ny_pred_pipeline = pipeline.predict(X_test)\n\n# Evaluate\naccuracy_pipeline = accuracy_score(y_test, y_pred_pipeline)\nprint(\"Pipeline Method Test Accuracy:\", accuracy_pipeline)\nprint(\"\\nClassification Report:\")\nprint(classification_report(y_test, y_pred_pipeline))\n\n\nPipeline Method Test Accuracy: 0.8\n\nClassification Report:\n              precision    recall  f1-score   support\n\n           0       0.62      0.50      0.56        10\n           1       0.84      0.90      0.87        30\n\n    accuracy                           0.80        40\n   macro avg       0.73      0.70      0.71        40\nweighted avg       0.79      0.80      0.79        40\n\n\n\n\n\nA.6.5 Compare Both Methods\n\n\nCode\nprint(\"=\"*70)\nprint(\"COMPARISON: Manual vs Pipeline Approach\")\nprint(\"=\"*70)\nprint(f\"Manual Method Accuracy:   {accuracy_manual:.4f}\")\nprint(f\"Pipeline Method Accuracy: {accuracy_pipeline:.4f}\")\nprint(f\"\\nResults match: {np.allclose(accuracy_manual, accuracy_pipeline)}\")\nprint(\"\\nCode Comparison:\")\nprint(\"  Manual Method:  ~30 lines, 3 objects to manage (scaler, encoder, model)\")\nprint(\"  Pipeline Method: ~10 lines, 1 object to manage (pipeline)\")\nprint(\"\\nBenefits of Pipeline:\")\nprint(\"  + Cleaner code: All preprocessing and modeling in one object\")\nprint(\"  + Safer: No risk of fitting on test data\")\nprint(\"  + Easier deployment: Save/load one object instead of three\")\nprint(\"  + Better for cross-validation: Works seamlessly with GridSearchCV\")\nprint(\"  + More maintainable: One place to update preprocessing logic\")\n\n\n======================================================================\nCOMPARISON: Manual vs Pipeline Approach\n======================================================================\nManual Method Accuracy:   0.8000\nPipeline Method Accuracy: 0.8000\n\nResults match: True\n\nCode Comparison:\n  Manual Method:  ~30 lines, 3 objects to manage (scaler, encoder, model)\n  Pipeline Method: ~10 lines, 1 object to manage (pipeline)\n\nBenefits of Pipeline:\n  + Cleaner code: All preprocessing and modeling in one object\n  + Safer: No risk of fitting on test data\n  + Easier deployment: Save/load one object instead of three\n  + Better for cross-validation: Works seamlessly with GridSearchCV\n  + More maintainable: One place to update preprocessing logic",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#step-4-advanced---cross-validation-with-pipelines",
+    "href": "pipeline.html#step-4-advanced---cross-validation-with-pipelines",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.7 Step 4: Advanced - Cross-Validation with Pipelines",
+    "text": "A.7 Step 4: Advanced - Cross-Validation with Pipelines\nOne of the biggest advantages of pipelines is seamless integration with cross-validation. Let’s see how easy it is.\n\nA.7.1 Cross-Validation Score\nWith pipelines, cross_val_score handles all preprocessing automatically within each fold.\n\n\nCode\n# Perform 5-fold cross-validation\ncv_scores = cross_val_score(pipeline, X_train, y_train, cv=5, scoring='accuracy')\n\nprint(\"5-Fold Cross-Validation Scores:\")\nfor i, score in enumerate(cv_scores, 1):\n    print(f\"  Fold {i}: {score:.4f}\")\nprint(f\"\\nMean CV Accuracy: {cv_scores.mean():.4f} (+/- {cv_scores.std():.4f})\")\n\nprint(\"\\nWhy this is safe with pipelines:\")\nprint(\"  - Each fold fits transformers only on training portion\")\nprint(\"  - Test portion never seen during preprocessing fit\")\nprint(\"  - No data leakage between folds\")\n\n\n5-Fold Cross-Validation Scores:\n  Fold 1: 0.9688\n  Fold 2: 0.9688\n  Fold 3: 0.9062\n  Fold 4: 0.9375\n  Fold 5: 0.9688\n\nMean CV Accuracy: 0.9500 (+/- 0.0250)\n\nWhy this is safe with pipelines:\n  - Each fold fits transformers only on training portion\n  - Test portion never seen during preprocessing fit\n  - No data leakage between folds",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#step-5-hyperparameter-tuning-with-gridsearchcv",
+    "href": "pipeline.html#step-5-hyperparameter-tuning-with-gridsearchcv",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.8 Step 5: Hyperparameter Tuning with GridSearchCV",
+    "text": "A.8 Step 5: Hyperparameter Tuning with GridSearchCV\nPipelines make hyperparameter tuning straightforward. We can tune both preprocessing and model parameters.\n\nA.8.1 Define Parameter Grid\nParameter names in pipeline follow the pattern: ’step_name__parameter_name’\n\n\nCode\n# Define parameter grid for the classifier\n# Use 'classifier__' prefix to access parameters of the classifier step\nparam_grid = {\n    'classifier__C': [0.01, 0.1, 1, 10, 100],  # Regularization strength\n    'classifier__penalty': ['l1', 'l2'],  # Regularization type\n    'classifier__solver': ['liblinear']  # Solver that supports both l1 and l2\n}\n\nprint(\"Parameter grid defined:\")\nprint(\"  - Testing 5 different C values (regularization strength)\")\nprint(\"  - Testing 2 penalty types (l1 and l2)\")\nprint(f\"  - Total combinations to test: {len(param_grid['classifier__C']) * len(param_grid['classifier__penalty'])}\")\n\n\nParameter grid defined:\n  - Testing 5 different C values (regularization strength)\n  - Testing 2 penalty types (l1 and l2)\n  - Total combinations to test: 10\n\n\n\n\nA.8.2 Create and Fit GridSearchCV\n\n\nCode\n# Create GridSearchCV object\ngrid_search = GridSearchCV(\n    pipeline,  # The pipeline to optimize\n    param_grid,  # Parameters to search\n    cv=5,  # 5-fold cross-validation\n    scoring='accuracy',  # Optimization metric\n    n_jobs=-1,  # Use all available cores\n    verbose=1,  # Show progress\n    return_train_score=True  # Track training scores too\n)\n\nprint(\"GridSearchCV configured:\")\nprint(\"  - Pipeline:    Includes preprocessing + LogisticRegression\")\nprint(\"  - CV folds:    5\")\nprint(\"  - Metric:      Accuracy\")\nprint(\"  - Parameters:  classifier__C, classifier__penalty\")\nprint(\"\\nFitting GridSearchCV...\")\n\n# Fit grid search (this will take a moment)\ngrid_search.fit(X_train, y_train)\n\nprint(\"\\nGrid search complete!\")\n\n\nGridSearchCV configured:\n  - Pipeline:    Includes preprocessing + LogisticRegression\n  - CV folds:    5\n  - Metric:      Accuracy\n  - Parameters:  classifier__C, classifier__penalty\n\nFitting GridSearchCV...\nFitting 5 folds for each of 10 candidates, totalling 50 fits\n\nGrid search complete!\n\n\n\n\nA.8.3 Examine Best Parameters and Scores\n\n\nCode\nprint(\"=\"*70)\nprint(\"GRID SEARCH RESULTS\")\nprint(\"=\"*70)\nprint(f\"\\nBest Parameters: {grid_search.best_params_}\")\nprint(f\"Best CV Score: {grid_search.best_score_:.4f}\")\n\n# Show top 5 parameter combinations\nresults_df = pd.DataFrame(grid_search.cv_results_)\nresults_df = results_df.sort_values('rank_test_score')\n\nprint(\"\\nTop 5 Parameter Combinations:\")\nprint(results_df[['param_classifier__C', 'param_classifier__penalty', \n                   'mean_test_score', 'std_test_score', 'rank_test_score']].head())\n\n\n======================================================================\nGRID SEARCH RESULTS\n======================================================================\n\nBest Parameters: {'classifier__C': 0.01, 'classifier__penalty': 'l2', 'classifier__solver': 'liblinear'}\nBest CV Score: 0.9563\n\nTop 5 Parameter Combinations:\n   param_classifier__C param_classifier__penalty  mean_test_score  \\\n1                 0.01                        l2          0.95625   \n4                 1.00                        l1          0.95000   \n3                 0.10                        l2          0.94375   \n5                 1.00                        l2          0.94375   \n7                10.00                        l2          0.94375   \n\n   std_test_score  rank_test_score  \n1        0.031869                1  \n4        0.025000                2  \n3        0.036443                3  \n5        0.036443                3  \n7        0.036443                3  \n\n\n\n\nA.8.4 Evaluate Best Model on Test Set\nThe best model is automatically refitted on the entire training set.\n\n\nCode\n# Get the best pipeline (already refitted on full training data)\nbest_pipeline = grid_search.best_estimator_\n\n# Predict on test set\ny_pred_best = best_pipeline.predict(X_test)\n\n# Evaluate\ntest_accuracy_best = accuracy_score(y_test, y_pred_best)\n\nprint(\"=\"*70)\nprint(\"FINAL MODEL EVALUATION\")\nprint(\"=\"*70)\nprint(f\"Best CV Score (from grid search): {grid_search.best_score_:.4f}\")\nprint(f\"Test Set Accuracy:                {test_accuracy_best:.4f}\")\nprint(f\"\\nBest Parameters:\")\nfor param, value in grid_search.best_params_.items():\n    print(f\"  {param}: {value}\")\n\nprint(\"\\nConfusion Matrix:\")\nprint(confusion_matrix(y_test, y_pred_best))\n\nprint(\"\\nClassification Report:\")\nprint(classification_report(y_test, y_pred_best))\n\n\n======================================================================\nFINAL MODEL EVALUATION\n======================================================================\nBest CV Score (from grid search): 0.9563\nTest Set Accuracy:                0.8500\n\nBest Parameters:\n  classifier__C: 0.01\n  classifier__penalty: l2\n  classifier__solver: liblinear\n\nConfusion Matrix:\n[[ 6  4]\n [ 2 28]]\n\nClassification Report:\n              precision    recall  f1-score   support\n\n           0       0.75      0.60      0.67        10\n           1       0.88      0.93      0.90        30\n\n    accuracy                           0.85        40\n   macro avg       0.81      0.77      0.78        40\nweighted avg       0.84      0.85      0.84        40",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#summary-why-use-pipelines",
+    "href": "pipeline.html#summary-why-use-pipelines",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.9 Summary: Why Use Pipelines?",
+    "text": "A.9 Summary: Why Use Pipelines?\n\nA.9.1 Key Advantages Demonstrated\n\nCleaner Code\n\nManual approach: Multiple objects to manage (scaler, encoder, model)\nPipeline approach: Single pipeline object\n\nPrevents Data Leakage\n\nTransformers always fit only on training data\nAutomatic proper handling in cross-validation\n\nEasier Cross-Validation\n\nWorks seamlessly with cross_val_score and GridSearchCV\nNo need to manually handle preprocessing in each fold\n\nReproducible\n\nSame preprocessing steps guaranteed for all data\nSingle object to save/load for deployment\n\nLess Error-Prone\n\nNo risk of forgetting preprocessing steps\nNo accidental fitting on test data\nConsistent transformation order\n\n\n\n\nA.9.2 When to Use Pipelines\nAlways use pipelines when: - You have preprocessing steps (scaling, encoding, imputation, etc.) - You’re doing cross-validation or hyperparameter tuning - You need to deploy your model - You want clean, maintainable code\nPipeline is not needed when: - You have no preprocessing (rare) - You’re doing exploratory data analysis only",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#best-practices-and-tips",
+    "href": "pipeline.html#best-practices-and-tips",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.10 Best Practices and Tips",
+    "text": "A.10 Best Practices and Tips\n\nA.10.1 Pipeline Naming Convention\nWhen accessing parameters in GridSearchCV, use the format: step_name__parameter_name\n# For a pipeline with steps named 'preprocessor' and 'classifier':\nparam_grid = {\n    'classifier__C': [0.1, 1, 10],  # Access classifier's C parameter\n    'preprocessor__num__with_mean': [True, False]  # Access nested parameter\n}\n\n\nA.10.2 Accessing Pipeline Components\n# Get a specific step from the pipeline\npreprocessor = pipeline.named_steps['preprocessor']\nmodel = pipeline.named_steps['classifier']\n\n# Get fitted transformers\nscaler = preprocessor.named_transformers_['num']\nencoder = preprocessor.named_transformers_['cat']\n\n\nA.10.3 Common ColumnTransformer Parameters\n\nremainder='drop': Drop columns not specified (default)\nremainder='passthrough': Keep unspecified columns as-is\nn_jobs=-1: Parallelize transformations (useful for large datasets)\n\n\n\nA.10.4 Saving and Loading Pipelines\nimport joblib\n\n# Save entire pipeline (preprocessing + model)\njoblib.dump(pipeline, 'pipeline_model.pkl')\n\n# Load and use\nloaded_pipeline = joblib.load('pipeline_model.pkl')\npredictions = loaded_pipeline.predict(new_data)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
+    "objectID": "pipeline.html#independent-study",
+    "href": "pipeline.html#independent-study",
+    "title": "Appendix A — Sklearn Pipeline: A Step-by-Step Guide",
+    "section": "A.11 Independent Study",
+    "text": "A.11 Independent Study\n\nA.11.1 Exercise 1: Add More Preprocessing\nTry adding more preprocessing steps to the pipeline: - Add SimpleImputer for handling missing values - Add PolynomialFeatures for feature engineering - Add SelectKBest for feature selection\n\n\nA.11.2 Exercise 2: Try Different Models\nReplace LogisticRegression with: - RandomForestClassifier - GradientBoostingClassifier - SVC (Support Vector Classifier)\nCompare their performance using the same pipeline structure.\n\n\nA.11.3 Exercise 3: Tune Preprocessing Parameters\nExtend the GridSearchCV to tune preprocessing parameters: - Test different strategies for OneHotEncoder (drop=‘first’ vs drop=None) - Try StandardScaler vs MinMaxScaler vs RobustScaler - Test different polynomial degrees if you add PolynomialFeatures\n\n\nA.11.4 Exercise 4: Use Real Data\nApply what you learned to a real dataset: - Load a dataset from sklearn.datasets or Kaggle - Build a complete pipeline with appropriate preprocessing - Use GridSearchCV to find optimal hyperparameters - Evaluate on a held-out test set\n\n\nA.11.5 Additional Resources\n\nSklearn Pipeline Documentation: https://scikit-learn.org/stable/modules/compose.html\nSklearn ColumnTransformer Guide: https://scikit-learn.org/stable/modules/compose.html#columntransformer-for-heterogeneous-data\nGridSearchCV Documentation: https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Sklearn Pipeline: A Step-by-Step Guide</span>"
+    ]
+  },
+  {
     "objectID": "Assignment_1.html",
     "href": "Assignment_1.html",
-    "title": "Appendix A — Assignment 1: Statistical Learning and Simple Linear Regression",
+    "title": "Appendix B — Assignment 1: Statistical Learning and Simple Linear Regression",
     "section": "",
     "text": "Instructions",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_1.html#instructions",
     "href": "Assignment_1.html#instructions",
-    "title": "Appendix A — Assignment 1: Statistical Learning and Simple Linear Regression",
+    "title": "Appendix B — Assignment 1: Statistical Learning and Simple Linear Regression",
     "section": "",
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nDo not write your name on the assignment.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThere is a bonus question worth 15 points.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 100 + 15 (bonus question) + 5 (proper formatting) = 120 out of 100. There is no partial credit for some parts of the bonus question.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_1.html#case-studies-regression-vs-classification-and-prediction-vs-inference-16-points",
     "href": "Assignment_1.html#case-studies-regression-vs-classification-and-prediction-vs-inference-16-points",
-    "title": "Appendix A — Assignment 1: Statistical Learning and Simple Linear Regression",
+    "title": "Appendix B — Assignment 1: Statistical Learning and Simple Linear Regression",
     "section": "1) Case Studies: Regression vs Classification and Prediction vs Inference (16 points)",
     "text": "1) Case Studies: Regression vs Classification and Prediction vs Inference (16 points)\nFor each case below, explain (1) whether it is a classification or a regression problem and (2) whether the main purpose is prediction or inference. You need justify your answers for credit.\n\n1a)\nYou work for a company that is interested in conducting a marketing campaign. The goal of your project is to identify individuals who are likely to respond positively to a marketing campaign, based on observations of demographic variables (such as age, gender, income etc.) measured on each individual. (2+2 points)\n\n\n1b)\nFor the same company, now you are working on a different project. This one is focused on understanding the impact of advertisements in different media types on the company sales. For example, you are interested in the following question: ‘How large of an increase in sales is associated with a given increase in radio and TV advertising?’ (2+2 points)\n\n\n1c)\nA company is selling furniture and they are interested in the finding the association between demographic characteristics of customers (such as age, gender, income etc.) and if they would purchase a particular company product. (2+2 points)\n\n\n1d)\nWe are interested in forecasting the % change in the USD/Euro exchange rate using the weekly changes in the stock markets of a number of countries. We collect weekly data for all of 2023. For each week, we record the % change in the USD/Euro, the % change in the US market, the % change in the British market, and the % change in the German market. (2+2 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_1.html#examples-for-different-regression-metrics-rmse-vs-mae-8-points",
     "href": "Assignment_1.html#examples-for-different-regression-metrics-rmse-vs-mae-8-points",
-    "title": "Appendix A — Assignment 1: Statistical Learning and Simple Linear Regression",
+    "title": "Appendix B — Assignment 1: Statistical Learning and Simple Linear Regression",
     "section": "2) Examples for Different Regression Metrics: RMSE vs MAE (8 points)",
     "text": "2) Examples for Different Regression Metrics: RMSE vs MAE (8 points)\n\n2a)\nDescribe a regression problem, where it will be more proper to evaluate the model performance using the root mean squared error (RMSE) metric as compared to the mean absolute error (MAE) metric. You need to justify your answer for credit. (4 points)\nNote: You are not allowed to use the datasets and examples covered in the lectures.\n\n\n2b)\nDescribe a regression problem, where it will be more proper to evaluate the model performance using the mean absolute error (MAE) metric as compared to the root mean squared error (RMSE) metric. You need to justify your answer for credit. (4 points)\nNote: You are not allowed to use the datasets and examples covered in the lectures.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_1.html#simple-linear-regression-formulation-3-points",
     "href": "Assignment_1.html#simple-linear-regression-formulation-3-points",
-    "title": "Appendix A — Assignment 1: Statistical Learning and Simple Linear Regression",
+    "title": "Appendix B — Assignment 1: Statistical Learning and Simple Linear Regression",
     "section": "3) Simple Linear Regression: Formulation (3 points)",
     "text": "3) Simple Linear Regression: Formulation (3 points)\nWhen asked to state the simple linear regression model, a students wrote it as follows: \\(E(Y_i) = \\beta_0 + \\beta_1X_i + \\epsilon_i\\). Is this correct (1 point)? Justify your answer (2 points).",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_1.html#modeling-the-petrol-consumption-in-u.s.-states-58-points",
     "href": "Assignment_1.html#modeling-the-petrol-consumption-in-u.s.-states-58-points",
-    "title": "Appendix A — Assignment 1: Statistical Learning and Simple Linear Regression",
+    "title": "Appendix B — Assignment 1: Statistical Learning and Simple Linear Regression",
     "section": "4) Modeling the Petrol Consumption in U.S. States (58 points)",
     "text": "4) Modeling the Petrol Consumption in U.S. States (58 points)\nRead petrol_consumption_train.csv. Assume that each observation is a U.S. state. For each observation, the data has the following variables as its five columns:\nPetrol_tax: Petrol tax (cents per gallon)\nPer_capita_income: Average income (dollars)\nPaved_highways: Paved Highways (miles)\nProp_license: Proportion of population with driver’s licenses\nPetrol_consumption: Consumption of petrol (millions of gallons)\n\n4a)\nCreate a pairwise plot of all the variables in the dataset. (1 point) Print the correlation matrix of all the variables as well. (1 point) Which variable has the highest linear correlation with Petrol_consumption? (1 point)\nNote: Remember that a pairwise plot is a visualization tool that you can find in the seaborn library.\n\n\n4b)\nFit a simple linear regression model to predict Petrol_consumption using the column you found in part a as the only predictor. Print the model summary. (3 points)\n\n\n4c)\nWhen asked for a point estimate of the expected petrol consumption for a state where the proportion of population with driver’s license is 54.4%, a person gave the estimate 488 million gallons because that is the mean value of Petrol_consumption for the two observations of Prop_license = 0.544 pieces in the dataset. Is there an issue with this approach? Explain. (2 points) If there is an issue, then suggest a better approach and use it to estimate the expected petrol consumption for a state where the proportion of population with driver’s license is 54.4%. (2 points)\n\n\n4d)\nWhat is the increase in petrol consumption for an increase of 0.05 in the predictor? (3 points)\n\n\n4e)\nDoes petrol consumption have a statistically significant relationship with the predictor? You need to justify your answer for credit. (3 points)\n\n\n4f)\nHow much of the variation in petrol consumption can be explained by its linear relationship with the predictor? (2 points)\n\n\n4g)\nPredict the petrol consumption for a state in which 50% of the population has a driver’s license. (2 points) What are the confidence interval (2 points) and the prediction interval (2 points) for your prediction? Which interval is wider? (1 points) Why? (2 points)\n\n\n4h)\nPredict the petrol consumption for a state in which 10% of the population has a driver’s license. (3 points) Are you getting a reasonable outcome? (1 point) Why or why not? (2 points)\n\n\n4i)\nWhat is the residual standard error of the model? (3 points)\n\n\n4j)\nUsing the trained model, predict the petrol consumption of the observations in petrol_consumption_test.csv (2 points) and find the RMSE. (2 points) What is the unit of this RMSE value? (1 point)\n\n\n4k)\nBased on the answers to part i and part j, do you think the model is overfitting? You need to justify your answer for credit. (3 points)\n\n\n4l)\nMake a scatterplot of Petrol_consumption vs. the predictor using petrol_consumption_test.csv. (1 point) Over the scatterplot, plot the regression line (1 point), the prediction interval (2 points), and the confidence interval. (2 points)\nMake sure that regression line, prediction interval lines, and confidence interval lines have different colors. (1 point) Display a legend that correctly labels the lines as well. (1 point) Note that you need two lines of the same color to plot an interval.\n\n\n4m)\nThe dataset consists of 40 US States. If you combine this data with the data of the remaining 10 US States, are you likely to obtain narrower confidence and prediction intervals in the plot developed in the previous question, for the same level of confidence? Justify your answer. (2 points).\nIf yes, then can you gaurantee that the width of these intervals will reduce? Justify your answer. If no, then can you gaurantee that the width of these intervals will not reduce? Justify your answer. (2 points)\n\n\n4n)\nFind the correlation between Petrol_consumption and the rest of the variables in petrol_consumption_train.csv. Which column would have the lowest R-squared value when used as the predictor for a Simple Linear Regression model to predict Petrol_consumption? Note that you can directly answer this question from the correlation values and do not need to develop any more linear regression models. (2 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_1.html#reproducing-the-results-with-scikit-learn-15-points",
     "href": "Assignment_1.html#reproducing-the-results-with-scikit-learn-15-points",
-    "title": "Appendix A — Assignment 1: Statistical Learning and Simple Linear Regression",
+    "title": "Appendix B — Assignment 1: Statistical Learning and Simple Linear Regression",
     "section": "5) Reproducing the Results with Scikit-Learn (15 points)",
     "text": "5) Reproducing the Results with Scikit-Learn (15 points)\n\n5a)\nUsing the same datasets, same response and the same predictor as Question 4, reproduce the following outputs with scikit-learn:\n\nModel RMSE for test data (3 points)\nR-squared value of the model (3 points)\nResidual standard error of the model (3 points)\n\nNote that you are only allowed to use scikit-learn, pandas, and numpy tools for this question. Any other libraries will not receive any credit.\n\n\n5b)\nWhich of the model outputs from Question 4 cannot be reproduced using scikit-learn? Give two answers. (2+2 points) What does this tell about scikit-learn? (2 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_1.html#bonus-question-15-points",
     "href": "Assignment_1.html#bonus-question-15-points",
-    "title": "Appendix A — Assignment 1: Statistical Learning and Simple Linear Regression",
+    "title": "Appendix B — Assignment 1: Statistical Learning and Simple Linear Regression",
     "section": "6) Bonus Question (15 points)",
     "text": "6) Bonus Question (15 points)\nPlease note that the bonus question requires you to look more into the usage of the tools we covered in class and it will be necessary to do your own research. We strongly suggest attempting it after you are done with the rest of the assignment.\n\n6a)\nFit a simple linear regression model to predict Petrol_consumption based on the predictor in Question 4, but without an intercept term. (5 points - no partial credit)\nWithout an intercept means that the equation becomes \\(Y = \\beta_1X\\). The intercept term, \\(\\beta_0\\), becomes 0.\nNote: You must answer this part correctly to qualify for the bonus points in the following parts.\n\n\n6b)\nPredict the petrol consumption for the observations in petrol_consumption_test.csv using the model without an intercept and find the RMSE. (1+2 points) Then, print the summary and find the R-squared. (2 points)\n\n\n6c)\nThe RMSE for the models with and without the intercept are similar, which indicates that both models are almost equally good. However, the R-squared for the model without intercept is much higher than the R-squared for the model with the intercept. Why? Justify your answer. (5 points - no partial credit)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 1: Statistical Learning and Simple Linear Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_2.html",
     "href": "Assignment_2.html",
-    "title": "Appendix B — Assignment 2: MLR",
+    "title": "Appendix C — Assignment 2: MLR",
     "section": "",
     "text": "Instructions",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
     ]
   },
   {
     "objectID": "Assignment_2.html#instructions",
     "href": "Assignment_2.html#instructions",
-    "title": "Appendix B — Assignment 2: MLR",
+    "title": "Appendix C — Assignment 2: MLR",
     "section": "",
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 100 + 5 (proper formatting) = 105 out of 100.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
     ]
   },
   {
     "objectID": "Assignment_2.html#multiple-linear-regression-24-points",
     "href": "Assignment_2.html#multiple-linear-regression-24-points",
-    "title": "Appendix B — Assignment 2: MLR",
+    "title": "Appendix C — Assignment 2: MLR",
     "section": "1) Multiple Linear Regression (24 points)",
     "text": "1) Multiple Linear Regression (24 points)\nA study was conducted on 97 male patients with prostate cancer who were due to receive a radical prostatectomy (complete removal of the prostate). The prostate.csv file contains data on 9 measurements taken from these 97 patients. Each row (observation) represents a patient and each column (variable) represents a measurement. The description of variables can be found here: https://rafalab.github.io/pages/649/prostate.html\n\n1a)\nFit a linear regression model with lpsa as the response and all the other variables as the predictors. Print its summary. (2 points) Write down the optimal equation that predicts lpsa using the predictors. (2 points)\n\n\n1b)\nIs the overall regression statistically significant? In other words, is there a statistically significant relationship between the response and at least one predictor? You need to justify your answer for credit. (2 points)\n\n\n1c)\nWhat does the optimal coefficient of svi tell us as a numeric output? Make sure you include the predictor, (svi) the response (lpsa) and the other predictors in your answer. (2 points)\n\n\n1d)\nCheck the \\(p\\)-values of gleason and age. Are these predictors statistically significant? You need to justify your answer for credit. (2 points)\n\n\n1e)\nCheck the 95% Confidence Interval of age. How can you relate it to its p-value and statistical significance, which you found in the previous part? (2 points)\n\n\n1f)\nThis question requires some thinking, and bringing your 303-1 and 303-2 knowledge together.\nFit a simple linear regression model on lpsa against gleason and check the \\(p\\)-value of gleason using the summary. (2 point) Did the statistical significance of gleason change in the absence of other predictors? (1 point) Why or why not? (3 points)\nHints:\n\nYou need to compare this model with the Multiple Linear Regression model you created above.\nPrinting a correlation matrix of all the predictors should be useful.\n\n\n\n1g)\nPredict the lpsa of a 65 year old man with lcavol = 1.35, lweight = 3.65, lbph = 0.1, svi = 0.22, lcp = -0.18, gleason = 6.75, and pgg45 = 25. Find the 95% confidence and prediction intervals as well. (2 points)\n\n\n1h)\nIn the Multiple Linear Regression model with all the predictors, you should see a total of five predictors that appear to be statistically insignificant. Why is it not a good idea to directly conclude that all of them are statistically insignificant? (2 points) Implement the additional test that concludes the statistical insignificance of all five predictors. (2 points)\nHint: f_test() method",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
     ]
   },
   {
     "objectID": "Assignment_2.html#multiple-linear-regression-with-variable-transformations-23-points",
     "href": "Assignment_2.html#multiple-linear-regression-with-variable-transformations-23-points",
-    "title": "Appendix B — Assignment 2: MLR",
+    "title": "Appendix C — Assignment 2: MLR",
     "section": "2) Multiple Linear Regression with Variable Transformations (23 points)",
     "text": "2) Multiple Linear Regression with Variable Transformations (23 points)\nThe infmort.csv file has the infant mortality data of different countries in the world. The mortality column represents the infant mortality rate with “deaths per 1000 infants” as the unit. The income column represents the per capita income in USD. The other columns should be self-explanatory. (This is an old dataset, as can be seen from some country names.)\n\n2a)\nStart your analysis by creating (i) a boxplot of log(mortality) for each region and (ii) a boxplot of income for each region. Note that the region column has the continent names. (3 points)\nNote: You need to use np.log, which is the natural log. This is to better distinguish the mortality values.\n\n\n2b)\nIn the previous part, you should see that Europe has the lowest infant mortality rate on average, but it also has the highest per capita income on average. Our goal is to see if Europe still has the lowest mortality rate if we remove the effect of income. We will try to find an answer for the rest of this question.\nCreate four scatter plots: (i) mortality against income, (ii) log(mortality) against income, (iii) mortality against log(income), and (iv) log(mortality) against log(income). (4 points)\nBased on the plots, create an appropriate model to predict the mortality rate as a function of per capita income. Print the model summary. (2 points)\n\n\n2c)\nUpdate the model you created in the previous part by adding region as a predictor. Print the model summary. (2 points)\n\n\n2d)\nUse the model developed in the previous part to compute a new adjusted_mortality variable for each observation in the data. (5 points) Adjusted mortality rate is the mortality rate after removing the estimated effect of income. You need to calculate it with the following steps:\n\nMultiply the (transformed) income column with its optimal coefficient. This is the estimated effect of income.\nSubtract the product from the (transformed) response column. This removes the estimated effect of income.\nYou may need to do a inverse transformation to calculate the actual adjusted mortality rate values.\n\nMake a boxplot of log(adjusted_mortality) for each region. (2 points)\n\n\n2e)\nUsing the plots in parts a and d, answer the following questions:\n\nDoes Europe still have the lowest mortality rate on average after removing the effect of income?\nHow did the distribution of values among different continents change after removing the effect of income? How did the comparison of different continents change? Does any non-European country have a lower mortality rate than all the European countries after removing the effect of income?\n\n(5 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
     ]
   },
   {
     "objectID": "Assignment_2.html#variable-transformations-and-interactions-33-points",
     "href": "Assignment_2.html#variable-transformations-and-interactions-33-points",
-    "title": "Appendix B — Assignment 2: MLR",
+    "title": "Appendix C — Assignment 2: MLR",
     "section": "3) Variable Transformations and Interactions (33 points)",
     "text": "3) Variable Transformations and Interactions (33 points)\nThe soc_ind.csv dataset contains many social indicators of a number of countries. Each row is a country and each column is a social indicator. The column names should be clear on what the variables represent. The GDP per capita will be the response variable throughout this question.\n\n3a)\nUsing correlations, find out the most useful predictor for a simple linear regression model with gdpPerCapita as the response. You can ignore categorical variables for now. Let that predictor be \\(P\\). (2 points)\n\n\n3b)\nCreate a scatterplot of gdpPerCapita vs \\(P\\). Does the relationship between gdpPerCapita and \\(P\\) seem linear or non-linear? (2 points)\n\n\n3c)\nIf the relationship in the previous part is non-linear, create three models:\n\nOnly with \\(P\\)\nWith \\(P\\) and its quadratic term\nWith \\(P\\), its quadratic term and its cubic term\n\n(2x3 = 6 points)\nCompare the \\(R\\)-squared values of the models. (2 points)\n\n\n3d)\nOn the same figure:\n\ncreate the scatterplot in part b.\nplot the linear regression line (only using \\(P\\))\nplot the polynomial regression curve that includes the quadratic and cubic terms.\nadd a legend to distinguish the linear and cubic fits.\n\n(3 points)\n\n\n3e)\nDevelop a model to predict gdpPerCapita using \\(P\\) and continent as predictors. (No higher-order terms.)\n\nWhich continent creates the baseline? Write down its equation. (2 points)\nFor a given value of \\(P\\), are there any continents that do not have a statistically significant difference of predicted gdpPerCapita from the baseline continent? If yes, then which ones, and why? If no, then why not? You need to justify your answers for credit. (4 points)\n\n\n\n3f)\nThe model developed in the previous part has a limitation. It assumes that the increase in predicted gdpPerCapita with a unit increase in \\(P\\) does not depend on the continent.\nEliminate this limitation by including the interaction of continent with \\(P\\) in the model. Print the model summary of the model with interactions. (2 points) Which continent has the closest increase in predicted gdpPerCapita to the baseline continent with a unit increase in \\(P\\). Which continent has the furthest? You need to justify your answers for credit. (5 points)\n\n\n3g)\nUsing the model developed in the previous part, plot the regression lines of all the continents on the same figure. Put gdpPerCapita on the y-axis and \\(P\\) on the x-axis. (4 points) Use a legend to color-code the continents. (1 point)\nHint: For each continent, you need to construct the regression line using the appropriate coefficients from your interaction model. Remember that Africa is the baseline (reference) continent, so its line uses only the intercept and main lifeFemale coefficient. For other continents, you need to add their specific interaction terms to both the intercept and slope. Use np.linspace() to create x-values and plt.plot() for each continent with different colors and labels.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
     ]
   },
   {
     "objectID": "Assignment_2.html#prediction-with-sklearn-20-points",
     "href": "Assignment_2.html#prediction-with-sklearn-20-points",
-    "title": "Appendix B — Assignment 2: MLR",
+    "title": "Appendix C — Assignment 2: MLR",
     "section": "4) Prediction with Sklearn (20 points)",
     "text": "4) Prediction with Sklearn (20 points)\n\nInstructions\n\nRead the soc_ind.csv dataset and use the Index column as the index of the dataframe.\nDrop the geographic_location and country columns since they are not useful for our prediction.\nWe will use only sklearn and pandas libraries in this task.\ngdpPerCapita is the response (target) variable.\n(2 points)\n\nUse only lifeFemale and continent as predictors to match the tasks in the previous problem.\n(2 points)\nBuild an sklearn Pipeline that includes:\n\nA ColumnTransformer that applies PolynomialFeatures(degree=2, include_bias=False) to lifeFemale\nOne-hot encoding for continent\nA LinearRegression model (6 points)\n\nSplit the dataset into a training set (90%) and a test set (10%).\n\nSet random_state=3 for reproducibility.\n(3 points)\n\n\nFit the pipeline on the training set, then compute R-squared and RMSE on both the training set and the test set.\n(4 points)\n\nCompare training vs test R-squared and RMSE and discuss whether your model shows signs of overfitting or underfitting.\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 2: MLR</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html",
     "href": "Assignment_3.html",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "",
     "text": "Instructions",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#instructions",
     "href": "Assignment_3.html#instructions",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "",
     "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answer in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to understand and grade.\nUse Quarto to print the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#data-description",
     "href": "Assignment_3.html#data-description",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "Data description",
     "text": "Data description\nThe data is related with direct marketing campaigns of a Portuguese banking institution. The marketing campaigns were based on phone calls, where bank clients were called to subscribe for a term deposit.\nThere is one train data - train.csv, which you will use to develop a model. There are two test datasets - test1.csv and test2.csv, which you will use to test your model. Each observation is a phone call and each column is a variable about the client or the phone call. Each dataset has the following attributes about the clients called in the marketing campaign:\n\nage: Age of the client\neducation: Education level of the client\nday: Day of the month the call is made\nmonth: Month of the call\ny: did the client subscribe to a term deposit?\nduration: Call duration, in seconds. This attribute highly affects the output target (e.g., if duration=0 then y=‘no’). Yet, the duration is not known before a call is performed. Also, after the end of the call y is obviously known. Thus, this input should only be included for inference purposes and should be discarded if the intention is to have a realistic predictive model.\n\n(Source: UCI Data Archive. Please use the given datasets for the assignment, not the raw data from the source. It is just for reference.)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#instructions-suggestions-for-answering-questions",
     "href": "Assignment_3.html#instructions-suggestions-for-answering-questions",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "Instructions / suggestions for answering questions",
     "text": "Instructions / suggestions for answering questions\n\nInstruction: Use train.csv for all questions, unless otherwise stated.\nSuggestion 1: You may use the functions in the class notes for printing the confusion matrix and the overall classification accuracy based on test / train data.\nSuggestion 2:: If you make variable transformations, you will need to do it for all the three datasets. Your code will be a bit concise if you make a function containing all the transformations, and then call it for the training and the two test datasets. You can put this function in the beginning of the code and keep adding transformations to it as you proceed with the assignment. You may need transformations in questions (1) and (13).",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#section",
     "href": "Assignment_3.html#section",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "1)",
     "text": "1)\nRead the datasets. Make an appropriate visualization to visualize how the proportion of clients subscribing to a term deposit change with increasing call duration.\n(4 points)\nHints:\n\nBin duration to create duration_binned. Group the data to find the fraction of clients responding positively to the marketing campaign for each bin in duration_binned. Make a lineplot of percentage of clients subscribing to a term deposit vs duration_binned, where the bins in duration_binned are arranged in increasing order of duration.\nYou may choose an appropriate number of bins & type of binning that helps you visualize well.\nYou may also think of other ways of visualization. You don’t need to stick with this one.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#predictor-duration",
     "href": "Assignment_3.html#predictor-duration",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "2) Predictor duration",
     "text": "2) Predictor duration\nBased on the plot in (1), comment whether duration seems to be a useful variable to predict if the client will subscribe to a term deposit.\n(1 point)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#model-based-on-duration",
     "href": "Assignment_3.html#model-based-on-duration",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "3) Model based on duration",
     "text": "3) Model based on duration\nDevelop a logistic regression model to predict if the client subscribed to a term deposit based on call duration. Use the model to make a lineplot showing the probability of the client subscribing to a term deposit based on call duration.\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#note",
     "href": "Assignment_3.html#note",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "Note",
     "text": "Note\nAnswer questions 4 to 11 based on the model developed in (3).",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#model-significance",
     "href": "Assignment_3.html#model-significance",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "4) Model significance",
     "text": "4) Model significance\nIs the regression model in statistically significant? Justify your answer.\n(1 point for code, 1 point for answer)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#subscription-probability-in-5-minutes",
     "href": "Assignment_3.html#subscription-probability-in-5-minutes",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "5) Subscription probability in 5 minutes",
     "text": "5) Subscription probability in 5 minutes\nWhat is the probability that the client subscribes to a term deposit with a 5-minute marketing call? Note that the call duration in data is given in seconds.\n(2 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#call-duration-for-subscription",
     "href": "Assignment_3.html#call-duration-for-subscription",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "6) Call duration for subscription",
     "text": "6) Call duration for subscription\nWhat is the minimum call duration (in minutes) for which a client has a 95% or higher chance of subscribing to a term deposit?\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#maximum-call-duration",
     "href": "Assignment_3.html#maximum-call-duration",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "7) Maximum call duration",
     "text": "7) Maximum call duration\nWhat is the maximum call duration (in minutes) in which a client refused to subscribe to a term deposit? What was the probability of the client subscribing to the term deposit in that call?\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#percent-increase-in-odds",
     "href": "Assignment_3.html#percent-increase-in-odds",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "8) Percent increase in odds",
     "text": "8) Percent increase in odds\nWhat is the percentage increase in the odds of a client subscribing to a term deposit when the call duration increases by a minute?\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#doubling-the-subscription-odds",
     "href": "Assignment_3.html#doubling-the-subscription-odds",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "9) Doubling the subscription odds",
     "text": "9) Doubling the subscription odds\nHow much must the call duration increase (in minutes) so that it doubles the odds of the client subscribing to a term deposit.\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#classification-accuracy",
     "href": "Assignment_3.html#classification-accuracy",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "10) Classification accuracy",
     "text": "10) Classification accuracy\nWhat is minimum overall classification accuracy of the model among the classification accuracies on train.csv, test1.csv and test2.csv? Consider a threshold of 30% when classifying observations.\n(2 + 1 + 1 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#recall",
     "href": "Assignment_3.html#recall",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "11) Recall",
     "text": "11) Recall\nWhat is the minimum Recall of the model among the Recall performance on train.csv, test1.csv and test2.csv? Consider a decision threshold probability of 30% when classifying observations.\nHere, Recall is the proportion of clients predicted to subscribe to a term deposit among those who actually subscribed.\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#subscription-probability-based-on-age-and-education",
     "href": "Assignment_3.html#subscription-probability-based-on-age-and-education",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "12) Subscription probability based on age and education",
     "text": "12) Subscription probability based on age and education\nDevelop a logistic regression model to predict the probability of a client subscribing to a term deposit based on age, education and the two-factor interaction between age and education. Based on the model, answer:\n\nPeople with which type of education (primary / secondary / tertiary / unknown) have the highest percentage increase in odds of subscribing to a term deposit with a unit increase in age? Justify your answer.\nWhat is the percentage increase in odds of a person subscribing to a term deposit for a unit increase in age, if the person has tertiary education.\nWhat is the percentage increase in odds of a person subscribing to a term deposit for a unit increase in age, if the person has primary education.\n\n(1 point for developing the model, 3 points for (a), 3 points for (b), 3 points for (c))",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#model-development",
     "href": "Assignment_3.html#model-development",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "13) Model development",
     "text": "13) Model development\nDevelop a logistic regression model (using train.csv) to predict the probability of a client subscribing to a term deposit based on age, education, day and month. The model must have:\n\nMinimum overall classification accuracy of 75% among the classification accuracies on train.csv, test1.csv and test2.csv.\nMinimum recall of 50% among the recall performance on train.csv, test1.csv and test2.csv.\n\nFor all the three datasets - train.csv, test1.csv and test2.csv, print the:\n\nModel summary (only for train.csv),\nConfusion matrices,\nOverall classification accuracies, and\nRecall\n\nNote that:\n\nYou cannot use duration as a predictor because its value is determined after the marketing call ends. However, after the call ends, we already know whether the client responded positively or negatively. That is why we have used duration only for inference in the previous questions. It helped us understand the effect of the length of the call on marketing success.\nIt is possible to develop the model satisfying constrains (a) and (b) with just appropriate transformation(s) of the predictor(s). However, you may consider interactions if you wish. Justify the transformations, if any, with visualizations.\nYou are free to choose any value of the decision threshold probability for classifying observations. However, you must use the same threshold on all the three datasets.\n\n(10 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#roc-auc",
     "href": "Assignment_3.html#roc-auc",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "14) ROC-AUC",
     "text": "14) ROC-AUC\nReport the probability that the model will predict a higher probability of response for a customer who signs up for the term deposit as compared to the customer who does not sign up, i.e., the ROC-AUC of the developed model in (13).\nHint: Use the functions roc_curve, and auc from the sklearn.metrics module\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#net-profit",
     "href": "Assignment_3.html#net-profit",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "15) Net-profit",
     "text": "15) Net-profit\nSuppose that the model developed in (13) is used to predict the clients in test1.csv and test2.csv who will respond positively to the campaign. Only those clients who are predicted to respond positively are called during the marketing campaign. Assume that:\n\nA profit of \\$100 is associated with a client who responds positively to the campaign,\nA loss of \\$10 is associated with a client who responds negatively to the campaign\n\nWhat is the net profit from the campaign? Use the confusion matrices printed in (13).\n(4 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#decision-threshold-probability",
     "href": "Assignment_3.html#decision-threshold-probability",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "16) Decision threshold probability",
     "text": "16) Decision threshold probability\nBased on the profit and loss associated with client responses specified in (15), and the model developed in (13), find the decision threshold probability of classification, such that the net profit is maximized. Use train.csv\nProceed as follows:\n\nYou would have obtained FPR and TPR for all potential decision threshold probabilities in (14).\nFormulate an expression quantifying the net profit per client, in terms of FPR, TPR, and the overall response rate, i.e., proportion of people actually subscribing to the term deposit.\nFind the decision threshold probability that maximizes the expression in (2).\n\n(5 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#net-profit-based-on-new-decision-threshold-probability",
     "href": "Assignment_3.html#net-profit-based-on-new-decision-threshold-probability",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "17) Net profit based on new decision threshold probability",
     "text": "17) Net profit based on new decision threshold probability\nUsing the new decision threshold probability obtained in (16), answer (15), i.e., what is the net-profit associated with the clients in test1.csv and test2.csv if a marketing campaign is performed. Again, only those clients who are predicted to respond positively, based on the new decision threshold probability, are called during the marketing campaign\nAlso, print the confusion matrices for predictions on test1.csv and test2.csv with the new threshold probability.\n(4 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#model-preference",
     "href": "Assignment_3.html#model-preference",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "18) Model preference",
     "text": "18) Model preference\nWas the classification accuracy of the model in (13) higher than that of the model in (17)? If yes, then should you prefer the model in (13) for the marketing campaign? Why or why not?\nNote: The model in (17) is the same as in (13), except with a different decision threshold probability\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#roc-curve",
     "href": "Assignment_3.html#roc-curve",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "19) ROC curve",
     "text": "19) ROC curve\nPlot the ROC curve for the model developed in (13). Mark the point on the curve corresponding to the decision threshold probability identified in (16).\nNote that the ROC curve is independent of the decision threshold probability used by the model for prediction\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#profit-with-tpr-fpr",
     "href": "Assignment_3.html#profit-with-tpr-fpr",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "20) Profit with TPR / FPR",
     "text": "20) Profit with TPR / FPR\nMake a scatterplot of TPR vs FPR, and color the points based on net profit per client.\nYou can use the following code to make the plot if you have the relevant metrics in tpr, fpr, and net_profit\n(1 point)\n\n\nCode\nimport matplotlib.pyplot as plt\nimport seaborn as sns\nsns.set(font_scale=1.5)\nplt.rcParams[\"figure.figsize\"] = (9,6)\nplt.rcParams[\"figure.autolayout\"] = True\nf, ax = plt.subplots()\npoints = ax.scatter(fpr, tpr, c = net_profit, s=50, cmap=\"Blues\")\nf.colorbar(points, label = \"Net profit ($) \\n(per client)\")\nplt.xlabel(\"False positive rate\")\nplt.ylabel(\"True positive rate\")\nplt.show()",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#precision-recall",
     "href": "Assignment_3.html#precision-recall",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "21) Precision-recall",
     "text": "21) Precision-recall\nCompare the precision and recall of the models in (13) and (17) on train.csv.\nNote: The model in (17) is the same as in (13), except with a different decision threshold probability\n(4 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#precision-recall-important-metric",
     "href": "Assignment_3.html#precision-recall-important-metric",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "22) Precision-recall: important metric",
     "text": "22) Precision-recall: important metric\nBased on the above comparison, which metric among precision and recall turns out to be more important for maximizing the net profit in the marketing campaign?\n(1 point)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#precision-recall-curve",
     "href": "Assignment_3.html#precision-recall-curve",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "23) Precision-recall curve",
     "text": "23) Precision-recall curve\nPlot the precision-recall curve vs decision threshold probability for the model developed in (13). Mark the points on the curve corresponding to the decision threshold probability identified in (16).\n(3 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#precision-recall-vs-fpr-tpr",
     "href": "Assignment_3.html#precision-recall-vs-fpr-tpr",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "24) Precision-recall vs FPR-TPR",
     "text": "24) Precision-recall vs FPR-TPR\nInstead of using the FPR and TPR metrics to find the optimum decision threshold probability in (16), use the precision-recall metrics to find the same.\n(5 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Assignment_3.html#sklearn",
     "href": "Assignment_3.html#sklearn",
-    "title": "Appendix C — Assignment 3: Logistic Regression",
+    "title": "Appendix D — Assignment 3: Logistic Regression",
     "section": "25) Sklearn",
     "text": "25) Sklearn\nUsing train.csv and only sklearn, pandas, and numpy, train a Logistic Regression model. You need the following steps:\n\nThe response is still y.\nPredictors are education, month, day and age.\nNumerical predictors need to be transformed to all their second-order polynomial versions.\n\nLogistic regression benefits from feature scaling, especially when using polynomial features, as it helps the optimization algorithm converge faster. Use StandardScaler to scale the features.\nCategorical predictors need to be one-hot-encoded. They should not interact with the numerical predictors.\n\nPrint the accuracy and recall for both training and test data using a threshold of 0.11. Use test1.csv as the test dataset. Remember that the test dataset needs to go through the exact same transformation as the training dataset.\nHints:\n\nDo not scale categorical features: One-hot encoded dummy variables are already on the same scale (0 or 1). Scaling them is unnecessary and may distort their meaning.\nScale numerical features: This includes both original numerical features and any polynomial features generated from them.\nUsing ColumnTransformer within a Pipeline ensures preprocessing steps are applied consistently to both training and test data. (Highly recommended but not required)\n\n(8 points)",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Assignment 3: Logistic Regression</span>"
     ]
   },
   {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
-    "title": "Appendix D — Datasets, assignment and project files",
+    "title": "Appendix E — Datasets, assignment and project files",
     "section": "",
     "text": "Datasets used in the book, assignment files, project files, and prediction problems report tempate can be found here",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Datasets, assignment and project files</span>"
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Datasets, assignment and project files</span>"
     ]
   }
 ]
