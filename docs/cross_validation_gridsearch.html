@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>13&nbsp; Hyperparameter Tuning with GridSearchCV – Data Science II with python (Class notes)</title>
+<title>13&nbsp; Automated Hyperparameter Tuning – Data Science II with python (Class notes)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cross_validation_gridsearch.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning with GridSearchCV</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cross_validation_gridsearch.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Automated Hyperparameter Tuning</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -221,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cross_validation_gridsearch.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning with GridSearchCV</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Automated Hyperparameter Tuning</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -271,8 +271,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./Assignment_4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Assignment 4: Cross-Validation and Regularization</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./Datasets.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
+ <span class="menu-text"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Datasets, assignment and project files</span></span></a>
   </div>
 </li>
       </ul>
@@ -333,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Hyperparameter Tuning with GridSearchCV</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Automated Hyperparameter Tuning</span></h1>
 </div>
 
 
@@ -357,11 +363,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> make_pipeline(PolynomialFeatures(degree), LinearRegression())</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> cross_val_score(model, X_train, y_train, cv<span class="op">=</span><span class="dv">5</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store and compare scores...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>While this approach works, it has limitations: - <strong>Manual iteration</strong> through hyperparameters is tedious - <strong>Multiple hyperparameters</strong> require nested loops - <strong>No built-in tracking</strong> of results - <strong>Difficult to parallelize</strong> efficiently</p>
+<p>While this approach works, it has limitations:</p>
+<ul>
+<li><strong>Manual iteration</strong> through hyperparameters is tedious</li>
+<li><strong>Multiple hyperparameters</strong> require nested loops</li>
+<li><strong>No built-in tracking</strong> of results</li>
+<li><strong>Difficult to parallelize</strong> efficiently</li>
+</ul>
 <p>In this notebook, we’ll learn <strong>automated hyperparameter tuning</strong> techniques that make this process much more efficient and scalable.</p>
 <section id="learning-objectives" class="level3" data-number="13.1.1">
 <h3 data-number="13.1.1" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">13.1.1</span> Learning Objectives</h3>
-<p>By the end of this notebook, you will be able to: 1. Use <code>GridSearchCV</code> to automate exhaustive hyperparameter search 2. Apply <code>cross_validate</code> for detailed evaluation across multiple metrics 3. Use <code>RandomizedSearchCV</code> as a faster alternative to grid search 4. Tune classification thresholds using specialized tools 5. Choose the right tuning strategy for different scenarios</p>
+<p>By the end of this notebook, you will be able to:</p>
+<ol type="1">
+<li>Use <code>GridSearchCV</code> to automate exhaustive hyperparameter search</li>
+<li>Apply <code>cross_validate</code> for detailed evaluation across multiple metrics</li>
+<li>Use <code>RandomizedSearchCV</code> as a faster alternative to grid search</li>
+<li>Tune classification thresholds using specialized tools</li>
+<li>Choose the right tuning strategy for different scenarios</li>
+</ol>
 <div id="23dda3a0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -406,7 +425,12 @@ Test set size: 72</code></pre>
 </section>
 <section id="gridsearchcv-automated-exhaustive-search" class="level2" data-number="13.3">
 <h2 data-number="13.3" class="anchored" data-anchor-id="gridsearchcv-automated-exhaustive-search"><span class="header-section-number">13.3</span> GridSearchCV: Automated Exhaustive Search</h2>
-<p><code>GridSearchCV</code> automates the process of hyperparameter tuning by: 1. <strong>Defining a grid</strong> of hyperparameter values to test 2. <strong>Systematically evaluating</strong> every combination using cross-validation 3. <strong>Returning the best</strong> parameters and trained model</p>
+<p><code>GridSearchCV</code> automates the process of hyperparameter tuning by:</p>
+<ol type="1">
+<li><strong>Defining a grid</strong> of hyperparameter values to test</li>
+<li><strong>Systematically evaluating</strong> every combination using cross-validation</li>
+<li><strong>Returning the best</strong> parameters and trained model</li>
+</ol>
 <section id="how-gridsearchcv-works" class="level3" data-number="13.3.1">
 <h3 data-number="13.3.1" class="anchored" data-anchor-id="how-gridsearchcv-works"><span class="header-section-number">13.3.1</span> How GridSearchCV Works</h3>
 <ol type="1">
@@ -1111,7 +1135,12 @@ MAE: 0.1173 (±0.0086)</code></pre>
 <p>When the hyperparameter space is large, <strong>GridSearchCV</strong> can become prohibitively expensive. <code>RandomizedSearchCV</code> offers a faster alternative by <strong>randomly sampling</strong> a specified number of parameter combinations.</p>
 <section id="how-randomizedsearchcv-works" class="level3" data-number="13.5.1">
 <h3 data-number="13.5.1" class="anchored" data-anchor-id="how-randomizedsearchcv-works"><span class="header-section-number">13.5.1</span> How RandomizedSearchCV Works</h3>
-<p>Instead of testing every combination, it: 1. <strong>Randomly samples</strong> <code>n_iter</code> combinations from the parameter distributions 2. Evaluates each using cross-validation 3. Returns the best performing combination</p>
+<p>Instead of testing every combination, it:</p>
+<ol type="1">
+<li><strong>Randomly samples</strong> <code>n_iter</code> combinations from the parameter distributions</li>
+<li>Evaluates each using cross-validation</li>
+<li>Returns the best performing combination</li>
+</ol>
 </section>
 <section id="when-to-use-randomizedsearchcv" class="level3" data-number="13.5.2">
 <h3 data-number="13.5.2" class="anchored" data-anchor-id="when-to-use-randomizedsearchcv"><span class="header-section-number">13.5.2</span> When to Use RandomizedSearchCV</h3>
@@ -1208,7 +1237,12 @@ GridSearchCV Best Score: 0.9569966855989479</code></pre>
 </section>
 <section id="tuning-classification-thresholds" class="level2" data-number="13.6">
 <h2 data-number="13.6" class="anchored" data-anchor-id="tuning-classification-thresholds"><span class="header-section-number">13.6</span> Tuning Classification Thresholds</h2>
-<p>In classification problems, the default threshold is typically <strong>0.5</strong> (i.e., predict class 1 if probability &gt; 0.5). However, this default may not be optimal for all problems, especially when: - Classes are imbalanced - Different types of errors have different costs (e.g., false positives vs false negatives) - You want to optimize for a specific metric (F1-score, precision, recall)</p>
+<p>In classification problems, the default threshold is typically <strong>0.5</strong> (i.e., predict class 1 if probability &gt; 0.5). However, this default may not be optimal for all problems, especially when:</p>
+<ul>
+<li>Classes are imbalanced</li>
+<li>Different types of errors have different costs (e.g., false positives vs false negatives)</li>
+<li>You want to optimize for a specific metric (F1-score, precision, recall)</li>
+</ul>
 <p>Cross-validation can help find the optimal threshold.</p>
 <section id="generating-classification-data" class="level3" data-number="13.6.1">
 <h3 data-number="13.6.1" class="anchored" data-anchor-id="generating-classification-data"><span class="header-section-number">13.6.1</span> Generating Classification Data</h3>
