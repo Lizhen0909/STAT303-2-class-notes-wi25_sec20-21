@@ -315,10 +315,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#characteristics-2" id="toc-characteristics-2" class="nav-link" data-scroll-target="#characteristics-2"><span class="header-section-number">15.3.1</span> Characteristics:</a></li>
   </ul></li>
-  <li><a href="#comparison-of-feature-selection-methods" id="toc-comparison-of-feature-selection-methods" class="nav-link" data-scroll-target="#comparison-of-feature-selection-methods"><span class="header-section-number">15.4</span> Comparison of Feature Selection Methods</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">15.5</span> Conclusion</a>
+  <li><a href="#computational-cost-and-runtime-comparison" id="toc-computational-cost-and-runtime-comparison" class="nav-link" data-scroll-target="#computational-cost-and-runtime-comparison"><span class="header-section-number">15.4</span> Computational Cost and Runtime Comparison</a></li>
+  <li><a href="#summary-comparison-of-feature-selection-methods" id="toc-summary-comparison-of-feature-selection-methods" class="nav-link" data-scroll-target="#summary-comparison-of-feature-selection-methods"><span class="header-section-number">15.5</span> Summary: Comparison of Feature Selection Methods</a>
   <ul>
-  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">15.5.1</span> Reference:</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways"><span class="header-section-number">15.5.1</span> Key Takeaways</a></li>
+  <li><a href="#when-to-use-each-method" id="toc-when-to-use-each-method" class="nav-link" data-scroll-target="#when-to-use-each-method"><span class="header-section-number">15.5.2</span> When to Use Each Method</a></li>
+  <li><a href="#connection-to-other-concepts" id="toc-connection-to-other-concepts" class="nav-link" data-scroll-target="#connection-to-other-concepts"><span class="header-section-number">15.5.3</span> Connection to Other Concepts</a></li>
+  </ul></li>
+  <li><a href="#practical-decision-guide-choosing-the-right-feature-selection-method" id="toc-practical-decision-guide-choosing-the-right-feature-selection-method" class="nav-link" data-scroll-target="#practical-decision-guide-choosing-the-right-feature-selection-method"><span class="header-section-number">15.6</span> Practical Decision Guide: Choosing the Right Feature Selection Method</a>
+  <ul>
+  <li><a href="#decision-flowchart" id="toc-decision-flowchart" class="nav-link" data-scroll-target="#decision-flowchart"><span class="header-section-number">15.6.1</span> Decision Flowchart</a></li>
+  <li><a href="#quick-reference-table" id="toc-quick-reference-table" class="nav-link" data-scroll-target="#quick-reference-table"><span class="header-section-number">15.6.2</span> Quick Reference Table</a></li>
+  <li><a href="#example-workflow" id="toc-example-workflow" class="nav-link" data-scroll-target="#example-workflow"><span class="header-section-number">15.6.3</span> Example Workflow</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference"><span class="header-section-number">15.6.4</span> Reference:</a></li>
+  </ul></li>
+  <li><a href="#independent-study" id="toc-independent-study" class="nav-link" data-scroll-target="#independent-study"><span class="header-section-number">15.7</span> Independent Study</a>
+  <ul>
+  <li><a href="#exercise-1-predict-income-instead-of-balance" id="toc-exercise-1-predict-income-instead-of-balance" class="nav-link" data-scroll-target="#exercise-1-predict-income-instead-of-balance"><span class="header-section-number">15.7.1</span> Exercise 1: Predict Income Instead of Balance</a></li>
+  <li><a href="#exercise-2-feature-selection-for-overfitting-prevention" id="toc-exercise-2-feature-selection-for-overfitting-prevention" class="nav-link" data-scroll-target="#exercise-2-feature-selection-for-overfitting-prevention"><span class="header-section-number">15.7.2</span> Exercise 2: Feature Selection for Overfitting Prevention</a></li>
+  <li><a href="#try-it-yourself" id="toc-try-it-yourself" class="nav-link" data-scroll-target="#try-it-yourself"><span class="header-section-number">15.7.3</span> Try it yourself!</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -360,7 +375,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Improves model interpretability</li>
 <li>Enhances generalization by reducing overfitting</li>
 </ul>
-<div id="08833884" class="cell" data-execution_count="14">
+<div id="08833884" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -439,7 +454,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<div id="43c46713" class="cell" data-execution_count="16">
+<div id="43c46713" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> VarianceThreshold, SelectKBest, f_regression</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -479,7 +494,13 @@ Selected features: ['Income', 'Limit', 'Rating', 'Cards', 'Age', 'Education', 'G
 Number of features reduced from 15 to 13</code></pre>
 </div>
 </div>
-<div id="b228e558" class="cell">
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>Variance Threshold</strong> removes features with low variability (i.e., features that don’t change much). In this dataset, categorical features encoded as binary (0/1) may have low variance if the distribution is heavily skewed.</li>
+<li>Features with very low variance typically don’t contribute much information for prediction, so removing them helps reduce dimensionality without losing predictive power.</li>
+<li>This method is fast and simple but doesn’t consider the relationship with the target variable.</li>
+</ul>
+<div id="b228e558" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Correlation-based Feature Removal</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> remove_highly_correlated_features(X, threshold<span class="op">=</span><span class="fl">0.8</span>):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute the correlation matrix</span></span>
@@ -523,7 +544,7 @@ Number of features reduced from 15 to 11</code></pre>
 </div>
 </div>
 </div>
-<div id="4cf936c0" class="cell" data-execution_count="6">
+<div id="4cf936c0" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Correlation-based Feature Selection (with target)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> correlation_with_target_selection(X, y, threshold<span class="op">=</span><span class="fl">0.2</span>):</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate correlation with target</span></span>
@@ -547,7 +568,14 @@ Selected features: ['Income', 'Limit', 'Rating', 'Student_No', 'Student_Yes']
 Number of features reduced from 15 to 5</code></pre>
 </div>
 </div>
-<div id="afa62a92" class="cell" data-execution_count="7">
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>Correlation with Target</strong> identifies features that have a strong linear relationship with the outcome variable (Balance).</li>
+<li>Features like <code>Rating</code>, <code>Limit</code>, and <code>Income</code> likely show strong positive correlations because they logically relate to credit balance.</li>
+<li>This method is effective for linear models but may miss non-linear relationships.</li>
+<li>The threshold of 0.2 is arbitrary - you may want to experiment with different values based on your domain knowledge.</li>
+</ul>
+<div id="afa62a92" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate correlations with target</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>correlations <span class="op">=</span> X_encoded.<span class="bu">apply</span>(<span class="kw">lambda</span> col: col.corr(y))</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -593,7 +621,7 @@ Age: 0.0018351188590736563</code></pre>
 </div>
 </div>
 </div>
-<div id="86542c5b" class="cell" data-execution_count="8">
+<div id="86542c5b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. SelectKBest Feature Selection</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> select_k_best_features(X, y, k<span class="op">=</span><span class="dv">5</span>):</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a SelectKBest selector</span></span>
@@ -656,7 +684,7 @@ Number of features reduced from 15 to 5</code></pre>
 <li>Repeat steps 2-4 recursively until reaching the desired number of features.</li>
 <li>Return the best subset of features.</li>
 </ul>
-<div id="ca7ce881" class="cell" data-execution_count="17">
+<div id="ca7ce881" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_breast_cancer</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> RFE</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
@@ -685,7 +713,7 @@ Number of features reduced from 15 to 5</code></pre>
 <section id="recursive-feature-elimination-with-cross-validation-rfecv" class="level3" data-number="15.2.3">
 <h3 data-number="15.2.3" class="anchored" data-anchor-id="recursive-feature-elimination-with-cross-validation-rfecv"><span class="header-section-number">15.2.3</span> Recursive Feature Elimination with Cross-Validation (RFECV)</h3>
 <p>RFECV is an extension of Recursive Feature Elimination (RFE) that automatically selects the optimal number of features using cross-validation.</p>
-<div id="8cfd8dd0" class="cell" data-execution_count="18">
+<div id="8cfd8dd0" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> RFECV</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> StratifiedKFold</span>
@@ -753,8 +781,12 @@ Selected features using RFECV: ['mean radius', 'mean texture', 'mean perimeter',
 <section id="sequential-feature-selection" class="level3" data-number="15.2.4">
 <h3 data-number="15.2.4" class="anchored" data-anchor-id="sequential-feature-selection"><span class="header-section-number">15.2.4</span> Sequential Feature Selection</h3>
 <p>SFS iteratively selects the most relevant features by <strong>adding them one at a time (forward selection)</strong> or <strong>removing them one at a time (backward elimination)</strong> while evaluating model performance at each step.</p>
-<p>The selection strategy is controlled using: - <code>direction='forward'</code> for <strong>feature addition</strong> - <code>direction='backward'</code> for <strong>feature removal</strong></p>
-<div id="d7512f9d" class="cell" data-execution_count="21">
+<p>The selection strategy is controlled using:</p>
+<ul>
+<li><code>direction='forward'</code> for <strong>feature addition</strong></li>
+<li><code>direction='backward'</code> for <strong>feature removal</strong></li>
+</ul>
+<div id="d7512f9d" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.feature_selection <span class="im">import</span> SequentialFeatureSelector</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
@@ -774,7 +806,7 @@ Selected features using RFECV: ['mean radius', 'mean texture', 'mean perimeter',
 </div>
 </div>
 <p>Let’s use them on the <em>credit</em> dataset</p>
-<div id="b20ad44f" class="cell" data-execution_count="22">
+<div id="b20ad44f" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Credit.csv'</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
@@ -943,6 +975,15 @@ Mean Squared Error: 9953.4559
 R2 Score: 0.9404</code></pre>
 </div>
 </div>
+<p><strong>Interpretation:</strong></p>
+<p>Comparing the two wrapper methods (RFECV and Sequential Feature Selection):</p>
+<ul>
+<li><strong>RFECV</strong> recursively eliminates the least important features based on model coefficients/importances, while <strong>Sequential Selection</strong> adds or removes features one at a time based on cross-validation scores.</li>
+<li>Both methods are computationally expensive because they train multiple models.</li>
+<li>Random Forest typically identifies more features as important compared to Linear Regression, which tends to be more selective.</li>
+<li>The selected features should be validated on the test set to ensure they generalize well.</li>
+</ul>
+<p><strong>Key Insight:</strong> Different models may select different feature subsets because they capture different patterns in the data. Random Forest can capture non-linear relationships, while Linear Regression focuses on linear relationships.</p>
 </section>
 </section>
 <section id="embeded-methods" class="level2" data-number="15.3">
@@ -966,89 +1007,306 @@ R2 Score: 0.9404</code></pre>
 <img src="./Datasets/embeded.png" width="700" height="300">
 </div>
 </div>
-<div id="0c0de84b" class="cell" data-execution_count="24">
+<div id="0c0de84b" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LassoCV, ElasticNetCV</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestRegressor</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Credit.csv'</span>).drop(columns<span class="op">=</span>df.columns[<span class="dv">0</span>])  <span class="co"># Drop index column</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Credit.csv'</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean categorical variables (trim whitespace)</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>categorical_cols <span class="op">=</span> [<span class="st">'Gender'</span>, <span class="st">'Student'</span>, <span class="st">'Married'</span>, <span class="st">'Ethnicity'</span>]</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> categorical_cols:</span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    df[col] <span class="op">=</span> df[col].<span class="bu">str</span>.strip()</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert categorical variables to dummy variables</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.get_dummies(df, columns<span class="op">=</span>categorical_cols, drop_first<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate features and target</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'Balance'</span>])</span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'Balance'</span>]</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into train/test sets</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate features and target</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df.drop(columns<span class="op">=</span>[<span class="st">'Balance'</span>])</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'Balance'</span>]</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert categorical variables to dummy variables</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>X_encoded <span class="op">=</span> pd.get_dummies(X, columns<span class="op">=</span>[<span class="st">'Gender'</span>, <span class="st">'Student'</span>, <span class="st">'Married'</span>, <span class="st">'Ethnicity'</span>], drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into train/test sets</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X_encoded, y, test_size<span class="op">=</span><span class="fl">0.3</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize features for regularization methods</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>X_train_scaled <span class="op">=</span> scaler.fit_transform(X_train)</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>X_test_scaled <span class="op">=</span> scaler.transform(X_test)</span>
 <span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize features for Lasso</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>X_train_scaled <span class="op">=</span> scaler.fit_transform(X_train)</span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>X_test_scaled <span class="op">=</span> scaler.transform(X_test)</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasso Regression for feature selection</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>lasso <span class="op">=</span> LassoCV(cv<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>lasso.fit(X_train_scaled, y_train)</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Get non-zero Lasso coefficients</span></span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>lasso_feat <span class="op">=</span> pd.Series(lasso.coef_, index<span class="op">=</span>X.columns)</span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>selected_lasso <span class="op">=</span> lasso_feat[lasso_feat <span class="op">!=</span> <span class="dv">0</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Random Forest for feature importance</span></span>
-<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
-<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>rf.fit(X_train, y_train)</span>
-<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Get feature importances</span></span>
-<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>rf_feat <span class="op">=</span> pd.Series(rf.feature_importances_, index<span class="op">=</span>X.columns)</span>
-<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>selected_rf <span class="op">=</span> rf_feat.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
-<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Lasso Selected Features (Non-Zero Coefficients):</span><span class="ch">\n</span><span class="st">"</span>, selected_lasso)</span>
-<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Random Forest Feature Importances:</span><span class="ch">\n</span><span class="st">"</span>, selected_rf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Lasso Regression for feature selection</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>lasso <span class="op">=</span> LassoCV(cv<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>lasso.fit(X_train_scaled, y_train)</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Get non-zero Lasso coefficients</span></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>lasso_coef <span class="op">=</span> pd.Series(lasso.coef_, index<span class="op">=</span>X_encoded.columns)</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>selected_lasso <span class="op">=</span> lasso_coef[lasso_coef <span class="op">!=</span> <span class="dv">0</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>, key<span class="op">=</span><span class="bu">abs</span>)</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. ElasticNet for feature selection</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>elasticnet <span class="op">=</span> ElasticNetCV(cv<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">42</span>, l1_ratio<span class="op">=</span>[<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.7</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>])</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>elasticnet.fit(X_train_scaled, y_train)</span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Get non-zero ElasticNet coefficients</span></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>elastic_coef <span class="op">=</span> pd.Series(elasticnet.coef_, index<span class="op">=</span>X_encoded.columns)</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>selected_elastic <span class="op">=</span> elastic_coef[elastic_coef <span class="op">!=</span> <span class="dv">0</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>, key<span class="op">=</span><span class="bu">abs</span>)</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Random Forest for feature importance</span></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>rf.fit(X_train, y_train)</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Get feature importances</span></span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>rf_importance <span class="op">=</span> pd.Series(rf.feature_importances_, index<span class="op">=</span>X_encoded.columns)</span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a>selected_rf <span class="op">=</span> rf_importance.sort_values(ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Display results</span></span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"LASSO REGRESSION - Selected Features (Non-Zero Coefficients):"</span>)</span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(selected_lasso)</span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Number of features selected: </span><span class="sc">{</span><span class="bu">len</span>(selected_lasso)<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="bu">len</span>(X_encoded.columns)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Optimal alpha: </span><span class="sc">{</span>lasso<span class="sc">.</span>alpha_<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"ELASTICNET - Selected Features (Non-Zero Coefficients):"</span>)</span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(selected_elastic)</span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Number of features selected: </span><span class="sc">{</span><span class="bu">len</span>(selected_elastic)<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="bu">len</span>(X_encoded.columns)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Optimal alpha: </span><span class="sc">{</span>elasticnet<span class="sc">.</span>alpha_<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Optimal l1_ratio: </span><span class="sc">{</span>elasticnet<span class="sc">.</span>l1_ratio_<span class="sc">:.4f}</span><span class="ss">"</span>)</span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-63"><a href="#cb20-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span> <span class="op">+</span> <span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb20-64"><a href="#cb20-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"RANDOM FOREST - Top 10 Feature Importances:"</span>)</span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">70</span>)</span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(selected_rf.head(<span class="dv">10</span>))</span>
+<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize comparison</span></span>
+<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">18</span>, <span class="dv">6</span>))</span>
+<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasso</span></span>
+<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].barh(<span class="bu">range</span>(<span class="bu">len</span>(selected_lasso)), selected_lasso.values, color<span class="op">=</span><span class="st">'steelblue'</span>)</span>
+<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(selected_lasso)))</span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_yticklabels(selected_lasso.index)</span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_xlabel(<span class="st">'Coefficient Value'</span>)</span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="ss">f'Lasso: </span><span class="sc">{</span><span class="bu">len</span>(selected_lasso)<span class="sc">}</span><span class="ss"> Features Selected'</span>)</span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].invert_yaxis()</span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-79"><a href="#cb20-79" aria-hidden="true" tabindex="-1"></a><span class="co"># ElasticNet</span></span>
+<span id="cb20-80"><a href="#cb20-80" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].barh(<span class="bu">range</span>(<span class="bu">len</span>(selected_elastic)), selected_elastic.values, color<span class="op">=</span><span class="st">'coral'</span>)</span>
+<span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(selected_elastic)))</span>
+<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_yticklabels(selected_elastic.index)</span>
+<span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_xlabel(<span class="st">'Coefficient Value'</span>)</span>
+<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="ss">f'ElasticNet: </span><span class="sc">{</span><span class="bu">len</span>(selected_elastic)<span class="sc">}</span><span class="ss"> Features Selected'</span>)</span>
+<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].invert_yaxis()</span>
+<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Random Forest - top 10</span></span>
+<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a>top_10_rf <span class="op">=</span> selected_rf.head(<span class="dv">10</span>)</span>
+<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].barh(<span class="bu">range</span>(<span class="bu">len</span>(top_10_rf)), top_10_rf.values, color<span class="op">=</span><span class="st">'forestgreen'</span>)</span>
+<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_yticks(<span class="bu">range</span>(<span class="bu">len</span>(top_10_rf)))</span>
+<span id="cb20-91"><a href="#cb20-91" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_yticklabels(top_10_rf.index)</span>
+<span id="cb20-92"><a href="#cb20-92" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_xlabel(<span class="st">'Feature Importance'</span>)</span>
+<span id="cb20-93"><a href="#cb20-93" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].set_title(<span class="st">'Random Forest: Top 10 Features'</span>)</span>
+<span id="cb20-94"><a href="#cb20-94" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">2</span>].invert_yaxis()</span>
+<span id="cb20-95"><a href="#cb20-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Lasso Selected Features (Non-Zero Coefficients):
- Limit                  408.156450
-Student_Yes            106.371166
-Cards                   36.834149
-Ethnicity_Caucasian      6.009746
-Gender_Male             -0.254150
-Age                    -28.253276
+<pre><code>======================================================================
+LASSO REGRESSION - Selected Features (Non-Zero Coefficients):
+======================================================================
+Limit                  532.731242
+Income                -258.325246
+Student_Yes            122.885534
+Rating                  86.612291
+Cards                   31.386426
+Gender_Female           -9.188396
+Age                     -8.997941
+Ethnicity_Caucasian      6.462056
+Ethnicity_Asian          4.481721
+Education               -0.573526
+Married_Yes             -0.018139
 dtype: float64
 
-Random Forest Feature Importances:
- Limit                  0.458433
-Rating                 0.418695
-Student_Yes            0.046555
-Age                    0.022970
-Unnamed: 0             0.018321
-Education              0.014302
-Cards                  0.010239
-Married_Yes            0.003657
-Gender_Male            0.002616
-Ethnicity_Caucasian    0.002256
-Ethnicity_Asian        0.001956
+Number of features selected: 11/11
+Optimal alpha: 0.4140
+
+======================================================================
+ELASTICNET - Selected Features (Non-Zero Coefficients):
+======================================================================
+Limit                  382.813025
+Income                -253.374930
+Rating                 231.646402
+Student_Yes            121.677619
+Cards                   24.963268
+Age                     -9.383598
+Gender_Female           -8.848149
+Ethnicity_Caucasian      7.329853
+Ethnicity_Asian          5.612759
+Married_Yes             -1.164943
+Education               -0.024881
+dtype: float64
+
+Number of features selected: 11/11
+Optimal alpha: 0.4182
+Optimal l1_ratio: 0.9900
+
+======================================================================
+RANDOM FOREST - Top 10 Feature Importances:
+======================================================================
+Limit                  0.452078
+Rating                 0.413117
+Income                 0.069250
+Student_Yes            0.041498
+Age                    0.008291
+Education              0.005987
+Cards                  0.004690
+Married_Yes            0.002779
+Ethnicity_Caucasian    0.001014
+Gender_Female          0.000834
 dtype: float64</code></pre>
 </div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Feature Selection_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation:</strong></p>
+<p><strong>Lasso (L1 Regularization):</strong></p>
+<ul>
+<li>Lasso automatically performs feature selection by shrinking less important coefficients to exactly zero.</li>
+<li>Features with non-zero coefficients are considered important. The magnitude indicates relative importance.</li>
+<li>Lasso is particularly useful when you suspect many features are irrelevant or when you want a sparse model.</li>
+<li><strong>Best for:</strong> Situations where you believe only a small subset of features is truly relevant.</li>
+</ul>
+<p><strong>ElasticNet (L1 + L2 Regularization):</strong></p>
+<ul>
+<li>Combines Lasso (L1) and Ridge (L2) regularization.</li>
+<li>The <code>l1_ratio</code> parameter controls the mix: 1.0 = pure Lasso, 0.0 = pure Ridge.</li>
+<li>Often selects more features than Lasso because the L2 component prevents aggressive shrinkage.</li>
+<li><strong>Best for:</strong> Situations with correlated features where Lasso might arbitrarily select one and drop others.</li>
+</ul>
+<p><strong>Random Forest Feature Importance:</strong></p>
+<ul>
+<li>Based on how much each feature decreases impurity (variance for regression) across all trees in the forest.</li>
+<li>Can capture non-linear relationships and feature interactions.</li>
+<li>All features get importance scores (none are exactly zero), but low scores indicate less importance.</li>
+<li><strong>Best for:</strong> Understanding which features contribute most to prediction, including non-linear effects.</li>
+</ul>
+<p><strong>Key Difference:</strong></p>
+<ul>
+<li><strong>Lasso/ElasticNet</strong> provide automatic feature elimination (coefficients = 0) and work best with linear relationships.</li>
+<li><strong>Random Forest</strong> ranks all features and captures non-linear patterns but requires manual thresholding.</li>
+<li><strong>ElasticNet</strong> is more stable than Lasso when features are correlated.</li>
+</ul>
+<p><strong>Connection to Regularization:</strong> These methods directly tie to the <strong>regularization</strong> concepts you learned earlier. The alpha parameter controls the strength of regularization, which in turn controls how many features get eliminated (Lasso/ElasticNet) or how much they’re penalized (Ridge/Random Forest).</p>
+</section>
+</section>
+<section id="computational-cost-and-runtime-comparison" class="level2" data-number="15.4">
+<h2 data-number="15.4" class="anchored" data-anchor-id="computational-cost-and-runtime-comparison"><span class="header-section-number">15.4</span> Computational Cost and Runtime Comparison</h2>
+<p>Understanding the computational complexity of each method helps you choose the right approach for your dataset size.</p>
+<div id="26cbff45" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'./Datasets/Credit.csv'</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> df.drop(<span class="st">'Balance'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> df[<span class="st">'Balance'</span>]</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>X_encoded <span class="op">=</span> pd.get_dummies(X, columns<span class="op">=</span>[<span class="st">'Gender'</span>, <span class="st">'Student'</span>, <span class="st">'Married'</span>, <span class="st">'Ethnicity'</span>])</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X_encoded, y, test_size<span class="op">=</span><span class="fl">0.2</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize for methods that need it</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>X_train_scaled <span class="op">=</span> scaler.fit_transform(X_train)</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>X_test_scaled <span class="op">=</span> scaler.transform(X_test)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>runtime_results <span class="op">=</span> {}</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Filter Method: Correlation with Target</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>correlations <span class="op">=</span> X_train.<span class="bu">apply</span>(<span class="kw">lambda</span> col: col.corr(y_train))</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>selected_features <span class="op">=</span> correlations[<span class="bu">abs</span>(correlations) <span class="op">&gt;=</span> <span class="fl">0.2</span>].index</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>runtime_results[<span class="st">'Filter (Correlation)'</span>] <span class="op">=</span> time.time() <span class="op">-</span> start</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Filter Method: SelectKBest</span></span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>selector <span class="op">=</span> SelectKBest(score_func<span class="op">=</span>f_regression, k<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>selector.fit(X_train, y_train)</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>runtime_results[<span class="st">'Filter (SelectKBest)'</span>] <span class="op">=</span> time.time() <span class="op">-</span> start</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Wrapper Method: RFECV with Linear Regression</span></span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>rfecv <span class="op">=</span> RFECV(estimator<span class="op">=</span>LinearRegression(), step<span class="op">=</span><span class="dv">1</span>, cv<span class="op">=</span><span class="dv">5</span>, scoring<span class="op">=</span><span class="st">'neg_mean_squared_error'</span>)</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>rfecv.fit(X_train, y_train)</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a>runtime_results[<span class="st">'Wrapper (RFECV-LR)'</span>] <span class="op">=</span> time.time() <span class="op">-</span> start</span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Embedded Method: Lasso</span></span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>lasso <span class="op">=</span> LassoCV(cv<span class="op">=</span><span class="dv">5</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a>lasso.fit(X_train_scaled, y_train)</span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>runtime_results[<span class="st">'Embedded (LassoCV)'</span>] <span class="op">=</span> time.time() <span class="op">-</span> start</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Embedded Method: Random Forest</span></span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a>start <span class="op">=</span> time.time()</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a>rf <span class="op">=</span> RandomForestRegressor(n_estimators<span class="op">=</span><span class="dv">100</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a>rf.fit(X_train, y_train)</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a>runtime_results[<span class="st">'Embedded (RF)'</span>] <span class="op">=</span> time.time() <span class="op">-</span> start</span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Create comparison DataFrame</span></span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a>runtime_df <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Method'</span>: <span class="bu">list</span>(runtime_results.keys()),</span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Runtime (seconds)'</span>: <span class="bu">list</span>(runtime_results.values())</span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>}).sort_values(<span class="st">'Runtime (seconds)'</span>)</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Runtime Comparison:"</span>)</span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(runtime_df.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize</span></span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a>plt.barh(runtime_df[<span class="st">'Method'</span>], runtime_df[<span class="st">'Runtime (seconds)'</span>], color<span class="op">=</span><span class="st">'skyblue'</span>)</span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Runtime (seconds)'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Computational Cost Comparison of Feature Selection Methods'</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">📊 Key Insights:"</span>)</span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"• Filter methods are fastest (milliseconds) - ideal for large datasets"</span>)</span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"• Wrapper methods are slowest (seconds to minutes) - best for small datasets where accuracy is critical"</span>)</span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"• Embedded methods are moderate - Lasso took </span><span class="sc">{</span>runtime_results[<span class="st">'Embedded (LassoCV)'</span>]<span class="sc">:.3f}</span><span class="ss">s vs RFECV took </span><span class="sc">{</span>runtime_results[<span class="st">'Wrapper (RFECV-LR)'</span>]<span class="sc">:.3f}</span><span class="ss">s"</span>)</span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"• For datasets with &gt;1000 features, strongly prefer Filter or Embedded methods"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Runtime Comparison:
+              Method  Runtime (seconds)
+Filter (SelectKBest)           0.002002
+Filter (Correlation)           0.003009
+  Wrapper (RFECV-LR)           0.086009
+  Embedded (LassoCV)           0.086807
+       Embedded (RF)           0.170235</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Feature Selection_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+📊 Key Insights:
+• Filter methods are fastest (milliseconds) - ideal for large datasets
+• Wrapper methods are slowest (seconds to minutes) - best for small datasets where accuracy is critical
+• Embedded methods are moderate - Lasso took 0.087s vs RFECV took 0.086s
+• For datasets with &gt;1000 features, strongly prefer Filter or Embedded methods</code></pre>
+</div>
 </div>
 </section>
-</section>
-<section id="comparison-of-feature-selection-methods" class="level2" data-number="15.4">
-<h2 data-number="15.4" class="anchored" data-anchor-id="comparison-of-feature-selection-methods"><span class="header-section-number">15.4</span> Comparison of Feature Selection Methods</h2>
+<section id="summary-comparison-of-feature-selection-methods" class="level2" data-number="15.5">
+<h2 data-number="15.5" class="anchored" data-anchor-id="summary-comparison-of-feature-selection-methods"><span class="header-section-number">15.5</span> Summary: Comparison of Feature Selection Methods</h2>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 24%">
 <col style="width: 17%">
-<col style="width: 20%">
-<col style="width: 28%">
-<col style="width: 19%">
+<col style="width: 13%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1057,6 +1315,7 @@ dtype: float64</code></pre>
 <th>Computational Cost</th>
 <th>Handles Feature Interactions</th>
 <th>Risk of Overfitting</th>
+<th>Best Use Case</th>
 </tr>
 </thead>
 <tbody>
@@ -1066,6 +1325,7 @@ dtype: float64</code></pre>
 <td>Low</td>
 <td>No</td>
 <td>Low</td>
+<td>Large datasets, quick exploration</td>
 </tr>
 <tr class="even">
 <td><strong>Wrapper</strong></td>
@@ -1073,32 +1333,280 @@ dtype: float64</code></pre>
 <td>High</td>
 <td>Yes</td>
 <td>High</td>
+<td>Small datasets, accuracy-critical applications</td>
 </tr>
 <tr class="odd">
 <td><strong>Embedded</strong></td>
 <td>Yes</td>
 <td>Medium</td>
-<td>Yes</td>
+<td>Yes (RF/trees)</td>
 <td>Medium</td>
+<td>Balance of speed and accuracy, production models</td>
+</tr>
+</tbody>
+</table>
+<section id="key-takeaways" class="level3" data-number="15.5.1">
+<h3 data-number="15.5.1" class="anchored" data-anchor-id="key-takeaways"><span class="header-section-number">15.5.1</span> Key Takeaways</h3>
+<p><strong>Filter Methods:</strong></p>
+<ul>
+<li>✅ Fast and scalable to large datasets</li>
+<li>✅ Good for initial feature screening</li>
+<li>❌ Don’t consider feature interactions</li>
+<li>❌ Independent of the final model used</li>
+</ul>
+<p><strong>Wrapper Methods:</strong></p>
+<ul>
+<li>✅ Consider feature interactions</li>
+<li>✅ Optimize for specific model performance</li>
+<li>❌ Computationally expensive</li>
+<li>❌ Risk of overfitting to training data</li>
+</ul>
+<p><strong>Embedded Methods:</strong></p>
+<ul>
+<li>✅ Balance speed and accuracy</li>
+<li>✅ Feature selection integrated with model training</li>
+<li>✅ Less prone to overfitting than wrapper methods</li>
+<li>✅ Lasso/ElasticNet particularly effective for linear models</li>
+</ul>
+</section>
+<section id="when-to-use-each-method" class="level3" data-number="15.5.2">
+<h3 data-number="15.5.2" class="anchored" data-anchor-id="when-to-use-each-method"><span class="header-section-number">15.5.2</span> When to Use Each Method</h3>
+<ul>
+<li><strong>Use Filter methods</strong> when:
+<ul>
+<li>Working with large datasets (&gt;1000 features)</li>
+<li>Speed is a priority</li>
+<li>Doing initial exploratory analysis</li>
+<li>Need to quickly reduce dimensionality before applying more sophisticated methods</li>
+</ul></li>
+<li><strong>Use Wrapper methods</strong> when:
+<ul>
+<li>Working with small to medium datasets (&lt;100 features)</li>
+<li>Model accuracy is paramount</li>
+<li>Computational resources and time are available</li>
+<li>Want to optimize feature set for a specific model</li>
+</ul></li>
+<li><strong>Use Embedded methods</strong> when:
+<ul>
+<li>Need balance between speed and accuracy</li>
+<li>Building production models (especially with regularization)</li>
+<li>Using linear models (Lasso/ElasticNet) or tree-based models (Random Forest/XGBoost)</li>
+<li>Want feature selection that generalizes well</li>
+</ul></li>
+</ul>
+</section>
+<section id="connection-to-other-concepts" class="level3" data-number="15.5.3">
+<h3 data-number="15.5.3" class="anchored" data-anchor-id="connection-to-other-concepts"><span class="header-section-number">15.5.3</span> Connection to Other Concepts</h3>
+<p>Feature selection relates to several machine learning concepts you’ve learned:</p>
+<ol type="1">
+<li><strong>Regularization (Lasso/Ridge/ElasticNet):</strong> Feature selection is a direct benefit of L1 regularization</li>
+<li><strong>Overfitting Prevention:</strong> Removing irrelevant features reduces model complexity and overfitting risk</li>
+<li><strong>Cross-Validation:</strong> Many methods (LassoCV, RFECV) use CV to select robust feature subsets</li>
+<li><strong>Multicollinearity:</strong> Feature selection can address multicollinearity by removing redundant features</li>
+<li><strong>Bias-Variance Trade-off:</strong> Feature selection reduces variance at the potential cost of slight bias increase</li>
+</ol>
+<p>By understanding these techniques, you can make better decisions when selecting features for machine learning models and build more efficient, interpretable, and performant models!</p>
+</section>
+</section>
+<section id="practical-decision-guide-choosing-the-right-feature-selection-method" class="level2" data-number="15.6">
+<h2 data-number="15.6" class="anchored" data-anchor-id="practical-decision-guide-choosing-the-right-feature-selection-method"><span class="header-section-number">15.6</span> Practical Decision Guide: Choosing the Right Feature Selection Method</h2>
+<p>Use this decision guide to select the most appropriate feature selection method for your specific scenario:</p>
+<section id="decision-flowchart" class="level3" data-number="15.6.1">
+<h3 data-number="15.6.1" class="anchored" data-anchor-id="decision-flowchart"><span class="header-section-number">15.6.1</span> Decision Flowchart</h3>
+<p><strong>START HERE:</strong></p>
+<ol type="1">
+<li><p><strong>How many features do you have?</strong></p>
+<ul>
+<li><strong>&lt; 20 features:</strong> Consider using all features or Wrapper methods (RFECV, Sequential Selection)</li>
+<li><strong>20-100 features:</strong> Use Embedded methods (Lasso, ElasticNet, Random Forest) or Filter methods</li>
+<li><strong>&gt; 100 features:</strong> Start with Filter methods, then refine with Embedded methods</li>
+<li><strong>&gt; 1000 features:</strong> Strongly prefer Filter methods for initial screening</li>
+</ul></li>
+<li><p><strong>What’s more important: Speed or Accuracy?</strong></p>
+<ul>
+<li><strong>Speed is critical:</strong> Use Filter methods (Correlation, Variance Threshold, SelectKBest)</li>
+<li><strong>Accuracy is critical:</strong> Use Wrapper methods (RFECV, Sequential Selection)</li>
+<li><strong>Balance both:</strong> Use Embedded methods (Lasso, ElasticNet, Random Forest)</li>
+</ul></li>
+<li><p><strong>What type of model are you using?</strong></p>
+<ul>
+<li><strong>Linear models (Linear/Logistic Regression):</strong> Lasso, ElasticNet, or Filter methods</li>
+<li><strong>Tree-based models (Random Forest, XGBoost):</strong> Built-in feature importance or RFECV</li>
+<li><strong>Any model:</strong> RFECV or Sequential Feature Selection (universal)</li>
+</ul></li>
+<li><p><strong>Do you have multicollinearity (correlated features)?</strong></p>
+<ul>
+<li><strong>Yes, highly correlated features:</strong> ElasticNet (handles correlations better) or remove correlated pairs using Filter</li>
+<li><strong>No significant correlation:</strong> Lasso or any method</li>
+</ul></li>
+<li><p><strong>Do you need model interpretability?</strong></p>
+<ul>
+<li><strong>Yes, need to explain:</strong> Lasso/ElasticNet (sparse coefficients) or Filter methods</li>
+<li><strong>No, just prediction:</strong> Random Forest or any high-performing method</li>
+</ul></li>
+</ol>
+</section>
+<section id="quick-reference-table" class="level3" data-number="15.6.2">
+<h3 data-number="15.6.2" class="anchored" data-anchor-id="quick-reference-table"><span class="header-section-number">15.6.2</span> Quick Reference Table</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 54%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scenario</th>
+<th>Recommended Method</th>
+<th>Why?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Large dataset (&gt;1000 features)</td>
+<td><strong>Filter Methods</strong></td>
+<td>Fast, scales well</td>
+</tr>
+<tr class="even">
+<td>Small dataset (&lt;100 samples)</td>
+<td><strong>Embedded Methods</strong></td>
+<td>Less prone to overfitting than Wrapper</td>
+</tr>
+<tr class="odd">
+<td>Need fast results</td>
+<td><strong>Correlation Filter, Variance Threshold</strong></td>
+<td>Minimal computation</td>
+</tr>
+<tr class="even">
+<td>Need best accuracy, time not a concern</td>
+<td><strong>RFECV or Sequential Selection</strong></td>
+<td>Optimizes for specific model</td>
+</tr>
+<tr class="odd">
+<td>Using linear model</td>
+<td><strong>LassoCV or ElasticNetCV</strong></td>
+<td>Built-in regularization + selection</td>
+</tr>
+<tr class="even">
+<td>Using tree-based model</td>
+<td><strong>Feature Importance from RF/XGBoost</strong></td>
+<td>Native to the algorithm</td>
+</tr>
+<tr class="odd">
+<td>Correlated features</td>
+<td><strong>ElasticNet or Correlation Filter</strong></td>
+<td>Handles multicollinearity</td>
+</tr>
+<tr class="even">
+<td>Need interpretable results</td>
+<td><strong>Lasso or Filter Methods</strong></td>
+<td>Clear feature rankings/selections</td>
+</tr>
+<tr class="odd">
+<td>Prototyping/exploration</td>
+<td><strong>Filter Methods first, then Embedded</strong></td>
+<td>Quick iteration</td>
+</tr>
+<tr class="even">
+<td>Production model</td>
+<td><strong>RFECV or ElasticNetCV with CV</strong></td>
+<td>Robust, validated selection</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="conclusion" class="level2" data-number="15.5">
-<h2 data-number="15.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">15.5</span> Conclusion</h2>
-<ul>
-<li><strong>Use Filter methods</strong> when working with large datasets or when speed is a priority.</li>
-<li><strong>Use Wrapper methods</strong> when accuracy is more important and computational cost is not a major concern.</li>
-<li><strong>Use Embedded methods</strong> when leveraging models that inherently perform feature selection, such as Lasso regression or tree-based models.</li>
-</ul>
-<p>By understanding these techniques, you can make better decisions when selecting features for machine learning models. 🚀</p>
-<section id="reference" class="level3" data-number="15.5.1">
-<h3 data-number="15.5.1" class="anchored" data-anchor-id="reference"><span class="header-section-number">15.5.1</span> Reference:</h3>
+<section id="example-workflow" class="level3" data-number="15.6.3">
+<h3 data-number="15.6.3" class="anchored" data-anchor-id="example-workflow"><span class="header-section-number">15.6.3</span> Example Workflow</h3>
+<p>A recommended two-stage approach:</p>
+<pre><code>Stage 1 (Fast Screening): 
+   → Remove low-variance features
+   → Remove highly correlated features (keep one from each pair)
+   → Select top 50-100 features by correlation with target
+   
+Stage 2 (Refined Selection):
+   → Apply LassoCV or ElasticNetCV (for linear models)
+   → OR Apply RFECV (for any model, if time permits)
+   → Validate on hold-out test set</code></pre>
+<p>This approach combines the speed of Filter methods with the accuracy of Embedded/Wrapper methods.</p>
+</section>
+<section id="reference" class="level3" data-number="15.6.4">
+<h3 data-number="15.6.4" class="anchored" data-anchor-id="reference"><span class="header-section-number">15.6.4</span> Reference:</h3>
 <ul>
 <li><p>https://xavierbourretsicotte.github.io/subset_selection.html</p></li>
 <li><p>https://www.kaggle.com/code/prashant111/comprehensive-guide-on-feature-selection</p></li>
 <li><p>https://www.analyticsvidhya.com/blog/2016/12/introduction-to-feature-selection-methods-with-an-example-or-how-to-select-the-right-variables/</p></li>
 </ul>
+</section>
+</section>
+<section id="independent-study" class="level2" data-number="15.7">
+<h2 data-number="15.7" class="anchored" data-anchor-id="independent-study"><span class="header-section-number">15.7</span> Independent Study</h2>
+<p>Now it’s your turn! Practice applying different feature selection methods to predict a different target variable.</p>
+<section id="exercise-1-predict-income-instead-of-balance" class="level3" data-number="15.7.1">
+<h3 data-number="15.7.1" class="anchored" data-anchor-id="exercise-1-predict-income-instead-of-balance"><span class="header-section-number">15.7.1</span> Exercise 1: Predict Income Instead of Balance</h3>
+<p><strong>Task:</strong> Use the Credit dataset, but this time predict <code>Income</code> based on all other features (including <code>Balance</code>).</p>
+<p><strong>Instructions:</strong> 1. Prepare the data (encode categorical variables, split train/test) 2. Apply at least THREE different feature selection methods: - One Filter method (e.g., correlation with target) - One Wrapper method (e.g., RFECV) - One Embedded method (e.g., LassoCV or Random Forest) 3. Compare the selected features - do different methods agree? 4. Train a model using each feature subset and compare performance 5. Which method gave the best results? Which was fastest?</p>
+</section>
+<section id="exercise-2-feature-selection-for-overfitting-prevention" class="level3" data-number="15.7.2">
+<h3 data-number="15.7.2" class="anchored" data-anchor-id="exercise-2-feature-selection-for-overfitting-prevention"><span class="header-section-number">15.7.2</span> Exercise 2: Feature Selection for Overfitting Prevention</h3>
+<p><strong>Task:</strong> Generate a dataset with many irrelevant features and show how feature selection prevents overfitting.</p>
+<p><strong>Instructions:</strong></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data with many noise features</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_regression</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_regression(n_samples<span class="op">=</span><span class="dv">200</span>, n_features<span class="op">=</span><span class="dv">100</span>, </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                      n_informative<span class="op">=</span><span class="dv">10</span>,  <span class="co"># Only 10 useful features!</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                      noise<span class="op">=</span><span class="dv">20</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li>Split into train/test sets</li>
+<li>Train a model using ALL 100 features - observe train vs test performance</li>
+<li>Apply feature selection to identify the ~10 informative features</li>
+<li>Train a model using only selected features - compare train vs test performance</li>
+<li>Did feature selection help reduce overfitting?</li>
+</ol>
+</section>
+<section id="try-it-yourself" class="level3" data-number="15.7.3">
+<h3 data-number="15.7.3" class="anchored" data-anchor-id="try-it-yourself"><span class="header-section-number">15.7.3</span> Try it yourself!</h3>
+<div id="9393ab8e" class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exercise 1: Your code here</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict Income using different feature selection methods</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Load and prepare data</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Apply Filter Method</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Apply Wrapper Method</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Apply Embedded Method</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Compare results</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b75d2782" class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exercise 2: Your code here</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Show how feature selection prevents overfitting</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> make_regression</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error, r2_score</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Generate data with many noise features</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Train model with ALL features</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Apply feature selection</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 4: Train model with selected features only</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 5: Compare performance - did feature selection help?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>

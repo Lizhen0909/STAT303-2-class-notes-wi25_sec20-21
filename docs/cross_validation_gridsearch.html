@@ -299,10 +299,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-from-manual-loops-to-automated-search" id="toc-introduction-from-manual-loops-to-automated-search" class="nav-link active" data-scroll-target="#introduction-from-manual-loops-to-automated-search"><span class="header-section-number">13.1</span> Introduction: From Manual Loops to Automated Search</a>
-  <ul>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives"><span class="header-section-number">13.1.1</span> Learning Objectives</a></li>
-  </ul></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives"><span class="header-section-number">13.1</span> Learning Objectives</a></li>
   <li><a href="#preparing-the-data" id="toc-preparing-the-data" class="nav-link" data-scroll-target="#preparing-the-data"><span class="header-section-number">13.2</span> Preparing the Data</a></li>
   <li><a href="#gridsearchcv-automated-exhaustive-search" id="toc-gridsearchcv-automated-exhaustive-search" class="nav-link" data-scroll-target="#gridsearchcv-automated-exhaustive-search"><span class="header-section-number">13.3</span> GridSearchCV: Automated Exhaustive Search</a>
   <ul>
@@ -362,8 +359,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction-from-manual-loops-to-automated-search" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="introduction-from-manual-loops-to-automated-search"><span class="header-section-number">13.1</span> Introduction: From Manual Loops to Automated Search</h2>
+<p><img src="Datasets/hyperparameter_search.png" alt="Ridge vs RidgeCV" width="60%"></p>
 <p>In the previous notebook on <strong>Cross-Validation Fundamentals</strong>, we learned how to use <code>cross_val_score</code> to evaluate different polynomial degrees by writing a manual loop:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> degree <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">11</span>):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> make_pipeline(PolynomialFeatures(degree), LinearRegression())</span>
@@ -377,8 +373,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Difficult to parallelize</strong> efficiently</li>
 </ul>
 <p>In this notebook, we’ll learn <strong>automated hyperparameter tuning</strong> techniques that make this process much more efficient and scalable.</p>
-<section id="learning-objectives" class="level3" data-number="13.1.1">
-<h3 data-number="13.1.1" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">13.1.1</span> Learning Objectives</h3>
+<section id="learning-objectives" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">13.1</span> Learning Objectives</h2>
 <p>By the end of this notebook, you will be able to:</p>
 <ol type="1">
 <li>Use <code>GridSearchCV</code> to automate exhaustive hyperparameter search</li>
@@ -406,7 +402,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.pylab <span class="im">import</span> rcParams</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>rcParams[<span class="st">'figure.figsize'</span>] <span class="op">=</span> <span class="dv">5</span>, <span class="dv">4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
 </section>
 <section id="preparing-the-data" class="level2" data-number="13.2">
 <h2 data-number="13.2" class="anchored" data-anchor-id="preparing-the-data"><span class="header-section-number">13.2</span> Preparing the Data</h2>

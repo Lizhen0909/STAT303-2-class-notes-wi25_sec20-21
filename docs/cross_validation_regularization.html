@@ -296,10 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction-connecting-cross-validation-to-regularization" id="toc-introduction-connecting-cross-validation-to-regularization" class="nav-link active" data-scroll-target="#introduction-connecting-cross-validation-to-regularization"><span class="header-section-number">14.1</span> Introduction: Connecting Cross-Validation to Regularization</a>
-  <ul>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives"><span class="header-section-number">14.1.1</span> Learning Objectives</a></li>
-  </ul></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives"><span class="header-section-number">14.1</span> Learning Objectives</a></li>
   <li><a href="#setup-and-data-preparation" id="toc-setup-and-data-preparation" class="nav-link" data-scroll-target="#setup-and-data-preparation"><span class="header-section-number">14.2</span> Setup and Data Preparation</a>
   <ul>
   <li><a href="#generate-regression-data" id="toc-generate-regression-data" class="nav-link" data-scroll-target="#generate-regression-data"><span class="header-section-number">14.2.1</span> Generate Regression Data</a></li>
@@ -376,8 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction-connecting-cross-validation-to-regularization" class="level2" data-number="14.1">
-<h2 data-number="14.1" class="anchored" data-anchor-id="introduction-connecting-cross-validation-to-regularization"><span class="header-section-number">14.1</span> Introduction: Connecting Cross-Validation to Regularization</h2>
+<p><img src="Datasets/ridge_vs_ridgecv.png" alt="Ridge vs RidgeCV" width="50%"></p>
 <p>In the <strong>Regularization</strong> chapter, we learned about Ridge, Lasso, and Elastic Net regression and how the regularization strength (alpha) controls the trade-off between bias and variance. We saw that:</p>
 <ul>
 <li><strong>Small alpha</strong>: Less regularization → higher risk of overfitting</li>
@@ -385,13 +381,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Optimal alpha</strong>: Balances bias and variance for best generalization</li>
 </ul>
 <p>We observed the <em>impact</em> of different alpha values but didn’t learn <em>how to choose</em> the optimal alpha. That’s where cross-validation comes in.</p>
-<p>In the previous two notebooks, we learned: 1. <strong>Cross-Validation Fundamentals</strong>: Using <code>cross_val_score</code> to evaluate models 2. <strong>GridSearchCV</strong>: Automated hyperparameter tuning for any model</p>
+<p>In the previous two chapters, we learned:</p>
+<ol type="1">
+<li><strong>Cross-Validation Fundamentals</strong>: Using <code>cross_val_score</code> to evaluate models</li>
+<li><strong>GridSearchCV</strong>: Automated hyperparameter tuning for any model</li>
+</ol>
 <p>Now we’ll explore <strong>specialized tools</strong> designed specifically for tuning regularization parameters. These tools are more efficient than GridSearchCV for regularization problems.</p>
-<section id="learning-objectives" class="level3" data-number="14.1.1">
-<h3 data-number="14.1.1" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">14.1.1</span> Learning Objectives</h3>
-<p>By the end of this notebook, you will: 1. Understand why specialized CV tools exist for regularization 2. Use <strong>RidgeCV</strong> to efficiently tune Ridge regression 3. Use <strong>LassoCV</strong> to efficiently tune Lasso regression<br>
-4. Use <strong>ElasticNetCV</strong> to tune both alpha and l1_ratio for Elastic Net 5. Compare these specialized tools with GridSearchCV 6. Choose the right tool for different regularization scenarios</p>
-</section>
+<section id="learning-objectives" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="learning-objectives"><span class="header-section-number">14.1</span> Learning Objectives</h2>
+<p>By the end of this notebook, you will:</p>
+<ol type="1">
+<li>Understand why specialized CV tools exist for regularization</li>
+<li>Use <strong>RidgeCV</strong> to efficiently tune Ridge regression</li>
+<li>Use <strong>LassoCV</strong> to efficiently tune Lasso regression<br>
+</li>
+<li>Use <strong>ElasticNetCV</strong> to tune both alpha and l1_ratio for Elastic Net</li>
+<li>Compare these specialized tools with GridSearchCV</li>
+<li>Choose the right tool for different regularization scenarios</li>
+</ol>
 </section>
 <section id="setup-and-data-preparation" class="level2" data-number="14.2">
 <h2 data-number="14.2" class="anchored" data-anchor-id="setup-and-data-preparation"><span class="header-section-number">14.2</span> Setup and Data Preparation</h2>
@@ -723,7 +730,11 @@ Features with non-zero Ridge coefficients: 50</code></pre>
 </section>
 <section id="elasticnetcv-combining-l1-and-l2-regularization" class="level2" data-number="14.6">
 <h2 data-number="14.6" class="anchored" data-anchor-id="elasticnetcv-combining-l1-and-l2-regularization"><span class="header-section-number">14.6</span> ElasticNetCV: Combining L1 and L2 Regularization</h2>
-<p><code>ElasticNetCV</code> combines Ridge (L2) and Lasso (L1) regularization, controlled by two parameters: - <strong>alpha</strong>: Overall regularization strength - <strong>l1_ratio</strong>: Balance between L1 and L2 (0 = pure Ridge, 1 = pure Lasso)</p>
+<p><code>ElasticNetCV</code> combines Ridge (L2) and Lasso (L1) regularization, controlled by two parameters:</p>
+<ul>
+<li><strong>alpha</strong>: Overall regularization strength</li>
+<li><strong>l1_ratio</strong>: Balance between L1 and L2 (0 = pure Ridge, 1 = pure Lasso)</li>
+</ul>
 <section id="why-use-elastic-net" class="level3" data-number="14.6.1">
 <h3 data-number="14.6.1" class="anchored" data-anchor-id="why-use-elastic-net"><span class="header-section-number">14.6.1</span> Why Use Elastic Net?</h3>
 <p>✅ <strong>Best of both worlds</strong>: Feature selection (L1) + stability (L2)<br>
@@ -883,21 +894,68 @@ ElasticNetCV    0.268270      0.99  0.998851 0.998373 118.050176                
 <h2 data-number="14.7" class="anchored" data-anchor-id="when-to-use-each-tool-decision-guide"><span class="header-section-number">14.7</span> When to Use Each Tool: Decision Guide</h2>
 <section id="ridgecv" class="level3" data-number="14.7.1">
 <h3 data-number="14.7.1" class="anchored" data-anchor-id="ridgecv"><span class="header-section-number">14.7.1</span> RidgeCV</h3>
-<p><strong>Use when:</strong> - You want to keep all features - Features are highly correlated (multicollinearity) - Interpretability of feature importance is not critical - You need the fastest computation</p>
-<p><strong>Advantages:</strong> - Very fast computation - Stable with correlated features - No hyperparameters except alpha</p>
-<p><strong>Disadvantages:</strong> - No feature selection - All features remain in the model</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li>You want to keep all features</li>
+<li>Features are highly correlated (multicollinearity)</li>
+<li>Interpretability of feature importance is not critical</li>
+<li>You need the fastest computation</li>
+</ul>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Very fast computation</li>
+<li>Stable with correlated features</li>
+<li>No hyperparameters except alpha</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>No feature selection</li>
+<li>All features remain in the model</li>
+</ul>
 </section>
 <section id="lassocv" class="level3" data-number="14.7.2">
 <h3 data-number="14.7.2" class="anchored" data-anchor-id="lassocv"><span class="header-section-number">14.7.2</span> LassoCV</h3>
-<p><strong>Use when:</strong> - You want automatic feature selection - You have many irrelevant features - Interpretability is important - Features are relatively independent</p>
-<p><strong>Advantages:</strong> - Automatic feature selection - Sparse models (easier to interpret) - Good when many features are irrelevant</p>
-<p><strong>Disadvantages:</strong> - Slower than Ridge - Unstable with highly correlated features - May arbitrarily select one feature from a correlated group</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li>You want automatic feature selection</li>
+<li>You have many irrelevant features</li>
+<li>Interpretability is important</li>
+<li>Features are relatively independent</li>
+</ul>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Automatic feature selection</li>
+<li>Sparse models (easier to interpret)</li>
+<li>Good when many features are irrelevant</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>Slower than Ridge</li>
+<li>Unstable with highly correlated features</li>
+<li>May arbitrarily select one feature from a correlated group</li>
+</ul>
 </section>
 <section id="elasticnetcv" class="level3" data-number="14.7.3">
 <h3 data-number="14.7.3" class="anchored" data-anchor-id="elasticnetcv"><span class="header-section-number">14.7.3</span> ElasticNetCV</h3>
-<p><strong>Use when:</strong> - Features are correlated AND you want feature selection - You need a balance between Ridge and Lasso - Lasso is too unstable for your data - You have groups of correlated features</p>
-<p><strong>Advantages:</strong> - Combines benefits of Ridge and Lasso - More stable than Lasso with correlations - Tends to select/eliminate correlated features together</p>
-<p><strong>Disadvantages:</strong> - Slowest of the three - Two hyperparameters to tune (alpha and l1_ratio) - More complex to interpret</p>
+<p><strong>Use when:</strong></p>
+<ul>
+<li>Features are correlated AND you want feature selection</li>
+<li>You need a balance between Ridge and Lasso</li>
+<li>Lasso is too unstable for your data</li>
+<li>You have groups of correlated features</li>
+</ul>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Combines benefits of Ridge and Lasso</li>
+<li>More stable than Lasso with correlations</li>
+<li>Tends to select/eliminate correlated features together</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>Slowest of the three</li>
+<li>Two hyperparameters to tune (alpha and l1_ratio)</li>
+<li>More complex to interpret</li>
+</ul>
 </section>
 <section id="quick-reference-table" class="level3" data-number="14.7.4">
 <h3 data-number="14.7.4" class="anchored" data-anchor-id="quick-reference-table"><span class="header-section-number">14.7.4</span> Quick Reference Table</h3>
