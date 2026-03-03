@@ -40,7 +40,7 @@ book:
     - Assignment_2.ipynb
     - Assignment_3.ipynb
     - Assignment_4.ipynb
-    #- Assignment5.ipynb
+    - Assignment_5.ipynb
     - Datasets.ipynb
 format:
   html:

@@ -604,7 +604,7 @@
     "href": "cross_validation_gridsearch.html#preparing-the-data",
     "title": "13  Automated Hyperparameter Tuning",
     "section": "13.2 Preparing the Data",
-    "text": "13.2 Preparing the Data\nWe’ll use the same polynomial regression example from Notebook 1 to demonstrate GridSearchCV.\n\n# Generate polynomial regression data\nx = np.array([i*np.pi/180 for i in range(360)])\nnp.random.seed(10)\ny = np.sin(x) + np.random.normal(0, 0.15, len(x))\n\n# Prepare for modeling\nX = x.reshape(-1, 1)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nprint(f\"Training set size: {len(X_train)}\")\nprint(f\"Test set size: {len(X_test)}\")\n\nTraining set size: 288\nTest set size: 72",
+    "text": "13.2 Preparing the Data\nWe’ll use the same polynomial regression example from Notebook 1 to demonstrate GridSearchCV.\n\n# Generate polynomial regression data\nx = np.array([i*np.pi/180 for i in range(360)])\nnp.random.seed(10)\ny = np.sin(x) + np.random.normal(0, 0.15, len(x))\n\n# Prepare for modeling\n#X = x.reshape(-1, 1)\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\nprint(f\"Training set size: {len(X_train)}\")\nprint(f\"Test set size: {len(X_test)}\")\n\nTraining set size: 288\nTest set size: 72",
     "crumbs": [
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Automated Hyperparameter Tuning</span>"
     ]
@@ -1469,14 +1469,80 @@
     ]
   },
   {
+    "objectID": "Assignment_5.html",
+    "href": "Assignment_5.html",
+    "title": "Appendix F — Assignment 5: Hyperparameter Tuning and Regularization",
+    "section": "",
+    "text": "Instructions",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Assignment 5: Hyperparameter Tuning and Regularization</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_5.html#instructions",
+    "href": "Assignment_5.html#instructions",
+    "title": "Appendix F — Assignment 5: Hyperparameter Tuning and Regularization",
+    "section": "",
+    "text": "You may talk to a friend, discuss the questions and potential directions for solving them. However, you need to write your own solutions and code separately, and not as a group activity.\nWrite your code in the Code cells and your answers in the Markdown cells of the Jupyter notebook. Ensure that the solution is written neatly enough to for the graders to understand and follow.\nUse Quarto to render the .ipynb file as HTML. You will need to open the command prompt, navigate to the directory containing the file, and use the command: quarto render filename.ipynb --to html. Submit the HTML file.\nThere is a bonus question worth 11 points.\nFive points are properly formatting the assignment. The breakdown is as follows:\n\nMust be an HTML file rendered using Quarto (1 point). If you have a Quarto issue, you must mention the issue & quote the error you get when rendering using Quarto in the comments section of Canvas, and submit the ipynb file.\nNo name can be written on the assignment, nor can there be any indicator of the student’s identity—e.g. printouts of the working directory should not be included in the final submission. (1 point)\nThere aren’t excessively long outputs of extraneous information (e.g. no printouts of entire data frames without good reason, there aren’t long printouts of which iteration a loop is on, there aren’t long sections of commented-out code, etc.) (1 point)\nFinal answers to each question are written in the Markdown cells. (1 point)\nThere is no piece of unnecessary / redundant code, and no unnecessary / redundant text. (1 point)\n\nThe maximum possible score in the assigment is 99 + 11 + 5 = 115 out of 100.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Assignment 5: Hyperparameter Tuning and Regularization</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_5.html#modeling-the-radii-of-exoplanets-40-points",
+    "href": "Assignment_5.html#modeling-the-radii-of-exoplanets-40-points",
+    "title": "Appendix F — Assignment 5: Hyperparameter Tuning and Regularization",
+    "section": "1) Modeling the Radii of Exoplanets (40 points)",
+    "text": "1) Modeling the Radii of Exoplanets (40 points)\nFor this question, we are interested in predicting the radius of exoplanets (planets outside the Solar System) in kilometers. To achieve this goal, we will use NASA’s Composite Planetary Systems dataset and different regression models. (See https://exoplanetarchive.ipac.caltech.edu for more context.)\nRead all three CompositePlanetarySystems datasets - you should have one training and two test datasets. Each row is an exoplanet. pl_rade column represents the radius of each exoplanet as a proportion of Earth’s radius, which is approximately 6,378 km.\n\na)\nDevelop a linear regression model (no non-linear terms) to predict pl_rade using all the raw variables in the data except pl_name, disc_facility and disc_locale. You can use either statsmodels or sklearn. (2 points)\n\n\nb)\nFind the RMSE of the model using both test sets separately. (You need to print two RMSE values.) Note that the library you used should not make a difference here! (2 points)\nPrint the training RMSE as well for reference. (1 point)\n\n\nc)\nCompare the training and test RMSEs. (1 point) What is the issue with this model? (1 point)\n\n\nd)\nTrain a Ridge regression model to predict pl_rade using the same set of variables as above. Optimize the regularization strength (alpha) using RidgeCV with 5-fold cross-validation, ensuring that the data is shuffled before splitting (random_state=42). Use neg_root_mean_squared_error as the scoring metric.\nNote:\n\nScaling is essential for regularization to ensure fair weighting of features.\n\nUse the following range of alpha for hyperparamter tuning: alphas = np.logspace(2,0.5,200)\n\n\n\ne)\nUsing the optimized model, print the RMSEs for the training set and both test sets. (4 points)\n\n\nf)\nHow did the training and test performance change? Explain why the Ridge regression changed the training and test results. (3 points)\n\n\ng)\nFind the predictor whose coefficient is shrunk by far the most by Ridge regularization. (3 points)\nHint: .coef_ and .columns attributes should be helpful.\n\n\nh)\nWhy did the coefficient of the predictor identified in the previous question shrunk the most? Justify your answer for credit. (2 points)\nHint: Correlation vector/matrix\n\n\ni)\nVisualize how the coefficients change with the change in the hyperparameter value:\n\nCreate a line plot of coefficient values vs. the hyperparameter value.\nColor code each predictor’s coefficient values.\nUse log scale where necessary.\nUse an alphas vector of np.logspace(7,0,200) for better visualization\n\n(5 points)\n\n\nj)\nReplace the Ridge regression with Lasso regression.\n\nFind the optimal hyperparameter using LassoCV (2 points).\n\nYou need a different hyperparameter array - use: np.logspace(0,-2.5,200)\nUsing the same splitting strategy as Ridge regression\nNote: The Lasso object does not have a scoring hyperparameter.\n\nUsing the optimized Lasso model, print the RMSEs for the training set and both test sets. (2 points)\nVisualize how the Lasso coefficients change with alpha. (2 points)\n\nYou may use the range of alpha values as np.logspace(7,-2.5,200) for better visualization.\n\n\n\n\nk)\nUsing the two figures created in parts i and j, explain how the Ridge and Lasso models behave differently as the hyperparameter value changes. (2 points) What does that difference mean for the usage of the Lasso model? (1 point)\n\n\nl)\nFind the predictors that are eliminated by Lasso regularization. (2 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Assignment 5: Hyperparameter Tuning and Regularization</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_5.html#enhancing-house-price-prediction-with-higher-order-terms-and-cross-validation-29-points",
+    "href": "Assignment_5.html#enhancing-house-price-prediction-with-higher-order-terms-and-cross-validation-29-points",
+    "title": "Appendix F — Assignment 5: Hyperparameter Tuning and Regularization",
+    "section": "2) Enhancing House Price Prediction with Higher-Order Terms and Cross-Validation (29 points)",
+    "text": "2) Enhancing House Price Prediction with Higher-Order Terms and Cross-Validation (29 points)\nIn this question, we are interested in improving the prediction performance for house prices using five predictors.\n\na)\nRead the house feature and price files and create the training and test datasets. The response is log-price and the five predictors are the rest of the variables, except house_id. (2 points)\n\n\nb)\nPreviously, we observed that a linear model using raw predictors fails to capture the complexity of the problem, resulting in underfitting. Our goal is to examine how training and test performance evolve as model complexity increases.\nTask Breakdown:\n\nGenerate Higher-Order Features\n\nUse PolynomialFeatures from sklearn to create higher-order versions of the predictors (including both transformations and interactions) for both the training and test datasets. (3 points)\n\nTrain a Ridge Regression Model\n\nUse all predictors (original and transformed) to train a Ridge regression model with alpha = 0.000001. (2 points)\n\nCompute RMSE Scores\n\nStore the RMSE for both the training and test sets. (2 points)\n\nRepeat for Different Polynomial Orders\n\nPerform this process for polynomial orders ranging from 1 to 6. (2 points)\n\nVisualize the Performance\n\nPlot the training and test RMSE values as a function of polynomial order. Ensure:\n\nThe two curves have distinct colors. (1 points)\n\nA legend is included for clarity. (1 points)\n\n\n\nNotes:\n\nExclude the bias term that PolynomialFeatures adds by default.\n\nFeature scaling is required for regularization. (2 points)\n\nMinimal regularization is necessary to prevent the test RMSE from diverging to infinity at higher polynomial orders, unlike in pure linear regression.\n\n\n\nc)\nWhich order has the best test RMSE? (1 point) What is the best test RMSE? (1 point) At which order does the overfitting start? (1 point)\n\n\nd)\nRepeat part b, only this time use RidgeCV to find the best amount of regularization for each order by cross-validation. Use alphas = np.logspace(2,0.5,200) and LOOCV. Use neg_root_mean_squared_error for scoring. Create the same plot as part b. (4 points) Describe the obvious difference between the plot in this part and the plot in part b. (2 points)\n\n\ne)\nWhat is the best test RMSE found by using higher-orders and regularization? (1 point) Which order achieved this test RMSE? (1 point) Why did this order with regularization perform better than any lower order with or (almost) without regularization? (3 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Assignment 5: Hyperparameter Tuning and Regularization</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_5.html#systematic-elimination-of-interaction-terms-30-points",
+    "href": "Assignment_5.html#systematic-elimination-of-interaction-terms-30-points",
+    "title": "Appendix F — Assignment 5: Hyperparameter Tuning and Regularization",
+    "section": "3) Systematic Elimination of Interaction Terms (30 points)",
+    "text": "3) Systematic Elimination of Interaction Terms (30 points)\nIn this question, we are interested in predicting if the client subscribed to a term deposit or not after a phone call using age and education of the client and the day and the month the call took place.\nNote that this is the same problem as in the previous assignment, however, using sklearn, we aim to make the predictive analysis with interactions more systematic.\n\na)\nRead train.csv, test1.csv, and test2.csv. Prepare the training and two test datasets according the description above. (2 points)\n\n\nb)\nFor all datasets:\n\nOne-hot-encode the categorical predictors. (2 points)\nGet the interactions of all the predictors. (Numeric and one-hot-encoded) (3 points)\n\nNote that there is a very quick way of doing this with PolynomialFeatures (degree=2)\nDon’t forget to exclude the bias.\nScale all the predictors. (2 points)\n\n\n\n\nc)\nTrain a Logistic Regression model with Lasso penalty. (2 points) The idea is to discard interactions that are not useful. Note that instead of the manual, trial-and-error way of adding interactions in statsmodels, we include all the possible interactions and then discard the useless ones here.\n\nUse [0.0001,0.001, 0.01, 0.1, 1, 10, 100, 1000] as the possible C values. (1 point)\nUse 10-fold cross-validation to optimize the C value. (1 point)\nLasso is very useful, but it needs special algorithms, since it includes non-differentiable absolute values. Use saga as the solver. (1 point)\nThe default number of iterations the algorithm takes is usually not enough for Lasso. Use max_iter = 1000. (Default is 500) (1 point)\nThis will take 10-20 minutes to run.\n\n\n\nd)\nHow many models in total are run by this cross-validation process? (2 points)\n\n\ne)\nWhat is the optimum C value? (1 point) What is the lambda (in the Lasso cost) value it corresponds to? (1 point)\n\n\nf)\nWhat is the percentage of terms (linear or interaction) that are discarded by Lasso? (Hint: .coef_) (2 points)\n\n\ng)\nFind the five terms that have the highest effect on the logodds of a subscription. Assume that we are quantifying the effect of a term with the absolute value of its coefficient. (Hint: .get_feature_names_out()) (4 points)\n\n\nh)\nCome up with real-life explanations on why the terms identified in the previous part are important. (This is an open-ended question, just make sure your answer makes sense.) (2 points)\n\n\ni)\nLastly, tune the classification threshold to get both test datasets above 75% accuracy and 50% recall. Note that you only worry about the threshold now. Lasso took care of finding good interactions. (3 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Assignment 5: Hyperparameter Tuning and Regularization</span>"
+    ]
+  },
+  {
+    "objectID": "Assignment_5.html#bonus-elasticnet-11-points",
+    "href": "Assignment_5.html#bonus-elasticnet-11-points",
+    "title": "Appendix F — Assignment 5: Hyperparameter Tuning and Regularization",
+    "section": "4) Bonus: ElasticNet (11 points)",
+    "text": "4) Bonus: ElasticNet (11 points)\nThe goal of this section is to familiarize you with ElasticNet, which combines both Ridge and Lasso regularization techniques. The balance between the Lasso and Ridge penalties is controlled by a hyperparameter.\n\na)\nFor regression, scikit-learn provides both ElasticNet and its cross-validation counterpart, ElasticNetCV, for implementing Elastic Net regularization.\nYour tasks:\n\nUse the same dataset as in Question 1, ensuring that the specified columns remain dropped.\nUse the same performance metric: RMSE\nApply the same data splitting strategy as in Question 1.\nTrain an Elastic Net model with the following l1_ratio values:\n\n25% Lasso / 75% Ridge (l1_ratio = 0.25)\n50% Lasso / 50% Ridge (l1_ratio = 0.50)\n75% Lasso / 25% Ridge (l1_ratio = 0.75)\n\nTune the alpha hyperparameter using the range:\nalphas = np.logspace(10, 0.1, 200)\nCombine the two test sets.\nIdentify the l1_ratio and alpha combination that yields the best test performance.\n\n(8 points)\n\n\nb)\nHow many models were run in the cross-validation process of two hyperparameters? (1 point)\n\n\nc)\nBriefly describe how you would implement ElasticNet for Logistic Regression in scikit-learn. (2 points)",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Assignment 5: Hyperparameter Tuning and Regularization</span>"
+    ]
+  },
+  {
     "objectID": "Datasets.html",
     "href": "Datasets.html",
-    "title": "Appendix F — Datasets, assignment and project files",
+    "title": "Appendix G — Datasets, assignment and project files",
     "section": "",
     "text": "Datasets used in the book, assignment files, project files, and prediction problems report tempate can be found here",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Datasets, assignment and project files</span>"
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Datasets, assignment and project files</span>"
     ]
   }
 ]
